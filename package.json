@@ -9,7 +9,8 @@
     "test:github": "node --test scripts/github-integrity.test.mjs",
     "check": "astro check",
     "build": "pnpm sync:github --allow-stale && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@tailwindcss/vite": "4.3.3",
