@@ -20,6 +20,7 @@
     "@astrojs/check": "0.9.10",
     "parse5": "8.0.1",
     "simple-icons": "16.30.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "wrangler": "4.131.2"
   }
 }
