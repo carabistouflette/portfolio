@@ -1,0 +1,45 @@
+---
+import type { Locale, PortfolioContent } from "../data/portfolio";
+
+interface Props {
+  locale: Locale;
+  content: PortfolioContent;
+}
+
+const { locale, content } = Astro.props;
+---
+<header
+  class="site-header content-shell flex flex-wrap items-center justify-between gap-x-4 py-4 text-xs sm:text-sm"
+>
+  <nav
+    class="primary-nav"
+    aria-label={content.navigation.primaryLabel}
+  >
+    <ul class="m-0 flex list-none flex-wrap items-center gap-x-3 p-0 sm:gap-x-4">
+      {Object.values(content.navigation.sections).map((section) => (
+        <li>
+          <a
+            class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline"
+            href={`#${section.id}`}
+          >{section.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <nav
+    class="locale-nav ml-auto flex items-center gap-3"
+    aria-label={content.localeLabel}
+  >
+    <a
+      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+      href="/"
+      aria-current={locale === "fr" ? "page" : undefined}
+    >{content.localeSwitch.fr}</a>
+    <span class="text-rule" aria-hidden="true">/</span>
+    <a
+      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+      href="/en/"
+      aria-current={locale === "en" ? "page" : undefined}
+    >{content.localeSwitch.en}</a>
+  </nav>
+</header>

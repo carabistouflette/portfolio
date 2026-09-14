@@ -1,0 +1,45 @@
+---
+import "../styles/global.css";
+import ButterflyBackground from "../components/ButterflyBackground.astro";
+import type { Locale, PortfolioContent } from "../data/portfolio";
+
+interface Props {
+  locale: Locale;
+  content: PortfolioContent;
+  canonicalPath: string;
+  alternatePaths?: { fr: string; en: string };
+  meta?: { title: string; description: string };
+}
+
+const {
+  locale,
+  content,
+  canonicalPath,
+  alternatePaths = { fr: "/", en: "/en/" },
+  meta = content.meta,
+} = Astro.props;
+const canonicalUrl = new URL(canonicalPath, "https://alexisr.work").toString();
+const frenchUrl = new URL(alternatePaths.fr, "https://alexisr.work").toString();
+const englishUrl = new URL(alternatePaths.en, "https://alexisr.work").toString();
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="fr" href={frenchUrl} />
+    <link rel="alternate" hreflang="en" href={englishUrl} />
+    <link rel="alternate" hreflang="x-default" href={frenchUrl} />
+    <title>{meta.title}</title>
+  </head>
+  <body>
+    <ButterflyBackground />
+    <div class="site-content relative z-1">
+      <a class="skip-link fixed top-4 left-1/2 z-5 min-h-11 -translate-x-1/2 -translate-y-[180%] bg-paper px-[0.9rem] py-[0.55rem] text-ink no-underline transition-transform duration-[140ms] ease-[ease] focus:translate-y-0 motion-reduce:transition-none" href="#main">{content.skipLink}</a>
+      <slot />
+    </div>
+  </body>
+</html>

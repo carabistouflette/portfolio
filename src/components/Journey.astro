@@ -1,0 +1,109 @@
+---
+import type { JourneyEntry, PortfolioContent } from "../data/portfolio";
+
+interface Props {
+  content: PortfolioContent;
+}
+
+const { content } = Astro.props;
+const section = content.navigation.sections.journey;
+const axis = content.journey.axis;
+const invitation = content.journey.invitation;
+const positions = Object.fromEntries(axis.map((marker, index) => [marker.id, index + 1])) as Record<JourneyEntry["start"], number>;
+const entries = content.journey.entries.toSorted((a, b) => positions[a.start] - positions[b.start]);
+const yearGroups: { label: string; start: number; end: number }[] = [];
+axis.forEach((marker, index) => {
+  const previous = yearGroups.at(-1);
+  if (previous?.label === marker.label) previous.end = index;
+  else yearGroups.push({ label: marker.label, start: index, end: index });
+});
+
+const projectForEntry = (entry: JourneyEntry) =>
+  entry.projectId ? content.projects.entries.find((project) => project.id === entry.projectId) : undefined;
+---
+<section id={section.id} class="section-shell content-shell" aria-labelledby="journey-title">
+  <header class="mb-10 border-t border-rule pt-10 md:mb-14">
+    <h2 id="journey-title" class="font-display text-[clamp(2rem,4vw,3.5rem)] leading-tight tracking-tight text-balance">{content.journey.heading}</h2>
+    <p class="mt-5 max-w-[60ch] text-base leading-relaxed text-muted">{content.journey.intro}</p>
+  </header>
+
+  <div class="mb-7 grid grid-cols-[2rem_minmax(0,1fr)_minmax(0,1fr)] gap-x-2 sm:gap-x-6 lg:block">
+    <p class="col-start-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted sm:text-xs">{content.journey.labels.education}</p>
+    <p class="col-start-3 font-mono text-[0.65rem] uppercase tracking-wider text-[#abd1ed] sm:text-xs lg:hidden">{content.journey.labels.experience}</p>
+  </div>
+  <div class="relative" style={`--steps: ${axis.length - 1}`}>
+    <div class="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+      {axis.map((marker, index) => (
+        <div class="absolute inset-y-0 border-l border-rule/35" style={`left: ${index / (axis.length - 1) * 100}%`}>
+          {marker.detail && <span class="absolute top-7 -translate-x-1/2 whitespace-nowrap font-mono text-[0.65rem] text-[#abd1ed]">{marker.detail}</span>}
+        </div>
+      ))}
+      {yearGroups.map((group) => (
+        <>
+          <span class="journey-year absolute -top-1 whitespace-nowrap font-mono text-sm text-muted" style={`left: ${(group.start + group.end) / 2 / (axis.length - 1) * 100}%; transform: translateX(${group.start === 0 ? "0" : group.end === axis.length - 1 ? "-100%" : "-50%"})`}>{group.label}</span>
+          {group.end > group.start && <span class="absolute top-5 border-t border-rule" style={`left: ${group.start / (axis.length - 1) * 100}%; width: ${(group.end - group.start) / (axis.length - 1) * 100}%`}></span>}
+        </>
+      ))}
+    </div>
+    <div class="journey-grid relative grid gap-x-2 sm:gap-x-6 lg:gap-x-0 lg:gap-y-12 lg:pt-14">
+      {axis.map((marker, index) => (
+        <span class="col-start-1 border-t border-rule/50 pt-3 font-mono text-[0.65rem] text-muted tabular-nums lg:hidden" style={`grid-row: ${index + 1}`} aria-hidden="true">{(index === 0 || axis[index - 1].label !== marker.label) && <span class="journey-year">{marker.label}</span>}{marker.detail && <span class="mt-1 block text-[0.55rem] text-[#abd1ed]">{marker.detail}</span>}</span>
+      ))}
+      <p class="col-span-2 col-start-1 row-start-2 hidden pt-6 font-display text-2xl text-muted lg:block">{content.journey.labels.experience}</p>
+      {entries.map((entry) => {
+        const project = projectForEntry(entry);
+        const education = entry.kind === "education";
+        const start = positions[entry.start];
+        const end = entry.end ? positions[entry.end] : start + 1;
+        return (
+          <article
+            class:list={["journey-entry relative min-w-0 px-1.5 py-4 sm:px-5 sm:py-5", education ? "border-l-2 border-[#a5b9c4] bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 lg:border-t-2 lg:border-l-0" : "self-start border-l-2 border-[#8fc6ee] lg:border-t-2 lg:border-l-0"]}
+            style={`--start: ${start}; --end: ${end}; --mobile-lane: ${education ? 2 : 3}; --desktop-lane: ${education ? 1 : 2}`}
+          >
+            <p class="mb-3 font-mono text-[0.65rem] leading-relaxed text-muted tabular-nums sm:text-xs">{entry.period}</p>
+            <h3 class:list={["font-medium leading-snug tracking-tight [overflow-wrap:anywhere]", education ? "text-base sm:text-xl lg:text-2xl" : "text-xl text-[#abd1ed] sm:text-2xl lg:text-3xl"]}>{entry.title}</h3>
+            <p class="mt-2 text-xs leading-relaxed sm:text-sm">{entry.subtitle}</p>
+            {entry.detail && <p class="mt-3 max-w-[46ch] text-xs leading-relaxed text-muted sm:text-sm">{entry.detail}</p>}
+            {project?.url && project.linkLabel && (
+              <a class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed" href={project.url}>{project.linkLabel}<span class="ml-2" aria-hidden="true">↗</span></a>
+            )}
+          </article>
+        );
+      })}
+      <aside
+        class="journey-entry min-w-0 border border-dashed border-[#8fc6ee]/60 bg-[#102637]/40 px-2 py-5 sm:p-6"
+        style={`--start: ${positions[invitation.start]}; --end: ${positions[invitation.end]}; --mobile-lane: 3; --desktop-lane: 2`}
+        aria-labelledby="journey-invitation-title"
+      >
+        <h3 id="journey-invitation-title" class="font-display text-2xl leading-tight text-[#abd1ed] sm:text-4xl">{invitation.title}</h3>
+        <p class="mt-3 max-w-[32ch] text-xs leading-relaxed text-muted sm:text-sm">{invitation.description}</p>
+        <a class="text-link mt-4 max-w-full border-b border-paper/50 text-xs leading-relaxed sm:text-sm" href={`#${content.navigation.sections.contact.id}`}>{invitation.linkLabel}<span class="ml-2 shrink-0" aria-hidden="true">↗</span></a>
+      </aside>
+    </div>
+  </div>
+  <p class="mt-6 max-w-[75ch] text-xs leading-relaxed text-muted">{content.journey.scaleNote}</p>
+</section>
+
+<style>
+  .journey-grid {
+    grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: repeat(var(--steps), minmax(7rem, auto)) auto;
+  }
+
+  .journey-entry {
+    grid-column: var(--mobile-lane);
+    grid-row: var(--start) / var(--end);
+  }
+
+  @media (min-width: 64rem) {
+    .journey-grid {
+      grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+      grid-template-rows: auto auto;
+    }
+
+    .journey-entry {
+      grid-column: var(--start) / var(--end);
+      grid-row: var(--desktop-lane);
+    }
+  }
+</style>

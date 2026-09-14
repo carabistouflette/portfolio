@@ -1,0 +1,37 @@
+---
+import type { PortfolioContent } from "../data/portfolio";
+interface Props { content: PortfolioContent["personal"]; }
+const { content } = Astro.props;
+---
+<section id="personal" class="section-shell content-shell" aria-labelledby="personal-title">
+  <div class="grid items-center gap-12 border-t border-rule/60 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-24 lg:pt-20">
+    <figure class="m-0 min-w-0 overflow-hidden rounded-sm border border-rule/40 bg-ink">
+      <img
+        src="/images/forest-stream-1180.webp"
+        srcset="/images/forest-stream-590.webp 590w, /images/forest-stream-1180.webp 1180w"
+        sizes="(min-width: 1440px) 640px, (min-width: 768px) 44vw, calc(100vw - 48px)"
+        width="1180"
+        height="1568"
+        alt={content.photoAlt}
+        loading="lazy"
+        decoding="async"
+        class="block h-auto w-full"
+      />
+    </figure>
+    <div class="min-w-0">
+      <header>
+        <p class="eyebrow text-[#9dc7df]">{content.eyebrow}</p>
+        <h2 id="personal-title" class="mt-6 max-w-[14ch] font-display text-[clamp(2.8rem,5vw,5.25rem)] leading-[1.06] tracking-tight">{content.heading}</h2>
+        <p class="mt-8 max-w-[40ch] text-lg leading-loose text-paper/90 lg:text-xl">{content.intro}</p>
+      </header>
+      <div class="mt-10 grid gap-8 border-t border-rule/60 pt-8 lg:mt-12">
+        {content.interests.map((interest) => (
+          <div>
+            <h3 class="text-base font-medium text-[#9dc7df]">{interest.title}</h3>
+            <p class="mt-3 max-w-[48ch] text-sm leading-loose text-muted lg:text-base">{interest.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import CaseStudy from "../../../components/CaseStudy.astro";
+import { caseStudies, portfolio, type CaseStudyId } from "../../../data/portfolio";
+
+
+export function getStaticPaths() {
+  const projectIds: CaseStudyId[] = ["genomint", "maestria"];
+  return projectIds.map((slug) => ({ params: { slug }, props: { slug } }));
+}
+
+type Props = { slug: CaseStudyId };
+const { slug } = Astro.props as Props;
+const study = caseStudies.fr[slug];
+const counterpart = caseStudies.en[slug];
+---
+<BaseLayout
+  locale="fr"
+  content={portfolio.fr}
+  canonicalPath={study.path}
+  alternatePaths={{ fr: study.path, en: counterpart.path }}
+  meta={{ title: `${study.title} — Alexis Robin`, description: study.summary }}
+>
+  <CaseStudy locale="fr" projectId={slug} study={study} content={portfolio.fr} />
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+import { destinations, type PortfolioContent } from "../data/portfolio";
+
+interface Props {
+  content: PortfolioContent;
+}
+
+const { content } = Astro.props;
+const section = content.navigation.sections.contact;
+---
+<footer id={section.id} class="contact-section section-shell content-shell text-left" aria-labelledby="contact-title">
+  <div class="contact-inner">
+    <header class="section-heading md:grid md:grid-cols-[minmax(8rem,0.72fr)_minmax(0,2.28fr)] md:gap-10">
+      <h2 id="contact-title" class="section-title max-w-[14ch]">{section.label}</h2>
+    </header>
+
+    <div class="contact-layout md:grid md:grid-cols-[minmax(8rem,0.72fr)_minmax(0,2.28fr)] md:gap-10">
+      <div class="contact-content grid gap-8 md:col-start-2 md:grid-cols-[minmax(0,1.45fr)_minmax(10rem,0.75fr)] md:gap-12">
+        <div class="contact-primary min-w-0">
+          <a class="contact-email block wrap-anywhere border-b border-rule pb-3 text-[clamp(1.15rem,2.4vw,1.75rem)] leading-snug tracking-tight hover:border-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-[6px]" href={destinations.email}>
+            {content.contact.email}
+          </a>
+          <p class="contact-description mt-4 max-w-[34ch] text-[0.9rem] leading-[1.6] text-muted text-pretty">{content.contact.description}</p>
+        </div>
+
+        <nav class="contact-links grid content-start" aria-label={section.label}>
+          <a class="flex min-h-12 flex-col justify-center gap-1 border-b border-rule py-3 hover:border-paper hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-[6px] first:pt-0" href={destinations.linkedin}>
+            <span>{content.contact.linkedin}</span>
+            <span class="contact-link-description text-[0.78rem] leading-[1.45] text-muted">{content.contact.linkedinDescription}</span>
+          </a>
+          <a class="flex min-h-12 flex-col justify-center gap-1 border-b border-rule py-3 hover:border-paper hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-[6px]" href={destinations.cv} download>
+            <span>{content.contact.cv}</span>
+            <span class="contact-link-description text-[0.78rem] leading-[1.45] text-muted">{content.contact.cvDescription}</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>

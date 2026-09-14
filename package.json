@@ -1,0 +1,25 @@
+{
+  "name": "alexis-robin-portfolio",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "sync:github": "node scripts/sync-github.mjs",
+    "test:github": "node --test scripts/github-integrity.test.mjs",
+    "check": "astro check",
+    "build": "pnpm sync:github --allow-stale && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.2",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "parse5": "8.0.1",
+    "simple-icons": "16.30.0",
+    "typescript": "6.0.3"
+  }
+}

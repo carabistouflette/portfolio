@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Contact from "./Contact.astro";
+import Journey from "./Journey.astro";
+import Hero from "./Hero.astro";
+import SelectedProjects from "./SelectedProjects.astro";
+import SiteHeader from "./SiteHeader.astro";
+import Skills from "./Skills.astro";
+import OpenSource from "./OpenSource.astro";
+import Personal from "./Personal.astro";
+import type { Locale, PortfolioContent } from "../data/portfolio";
+
+interface Props {
+  locale: Locale;
+  content: PortfolioContent;
+}
+
+const { locale, content } = Astro.props;
+const canonicalPath = locale === "fr" ? "/" : "/en/";
+---
+<BaseLayout locale={locale} content={content} canonicalPath={canonicalPath}>
+  <div class="portfolio-page">
+    <SiteHeader locale={locale} content={content} />
+    <div class="portfolio-composition">
+      <main id="main">
+        <Hero content={content} />
+        <OpenSource content={content.openSource} locale={locale} />
+        <SelectedProjects content={content} locale={locale} />
+        <Journey content={content} />
+        <Skills content={content} />
+        <Personal content={content.personal} />
+      </main>
+      <Contact content={content} />
+    </div>
+  </div>
+</BaseLayout>

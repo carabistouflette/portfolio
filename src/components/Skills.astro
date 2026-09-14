@@ -1,0 +1,67 @@
+---
+import type { PortfolioContent } from "../data/portfolio";
+import ToolIcon from "./ToolIcon.astro";
+interface Props { content: PortfolioContent; }
+const { content } = Astro.props;
+const copy = content.skills;
+const total = copy.groups.reduce((count, group) => count + group.items.length, 0);
+const projects = new Map(content.projects.entries.map((project) => [project.id, project]));
+---
+<section id={content.navigation.sections.skills.id} class="section-shell content-shell" aria-labelledby="skills-title" data-tool-explorer>
+  <header class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+    <h2 id="skills-title" class="section-title">{copy.heading}</h2>
+    <p class="max-w-[56ch] text-base leading-loose text-muted">{copy.instruction}</p>
+  </header>
+
+  <div class="mt-12" data-tool-controls hidden>
+    <div class="flex flex-wrap items-end justify-between gap-6">
+      <div class="w-full max-w-xl">
+        <label class="text-sm text-muted" for="tool-search">{copy.searchLabel}</label>
+        <div class="relative mt-3">
+          <svg class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#9dc7df]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></svg>
+          <input id="tool-search" class="min-h-14 w-full rounded-lg border border-rule bg-[#07121b]/70 pl-12 pr-5 text-base text-paper focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-2" type="search" autocomplete="off" aria-controls="tool-groups" />
+        </div>
+      </div>
+      <button type="button" data-tool-reset class="min-h-11 cursor-pointer text-sm text-muted underline hover:text-paper" hidden>{copy.resetLabel}</button>
+    </div>
+    <div class="mt-6 flex flex-wrap gap-2" role="group" aria-label={copy.categoryLabel}>
+      {[copy.allLabel, ...copy.groups.map((group) => group.label)].map((label, index) => (
+        <button type="button" data-tool-category={index === 0 ? "all" : String(index - 1)} aria-pressed={index === 0 ? "true" : "false"} aria-controls="tool-groups" class="min-h-11 cursor-pointer rounded-full border border-rule/60 px-4 py-2 text-sm text-muted hover:border-[#9dc7df] hover:text-paper aria-pressed:border-[#9dc7df] aria-pressed:bg-sky-950/60 aria-pressed:text-sky-100">{label}</button>
+      ))}
+    </div>
+  </div>
+  <p class="mt-6 font-mono text-xs text-muted" role="status" aria-live="polite" aria-atomic="true" data-tool-count data-template={copy.resultsLabel}>{copy.resultsLabel.replace("{count}", String(total)).replace("{total}", String(total))}</p>
+  <p class="mt-6 rounded-xl border border-dashed border-rule p-8 text-sm leading-relaxed text-muted" data-tool-empty hidden>{copy.emptyLabel}</p>
+
+  <div id="tool-groups" class="mt-6 grid items-start gap-6 lg:grid-cols-2">
+    {copy.groups.map((group, index) => (
+      <details data-tool-group={String(index)} class="group min-w-0 rounded-xl border border-rule/60 bg-[#07121b]/45 open:border-[#9dc7df]/60">
+        <summary class="cursor-pointer list-none rounded-xl p-6 focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 sm:p-8 [&::-webkit-details-marker]:hidden">
+          <div class="flex items-start justify-between gap-6">
+            <div class="min-w-0">
+              <h3 class="text-xl font-medium tracking-tight sm:text-2xl">{group.label}</h3>
+              <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted">{group.description}</p>
+            </div>
+            <span class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]" aria-hidden="true"><span class="font-mono text-xs" data-tool-group-count>{group.items.length}</span><span class="text-2xl leading-none group-open:rotate-45">+</span></span>
+          </div>
+          <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90 group-open:hidden" data-tool-preview aria-hidden="true">{group.items.slice(0, 3).map((skill) => <span class="inline-flex items-center gap-3"><ToolIcon name={skill.name} />{skill.name}</span>)}<span class="font-mono text-xs text-muted">+{group.items.length - 3}</span></div>
+        </summary>
+        <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
+          {group.items.map((skill) => {
+            const related = skill.projectIds.map((id) => projects.get(id)!);
+            return (
+              <li class="flex min-w-0 flex-col justify-center rounded-md border border-rule/40 bg-[#050d14]/65 px-4 py-3" data-tool-name={skill.name} data-tool-search={[skill.name, group.label, ...related.map((project) => project.title)].join(" ")}>
+                <div class="flex items-center gap-3"><ToolIcon name={skill.name} /><span class="break-words font-mono text-sm">{skill.name}</span></div>
+                {related.map((project) => <a class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper" href={project.url || `#project-${project.id}`}><span class="sr-only">{copy.projectLabel} </span>{project.title}<span aria-hidden="true">↗</span></a>)}
+              </li>
+            );
+          })}
+        </ul>
+      </details>
+    ))}
+  </div>
+
+</section>
+<script>
+  import "../scripts/tool-explorer.ts";
+</script>

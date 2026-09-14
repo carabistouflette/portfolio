@@ -1,0 +1,36 @@
+---
+import type { PortfolioContent } from "../data/portfolio";
+interface Props { content: PortfolioContent; }
+const { content } = Astro.props;
+const nameLines = content.hero.title.split(" ");
+---
+<section class="hero content-shell relative isolate grid gap-14 pb-20 pt-20 md:min-h-[min(58rem,90svh)] md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-end md:gap-12 md:pb-20 xl:gap-16" aria-labelledby="hero-title">
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-clip" aria-hidden="true">
+    <div class="absolute -right-24 top-0 h-[32rem] w-[38rem] bg-[radial-gradient(ellipse,rgba(23,75,105,0.32),transparent_68%)] md:right-0 md:h-[46rem] md:w-[56rem]"></div>
+  </div>
+  <div class="pointer-events-none absolute inset-0 z-0 overflow-clip" aria-hidden="true">
+    <img src="/images/hero-cat.webp" alt="" width="981" height="1204" fetchpriority="high" decoding="async" class="absolute top-4 left-[45%] w-[55%] max-w-none opacity-90 md:top-14 md:left-[52%] md:w-[38%] lg:left-[60%] lg:w-[30%]" />
+  </div>
+  <div class="relative z-10 min-w-0">
+    <p class="eyebrow max-w-[24ch]">{content.hero.eyebrow}</p>
+    <h1 id="hero-title" aria-label={content.hero.title} class="mt-8 font-display text-[clamp(5.25rem,18vw,17rem)] leading-[0.82] tracking-[-0.065em]">
+      {nameLines.map((line, index) => <span aria-hidden="true" class:list={["block", index > 0 && "ml-[0.12em] mt-3 text-transparent [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db] forced-colors:text-[CanvasText]"]}>{line}</span>)}
+    </h1>
+    <p class="academic-line mt-10 max-w-[32ch] text-sm leading-relaxed text-muted md:mt-14">{content.hero.academic}</p>
+    <a class="mt-2 inline-flex min-h-11 items-center font-mono text-xs text-[#9dc7df] underline" href={content.openSource.profileUrl}>{content.openSource.profileLabel}</a>
+  </div>
+  <aside class="relative z-10 min-w-0 md:pt-80 lg:pt-[30rem]" aria-label={content.hero.summaryTitle}>
+    <p class="mt-5 max-w-[29ch] text-[clamp(1.35rem,2vw,1.8rem)] leading-relaxed tracking-tight text-pretty">{content.hero.description}</p>
+    <p class="mt-6 max-w-[40ch] text-sm leading-loose text-muted sm:text-base">{content.openSource.personal}</p>
+    <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+      <a class="group inline-flex min-h-14 items-center gap-8 border-b border-paper text-base" href={`#${content.navigation.sections.projects.id}`}>
+        {content.hero.projectsCta}<span class="text-2xl motion-safe:transition-transform motion-safe:group-hover:translate-y-1" aria-hidden="true">↓</span>
+      </a>
+      <a class="text-link text-sm text-muted" href={`#${content.navigation.sections.contact.id}`}>{content.hero.contactCta}</a>
+    </div>
+    <button id="motion-toggle" class="mt-5 min-h-9 cursor-pointer text-xs text-muted underline hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle}>{content.hero.motionToggle}</button>
+  </aside>
+</section>
+<script>
+  import "../scripts/motion-control.ts";
+</script>
