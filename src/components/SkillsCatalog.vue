@@ -133,20 +133,22 @@ onBeforeUnmount(() => {
         role="region"
         :class="['skills-panel overflow-hidden', hydrated && 'skills-panel-motion', hydrated && isExpanded(index) && 'skills-panel-open']"
       >
-        <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
-          <li
-            v-for="skill in group.items"
-            :key="skill.name"
-            v-motion
-            :initial="cardInitial"
-            :enter="cardMotion"
-            :hovered="reducedMotion ? undefined : { y: -2, borderColor: 'rgba(157, 199, 223, 0.6)' }"
-            class="flex min-w-0 flex-col justify-center rounded-md border border-rule/40 bg-[#050d14]/65 px-4 py-3"
-          >
-            <div class="flex items-center gap-3"><ToolIcon :name="skill.name" /><span class="break-words font-mono text-sm">{{ skill.name }}</span></div>
-            <a v-for="project in relatedProjects(skill)" :key="project.id" class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper" :href="project.url || `#project-${project.id}`"><span class="sr-only">{{ props.projectLabel }} </span>{{ project.title }}<span aria-hidden="true">↗</span></a>
-          </li>
-        </ul>
+        <div class="skills-panel-inner">
+          <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
+            <li
+              v-for="skill in group.items"
+              :key="skill.name"
+              v-motion
+              :initial="cardInitial"
+              :enter="cardMotion"
+              :hovered="reducedMotion ? undefined : { y: -2, borderColor: 'rgba(157, 199, 223, 0.6)' }"
+              class="flex min-w-0 flex-col justify-center rounded-md border border-rule/40 bg-[#050d14]/65 px-4 py-3"
+            >
+              <div class="flex items-center gap-3"><ToolIcon :name="skill.name" /><span class="break-words font-mono text-sm">{{ skill.name }}</span></div>
+              <a v-for="project in relatedProjects(skill)" :key="project.id" class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper" :href="project.url || `#project-${project.id}`"><span class="sr-only">{{ props.projectLabel }} </span>{{ project.title }}<span aria-hidden="true">↗</span></a>
+            </li>
+          </ul>
+        </div>
       </div>
     </details>
   </div>

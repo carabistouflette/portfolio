@@ -397,7 +397,10 @@ details[data-disclosure-animating] .skill-preview {
   transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease;
 }
 
-.skills-panel-motion > ul { min-height: 0; }
+.skills-panel-motion > .skills-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
 .skills-panel-motion.skills-panel-open {
   grid-template-rows: 1fr;
   opacity: 1;
