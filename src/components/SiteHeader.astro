@@ -13,6 +13,14 @@ const { locale, content } = Astro.props;
     <a class="header-signature" href="#main" aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}>
       <img class="header-butterfly" src="/butterflies/home.png" alt="" width="925" height="770" />
     </a>
+    <button class="header-menu-toggle" type="button" aria-expanded="false" aria-controls="header-menu" hidden>
+      <span>Menu</span>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+        <path class="menu-open-mark" d="M4 6h16M4 12h16M4 18h16" />
+        <path class="menu-close-mark" d="m6 6 12 12M6 18 18 6" />
+      </svg>
+    </button>
+    <div id="header-menu" class="header-menu">
     <nav
       class="primary-nav"
       aria-label={content.navigation.primaryLabel}
@@ -24,7 +32,8 @@ const { locale, content } = Astro.props;
               class="header-section-link"
               href={`#${section.id}`}
               data-nav-link
-            >{section.label}</a>
+            >{section.label}
+            </a>
           </li>
         ))}
       </ul>
@@ -45,9 +54,62 @@ const { locale, content } = Astro.props;
         aria-current={locale === "en" ? "page" : undefined}
       >{content.localeSwitch.en}</a>
     </nav>
+    </div>
   </div>
 </header>
 <script>
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const toggle = header?.querySelector<HTMLButtonElement>(".header-menu-toggle");
+  const menu = header?.querySelector<HTMLElement>("#header-menu");
+  const mobile = window.matchMedia("(max-width: 47.999rem)");
+
+  if (header && toggle && menu) {
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      menu.hidden = mobile.matches && !open;
+    };
+    const syncViewport = () => {
+      if (!mobile.matches && document.activeElement === toggle) {
+        header.querySelector<HTMLAnchorElement>(".header-signature")?.focus();
+      } else if (mobile.matches && menu.contains(document.activeElement)) {
+        toggle.focus();
+      }
+      setOpen(false);
+    };
+    toggle.hidden = false;
+    header.dataset.menuReady = "";
+    syncViewport();
+    toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+    header.addEventListener("click", (event) => {
+      if (mobile.matches && event.target instanceof Element && event.target.closest("a")) {
+        const link = event.target.closest("a");
+        const href = link?.getAttribute("href");
+        setOpen(false);
+        if (href?.startsWith("#")) {
+          const target = document.getElementById(href.slice(1));
+          if (target) {
+            target.setAttribute("tabindex", "-1");
+            target.focus({ preventScroll: true });
+            target.addEventListener("blur", () => target.removeAttribute("tabindex"), { once: true });
+          }
+        }
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener("click", (event) => {
+      if (event.target instanceof Node && !header.contains(event.target)) setOpen(false);
+    });
+    header.addEventListener("focusout", (event) => {
+      if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget)) setOpen(false);
+    });
+    mobile.addEventListener("change", syncViewport);
+  }
+
   const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
   const visibility = new Map();
   const sections = navLinks

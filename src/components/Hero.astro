@@ -9,8 +9,8 @@ const nameLines = content.hero.title.split(" ");
   <div class="pointer-events-none absolute inset-0 -z-10 overflow-clip" aria-hidden="true">
     <div class="absolute -right-24 top-0 h-[32rem] w-[38rem] bg-[radial-gradient(ellipse,rgba(23,75,105,0.32),transparent_68%)] md:right-0 md:h-[46rem] md:w-[56rem]"></div>
   </div>
-  <div class="pointer-events-none absolute inset-0 z-0 overflow-clip" aria-hidden="true">
-    <img src="/images/hero-cat.webp" alt="" width="981" height="1204" fetchpriority="high" decoding="async" class="absolute top-4 left-[45%] w-[55%] max-w-none opacity-90 md:top-10 md:left-[56%] md:w-[30%] lg:top-8 lg:left-[60%] lg:w-[28%] [@media(max-height:820px)]:lg:top-6 [@media(max-height:820px)]:lg:w-[22%]" />
+  <div class="hero-cat-layer pointer-events-none absolute inset-0 z-0 overflow-clip" aria-hidden="true">
+    <img src="/images/hero-cat.webp" alt="" width="981" height="1204" fetchpriority="high" decoding="async" class="hero-cat absolute top-4 left-[45%] w-[55%] max-w-none opacity-90 md:top-10 md:left-[56%] md:w-[30%] lg:top-8 lg:left-[60%] lg:w-[28%] [@media(max-height:820px)]:lg:top-6 [@media(max-height:820px)]:lg:w-[22%]" />
   </div>
   <div class="relative z-10 min-w-0">
     <p class="eyebrow mb-0 max-w-[24ch]">{content.hero.eyebrow}</p>
@@ -19,12 +19,12 @@ const nameLines = content.hero.title.split(" ");
     </h1>
     <p class="mt-6 max-w-[30ch] text-[clamp(1.35rem,2.2vw,1.9rem)] font-medium leading-snug tracking-tight text-balance">{content.hero.headline}</p>
     <p class="mt-4 text-base font-medium leading-snug">{content.hero.availability.label} · {content.hero.availability.detail}</p>
-    <p class="mt-1 text-sm leading-relaxed text-muted">{content.hero.availability.note}</p>
-    <p class="academic-line mt-4 max-w-[32ch] text-base font-medium leading-relaxed text-muted sm:text-lg">{content.hero.academic}</p>
+    <p class="hero-availability-note mt-1 text-sm leading-relaxed text-muted">{content.hero.availability.note}</p>
+    <p class="hero-academic academic-line mt-4 max-w-[32ch] text-base font-medium leading-relaxed text-muted sm:text-lg">{content.hero.academic}</p>
   </div>
   <aside class="relative z-10 min-w-0 md:pt-[26rem] lg:pt-[32rem] [@media(max-height:820px)]:lg:pt-56" aria-label={content.hero.summaryTitle}>
     <p class="max-w-[40ch] text-[clamp(1.35rem,2.2vw,1.75rem)] leading-snug tracking-tight text-pretty">{content.hero.description}</p>
-    <p class="mt-6 max-w-[40ch] text-sm leading-relaxed text-muted sm:text-base">{content.openSource.personal}</p>
+    <p class="hero-personal mt-6 max-w-[40ch] text-sm leading-relaxed text-muted sm:text-base">{content.openSource.personal}</p>
   </aside>
   <div class="relative z-10 flex flex-wrap items-center gap-x-8 gap-y-5 md:col-span-2">
     <a class="group inline-flex min-h-14 items-center gap-8 border-b border-paper text-base" href={`#${content.navigation.sections.projects.id}`}>
