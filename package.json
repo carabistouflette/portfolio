@@ -13,12 +13,18 @@
     "deploy": "node scripts/sync-github.mjs --allow-stale && astro build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.6",
     "@tailwindcss/vite": "4.3.3",
     "astro": "7.3.2",
+    "framer-motion": "^13.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "parse5": "8.0.1",
     "simple-icons": "16.30.0",
     "typescript": "6.0.3",

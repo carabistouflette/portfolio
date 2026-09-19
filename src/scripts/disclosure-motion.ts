@@ -3,7 +3,7 @@ import { onPageLoad } from "./page-lifecycle";
 onPageLoad((signal) => {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  for (const details of document.querySelectorAll<HTMLDetailsElement>("details")) {
+  for (const details of document.querySelectorAll<HTMLDetailsElement>("details:not([data-motion-catalog])")) {
     const summary = details.querySelector("summary");
     if (!summary) continue;
     const preview = summary.querySelector<HTMLElement>(".skill-preview");
