@@ -5,6 +5,9 @@ export default defineConfig({
   site: "https://alexisr.work",
   output: "static",
   integrations: [vue({ appEntrypoint: "/src/vue-app.ts" })],
+  build: {
+    inlineStylesheets: "always",
+  },
   trailingSlash: "always",
   i18n: {
     locales: ["fr", "en"],

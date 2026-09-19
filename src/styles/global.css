@@ -466,6 +466,12 @@ details[data-disclosure-animating] .skill-preview {
     border-top-color: rgb(77 102 117 / 0.45);
   }
 }
+@media (min-width: 64rem) and (max-height: 820px) {
+  .hero-cat {
+    top: 1.5rem;
+    width: 22%;
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
