@@ -56,7 +56,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
         aria-current={locale === "en" ? "page" : undefined}
       >{content.localeSwitch.en}</a>
     </nav>
-    <button id="motion-toggle" class="motion-toggle header-motion-toggle min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
+    <button id="motion-toggle" class="motion-toggle header-motion-toggle min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" aria-hidden="true" tabindex="-1" aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
     </div>
   </div>
 </header>

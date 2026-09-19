@@ -366,7 +366,7 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 2.89em;
   height: 1em;
   overflow: visible;
   pointer-events: none;
@@ -429,6 +429,17 @@ details[data-disclosure-animating] .skill-preview {
   border: 1px solid var(--rule);
   padding-inline: 0.65rem;
   text-decoration: none;
+}
+.motion-toggle[aria-hidden="true"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 48rem) {
+  .motion-toggle {
+    min-width: 9.5rem;
+    justify-content: center;
+  }
 }
 
 .motion-toggle::before {

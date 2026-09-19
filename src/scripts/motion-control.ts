@@ -18,12 +18,14 @@ if (toggle) {
   const syncControl = (): void => {
     const api = window.butterflyField;
     if (!api?.ready || reducedMotion.matches || api.getState().reducedMotion) {
-      toggle.hidden = true;
+      toggle.setAttribute("aria-hidden", "true");
+      toggle.tabIndex = -1;
       return;
     }
 
     const paused = api.getState().paused;
-    toggle.hidden = false;
+    toggle.setAttribute("aria-hidden", "false");
+    toggle.tabIndex = 0;
     toggle.setAttribute("aria-pressed", String(!paused));
     toggle.textContent = paused ? toggle.dataset.motionOff ?? "OFF" : toggle.dataset.motionOn ?? "ON";
   };
