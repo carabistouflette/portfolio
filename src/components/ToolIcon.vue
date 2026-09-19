@@ -1,3 +1,4 @@
+<script setup lang="ts">
 import {
   siPython, siRust, siTypescript, siOpenjdk, siC, siAstro, siReact,
   siNextdotjs, siVuedotjs, siNuxt, siTailwindcss, siFastapi, siFlask,
@@ -12,10 +13,9 @@ import {
   type SimpleIcon,
 } from "simple-icons";
 
-interface Props {
-  name: string;
-  className?: string;
-}
+const props = withDefaults(defineProps<{ name: string; className?: string }>(), {
+  className: "h-6 w-6 shrink-0",
+});
 
 const brands: Record<string, SimpleIcon> = {
   Python: siPython, Rust: siRust, TypeScript: siTypescript, Java: siOpenjdk,
@@ -53,25 +53,23 @@ const images: Record<string, string> = {
   Altair: "altair",
 };
 
-const iconColor = (icon?: SimpleIcon): string => {
+const icon = brands[props.name];
+const glyph = glyphs[props.name];
+const image = images[props.name];
+if (!icon && !glyph && !image) throw new Error(`Missing toolbox icon: ${props.name}`);
+
+const color = (() => {
   if (!icon) return "#9dc7df";
   const channels = [0, 2, 4].map((offset) => parseInt(icon.hex.slice(offset, offset + 2), 16) / 255);
   const linear = channels.map((channel) => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4);
   const luminance = 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
   return icon.hex === "000000" ? "#eaf4fa" : luminance < 0.12 ? `color-mix(in srgb, #${icon.hex} 55%, #eaf4fa)` : `#${icon.hex}`;
-};
+})();
+</script>
 
-export default function ToolIcon({ name, className }: Props) {
-  const image = images[name];
-  const icon = brands[name];
-  const glyph = glyphs[name];
-  if (!icon && !glyph && !image) throw new Error(`Missing toolbox icon: ${name}`);
-
-  if (image) return <img src={`/tool-icons/${image}.webp`} alt="" width="24" height="24" className={className ?? "h-6 w-6 shrink-0 object-contain"} aria-hidden="true" data-tool-icon />;
-
-  return (
-    <svg className={className ?? "h-6 w-6 shrink-0"} style={{ color: iconColor(icon) }} viewBox="0 0 24 24" fill={icon ? "currentColor" : "none"} stroke={icon ? undefined : "currentColor"} strokeWidth={icon ? undefined : 1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" data-tool-icon>
-      <path d={icon ? icon.path : glyph} />
-    </svg>
-  );
-}
+<template>
+  <img v-if="image" :src="`/tool-icons/${image}.webp`" alt="" width="24" height="24" :class="`${props.className} object-contain`" aria-hidden="true" data-tool-icon />
+  <svg v-else :class="props.className" :style="{ color }" viewBox="0 0 24 24" :fill="icon ? 'currentColor' : 'none'" :stroke="icon ? undefined : 'currentColor'" :stroke-width="icon ? undefined : 1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false" data-tool-icon>
+    <path :d="icon ? icon.path : glyph" />
+  </svg>
+</template>

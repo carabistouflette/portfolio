@@ -1,10 +1,10 @@
 import { defineConfig } from "astro/config";
-import react from "@astrojs/react";
+import vue from "@astrojs/vue";
 import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://alexisr.work",
   output: "static",
-  integrations: [react()],
+  integrations: [vue({ appEntrypoint: "/src/vue-app.ts" })],
   trailingSlash: "always",
   i18n: {
     locales: ["fr", "en"],
