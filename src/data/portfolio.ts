@@ -102,7 +102,6 @@ export interface CaseStudy {
   sourcesNote?: string;
   homeLabel: string;
   counterpartLabel: string;
-  counterpartPath: string;
   languageLabel: string;
   pagination?: PaginationEvidence;
 }
@@ -337,13 +336,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
-          title: "Résultat négatif : late-interaction",
-          url: "https://github.com/brio-labs/maestria/pull/511",
-          state: "Fusionnée · brio-labs/maestria",
-          problem: "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents.",
-          change: "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
-        },
-        {
           title: "Ingestion vectorielle à l’échelle du document",
           url: "https://github.com/brio-labs/maestria/pull/485",
           state: "Fusionnée · brio-labs/maestria",
@@ -356,6 +348,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           state: "Fusionnée · brio-labs/maestria",
           problem: "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
           change: "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
+        },
+        {
+          title: "Évaluer une approche de recherche avant son intégration",
+          url: "https://github.com/brio-labs/maestria/pull/511",
+          state: "Fusionnée · brio-labs/maestria",
+          problem: "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents. Le verdict est un résultat négatif.",
+          change: "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
         },
       ],
       github: {
@@ -717,13 +716,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
-          title: "Negative result: late-interaction",
-          url: "https://github.com/brio-labs/maestria/pull/511",
-          state: "Merged · brio-labs/maestria",
-          problem: "A retrieval lane that looked attractive on paper: better passage ranking for agents.",
-          change: "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
-        },
-        {
           title: "Per-document vector ingestion",
           url: "https://github.com/brio-labs/maestria/pull/485",
           state: "Merged · brio-labs/maestria",
@@ -736,6 +728,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           state: "Merged · brio-labs/maestria",
           problem: "An asynchronous façade imposed complexity the actual work did not require.",
           change: "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
+        },
+        {
+          title: "Evaluate a search approach before integrating it",
+          url: "https://github.com/brio-labs/maestria/pull/511",
+          state: "Merged · brio-labs/maestria",
+          problem: "A retrieval lane that looked attractive on paper: better passage ranking for agents. The verdict is a negative result.",
+          change: "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
         },
       ],
       github: {
@@ -1125,7 +1124,6 @@ const genomintFr: CaseStudy = {
     "Le rapport de stage n’est pas public (sa diffusion relève de l’autorisation du CIRAD) et l’attestation de stage contient des données personnelles qui ne sont pas republiées. Le code reste fermé pendant la préparation de la publication scientifique, qui créditera cette contribution ; les sections citées du rapport indiquent en attendant où chaque preuve est documentée.",
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
-  counterpartPath: "/projets/genomint/",
   languageLabel: "Changer de langue",
 };
 
@@ -1242,7 +1240,6 @@ const genomintEn: CaseStudy = {
     "The internship report is not public (its release is subject to CIRAD authorization) and the internship certificate contains personal data that is not republished. The code stays closed while the research publication is in preparation; it will credit this contribution. Until then, the cited report sections show where each piece of evidence is documented.",
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
-  counterpartPath: "/projets/genomint/",
   languageLabel: "Change language",
 };
 
@@ -1354,7 +1351,6 @@ const maestriaFr: CaseStudy = {
   ],
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
-  counterpartPath: "/en/projects/maestria/",
   languageLabel: "Changer de langue",
 };
 
@@ -1466,7 +1462,6 @@ const maestriaEn: CaseStudy = {
   ],
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
-  counterpartPath: "/projets/maestria/",
   languageLabel: "Change language",
 };
 
