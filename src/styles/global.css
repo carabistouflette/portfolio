@@ -1,4 +1,11 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
+@source "../components";
+@source "../layouts";
+@source "../pages";
+/* Runtime classes emitted by github-calendar.ts. */
+@source inline("{grid,place-items-center,rounded-sm,text-ink,transition-colors,motion-reduce:transition-none,hover:ring-2,hover:ring-paper,focus-visible:z-1,focus-visible:outline-2,focus-visible:outline-paper,focus-visible:outline-offset-3,data-[selected=true]:ring-2,data-[selected=true]:ring-paper,data-[selected=true]:ring-offset-2,data-[selected=true]:ring-offset-ink,data-[level=0]:text-paper,data-[level=1]:text-paper,min-h-11,min-w-11,text-sm,min-h-5,min-w-5,text-[0.6rem],bg-sky-950/70,bg-sky-800/80,bg-sky-600/90,bg-sky-400,bg-sky-200}");
+/* Exclude Astro/DOM tokens that are not class names. */
+@source not inline("blur transition");
 
 @theme {
   --color-ink: #050505;
@@ -67,6 +74,7 @@
 
   @media (min-width: 48rem) {
     :root { --gutter: 3rem; }
+    html { scroll-padding-top: 6rem; }
   }
 }
 
@@ -295,17 +303,6 @@
     }
   }
 
-
-  @media (min-width: 48rem) {
-    html { scroll-padding-top: 6rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .header-section-link::after {
-      transition: none;
-    }
-  }
-
   .eyebrow {
     margin-bottom: 1.35rem;
     color: var(--secondary);
@@ -408,6 +405,7 @@ details[data-disclosure-animating] .skill-preview {
 
 @media (prefers-reduced-motion: reduce) {
   .skills-panel-motion { transition: none; }
+  .header-section-link::after { transition: none; }
 }
 .skills-icons-moving [data-preview-icon],
 .skills-icons-moving [data-panel-icon] {
@@ -440,6 +438,7 @@ details[data-disclosure-animating] .skill-preview {
     min-width: 9.5rem;
     justify-content: center;
   }
+  .hero-robin-trace path { stroke-width: 1.5px; }
 }
 
 .motion-toggle::before {
@@ -453,9 +452,6 @@ details[data-disclosure-animating] .skill-preview {
 .motion-toggle[aria-pressed="true"]::before {
   background: #a4d4c4;
   box-shadow: 0 0 0 3px rgb(164 212 196 / 0.12);
-}
-@media (min-width: 48rem) {
-  .hero-robin-trace path { stroke-width: 1.5px; }
 }
 
 @media (max-width: 47.999rem) {
