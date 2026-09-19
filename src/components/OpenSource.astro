@@ -28,13 +28,13 @@ const json = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c"
     </div>
   </header>
   {detailed && (
-    <div class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-b border-rule/60 pb-10 md:mt-14">
+    <div data-motion-reveal class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-b border-rule/60 pb-10 md:mt-14">
       <a class="group inline-flex min-h-14 items-baseline gap-3" href={search("is:open")}><span class="font-display text-3xl" data-github-open>{snapshot.counts.open}</span><span class="text-sm text-muted underline group-hover:text-paper">{copy.openCountLabel}</span></a>
       <a class="group inline-flex min-h-14 items-baseline gap-3" href={search("is:merged")}><span class="font-display text-3xl" data-github-merged>{snapshot.counts.merged}</span><span class="text-sm text-muted underline group-hover:text-paper">{copy.mergedCountLabel}</span></a>
     </div>
   )}
   {detailed && (
-  <div class="mt-14 md:mt-20">
+  <div data-motion-reveal class="mt-14 md:mt-20">
     <div class="flex flex-wrap items-baseline justify-between gap-6">
       <h3 class="text-xl font-medium md:text-2xl">{copy.latestHeading}</h3>
       <a class="text-link text-sm underline" href={search()}>{copy.allPRLabel}</a>
@@ -50,16 +50,16 @@ const json = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c"
     <template data-github-pr-template><GitHubPullRequest copy={copy} dateFormat={dateFormat} /></template>
   </div>
   )}
-  <div class:list={[detailed ? "mt-20 md:mt-28" : "mt-8"]}>
+  <div data-motion-reveal class:list={[detailed ? "mt-20 md:mt-28" : "mt-8"]}>
     <GitHubCalendar calendar={snapshot.calendar} locale={locale} copy={copy.calendar} preview={!detailed} />
   </div>
-  <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs leading-relaxed text-muted">
+  <div data-motion-reveal class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs leading-relaxed text-muted">
     <p>{copy.snapshotLabel} <time data-github-updated datetime={snapshot.updatedAt}>{syncFormat.format(new Date(snapshot.updatedAt))} UTC</time></p>
     <button type="button" data-github-refresh class="min-h-11 cursor-pointer text-paper underline disabled:cursor-wait disabled:opacity-60" hidden>{copy.refreshLabel}</button>
     <p data-github-sync-status role="status" aria-live="polite" aria-atomic="true"></p>
   </div>
   {detailed && (
-  <footer class="mt-12 border-t border-rule/60 pt-6">
+  <footer data-motion-reveal class="mt-12 border-t border-rule/60 pt-6">
     <p class="max-w-[90ch] text-xs leading-loose text-muted">{copy.refreshPolicy}</p>
     <details class="mt-4">
       <summary class="min-h-11 cursor-pointer py-3 text-sm text-muted hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4">{copy.methodHeading}</summary>

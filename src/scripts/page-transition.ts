@@ -45,9 +45,10 @@ document.addEventListener("astro:after-swap", () => {
   if (reducedMotion.matches) return;
   const content = document.querySelector<HTMLElement>(".site-content");
   if (!content) return;
-  const incoming = content.animate([{ opacity: 0 }, { opacity: 1 }], {
-    duration: 420, easing: "ease-in-out",
-  });
+  const incoming = content.animate(
+    [{ opacity: 0 }, { opacity: 1 }],
+    { duration: 420, easing: "ease-in-out", fill: "both" },
+  );
   active = incoming;
   incoming.onfinish = () => {
     if (active === incoming) active = undefined;

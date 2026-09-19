@@ -7,6 +7,9 @@ onPageLoad((signal) => {
     const summary = details.querySelector("summary");
     if (!summary) continue;
     const preview = summary.querySelector<HTMLElement>(".skill-preview");
+    const panel = Array.from(details.children).find(
+      (child): child is HTMLElement => child !== summary && child instanceof HTMLElement,
+    );
     let expanded = details.open;
     let animations: Animation[] = [];
 
@@ -26,6 +29,8 @@ onPageLoad((signal) => {
       event.preventDefault();
 
       const startHeight = details.getBoundingClientRect().height;
+      const wasAnimating = animations.length > 0;
+      const panelStyle = panel ? getComputedStyle(panel) : null;
       const previewStyle = preview ? getComputedStyle(preview) : null;
       const startPreview = preview && previewStyle ? {
         height: `${preview.getBoundingClientRect().height}px`,
@@ -53,6 +58,17 @@ onPageLoad((signal) => {
       };
       if (preview && startPreview && endPreview) {
         animations.push(preview.animate([startPreview, endPreview], timing));
+      }
+      if (panel) {
+        const panelStart = wasAnimating && panelStyle
+          ? { opacity: panelStyle.opacity, filter: panelStyle.filter }
+          : expanded
+            ? { opacity: "0", filter: "blur(14px)" }
+            : { opacity: "1", filter: "blur(0)" };
+        const panelEnd = expanded
+          ? { opacity: "1", filter: "blur(0)" }
+          : { opacity: "0", filter: "blur(14px)" };
+        animations.push(panel.animate([panelStart, panelEnd], timing));
       }
       const height = details.animate(
         [{ height: `${startHeight}px` }, { height: `${endHeight}px` }], timing,

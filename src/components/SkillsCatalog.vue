@@ -37,8 +37,17 @@ const moving = ref(new Set<number>());
 const iconFlights = new Map<number, { clones: HTMLElement[]; animations: Animation[] }>();
 
 const projectById = computed(() => new Map(props.projects.map((project) => [project.id, project])));
-const cardMotion = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] } });
-const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 });
+const cardMotion = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : {
+  opacity: 1,
+  y: 0,
+  filter: "blur(0)",
+  transition: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+});
+const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : {
+  opacity: 0,
+  y: 8,
+  filter: "blur(14px)",
+});
 
 const isExpanded = (index: number): boolean => expanded.value.has(index);
 const isOpen = (index: number): boolean => isExpanded(index) || closing.value.has(index);
@@ -184,7 +193,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="catalogRoot" class="mt-6 grid items-start gap-6 lg:grid-cols-2">
+  <div ref="catalogRoot" data-motion-reveal class="mt-6 grid items-start gap-6 lg:grid-cols-2">
     <details
       v-for="(group, index) in props.groups"
       :key="group.label"
