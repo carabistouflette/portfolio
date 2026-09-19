@@ -145,7 +145,7 @@ export interface PortfolioContent {
     personal: string;
     profileLabel: string;
     profileUrl: string;
-    selectedContributions: { title: string; url: string; state: string; problem: string; change: string }[];
+    selectedContributions: { number: number; problem: string; change: string }[];
     github: {
       eyebrow: string;
       exploreLabel: string;
@@ -336,23 +336,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
-          title: "Ingestion vectorielle à l’échelle du document",
-          url: "https://github.com/brio-labs/maestria/pull/485",
-          state: "Fusionnée · brio-labs/maestria",
+          number: 485,
           problem: "L’indexation créait un effet par fragment : échanges et écritures multipliés, état difficile à rejouer.",
           change: "Le travail est regroupé par document : un appel d’embedding par lot, un état rejouable, des contrôles de cohérence conservés.",
         },
         {
-          title: "Moteur de recherche : interfaces synchrones",
-          url: "https://github.com/brio-labs/maestria/pull/501",
-          state: "Fusionnée · brio-labs/maestria",
+          number: 501,
           problem: "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
           change: "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
         },
         {
-          title: "Évaluer une approche de recherche avant son intégration",
-          url: "https://github.com/brio-labs/maestria/pull/511",
-          state: "Fusionnée · brio-labs/maestria",
+          number: 511,
           problem: "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents. Le verdict est un résultat négatif.",
           change: "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
         },
@@ -716,23 +710,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
-          title: "Per-document vector ingestion",
-          url: "https://github.com/brio-labs/maestria/pull/485",
-          state: "Merged · brio-labs/maestria",
+          number: 485,
           problem: "Indexing created one effect per chunk: multiplied exchanges and writes, state that was hard to replay.",
           change: "Work is grouped per document: one batch embedding call, replayable state, consistency checks preserved.",
         },
         {
-          title: "Search engine: synchronous interfaces",
-          url: "https://github.com/brio-labs/maestria/pull/501",
-          state: "Merged · brio-labs/maestria",
+          number: 501,
           problem: "An asynchronous façade imposed complexity the actual work did not require.",
           change: "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
         },
         {
-          title: "Evaluate a search approach before integrating it",
-          url: "https://github.com/brio-labs/maestria/pull/511",
-          state: "Merged · brio-labs/maestria",
+          number: 511,
           problem: "A retrieval lane that looked attractive on paper: better passage ranking for agents. The verdict is a negative result.",
           change: "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
         },

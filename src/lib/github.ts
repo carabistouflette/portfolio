@@ -27,6 +27,7 @@ export interface GitHubSnapshot {
     open: number;
     merged: number;
   };
+  featured?: GitHubPullRequest[];
   calendar: {
     from: string;
     to: string;
@@ -244,9 +245,11 @@ function validateCalendar(value: unknown): value is GitHubSnapshot["calendar"] {
 }
 
 export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
+  const snapshotKeys = ["version", "login", "updatedAt", "pullRequests", "counts", "calendar"];
   if (
     !isRecord(value) ||
-    !hasExactKeys(value, ["version", "login", "updatedAt", "pullRequests", "counts", "calendar"]) ||
+    !snapshotKeys.every((key) => key in value) ||
+    Object.keys(value).some((key) => key !== "featured" && !snapshotKeys.includes(key)) ||
     value.version !== 1 ||
     value.login !== LOGIN ||
     typeof value.updatedAt !== "string" ||
@@ -297,6 +300,18 @@ export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
     openRecords.length !== Math.min(value.counts.open, 3)
   ) {
     throw new Error("GitHub open pull-request totals do not match records");
+  }
+
+  if (value.featured !== undefined) {
+    if (
+      !Array.isArray(value.featured) ||
+      value.featured.length === 0 ||
+      value.featured.length > 10 ||
+      !value.featured.every(validatePullRequest) ||
+      new Set(value.featured.map((request) => request.url)).size !== value.featured.length
+    ) {
+      throw new Error("Invalid GitHub featured pull requests");
+    }
   }
 
   return value as unknown as GitHubSnapshot;

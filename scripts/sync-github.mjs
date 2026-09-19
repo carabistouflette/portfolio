@@ -9,6 +9,8 @@ const SNAPSHOT_PATH = resolve(REPOSITORY_ROOT, "src/data/github.json");
 const GITHUB_API = "https://api.github.com/search/issues";
 const GITHUB_CALENDAR = "https://github.com/users/carabistouflette/contributions";
 const AUTHOR_QUERY = "author:carabistouflette is:pr is:public";
+const FEATURED_REPOSITORY = "brio-labs/maestria";
+const FEATURED_PULL_NUMBERS = [485, 501, 511];
 const REQUEST_TIMEOUT_MS = 20_000;
 
 function requestHeaders() {
@@ -190,7 +192,7 @@ async function fetchCalendar() {
   return parseGitHubCalendarHtml(html);
 }
 
-function buildSnapshot(recent, external, open, merged, calendar) {
+function buildSnapshot(recent, external, open, merged, featuredPool, calendar) {
   if (open.totalCount > 0 && open.items.length === 0) {
     throw new Error("GitHub open search returned a total without any records");
   }
@@ -203,6 +205,15 @@ function buildSnapshot(recent, external, open, merged, calendar) {
   if (merged.items.some((item) => item.state !== "merged")) {
     throw new Error("GitHub merged search returned a non-merged pull request");
   }
+
+  const byNumber = new Map(featuredPool.items.map((item) => [item.number, item]));
+  const featured = FEATURED_PULL_NUMBERS.map((number) => {
+    const record = byNumber.get(number);
+    if (!record) {
+      throw new Error(`GitHub featured pull request #${number} is missing from the ${FEATURED_REPOSITORY} search`);
+    }
+    return record;
+  });
 
   return {
     version: 1,
@@ -217,6 +228,7 @@ function buildSnapshot(recent, external, open, merged, calendar) {
       open: open.totalCount,
       merged: merged.totalCount,
     },
+    featured,
     calendar,
   };
 }
@@ -255,12 +267,13 @@ export async function syncGitHubSnapshot() {
     () => fetchSearch(`${AUTHOR_QUERY} -user:carabistouflette`, "created", "external", 3),
     () => fetchSearch(`${AUTHOR_QUERY} is:open`, "updated", "open", 3),
     () => fetchSearch(`${AUTHOR_QUERY} is:merged`, null, "merged", 1),
+    () => fetchSearch(`${AUTHOR_QUERY} repo:${FEATURED_REPOSITORY}`, "created", "featured", 30),
     () => fetchCalendar(),
   ];
-  const [recent, external, open, merged, calendar] = await Promise.all(
+  const [recent, external, open, merged, featuredPool, calendar] = await Promise.all(
     jobs.map((job, index) => startConcurrent(job, index)),
   );
-  const snapshot = buildSnapshot(recent, external, open, merged, calendar);
+  const snapshot = buildSnapshot(recent, external, open, merged, featuredPool, calendar);
   const { validateGitHubSnapshot } = await importValidator();
   validateGitHubSnapshot(snapshot);
   await writeSnapshot(snapshot);

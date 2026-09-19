@@ -135,3 +135,37 @@ test("snapshot scopes cannot misrepresent personal or closed pull requests", () 
   open.pullRequests.open = [request];
   assert.throws(() => validateGitHubSnapshot(open));
 });
+
+function featuredPullRequest() {
+  return {
+    repository: "brio-labs/maestria",
+    number: 485,
+    title: "feat(runtime): per-artifact vector effects, 2x dense ingest",
+    url: "https://github.com/brio-labs/maestria/pull/485",
+    createdAt: "2026-01-01T00:00:00Z",
+    updatedAt: "2026-01-02T00:00:00Z",
+    mergedAt: "2026-01-02T00:00:00Z",
+    state: "merged",
+    relationship: "organization",
+  };
+}
+
+test("snapshot validator accepts dynamic featured pull requests", () => {
+  const withFeatured = validSnapshot();
+  withFeatured.featured = [featuredPullRequest()];
+  assert.doesNotThrow(() => validateGitHubSnapshot(withFeatured));
+  // backward compatibility: snapshots without featured stay valid
+  assert.doesNotThrow(() => validateGitHubSnapshot(validSnapshot()));
+});
+
+test("snapshot validator rejects malformed or duplicated featured pull requests", () => {
+  const malformed = validSnapshot();
+  malformed.featured = [{ ...featuredPullRequest(), url: "https://evil.example/brio-labs/maestria/pull/485" }];
+  assert.throws(() => validateGitHubSnapshot(malformed));
+  const duplicated = validSnapshot();
+  duplicated.featured = [featuredPullRequest(), featuredPullRequest()];
+  assert.throws(() => validateGitHubSnapshot(duplicated));
+  const empty = validSnapshot();
+  empty.featured = [];
+  assert.throws(() => validateGitHubSnapshot(empty));
+});

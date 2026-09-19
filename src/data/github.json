@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-09-19T11:02:14.521Z",
+  "updatedAt": "2026-09-19T11:11:52.137Z",
   "pullRequests": {
     "recent": [
       {
@@ -113,6 +113,41 @@
     "open": 40,
     "merged": 489
   },
+  "featured": [
+    {
+      "repository": "brio-labs/maestria",
+      "number": 485,
+      "title": "feat(runtime): per-artifact vector effects, 2x dense ingest",
+      "url": "https://github.com/brio-labs/maestria/pull/485",
+      "createdAt": "2026-08-31T01:49:10Z",
+      "updatedAt": "2026-08-31T06:29:31Z",
+      "mergedAt": "2026-08-31T06:29:28Z",
+      "state": "merged",
+      "relationship": "organization"
+    },
+    {
+      "repository": "brio-labs/maestria",
+      "number": 501,
+      "title": "refactor(retrieval): make the search engine synchronous end to end",
+      "url": "https://github.com/brio-labs/maestria/pull/501",
+      "createdAt": "2026-09-07T21:52:23Z",
+      "updatedAt": "2026-09-07T22:19:58Z",
+      "mergedAt": "2026-09-07T22:19:56Z",
+      "state": "merged",
+      "relationship": "organization"
+    },
+    {
+      "repository": "brio-labs/maestria",
+      "number": 511,
+      "title": "docs(research): archive late-interaction negative result",
+      "url": "https://github.com/brio-labs/maestria/pull/511",
+      "createdAt": "2026-09-10T05:43:43Z",
+      "updatedAt": "2026-09-10T08:07:50Z",
+      "mergedAt": "2026-09-10T08:07:48Z",
+      "state": "merged",
+      "relationship": "organization"
+    }
+  ],
   "calendar": {
     "from": "2025-09-14",
     "to": "2026-09-19",
@@ -1969,7 +2004,7 @@
       },
       {
         "date": "2026-09-19",
-        "count": 2,
+        "count": 3,
         "level": 1
       }
     ]

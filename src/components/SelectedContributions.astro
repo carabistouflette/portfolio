@@ -8,20 +8,28 @@ const { content, locale } = Astro.props;
 const { openSource } = content;
 const activityPath = locale === "fr" ? "/github/" : "/en/github/";
 const snapshot = validateGitHubSnapshot(rawSnapshot);
+const byNumber = new Map((snapshot.featured ?? []).map((pullRequest) => [pullRequest.number, pullRequest]));
+const contributions = openSource.selectedContributions.map((entry) => {
+  const pullRequest = byNumber.get(entry.number);
+  if (!pullRequest) {
+    throw new Error(`Featured pull request #${entry.number} is missing from the GitHub snapshot; run scripts/sync-github.mjs.`);
+  }
+  return { entry, pullRequest };
+});
 ---
 <section id="open-source" class="content-shell section-shell" aria-labelledby="open-source-title">
   <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">{openSource.github.eyebrow}</p>
   <h2 id="open-source-title" class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight">{openSource.heading}</h2>
   <p class="mt-6 max-w-[48ch] text-base leading-loose text-muted">{openSource.intro}</p>
   <ul class="mt-12 grid gap-10 lg:grid-cols-3">
-    {openSource.selectedContributions.map((contribution) => (
+    {contributions.map(({ entry, pullRequest }) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="text-xl font-medium leading-snug">
-          <a class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]" href={contribution.url} target="_blank" rel="noreferrer">{contribution.title}<span class="ml-2 text-muted" aria-hidden="true">↗</span></a>
+          <a class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]" href={pullRequest.url} target="_blank" rel="noreferrer">{pullRequest.title}<span class="ml-2 text-muted" aria-hidden="true">↗</span></a>
         </h3>
-        <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">{contribution.state}</p>
-        <p class="mt-4 text-sm leading-relaxed text-muted">{contribution.problem}</p>
-        <p class="mt-2 text-sm leading-relaxed">{contribution.change}</p>
+        <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">{openSource.github.states[pullRequest.state]} · {pullRequest.repository}</p>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{entry.problem}</p>
+        <p class="mt-2 text-sm leading-relaxed">{entry.change}</p>
       </li>
     ))}
   </ul>
