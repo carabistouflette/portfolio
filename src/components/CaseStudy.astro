@@ -41,7 +41,7 @@ const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/proje
           <a class="text-link min-h-0 text-sm underline" href="#case-sections">{study.technicalLabel}<span class="ml-2" aria-hidden="true">↓</span></a>
         </div>
       </section>
-      <button id="motion-toggle" class="mt-5 min-h-9 cursor-pointer border-b border-rule text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle}>{content.hero.motionToggle}</button>
+      <button id="motion-toggle" class="motion-toggle mt-5 min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
     </header>
 
     <div id="case-context" class="mt-14 grid gap-8 border-y border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">

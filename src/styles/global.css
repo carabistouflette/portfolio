@@ -364,6 +364,28 @@ details[data-disclosure-animating] .skill-preview {
   overflow: clip;
 }
 
+.motion-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--rule);
+  padding-inline: 0.65rem;
+  text-decoration: none;
+}
+
+.motion-toggle::before {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--secondary);
+  content: "";
+}
+
+.motion-toggle[aria-pressed="true"]::before {
+  background: #a4d4c4;
+  box-shadow: 0 0 0 3px rgb(164 212 196 / 0.12);
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 

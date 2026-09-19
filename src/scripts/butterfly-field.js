@@ -129,7 +129,7 @@
 
   let width=1, height=1, dpr=1, time=0, accumulator=0;
   const MOTION_STORAGE_KEY='portfolio.butterflies.paused';
-  const storedPausePreference=(()=>{try{return localStorage.getItem(MOTION_STORAGE_KEY)==='true';}catch{return false;}})();
+  const storedPausePreference=(()=>{try{return localStorage.getItem(MOTION_STORAGE_KEY)!=='false';}catch{return true;}})();
   let birds=[], ordered=[], raf=0, lastTimestamp=0, paused=storedPausePreference, destroyed=false;
   let ready=false, lost=false, renderer=null, images=null;
   let cameraY=window.scrollY;

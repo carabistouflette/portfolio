@@ -22,8 +22,10 @@ if (toggle) {
       return;
     }
 
+    const paused = api.getState().paused;
     toggle.hidden = false;
-    toggle.setAttribute("aria-pressed", String(api.getState().paused));
+    toggle.setAttribute("aria-pressed", String(!paused));
+    toggle.textContent = paused ? toggle.dataset.motionOff ?? "OFF" : toggle.dataset.motionOn ?? "ON";
   };
 
   const toggleMotion = (): void => {
@@ -34,12 +36,12 @@ if (toggle) {
 
     const nextPaused = !api.getState().paused;
     savePausePreference(nextPaused);
-    toggle.setAttribute("aria-pressed", String(nextPaused));
     if (nextPaused) {
       api.pause();
     } else {
       api.play();
     }
+    syncControl();
   };
 
   toggle.addEventListener("click", toggleMotion, { signal });

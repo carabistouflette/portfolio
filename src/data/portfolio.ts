@@ -133,6 +133,8 @@ export interface PortfolioContent {
     cvCta: string;
     contactCta: string;
     motionToggle: string;
+    motionOnLabel: string;
+    motionOffLabel: string;
   };
   projects: {
     heading: string;
@@ -287,7 +289,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       projectsCta: "Voir mes réalisations",
       cvCta: "Télécharger le CV",
       contactCta: "Me contacter",
-      motionToggle: "Pause de l’animation",
+      motionToggle: "Animations",
+      motionOnLabel: "Animations : ON",
+      motionOffLabel: "Animations : OFF",
     },
     projects: {
       heading: "Deux projets, deux terrains.",
@@ -661,7 +665,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       projectsCta: "See the work",
       cvCta: "Download CV",
       contactCta: "Get in touch",
-      motionToggle: "Pause animation",
+      motionToggle: "Animations",
+      motionOnLabel: "Animations: ON",
+      motionOffLabel: "Animations: OFF",
     },
     projects: {
       heading: "Two projects, two different worlds.",
