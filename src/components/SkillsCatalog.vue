@@ -26,24 +26,47 @@ const props = defineProps<{
 }>();
 
 const expanded = ref(new Set<number>());
+const closing = ref(new Set<number>());
 const hydrated = ref(false);
 const reducedMotion = ref(false);
 let mediaQuery: MediaQueryList | undefined;
 const catalogRoot = ref<HTMLElement | null>(null);
+const closeTimers = new Map<number, number>();
+const CLOSE_DURATION = 320;
 
 const projectById = computed(() => new Map(props.projects.map((project) => [project.id, project])));
-const motionTransition = computed(() => reducedMotion.value ? { duration: 0 } : { duration: 0.32, ease: [0.22, 1, 0.36, 1] });
 const cardMotion = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] } });
 const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 });
 
 const isExpanded = (index: number): boolean => expanded.value.has(index);
+const isOpen = (index: number): boolean => isExpanded(index) || closing.value.has(index);
 
-const syncExpanded = (index: number, event: Event): void => {
-  const details = event.currentTarget as HTMLDetailsElement;
-  const next = new Set(expanded.value);
-  if (details.open) next.add(index);
-  else next.delete(index);
-  expanded.value = next;
+const toggle = (index: number): void => {
+  const nextExpanded = new Set(expanded.value);
+  const nextClosing = new Set(closing.value);
+  const activeTimer = closeTimers.get(index);
+  if (activeTimer !== undefined) {
+    window.clearTimeout(activeTimer);
+    closeTimers.delete(index);
+  }
+
+  if (nextExpanded.has(index)) {
+    nextExpanded.delete(index);
+    nextClosing.add(index);
+    const timer = window.setTimeout(() => {
+      const current = new Set(closing.value);
+      current.delete(index);
+      closing.value = current;
+      closeTimers.delete(index);
+    }, CLOSE_DURATION);
+    closeTimers.set(index, timer);
+  } else {
+    nextExpanded.add(index);
+    nextClosing.delete(index);
+  }
+
+  expanded.value = nextExpanded;
+  closing.value = nextClosing;
 };
 
 const relatedProjects = (skill: SkillItem): Project[] => skill.projectIds
@@ -68,6 +91,8 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   mediaQuery?.removeEventListener("change", updateReducedMotion);
+  for (const timer of closeTimers.values()) window.clearTimeout(timer);
+  closeTimers.clear();
 });
 </script>
 
@@ -77,7 +102,7 @@ onBeforeUnmount(() => {
       v-for="(group, index) in props.groups"
       :key="group.label"
       data-motion-catalog
-      @toggle="syncExpanded(index, $event)"
+      :open="isOpen(index)"
       :class="['group min-w-0 rounded-xl border bg-[#07121b]/45', isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60']"
     >
       <summary
@@ -85,6 +110,7 @@ onBeforeUnmount(() => {
         :aria-controls="`skills-panel-${index}`"
         :aria-expanded="hydrated ? isExpanded(index) : undefined"
         class="cursor-pointer list-none rounded-xl p-6 focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 sm:p-8 [&::-webkit-details-marker]:hidden"
+        @click.prevent="toggle(index)"
       >
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0">
@@ -103,13 +129,9 @@ onBeforeUnmount(() => {
       </summary>
 
       <div
-        v-if="!hydrated || isExpanded(index)"
-        v-motion
         :id="`skills-panel-${index}`"
         role="region"
-        :initial="reducedMotion ? { opacity: 1, height: 'auto' } : { opacity: 0, height: 0 }"
-        :enter="{ opacity: 1, height: 'auto', transition: motionTransition }"
-        class="overflow-hidden"
+        :class="['skills-panel overflow-hidden', hydrated && 'skills-panel-motion', hydrated && isExpanded(index) && 'skills-panel-open']"
       >
         <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
           <li

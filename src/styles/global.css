@@ -390,6 +390,22 @@ details[data-disclosure-animating] .skill-preview {
   display: flex;
   overflow: clip;
 }
+.skills-panel-motion {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease;
+}
+
+.skills-panel-motion > ul { min-height: 0; }
+.skills-panel-motion.skills-panel-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-panel-motion { transition: none; }
+}
 
 .motion-toggle {
   display: inline-flex;

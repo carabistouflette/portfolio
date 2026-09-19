@@ -40,7 +40,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({ id,
 
   <h3 class="mt-20 text-xl font-medium tracking-tight">{copy.catalogHeading}</h3>
   <SkillsCatalog
-    client:visible
+    client:load
     groups={copy.groups}
     projects={projectLinks}
     projectLabel={copy.projectLabel}
