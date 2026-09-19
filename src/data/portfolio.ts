@@ -260,9 +260,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       primaryLabel: "Navigation principale",
       sections: {
         projects: { id: "projects", label: "Projets" },
-        "open-source": { id: "open-source", label: "GitHub" },
-        journey: { id: "journey", label: "Parcours" },
         skills: { id: "skills", label: "Compétences" },
+        journey: { id: "journey", label: "Parcours" },
+        "open-source": { id: "open-source", label: "GitHub" },
         contact: { id: "contact", label: "Contact" },
       },
     },
@@ -634,9 +634,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       primaryLabel: "Primary navigation",
       sections: {
         projects: { id: "projects", label: "Projects" },
-        "open-source": { id: "open-source", label: "GitHub" },
-        journey: { id: "journey", label: "Journey" },
         skills: { id: "skills", label: "Skills" },
+        journey: { id: "journey", label: "Journey" },
+        "open-source": { id: "open-source", label: "GitHub" },
         contact: { id: "contact", label: "Contact" },
       },
     },

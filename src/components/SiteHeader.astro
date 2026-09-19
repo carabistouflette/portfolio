@@ -8,38 +8,74 @@ interface Props {
 
 const { locale, content } = Astro.props;
 ---
-<header
-  class="site-header content-shell flex flex-wrap items-center justify-between gap-x-4 py-4 text-xs sm:text-sm"
->
-  <nav
-    class="primary-nav"
-    aria-label={content.navigation.primaryLabel}
-  >
-    <ul class="m-0 flex list-none flex-wrap items-center gap-x-3 p-0 sm:gap-x-4">
-      {Object.values(content.navigation.sections).map((section) => (
-        <li>
-          <a
-            class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline"
-            href={`#${section.id}`}
-          >{section.label}</a>
-        </li>
-      ))}
-    </ul>
-  </nav>
-  <nav
-    class="locale-nav ml-auto flex items-center gap-3"
-    aria-label={content.localeLabel}
-  >
-    <a
-      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-      href="/"
-      aria-current={locale === "fr" ? "page" : undefined}
-    >{content.localeSwitch.fr}</a>
-    <span class="text-rule" aria-hidden="true">/</span>
-    <a
-      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-      href="/en/"
-      aria-current={locale === "en" ? "page" : undefined}
-    >{content.localeSwitch.en}</a>
-  </nav>
+<header class="site-header sticky top-0 z-40 border-b border-rule/70 bg-ink/90 backdrop-blur-xl">
+  <div class="header-inner content-shell">
+    <a class="header-signature" href="#main" aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}>
+      <img class="header-butterfly" src="/butterflies/home.png" alt="" width="925" height="770" />
+    </a>
+    <nav
+      class="primary-nav"
+      aria-label={content.navigation.primaryLabel}
+    >
+      <ul class="header-sections">
+        {Object.values(content.navigation.sections).map((section) => (
+          <li>
+            <a
+              class="header-section-link"
+              href={`#${section.id}`}
+              data-nav-link
+            >{section.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <nav
+      class="locale-nav flex shrink-0 items-center gap-1 text-xs sm:gap-2"
+      aria-label={content.localeLabel}
+    >
+      <a
+        class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+        href="/"
+        aria-current={locale === "fr" ? "page" : undefined}
+      >{content.localeSwitch.fr}</a>
+      <span class="text-rule" aria-hidden="true">/</span>
+      <a
+        class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+        href="/en/"
+        aria-current={locale === "en" ? "page" : undefined}
+      >{content.localeSwitch.en}</a>
+    </nav>
+  </div>
 </header>
+<script>
+  const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+  const visibility = new Map();
+  const sections = navLinks
+    .map((link) => document.getElementById(link.getAttribute("href")?.slice(1) ?? ""))
+    .filter((section): section is HTMLElement => section !== null);
+
+  if (sections.length && "IntersectionObserver" in window) {
+    const setActive = (id: string) => {
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href") === `#${id}`) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => visibility.set(entry.target, entry));
+        const active = [...visibility.values()]
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (active) setActive(active.target.id);
+      },
+      { rootMargin: "-35% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+  }
+</script>
