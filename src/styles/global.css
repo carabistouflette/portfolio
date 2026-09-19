@@ -386,6 +386,15 @@ details[data-disclosure-animating] .skill-preview {
   box-shadow: 0 0 0 3px rgb(164 212 196 / 0.12);
 }
 
+@media (max-width: 47.999rem) {
+  .header-motion-toggle {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.75rem;
+    border-top-color: rgb(77 102 117 / 0.45);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 

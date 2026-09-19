@@ -32,9 +32,5 @@ const nameLines = content.hero.title.split(" ");
     </a>
     <a class="inline-flex min-h-11 items-center border border-rule px-4 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper" href={destinations.cv} download>{content.hero.cvCta}</a>
     <a class="text-link text-sm text-muted" href={`#${content.navigation.sections.contact.id}`}>{content.hero.contactCta}</a>
-    <button id="motion-toggle" class="motion-toggle min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
   </div>
 </section>
-<script>
-  import "../scripts/motion-control.ts";
-</script>

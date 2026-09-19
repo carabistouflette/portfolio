@@ -13,11 +13,7 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
   <main id="main">
     <div class="content-shell pb-10 pt-10 sm:pt-16">
       <a class="text-link inline-flex min-h-11 items-center gap-2 text-sm text-muted underline" href={`${homePath}#open-source`}><span aria-hidden="true">←</span>{copy.homeLabel}</a>
-      <button id="motion-toggle" class="motion-toggle mt-3 block min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
     </div>
     <OpenSource locale={locale} content={content.openSource} detailed />
   </main>
 </BaseLayout>
-<script>
-  import "../scripts/motion-control.ts";
-</script>

@@ -1,16 +1,15 @@
 ---
 import EvidenceFigure from "./EvidenceFigure.astro";
 import PaginationEvidence from "./PaginationEvidence.astro";
-import type { CaseStudy as CaseStudyData, CaseStudyId, Locale, PortfolioContent } from "../data/portfolio";
+import type { CaseStudy as CaseStudyData, CaseStudyId, Locale } from "../data/portfolio";
 
 interface Props {
   locale: Locale;
   projectId: CaseStudyId;
   study: CaseStudyData;
-  content: PortfolioContent;
 }
 
-const { locale, projectId, study, content } = Astro.props;
+const { locale, projectId, study } = Astro.props;
 const homePath = locale === "fr" ? "/" : "/en/";
 const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
 
@@ -41,7 +40,6 @@ const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/proje
           <a class="text-link min-h-0 text-sm underline" href="#case-sections">{study.technicalLabel}<span class="ml-2" aria-hidden="true">↓</span></a>
         </div>
       </section>
-      <button id="motion-toggle" class="motion-toggle mt-5 min-h-9 cursor-pointer text-xs text-muted hover:text-paper" type="button" hidden aria-pressed="false" aria-label={content.hero.motionToggle} data-motion-on={content.hero.motionOnLabel} data-motion-off={content.hero.motionOffLabel}>{content.hero.motionOffLabel}</button>
     </header>
 
     <div id="case-context" class="mt-14 grid gap-8 border-y border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
@@ -114,7 +112,3 @@ const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/proje
     </footer>
   </article>
 </main>
-
-<script>
-  import "../scripts/motion-control.ts";
-</script>

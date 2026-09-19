@@ -21,5 +21,5 @@ const counterpart = caseStudies.fr[slug];
   alternatePaths={{ fr: counterpart.path, en: study.path }}
   meta={{ title: `${study.title} — Alexis Robin`, description: study.summary }}
 >
-  <CaseStudy locale="en" projectId={slug} study={study} content={portfolio.en} />
+  <CaseStudy locale="en" projectId={slug} study={study} />
 </BaseLayout>
