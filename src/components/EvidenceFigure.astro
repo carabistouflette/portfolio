@@ -9,7 +9,7 @@ const labelId = `${projectId}-evidence-label`;
   <p id={labelId} class="mb-4 font-mono text-xs leading-relaxed">{figure.title}</p>
   {figure.kind === "screenshot" && figure.src ? (
     <a class="block focus-visible:outline-offset-4" href={figure.src} aria-label={figure.alt}>
-      <img class="block h-auto w-full bg-paper" src={figure.src} alt={figure.alt} width="1600" height="1352" loading="eager" decoding="async" />
+      <img class="block h-auto w-full bg-paper" src={figure.src} alt={figure.alt} width="1600" height="1352" loading={compact ? "lazy" : "eager"} decoding="async" />
     </a>
   ) : (
     <div class="border-y border-[#87b7dc]/30 bg-[#07121b]/70 px-5 py-7 sm:px-7 sm:py-9">

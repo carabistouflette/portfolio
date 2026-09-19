@@ -13,7 +13,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 <header class="site-header sticky top-0 z-40 border-b border-rule/70 bg-ink/90 backdrop-blur-xl" transition:name="site-header" transition:animate="none">
   <div class="header-inner content-shell">
     <a class="header-signature" href={`${homeHref}#main`} aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}>
-      <img class="header-butterfly" src="/butterflies/home.png" alt="" width="925" height="770" />
+      <img class="header-butterfly" src="/butterflies/home.webp" alt="" width="256" height="213" decoding="async" />
     </a>
     <button class="header-menu-toggle" type="button" aria-expanded="false" aria-controls="header-menu" hidden>
       <span>Menu</span>
