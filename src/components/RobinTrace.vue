@@ -53,11 +53,8 @@ onBeforeUnmount(() => {
     <svg v-if="animated" class="hero-robin-trace hero-robin-trace-active" viewBox="0 0 2890 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <g v-for="(glyph, index) in glyphs" :key="index" :transform="glyph.transform">
         <path
-          v-motion
           pathLength="1"
           :d="glyph.d"
-          :initial="{ pathLength: 0 }"
-          :enter="{ pathLength: 1, transition: { duration: index === 0 ? 2.4 : 1.4, delay: delays[index], ease } }"
         />
       </g>
     </svg>
