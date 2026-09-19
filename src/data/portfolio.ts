@@ -75,6 +75,7 @@ export interface CaseStudyFigure {
   caption: string;
   source: string;
   src?: string;
+  srcset?: string;
   nodes?: { title: string; detail: string }[];
   optional?: { title: string; detail: string };
 }
@@ -1041,6 +1042,7 @@ const genomintFr: CaseStudy = {
       "Trace réelle reproduite sur l’environnement de développement le 31 juillet 2026 : la question déclenche READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J ; la requête est limitée à 100 résultats et la conversation est persistée.",
     source: "Rapport de stage · annexe B · observation du 31 juillet 2026.",
     src: "/images/genomint-evidence.webp",
+    srcset: "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
     openLabel: "Agrandir la capture",
   },
   pagination: {
@@ -1157,6 +1159,7 @@ const genomintEn: CaseStudy = {
       "Real trace replayed on the development environment on 31 July 2026: the question triggers READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J; the query is limited to 100 results and the conversation is persisted.",
     source: "Internship report · Appendix B · observed on 31 July 2026.",
     src: "/images/genomint-evidence.webp",
+    srcset: "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
     openLabel: "View full-size capture",
   },
   pagination: {
