@@ -409,6 +409,18 @@ details[data-disclosure-animating] .skill-preview {
 @media (prefers-reduced-motion: reduce) {
   .skills-panel-motion { transition: none; }
 }
+.skills-icons-moving [data-preview-icon],
+.skills-icons-moving [data-panel-icon] {
+  opacity: 0;
+}
+
+.skills-icon-flight {
+  position: fixed;
+  z-index: 20;
+  margin: 0;
+  pointer-events: none;
+  will-change: transform;
+}
 
 .motion-toggle {
   display: inline-flex;

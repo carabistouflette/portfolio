@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import ToolIcon from "./ToolIcon.vue";
 
 interface SkillItem {
@@ -33,6 +33,8 @@ let mediaQuery: MediaQueryList | undefined;
 const catalogRoot = ref<HTMLElement | null>(null);
 const closeTimers = new Map<number, number>();
 const CLOSE_DURATION = 320;
+const moving = ref(new Set<number>());
+const iconFlights = new Map<number, { clones: HTMLElement[]; animations: Animation[] }>();
 
 const projectById = computed(() => new Map(props.projects.map((project) => [project.id, project])));
 const cardMotion = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : { opacity: 1, y: 0, transition: { duration: 0.18, ease: [0.22, 1, 0.36, 1] } });
@@ -41,7 +43,7 @@ const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : 
 const isExpanded = (index: number): boolean => expanded.value.has(index);
 const isOpen = (index: number): boolean => isExpanded(index) || closing.value.has(index);
 
-const toggle = (index: number): void => {
+const applyToggle = (index: number): void => {
   const nextExpanded = new Set(expanded.value);
   const nextClosing = new Set(closing.value);
   const activeTimer = closeTimers.get(index);
@@ -69,6 +71,90 @@ const toggle = (index: number): void => {
   closing.value = nextClosing;
 };
 
+const clearIconFlight = (index: number): void => {
+  const flight = iconFlights.get(index);
+  if (!flight) return;
+  for (const animation of flight.animations) animation.cancel();
+  for (const clone of flight.clones) clone.remove();
+  iconFlights.delete(index);
+  const next = new Set(moving.value);
+  next.delete(index);
+  moving.value = next;
+};
+
+const playIconFlight = async (
+  index: number,
+  sources: HTMLElement[],
+  sourceRects: DOMRect[],
+  targetSelector: string,
+): Promise<void> => {
+  await nextTick();
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+  const details = catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
+  const targets = details ? [...details.querySelectorAll<HTMLElement>(targetSelector)].slice(0, sources.length) : [];
+  if (targets.length !== sources.length) {
+    clearIconFlight(index);
+    return;
+  }
+
+  const clones: HTMLElement[] = [];
+  const animations: Animation[] = [];
+  for (const [iconIndex, source] of sources.entries()) {
+    const targetRect = targets[iconIndex].getBoundingClientRect();
+    const sourceRect = sourceRects[iconIndex];
+    const clone = source.cloneNode(true) as HTMLElement;
+    clone.removeAttribute("data-preview-icon");
+    clone.removeAttribute("data-panel-icon");
+    clone.removeAttribute("style");
+    clone.classList.add("skills-icon-flight");
+    Object.assign(clone.style, {
+      left: `${sourceRect.left}px`,
+      top: `${sourceRect.top}px`,
+      width: `${sourceRect.width}px`,
+      height: `${sourceRect.height}px`,
+    });
+    document.body.appendChild(clone);
+    clones.push(clone);
+    animations.push(clone.animate(
+      [
+        { transform: "translate3d(0, 0, 0)" },
+        { transform: `translate3d(${targetRect.left - sourceRect.left}px, ${targetRect.top - sourceRect.top}px, 0)` },
+      ],
+      { duration: CLOSE_DURATION, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "both" },
+    ));
+  }
+
+  iconFlights.set(index, { clones, animations });
+  await Promise.all(animations.map((animation) => animation.finished.catch(() => undefined)));
+  if (iconFlights.get(index)?.animations === animations) clearIconFlight(index);
+};
+
+const toggle = (index: number): void => {
+  clearIconFlight(index);
+  if (reducedMotion.value) {
+    applyToggle(index);
+    return;
+  }
+
+  const details = catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
+  const opening = !isExpanded(index);
+  const sourceSelector = opening ? "[data-preview-icon]" : "[data-panel-icon]";
+  const targetSelector = opening ? "[data-panel-icon]" : "[data-preview-icon]";
+  const sources = details ? [...details.querySelectorAll<HTMLElement>(sourceSelector)].slice(0, 3) : [];
+  const sourceRects = sources.map((source) => source.getBoundingClientRect());
+  if (!sources.length) {
+    applyToggle(index);
+    return;
+  }
+
+  const next = new Set(moving.value);
+  next.add(index);
+  moving.value = next;
+  applyToggle(index);
+  void playIconFlight(index, sources, sourceRects, targetSelector);
+};
+
 const relatedProjects = (skill: SkillItem): Project[] => skill.projectIds
   .map((projectId) => projectById.value.get(projectId))
   .filter((project): project is Project => Boolean(project));
@@ -93,6 +179,7 @@ onBeforeUnmount(() => {
   mediaQuery?.removeEventListener("change", updateReducedMotion);
   for (const timer of closeTimers.values()) window.clearTimeout(timer);
   closeTimers.clear();
+  for (const index of iconFlights.keys()) clearIconFlight(index);
 });
 </script>
 
@@ -103,7 +190,7 @@ onBeforeUnmount(() => {
       :key="group.label"
       data-motion-catalog
       :open="isOpen(index)"
-      :class="['group min-w-0 rounded-xl border bg-[#07121b]/45', isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60']"
+      :class="['group min-w-0 rounded-xl border bg-[#07121b]/45', isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60', moving.has(index) && 'skills-icons-moving']"
     >
       <summary
         :id="`skills-summary-${index}`"
@@ -123,7 +210,7 @@ onBeforeUnmount(() => {
           </span>
         </div>
         <div :class="['skill-preview mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90', isExpanded(index) && 'hidden']" :aria-hidden="isExpanded(index)">
-          <span v-for="skill in group.items.slice(0, 3)" :key="skill.name" class="inline-flex items-center gap-3"><ToolIcon :name="skill.name" />{{ skill.name }}</span>
+          <span v-for="skill in group.items.slice(0, 3)" :key="skill.name" class="inline-flex items-center gap-3"><span data-preview-icon class="skills-icon-anchor inline-flex shrink-0"><ToolIcon :name="skill.name" /></span>{{ skill.name }}</span>
           <span v-if="group.items.length > 3" class="font-mono text-xs text-muted">+{{ group.items.length - 3 }}</span>
         </div>
       </summary>
@@ -136,7 +223,7 @@ onBeforeUnmount(() => {
         <div class="skills-panel-inner">
           <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
             <li
-              v-for="skill in group.items"
+              v-for="(skill, skillIndex) in group.items"
               :key="skill.name"
               v-motion
               :initial="cardInitial"
@@ -144,7 +231,7 @@ onBeforeUnmount(() => {
               :hovered="reducedMotion ? undefined : { y: -2, borderColor: 'rgba(157, 199, 223, 0.6)' }"
               class="flex min-w-0 flex-col justify-center rounded-md border border-rule/40 bg-[#050d14]/65 px-4 py-3"
             >
-              <div class="flex items-center gap-3"><ToolIcon :name="skill.name" /><span class="break-words font-mono text-sm">{{ skill.name }}</span></div>
+              <div class="flex items-center gap-3"><span :data-panel-icon="skillIndex < 3 ? '' : undefined" class="skills-icon-anchor inline-flex shrink-0"><ToolIcon :name="skill.name" /></span><span class="break-words font-mono text-sm">{{ skill.name }}</span></div>
               <a v-for="project in relatedProjects(skill)" :key="project.id" class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper" :href="project.url || `#project-${project.id}`"><span class="sr-only">{{ props.projectLabel }} </span>{{ project.title }}<span aria-hidden="true">↗</span></a>
             </li>
           </ul>
