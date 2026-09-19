@@ -1003,9 +1003,5 @@
       console.error(error);
     }
   }
-  if('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => { void init(); }, {timeout:1200});
-  } else {
-    window.setTimeout(() => { void init(); }, 0);
-  }
+  void init();
 })();
