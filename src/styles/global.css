@@ -374,15 +374,15 @@ html[data-page-navigation] .hero-robin-trace path {
   overflow: visible;
   pointer-events: none;
 }
-
 .hero-robin-trace path {
   fill: none;
   stroke: #a9c8db;
-  stroke-width: 7;
+  stroke-width: 1px;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
 }
 
 details[data-disclosure-animating] { overflow: clip; }
@@ -412,6 +412,9 @@ details[data-disclosure-animating] .skill-preview {
 .motion-toggle[aria-pressed="true"]::before {
   background: #a4d4c4;
   box-shadow: 0 0 0 3px rgb(164 212 196 / 0.12);
+}
+@media (min-width: 48rem) {
+  .hero-robin-trace path { stroke-width: 1.5px; }
 }
 
 @media (max-width: 47.999rem) {
