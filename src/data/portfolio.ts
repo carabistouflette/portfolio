@@ -47,9 +47,10 @@ export interface NavigationSection {
 export interface PaginationEvidence {
   heading: string;
   intro: string;
-  inputLabel: string;
   beforeLabel: string;
+  beforeValue: string;
   afterLabel: string;
+  afterValue: string;
   unit: string;
   notice: string;
 }
@@ -83,6 +84,9 @@ export interface CaseStudy {
   question: string;
   kicker: string;
   summary: string;
+  atGlance: { label: string; entries: { label: string; value: string }[] };
+  understandLabel: string;
+  technicalLabel: string;
   role: string;
   roleLabel: string;
   relatedProject?: { label: string; href: string };
@@ -95,6 +99,7 @@ export interface CaseStudy {
   limitations: string[];
   sourcesLabel: string;
   sources: CaseStudySource[];
+  sourcesNote?: string;
   homeLabel: string;
   counterpartLabel: string;
   counterpartPath: string;
@@ -121,9 +126,12 @@ export interface PortfolioContent {
     eyebrow: string;
     summaryTitle: string;
     title: string;
+    headline: string;
     description: string;
+    availability: { label: string; detail: string; note: string };
     academic: string;
     projectsCta: string;
+    cvCta: string;
     contactCta: string;
     motionToggle: string;
   };
@@ -138,9 +146,9 @@ export interface PortfolioContent {
     personal: string;
     profileLabel: string;
     profileUrl: string;
+    selectedContributions: { title: string; url: string; state: string; problem: string; change: string }[];
     github: {
       eyebrow: string;
-      previewIntro: string;
       exploreLabel: string;
       pageTitle: string;
       homeLabel: string;
@@ -212,13 +220,9 @@ export interface PortfolioContent {
   skills: {
     heading: string;
     instruction: string;
-    searchLabel: string;
-    categoryLabel: string;
-    allLabel: string;
-    resetLabel: string;
+    capabilities: { title: string; claim: string; technologies: { name: string; projectId?: ProjectId }[] }[];
+    catalogHeading: string;
     projectLabel: string;
-    resultsLabel: string;
-    emptyLabel: string;
     groups: SkillGroup[];
   };
   personal: {
@@ -242,7 +246,7 @@ export const destinations = {
   email: "mailto:arobin9999@gmail.com",
   linkedin: "https://www.linkedin.com/in/alexis-robin-41703a2ab/",
   brio: "https://brio.build/",
-  cv: "/cv/Alexis-Robin.pdf",
+  cv: "/cv/Alexis-Robin-CV-2026.pdf",
 } as const;
 
 export const portfolio: Record<Locale, PortfolioContent> = {
@@ -272,10 +276,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       eyebrow: "IA & systèmes logiciels",
       summaryTitle: "Sous le nom de carabistouflette",
       title: "Alexis Robin",
+      headline: "Agents IA & systèmes de données",
       description:
         "Je développe des systèmes d’IA pour explorer des données et retrouver l’information utile.",
-      academic: "Master IA · MIAS · Centrale Lille",
-      projectsCta: "Voir mes projets",
+      availability: {
+        label: "Recherche de stage",
+        detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
+        note: "Alternance possible en M2 à partir de septembre 2027.",
+      },
+      academic: "Master MIAS · IA pour la santé · Centrale Lille",
+      projectsCta: "Voir mes réalisations",
+      cvCta: "Télécharger le CV",
       contactCta: "Me contacter",
       motionToggle: "Pause de l’animation",
     },
@@ -324,9 +335,31 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       personal: "Python en autodidacte, puis C et Rust en explorant Linux. J’aime le logiciel libre.",
       profileLabel: "carabistouflette sur GitHub",
       profileUrl: "https://github.com/carabistouflette",
+      selectedContributions: [
+        {
+          title: "Résultat négatif : late-interaction",
+          url: "https://github.com/brio-labs/maestria/pull/511",
+          state: "Fusionnée · brio-labs/maestria",
+          problem: "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents.",
+          change: "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
+        },
+        {
+          title: "Ingestion vectorielle à l’échelle du document",
+          url: "https://github.com/brio-labs/maestria/pull/485",
+          state: "Fusionnée · brio-labs/maestria",
+          problem: "L’indexation créait un effet par fragment : échanges et écritures multipliés, état difficile à rejouer.",
+          change: "Le travail est regroupé par document : un appel d’embedding par lot, un état rejouable, des contrôles de cohérence conservés.",
+        },
+        {
+          title: "Moteur de recherche : interfaces synchrones",
+          url: "https://github.com/brio-labs/maestria/pull/501",
+          state: "Fusionnée · brio-labs/maestria",
+          problem: "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
+          change: "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
+        },
+      ],
       github: {
         eyebrow: "Contributions & activité",
-        previewIntro: "Un aperçu de mon activité au fil des jours. Les contributions et leur détail se parcourent sur une page dédiée.",
         exploreLabel: "Explorer mon activité GitHub",
         pageTitle: "Contributions & activité GitHub",
         homeLabel: "Retour au portfolio",
@@ -396,7 +429,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       labels: { education: "Formation", experience: "Expérience" },
       invitation: {
         title: "Vous ?",
-        description: "Et si mon prochain stage se faisait dans votre équipe, pendant mon master ?",
+        description: "Je cherche un stage du 22 mars au 21 août 2027, à Montpellier ou Lille. Une alternance en M2 est également possible à partir de septembre 2027.",
         linkLabel: "Proposer un stage",
         start: "2026-master",
         end: "2028",
@@ -448,15 +481,49 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     skills: {
-      heading: "La boîte à outils",
-      instruction: "Des outils utilisés ou explorés, regroupés par usage. Ouvrez un domaine pour parcourir les outils et retrouver leurs liens avec mes projets — sans score de maîtrise.",
-      searchLabel: "Rechercher un outil ou un projet",
-      categoryLabel: "Filtrer par domaine",
-      allLabel: "Tous",
-      resetLabel: "Réinitialiser",
+      heading: "Compétences démontrées",
+      instruction:
+        "Trois domaines structurent ce que je construis. Chaque technologie renvoie au projet où elle a servi. Le catalogue complet reste consultable ci-dessous, regroupé par usage.",
+      capabilities: [
+        {
+          title: "Agents & accès aux données",
+          claim:
+            "Construire le parcours d’une question en langage naturel jusqu’aux données, avec des contrôles explicites à chaque appel d’outil.",
+          technologies: [
+            { name: "Python", projectId: "genomint" },
+            { name: "FastAPI", projectId: "genomint" },
+            { name: "Neo4j", projectId: "genomint" },
+            { name: "PostgreSQL", projectId: "genomint" },
+            { name: "Docker", projectId: "genomint" },
+            { name: "Linux", projectId: "genomint" },
+          ],
+        },
+        {
+          title: "Recherche & évaluation",
+          claim:
+            "Retrouver l’information pertinente (BM25, vectoriel, hybride), comparer les approches et documenter ce que les mesures ne prouvent pas.",
+          technologies: [
+            { name: "Rust", projectId: "maestria" },
+            { name: "SQLite", projectId: "maestria" },
+            { name: "SigLIP", projectId: "maestria" },
+            { name: "RapidOCR", projectId: "maestria" },
+          ],
+        },
+        {
+          title: "Ingénierie & déploiement",
+          claim:
+            "Organiser les services, borner les coûts, automatiser la livraison et expliquer les compromis d’exploitation.",
+          technologies: [
+            { name: "Podman", projectId: "genomint" },
+            { name: "Helm", projectId: "genomint" },
+            { name: "K3s", projectId: "genomint" },
+            { name: "GitLab CI/CD", projectId: "genomint" },
+            { name: "GitHub Actions", projectId: "genomint" },
+          ],
+        },
+      ],
+      catalogHeading: "Le catalogue complet",
       projectLabel: "Voir dans le projet",
-      resultsLabel: "{count} / {total} outils",
-      emptyLabel: "Aucun outil ne correspond à cette recherche dans ce domaine.",
       groups: [
         { label: "Langages", description: "Écrire la logique, des scripts aux applications et aux systèmes.", items: [
           { name: "Python", projectIds: ["genomint"] },
@@ -589,10 +656,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       eyebrow: "AI & software systems",
       summaryTitle: "Under the name carabistouflette",
       title: "Alexis Robin",
+      headline: "AI agents & data systems",
       description:
         "I build AI systems to explore data and find useful information.",
-      academic: "Master’s in AI · MIAS · Centrale Lille",
-      projectsCta: "Explore the work",
+      availability: {
+        label: "Seeking an internship",
+        detail: "22 March – 21 August 2027 · Montpellier or Lille",
+        note: "Apprenticeship (M2) possible from September 2027.",
+      },
+      academic: "MIAS master’s in AI for health · Centrale Lille",
+      projectsCta: "See the work",
+      cvCta: "Download CV",
       contactCta: "Get in touch",
       motionToggle: "Pause animation",
     },
@@ -607,7 +681,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "At CIRAD, I connected AI agents to a genomic knowledge graph. My work covered orchestration, Python services and data access.",
           technologies: "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
-          linkLabel: "Read the dossier",
+          linkLabel: "Read the case study",
         },
         {
           id: "maestria",
@@ -616,7 +690,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "As part of Brio, I contribute to this Rust runtime connecting local files, retrieval, memory and tasks. My work includes the search engine, vector ingestion and visual-document evaluation.",
           technologies: "Rust · Tantivy · SQLite · Dioxus",
           url: "/en/projects/maestria/",
-          linkLabel: "Read the dossier",
+          linkLabel: "Read the case study",
         },
         {
           id: "encrypted-voting",
@@ -641,9 +715,31 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       personal: "Self-taught Python, then C and Rust through Linux. I love open source.",
       profileLabel: "carabistouflette on GitHub",
       profileUrl: "https://github.com/carabistouflette",
+      selectedContributions: [
+        {
+          title: "Negative result: late-interaction",
+          url: "https://github.com/brio-labs/maestria/pull/511",
+          state: "Merged · brio-labs/maestria",
+          problem: "A retrieval lane that looked attractive on paper: better passage ranking for agents.",
+          change: "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
+        },
+        {
+          title: "Per-document vector ingestion",
+          url: "https://github.com/brio-labs/maestria/pull/485",
+          state: "Merged · brio-labs/maestria",
+          problem: "Indexing created one effect per chunk: multiplied exchanges and writes, state that was hard to replay.",
+          change: "Work is grouped per document: one batch embedding call, replayable state, consistency checks preserved.",
+        },
+        {
+          title: "Search engine: synchronous interfaces",
+          url: "https://github.com/brio-labs/maestria/pull/501",
+          state: "Merged · brio-labs/maestria",
+          problem: "An asynchronous façade imposed complexity the actual work did not require.",
+          change: "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
+        },
+      ],
       github: {
         eyebrow: "Contributions & activity",
-        previewIntro: "A day-by-day look at my activity. Explore contributions and their details on a dedicated page.",
         exploreLabel: "Explore my GitHub activity",
         pageTitle: "GitHub contributions & activity",
         homeLabel: "Back to portfolio",
@@ -713,7 +809,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       labels: { education: "Education", experience: "Experience" },
       invitation: {
         title: "You?",
-        description: "Could my next internship be with your team, during my master’s programme?",
+        description: "I’m looking for an internship from 22 March to 21 August 2027, in Montpellier or Lille. An M2 apprenticeship is also possible from September 2027.",
         linkLabel: "Discuss an internship",
         start: "2026-master",
         end: "2028",
@@ -760,20 +856,54 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           period: "2023–2026",
           start: "2023",
           end: "2026-master",
-          detail: "Network deployment and security",
+          detail: "French three-year bachelor’s-equivalent degree · network deployment and security",
         },
       ],
     },
     skills: {
-      heading: "The toolbox",
-      instruction: "Tools I’ve used or explored, grouped by purpose. Open a domain to browse its tools and follow their links to my projects — without proficiency scores.",
-      searchLabel: "Find a tool or project",
-      categoryLabel: "Filter by field",
-      allLabel: "All",
-      resetLabel: "Reset",
+      heading: "Demonstrated skills",
+      instruction:
+        "Three areas structure what I build. Each technology links to the project where it was used. The full catalog remains below, grouped by purpose.",
+      capabilities: [
+        {
+          title: "Agents & data access",
+          claim:
+            "Build the path from a natural-language question to the data, with explicit controls on every tool call.",
+          technologies: [
+            { name: "Python", projectId: "genomint" },
+            { name: "FastAPI", projectId: "genomint" },
+            { name: "Neo4j", projectId: "genomint" },
+            { name: "PostgreSQL", projectId: "genomint" },
+            { name: "Docker", projectId: "genomint" },
+            { name: "Linux", projectId: "genomint" },
+          ],
+        },
+        {
+          title: "Retrieval & evaluation",
+          claim:
+            "Retrieve the relevant information (BM25, vector, hybrid), compare approaches and document what measurements do not prove.",
+          technologies: [
+            { name: "Rust", projectId: "maestria" },
+            { name: "SQLite", projectId: "maestria" },
+            { name: "SigLIP", projectId: "maestria" },
+            { name: "RapidOCR", projectId: "maestria" },
+          ],
+        },
+        {
+          title: "Engineering & deployment",
+          claim:
+            "Organize services, bound costs, automate delivery and explain operational trade-offs.",
+          technologies: [
+            { name: "Podman", projectId: "genomint" },
+            { name: "Helm", projectId: "genomint" },
+            { name: "K3s", projectId: "genomint" },
+            { name: "GitLab CI/CD", projectId: "genomint" },
+            { name: "GitHub Actions", projectId: "genomint" },
+          ],
+        },
+      ],
+      catalogHeading: "The full catalog",
       projectLabel: "See in project",
-      resultsLabel: "{count} / {total} tools",
-      emptyLabel: "No tools match this search in this field.",
       groups: [
         { label: "Languages", description: "Write the logic, from scripts to applications and systems.", items: [
           { name: "Python", projectIds: ["genomint"] },
@@ -888,6 +1018,20 @@ const genomintFr: CaseStudy = {
   kicker: "CIRAD · stage 2026 · système agentique pour graphe génomique",
   summary:
     "Les biologistes posent une question sur Ganoderma. L’agent consulte le schéma du graphe, appelle les outils de requête et restitue des gènes et leurs annotations. Derrière ce parcours : des conversations persistées, des accès contrôlés et des exports réutilisables.",
+  atGlance: {
+    label: "Le projet en bref",
+    entries: [
+      { label: "Contexte", value: "Stage au CIRAD · UMR AGAP (Montpellier) · sujet officiel : un chatbot LLM qui génère des requêtes Cypher en langage naturel" },
+      { label: "Période", value: "20 avril – 7 août 2026" },
+      { label: "Équipe", value: "Encadrante : Létizia Camus-Kulandaivelu · interface web portée par Théodore de Boisseson" },
+      { label: "Ma part", value: "Orchestration agentique, services Python, accès aux données, sécurité, déploiement" },
+      { label: "État", value: "Stage achevé · code fermé pendant la préparation de la publication" },
+      { label: "Valorisation", value: "Publication scientifique issue du stage en préparation · co-auteur" },
+      { label: "Démonstration", value: "Trace réelle : question → outils → réponse sourcée" },
+    ],
+  },
+  understandLabel: "Comprendre le projet",
+  technicalLabel: "Examiner les choix techniques",
   role:
     "J’ai travaillé sur l’orchestration Pi, les services Python, les parcours et exports Neo4j, la sécurité et le déploiement. Théodore DE BOISSESON portait principalement l’interface web ; nous avons partagé l’intégration et les contrats d’API.",
   roleLabel: "Périmètre personnel",
@@ -910,8 +1054,9 @@ const genomintFr: CaseStudy = {
     heading: "Un calcul de pagination, pas un benchmark",
     intro:
       "Pour les 15 615 segments du cas de régression décrit au §5.2.1, la pagination passe arithmétiquement de 16 pages de 1 000 à 2 pages de 10 000.",
-    inputLabel: "Segments",
+    beforeValue: "16",
     beforeLabel: "Avant · 1 000 / page",
+    afterValue: "2",
     afterLabel: "Après · 10 000 / page",
     unit: "pages",
     notice:
@@ -976,9 +1121,11 @@ const genomintFr: CaseStudy = {
     { label: "Rapport de stage · §5.2.1–5.2.4 · exports et coûts structurels", detail: "Pagination, parcours sélectionnés et limites des gains." },
     { label: "Rapport de stage · §5.3 et §5.4 · sécurité et livraison", detail: "Contrôles Cypher, Helm, K3s et vérifications post-déploiement." },
   ],
+  sourcesNote:
+    "Le rapport de stage n’est pas public (sa diffusion relève de l’autorisation du CIRAD) et l’attestation de stage contient des données personnelles qui ne sont pas republiées. Le code reste fermé pendant la préparation de la publication scientifique, qui créditera cette contribution ; les sections citées du rapport indiquent en attendant où chaque preuve est documentée.",
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
-  counterpartPath: "/en/projects/genomint/",
+  counterpartPath: "/projets/genomint/",
   languageLabel: "Changer de langue",
 };
 
@@ -988,6 +1135,20 @@ const genomintEn: CaseStudy = {
   kicker: "CIRAD · 2026 internship · agentic genomics graph workbench",
   summary:
     "Biologists ask a question about Ganoderma. The agent inspects the graph schema, calls query tools and returns genes and annotations. Behind that interaction: persistent conversations, controlled access and reusable biological exports.",
+  atGlance: {
+    label: "The project at a glance",
+    entries: [
+      { label: "Context", value: "Internship at CIRAD · UMR AGAP (Montpellier) · official topic: an LLM chatbot generating Cypher queries from natural language" },
+      { label: "Period", value: "20 April – 7 August 2026" },
+      { label: "Team", value: "Supervisor: Létizia Camus-Kulandaivelu · web interface built by Théodore de Boisseson" },
+      { label: "My part", value: "Agent orchestration, Python services, data access, security, deployment" },
+      { label: "Status", value: "Internship completed · code closed while the research publication is in preparation" },
+      { label: "Output", value: "Research publication from this internship in preparation · co-author" },
+      { label: "Demonstration", value: "Real trace: question → tools → sourced answer" },
+    ],
+  },
+  understandLabel: "Understand the project",
+  technicalLabel: "Examine the technical choices",
   role:
     "I worked on Pi orchestration, Python services, Neo4j traversals and exports, security and deployment. Théodore DE BOISSESON primarily developed the web interface; we shared integration and API contracts.",
   roleLabel: "Personal scope",
@@ -1010,8 +1171,9 @@ const genomintEn: CaseStudy = {
     heading: "A pagination calculation, not a benchmark",
     intro:
       "For the 15,615 segments in the regression case described in §5.2.1, pagination arithmetically moves from 16 pages of 1,000 to 2 pages of 10,000.",
-    inputLabel: "Segments",
+    beforeValue: "16",
     beforeLabel: "Before · 1,000 / page",
+    afterValue: "2",
     afterLabel: "After · 10,000 / page",
     unit: "pages",
     notice:
@@ -1076,6 +1238,8 @@ const genomintEn: CaseStudy = {
     { label: "Internship report · §§5.2.1–5.2.4 · exports and structural cost", detail: "Pagination, selected traversals and limits of the gains." },
     { label: "Internship report · §§5.3 and 5.4 · security and delivery", detail: "Cypher controls, Helm, K3s and post-deployment checks." },
   ],
+  sourcesNote:
+    "The internship report is not public (its release is subject to CIRAD authorization) and the internship certificate contains personal data that is not republished. The code stays closed while the research publication is in preparation; it will credit this contribution. Until then, the cited report sections show where each piece of evidence is documented.",
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
   counterpartPath: "/projets/genomint/",
@@ -1088,6 +1252,19 @@ const maestriaFr: CaseStudy = {
   kicker: "Rust · runtime local-first · en développement",
   summary:
     "Maestria se développe dans le cadre du projet Brio. Il indexe des fichiers, retrouve des passages et relie les preuves aux agents, à la mémoire et aux tâches. L’enjeu dépasse la recherche : conserver le lien entre ce qu’un agent utilise et les sources qui permettent de le vérifier.",
+  atGlance: {
+    label: "Le projet en bref",
+    entries: [
+      { label: "Contexte", value: "Projet open source Brio · runtime local de connaissances et de preuves" },
+      { label: "Depuis", value: "2026 · en développement" },
+      { label: "Ma part", value: "Moteur de recherche, ingestion vectorielle, évaluation des documents visuels" },
+      { label: "État", value: "PR fusionnées jusqu’à #514 · #515 ouverte" },
+      { label: "Décision issue de l’évaluation", value: "La voie visuelle reste expérimentale : 4 des 6 cas dépassent encore le budget de bout en bout malgré l’optimisation du calcul (PR #514)" },
+      { label: "Preuves", value: "PR fusionnées publiques : #411, #485, #493, #501, #507, #511, #514" },
+    ],
+  },
+  understandLabel: "Comprendre le projet",
+  technicalLabel: "Examiner les choix techniques",
   role:
     "Je contribue au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels. Les PR présentées ici montrent des changements fusionnés : simplifier l’exécution, regrouper le travail par document et mesurer les modèles locaux avant d’en autoriser l’usage.",
   roleLabel: "Mon travail",
@@ -1187,6 +1364,19 @@ const maestriaEn: CaseStudy = {
   kicker: "Rust · local-first runtime · in development",
   summary:
     "Maestria is being developed as part of Brio. It indexes files, retrieves passages and connects evidence to agents, memory and tasks. The challenge goes beyond search: preserving the link between what an agent uses and the sources that let someone check it.",
+  atGlance: {
+    label: "The project at a glance",
+    entries: [
+      { label: "Context", value: "Brio open-source project · local knowledge and evidence runtime" },
+      { label: "Since", value: "2026 · in development" },
+      { label: "My part", value: "Search engine, vector ingestion, visual-document evaluation" },
+      { label: "Status", value: "PRs merged through #514 · #515 open" },
+      { label: "Evaluation outcome", value: "The visual lane stays experimental: 4 of 6 cases still exceed the end-to-end budget despite faster inference (PR #514)" },
+      { label: "Evidence", value: "Public merged PRs: #411, #485, #493, #501, #507, #511, #514" },
+    ],
+  },
+  understandLabel: "Understand the project",
+  technicalLabel: "Examine the technical choices",
   role:
     "I contribute to the search engine, vector ingestion and visual-document evaluation. The PRs presented here show merged changes: simplifying execution, batching work by document and measuring local models before allowing their use.",
   roleLabel: "My work",

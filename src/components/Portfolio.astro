@@ -6,7 +6,7 @@ import Hero from "./Hero.astro";
 import SelectedProjects from "./SelectedProjects.astro";
 import SiteHeader from "./SiteHeader.astro";
 import Skills from "./Skills.astro";
-import OpenSource from "./OpenSource.astro";
+import SelectedContributions from "./SelectedContributions.astro";
 import Personal from "./Personal.astro";
 import type { Locale, PortfolioContent } from "../data/portfolio";
 
@@ -24,10 +24,10 @@ const canonicalPath = locale === "fr" ? "/" : "/en/";
     <div class="portfolio-composition">
       <main id="main">
         <Hero content={content} />
-        <OpenSource content={content.openSource} locale={locale} />
         <SelectedProjects content={content} locale={locale} />
-        <Journey content={content} />
         <Skills content={content} />
+        <Journey content={content} />
+        <SelectedContributions content={content} locale={locale} />
         <Personal content={content.personal} />
       </main>
       <Contact content={content} />

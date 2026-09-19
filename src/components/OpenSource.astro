@@ -23,7 +23,7 @@ const json = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c"
       <Heading id="open-source-title" class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight">{detailed ? copy.pageTitle : content.heading}</Heading>
     </div>
     <div>
-      <p class="max-w-[48ch] text-base leading-loose text-muted">{detailed ? content.intro : copy.previewIntro}</p>
+      <p class="max-w-[48ch] text-base leading-loose text-muted">{content.intro}</p>
       <a class="text-link mt-6 inline-flex min-h-11 items-center text-sm underline" href={detailed ? GITHUB_PROFILE_URL : activityPath}>{detailed ? content.profileLabel : copy.exploreLabel}</a>
     </div>
   </header>
