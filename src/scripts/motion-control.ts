@@ -2,6 +2,15 @@ import { onPageLoad } from "./page-lifecycle";
 
 onPageLoad((signal) => {
 const toggle = document.querySelector<HTMLButtonElement>("#motion-toggle");
+const MOTION_STORAGE_KEY = "portfolio.butterflies.paused";
+
+const savePausePreference = (paused: boolean): void => {
+  try {
+    localStorage.setItem(MOTION_STORAGE_KEY, String(paused));
+  } catch {
+    // Storage is optional: private browsing must not disable the control.
+  }
+};
 
 if (toggle) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -24,6 +33,7 @@ if (toggle) {
     }
 
     const nextPaused = !api.getState().paused;
+    savePausePreference(nextPaused);
     toggle.setAttribute("aria-pressed", String(nextPaused));
     if (nextPaused) {
       api.pause();

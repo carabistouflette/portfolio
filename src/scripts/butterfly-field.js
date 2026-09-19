@@ -128,7 +128,9 @@
   }
 
   let width=1, height=1, dpr=1, time=0, accumulator=0;
-  let birds=[], ordered=[], raf=0, lastTimestamp=0, paused=false, destroyed=false;
+  const MOTION_STORAGE_KEY='portfolio.butterflies.paused';
+  const storedPausePreference=(()=>{try{return localStorage.getItem(MOTION_STORAGE_KEY)==='true';}catch{return false;}})();
+  let birds=[], ordered=[], raf=0, lastTimestamp=0, paused=storedPausePreference, destroyed=false;
   let ready=false, lost=false, renderer=null, images=null;
   let cameraY=window.scrollY;
   const VARIANT_COUNT = ASSET_SETS ? ASSET_SETS.length : 0;
@@ -995,8 +997,7 @@
       addEventListener('scroll',scrollChange,{passive:true});
       document.addEventListener('visibilitychange',visibilityChange);
       reducedQuery.addEventListener('change',motionChange);
-      canvas.addEventListener('webglcontextlost',contextLost,false);canvas.addEventListener('webglcontextrestored',contextRestored,false);
-      if(renderer){renderer.draw(time);play();}else drawFallback();
+      if(renderer){renderer.draw(time);if(!paused)play();}
       dispatchEvent(new Event('butterflyfieldready'));
     }catch(error){
       console.error(error);
