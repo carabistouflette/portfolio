@@ -29,6 +29,7 @@ const expanded = ref(new Set<number>());
 const hydrated = ref(false);
 const reducedMotion = ref(false);
 let mediaQuery: MediaQueryList | undefined;
+const catalogRoot = ref<HTMLElement | null>(null);
 
 const projectById = computed(() => new Map(props.projects.map((project) => [project.id, project])));
 const motionTransition = computed(() => reducedMotion.value ? { duration: 0 } : { duration: 0.32, ease: [0.22, 1, 0.36, 1] });
@@ -37,10 +38,11 @@ const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : 
 
 const isExpanded = (index: number): boolean => expanded.value.has(index);
 
-const toggle = (index: number): void => {
+const syncExpanded = (index: number, event: Event): void => {
+  const details = event.currentTarget as HTMLDetailsElement;
   const next = new Set(expanded.value);
-  if (next.has(index)) next.delete(index);
-  else next.add(index);
+  if (details.open) next.add(index);
+  else next.delete(index);
   expanded.value = next;
 };
 
@@ -53,6 +55,11 @@ const updateReducedMotion = (): void => {
 };
 
 onMounted(() => {
+  const initialExpanded = new Set<number>();
+  catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details").forEach((details, index) => {
+    if (details.open) initialExpanded.add(index);
+  });
+  expanded.value = initialExpanded;
   mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   updateReducedMotion();
   mediaQuery.addEventListener("change", updateReducedMotion);
@@ -65,12 +72,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="mt-6 grid items-start gap-6 lg:grid-cols-2">
+  <div ref="catalogRoot" class="mt-6 grid items-start gap-6 lg:grid-cols-2">
     <details
       v-for="(group, index) in props.groups"
       :key="group.label"
       data-motion-catalog
-      :open="isExpanded(index)"
+      @toggle="syncExpanded(index, $event)"
       :class="['group min-w-0 rounded-xl border bg-[#07121b]/45', isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60']"
     >
       <summary
@@ -78,7 +85,6 @@ onBeforeUnmount(() => {
         :aria-controls="`skills-panel-${index}`"
         :aria-expanded="hydrated ? isExpanded(index) : undefined"
         class="cursor-pointer list-none rounded-xl p-6 focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 sm:p-8 [&::-webkit-details-marker]:hidden"
-        @click.prevent="toggle(index)"
       >
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0">
