@@ -5,7 +5,7 @@ const { content } = Astro.props;
 ---
 <section id="personal" class="section-shell content-shell" aria-labelledby="personal-title">
   <div class="grid items-center gap-12 border-t border-rule/60 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-24 lg:pt-20">
-    <figure class="m-0 min-w-0 overflow-hidden rounded-sm border border-rule/40 bg-ink">
+    <figure data-parallax-photo class="personal-photo m-0 min-w-0 overflow-hidden rounded-sm border border-rule/40 bg-ink">
       <img
         src="/images/forest-stream-1180.webp"
         srcset="/images/forest-stream-590.webp 590w, /images/forest-stream-1180.webp 1180w"
@@ -15,7 +15,7 @@ const { content } = Astro.props;
         alt={content.photoAlt}
         loading="lazy"
         decoding="async"
-        class="block h-auto w-full"
+        class="personal-photo-image block h-auto w-full"
       />
     </figure>
     <div class="min-w-0">
