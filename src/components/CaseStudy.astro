@@ -15,25 +15,6 @@ const homePath = locale === "fr" ? "/" : "/en/";
 const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
 
 ---
-<header class="content-shell grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 py-5 text-sm">
-  <a class="font-medium tracking-tight no-underline hover:underline" href={homePath}>Alexis Robin</a>
-  <div class="flex items-center gap-5 justify-self-end">
-  <nav class="flex items-center gap-3 justify-self-end" aria-label={study.languageLabel}>
-    <a
-      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-      href={locale === "fr" ? study.path : counterpartPath}
-      aria-current={locale === "fr" ? "page" : undefined}
-    >FR</a>
-    <span class="text-rule" aria-hidden="true">/</span>
-    <a
-      class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-      href={locale === "en" ? study.path : counterpartPath}
-      aria-current={locale === "en" ? "page" : undefined}
-    >EN</a>
-  </nav>
-  </div>
-</header>
-
 <main id="main">
   <article class="content-shell pb-20 pt-10 sm:pb-28 sm:pt-16">
     <header class="max-w-5xl">

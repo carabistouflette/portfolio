@@ -10,12 +10,6 @@ const homePath = locale === "fr" ? "/" : "/en/";
 const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
 ---
 <BaseLayout locale={locale} content={content} canonicalPath={paths[locale]} alternatePaths={paths} meta={{ title: `${copy.pageTitle} — Alexis Robin`, description: content.openSource.intro }}>
-  <header class="content-shell grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 py-5 text-sm">
-    <a class="font-medium tracking-tight no-underline hover:underline" href={homePath}>Alexis Robin</a>
-    <nav class="flex items-center gap-3" aria-label={content.localeLabel}>
-      {Object.entries(paths).map(([language, path]) => <a class="inline-flex min-h-11 items-center justify-center text-muted no-underline hover:text-paper hover:underline aria-[current=page]:text-paper aria-[current=page]:underline" href={path} aria-current={locale === language ? "page" : undefined}>{language.toUpperCase()}</a>)}
-    </nav>
-  </header>
   <main id="main">
     <div class="content-shell pb-10 pt-10 sm:pt-16">
       <a class="text-link inline-flex min-h-11 items-center gap-2 text-sm text-muted underline" href={`${homePath}#open-source`}><span aria-hidden="true">←</span>{copy.homeLabel}</a>

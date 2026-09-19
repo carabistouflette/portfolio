@@ -4,13 +4,15 @@ import type { Locale, PortfolioContent } from "../data/portfolio";
 interface Props {
   locale: Locale;
   content: PortfolioContent;
+  homeHref: string;
+  alternatePaths: { fr: string; en: string };
 }
 
-const { locale, content } = Astro.props;
+const { locale, content, homeHref, alternatePaths } = Astro.props;
 ---
-<header class="site-header sticky top-0 z-40 border-b border-rule/70 bg-ink/90 backdrop-blur-xl">
+<header class="site-header sticky top-0 z-40 border-b border-rule/70 bg-ink/90 backdrop-blur-xl" transition:name="site-header" transition:animate="none">
   <div class="header-inner content-shell">
-    <a class="header-signature" href="#main" aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}>
+    <a class="header-signature" href={`${homeHref}#main`} aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}>
       <img class="header-butterfly" src="/butterflies/home.png" alt="" width="925" height="770" />
     </a>
     <button class="header-menu-toggle" type="button" aria-expanded="false" aria-controls="header-menu" hidden>
@@ -30,7 +32,7 @@ const { locale, content } = Astro.props;
           <li>
             <a
               class="header-section-link"
-              href={`#${section.id}`}
+              href={`${homeHref}#${section.id}`}
               data-nav-link
             >{section.label}
             </a>
@@ -44,13 +46,13 @@ const { locale, content } = Astro.props;
     >
       <a
         class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-        href="/"
+        href={alternatePaths.fr}
         aria-current={locale === "fr" ? "page" : undefined}
       >{content.localeSwitch.fr}</a>
       <span class="text-rule" aria-hidden="true">/</span>
       <a
         class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
-        href="/en/"
+        href={alternatePaths.en}
         aria-current={locale === "en" ? "page" : undefined}
       >{content.localeSwitch.en}</a>
     </nav>
@@ -58,6 +60,9 @@ const { locale, content } = Astro.props;
   </div>
 </header>
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
+
+  onPageLoad((signal) => {
   const header = document.querySelector<HTMLElement>(".site-header");
   const toggle = header?.querySelector<HTMLButtonElement>(".header-menu-toggle");
   const menu = header?.querySelector<HTMLElement>("#header-menu");
@@ -100,14 +105,14 @@ const { locale, content } = Astro.props;
         setOpen(false);
         toggle.focus();
       }
-    });
+    }, { signal });
     document.addEventListener("click", (event) => {
       if (event.target instanceof Node && !header.contains(event.target)) setOpen(false);
-    });
+    }, { signal });
     header.addEventListener("focusout", (event) => {
       if (event.relatedTarget instanceof Node && !header.contains(event.relatedTarget)) setOpen(false);
     });
-    mobile.addEventListener("change", syncViewport);
+    mobile.addEventListener("change", syncViewport, { signal });
   }
 
   const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
@@ -137,7 +142,9 @@ const { locale, content } = Astro.props;
       },
       { rootMargin: "-35% 0px -55% 0px", threshold: [0, 0.2, 0.5, 1] },
     );
+    signal.addEventListener("abort", () => observer.disconnect(), { once: true });
 
     sections.forEach((section) => observer.observe(section));
   }
+  });
 </script>

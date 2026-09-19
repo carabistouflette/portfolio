@@ -1,6 +1,9 @@
 import type { PortfolioContent } from "../data/portfolio";
 import { GITHUB_SNAPSHOT_URL, validateGitHubSnapshot, type GitHubSnapshot, type PRScope } from "../lib/github";
 import { initGitHubCalendar } from "./github-calendar";
+import { onPageLoad } from "./page-lifecycle";
+
+onPageLoad((signal) => {
 
 const root = document.querySelector<HTMLElement>("[data-github-activity]");
 
@@ -92,9 +95,10 @@ if (root) {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 10_000);
     try {
-      const response = await fetch(GITHUB_SNAPSHOT_URL, { signal: controller.signal, credentials: "omit", referrerPolicy: "no-referrer", cache: "no-store" });
+      const response = await fetch(GITHUB_SNAPSHOT_URL, { signal: AbortSignal.any([controller.signal, signal]), credentials: "omit", referrerPolicy: "no-referrer", cache: "no-store" });
       if (!response.ok) throw new Error(`GitHub snapshot: HTTP ${response.status}`);
       const next = validateGitHubSnapshot(await response.json());
+      if (signal.aborted) return;
       applySnapshot(next);
       try {
         localStorage.setItem(cacheKey, JSON.stringify({ checkedAt: Date.now(), snapshot }));
@@ -103,6 +107,7 @@ if (root) {
       }
       setStatus(copy.refreshedLabel);
     } catch {
+      if (signal.aborted) return;
       setStatus(copy.updateFailedLabel);
     } finally {
       window.clearTimeout(timeout);
@@ -135,3 +140,4 @@ if (root) {
   }
   if (!recentlyChecked) void synchronize();
 }
+});

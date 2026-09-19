@@ -1,3 +1,6 @@
+import { onPageLoad } from "./page-lifecycle";
+
+onPageLoad((signal) => {
 const toggle = document.querySelector<HTMLButtonElement>("#motion-toggle");
 
 if (toggle) {
@@ -29,8 +32,9 @@ if (toggle) {
     }
   };
 
-  toggle.addEventListener("click", toggleMotion);
-  reducedMotion.addEventListener("change", syncControl);
-  window.addEventListener("butterflyfieldready", syncControl);
+  toggle.addEventListener("click", toggleMotion, { signal });
+  reducedMotion.addEventListener("change", syncControl, { signal });
+  window.addEventListener("butterflyfieldready", syncControl, { signal });
   syncControl();
 }
+});

@@ -47,9 +47,9 @@ const projects = new Map(content.projects.entries.map((project) => [project.id, 
               <h4 class="text-xl font-medium tracking-tight sm:text-2xl">{group.label}</h4>
               <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted">{group.description}</p>
             </div>
-            <span class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]" aria-hidden="true"><span class="font-mono text-xs">{group.items.length}</span><span class="text-2xl leading-none group-open:rotate-45">+</span></span>
+            <span class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]" aria-hidden="true"><span class="font-mono text-xs">{group.items.length}</span><span class="disclosure-mark text-2xl leading-none group-open:rotate-45">+</span></span>
           </div>
-          <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90 group-open:hidden" aria-hidden="true">{group.items.slice(0, 3).map((skill) => <span class="inline-flex items-center gap-3"><ToolIcon name={skill.name} />{skill.name}</span>)}<span class="font-mono text-xs text-muted">+{group.items.length - 3}</span></div>
+          <div class="skill-preview mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90 group-open:hidden" aria-hidden="true">{group.items.slice(0, 3).map((skill) => <span class="inline-flex items-center gap-3"><ToolIcon name={skill.name} />{skill.name}</span>)}<span class="font-mono text-xs text-muted">+{group.items.length - 3}</span></div>
         </summary>
         <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
           {group.items.map((skill) => {

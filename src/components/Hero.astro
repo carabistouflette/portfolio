@@ -12,7 +12,7 @@ const nameLines = content.hero.title.split(" ");
   <div class="hero-cat-layer pointer-events-none absolute inset-0 z-0 overflow-clip" aria-hidden="true">
     <img src="/images/hero-cat.webp" alt="" width="981" height="1204" fetchpriority="high" decoding="async" class="hero-cat absolute top-4 left-[45%] w-[55%] max-w-none opacity-90 md:top-10 md:left-[56%] md:w-[30%] lg:top-8 lg:left-[60%] lg:w-[28%] [@media(max-height:820px)]:lg:top-6 [@media(max-height:820px)]:lg:w-[22%]" />
   </div>
-  <div class="relative z-10 min-w-0">
+  <div class="hero-copy relative z-10 min-w-0">
     <p class="eyebrow mb-0 max-w-[24ch]">{content.hero.eyebrow}</p>
     <h1 id="hero-title" aria-label={content.hero.title} class="mt-2 font-display text-[clamp(5.25rem,18vw,17rem)] leading-[0.82] tracking-[-0.065em]">
       {nameLines.map((line, index) => <span aria-hidden="true" class:list={["block", index > 0 && "ml-[0.12em] mt-3 text-transparent [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db] forced-colors:text-[CanvasText]"]}>{line}</span>)}
@@ -22,11 +22,11 @@ const nameLines = content.hero.title.split(" ");
     <p class="hero-availability-note mt-1 text-sm leading-relaxed text-muted">{content.hero.availability.note}</p>
     <p class="hero-academic academic-line mt-4 max-w-[32ch] text-base font-medium leading-relaxed text-muted sm:text-lg">{content.hero.academic}</p>
   </div>
-  <aside class="relative z-10 min-w-0 md:pt-[26rem] lg:pt-[32rem] [@media(max-height:820px)]:lg:pt-56" aria-label={content.hero.summaryTitle}>
+  <aside class="hero-summary relative z-10 min-w-0 md:pt-[26rem] lg:pt-[32rem] [@media(max-height:820px)]:lg:pt-56" aria-label={content.hero.summaryTitle}>
     <p class="max-w-[40ch] text-[clamp(1.35rem,2.2vw,1.75rem)] leading-snug tracking-tight text-pretty">{content.hero.description}</p>
     <p class="hero-personal mt-6 max-w-[40ch] text-sm leading-relaxed text-muted sm:text-base">{content.openSource.personal}</p>
   </aside>
-  <div class="relative z-10 flex flex-wrap items-center gap-x-8 gap-y-5 md:col-span-2">
+  <div class="hero-actions relative z-10 flex flex-wrap items-center gap-x-8 gap-y-5 md:col-span-2">
     <a class="group inline-flex min-h-14 items-center gap-8 border-b border-paper text-base" href={`#${content.navigation.sections.projects.id}`}>
       {content.hero.projectsCta}<span class="text-2xl motion-safe:transition-transform motion-safe:group-hover:translate-y-1" aria-hidden="true">↓</span>
     </a>
