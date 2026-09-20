@@ -23,7 +23,6 @@ const glyphs = [
   },
 ] as const;
 
-const ease = [0.22, 1, 0.36, 1] as const;
 const hydrated = ref(false);
 const reducedMotion = ref(false);
 let mediaQuery: MediaQueryList | undefined;

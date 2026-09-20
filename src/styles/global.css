@@ -587,7 +587,7 @@ details[data-disclosure-animating] .skill-preview {
     animation: title-blur-enter 3s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .hero-robin-trace-active path {
-    animation: robin-stroke 4s linear both;
+    animation: robin-stroke 4s cubic-bezier(0.65, 0, 0.35, 1) both;
   }
 
   .hero-copy > :nth-child(n + 3) { animation-delay: 70ms; }
