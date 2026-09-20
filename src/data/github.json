@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-09-19T23:08:25.981Z",
+  "updatedAt": "2026-09-20T01:11:39.223Z",
   "pullRequests": {
     "recent": [
       {
@@ -149,44 +149,9 @@
     }
   ],
   "calendar": {
-    "from": "2025-09-14",
-    "to": "2026-09-19",
+    "from": "2025-09-21",
+    "to": "2026-09-20",
     "days": [
-      {
-        "date": "2025-09-14",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-09-15",
-        "count": 3,
-        "level": 1
-      },
-      {
-        "date": "2025-09-16",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-09-17",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-09-18",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-09-19",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-09-20",
-        "count": 0,
-        "level": 0
-      },
       {
         "date": "2025-09-21",
         "count": 0,
@@ -2005,6 +1970,11 @@
       {
         "date": "2026-09-19",
         "count": 23,
+        "level": 1
+      },
+      {
+        "date": "2026-09-20",
+        "count": 11,
         "level": 1
       }
     ]
