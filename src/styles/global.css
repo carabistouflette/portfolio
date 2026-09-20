@@ -293,7 +293,7 @@
       right: -1.5rem;
       left: auto !important;
       width: 34% !important;
-      opacity: 1 !important;
+      opacity: 1;
     }
 
     .hero-availability-note,
@@ -361,6 +361,17 @@
 @keyframes title-enter {
   from { opacity: 0.85; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes title-blur-enter {
+  from {
+    opacity: 0;
+    filter: blur(16px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
 }
 .hero-cat-eye {
   position: absolute;
@@ -435,6 +446,10 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
 }
 .hero-robin-trace-active { display: block; }
 .hero-name-fallback-active { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-name-fallback { opacity: 0; }
+}
 .hero-robin-trace path {
   fill: none;
   stroke: #a9c8db;
@@ -550,14 +565,15 @@ details[data-disclosure-animating] .skill-preview {
     animation: content-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .hero-copy > h1 { animation-name: title-enter; }
-  .hero-robin-trace-active path {
-    animation: robin-stroke 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  .hero-name-first {
+    animation: title-blur-enter 2s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .hero-robin-trace-active > g:nth-child(1) path { animation-duration: 2.4s; }
-  .hero-robin-trace-active > g:nth-child(2) path { animation-delay: 160ms; }
-  .hero-robin-trace-active > g:nth-child(3) path { animation-delay: 320ms; }
-  .hero-robin-trace-active > g:nth-child(4) path { animation-delay: 480ms; }
-  .hero-robin-trace-active > g:nth-child(5) path { animation-delay: 640ms; }
+  .hero-cat {
+    animation: title-blur-enter 2s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-robin-trace-active path {
+    animation: robin-stroke 2s linear both;
+  }
 
   .hero-copy > :nth-child(n + 3) { animation-delay: 70ms; }
   .hero-summary { animation: content-enter 500ms 140ms cubic-bezier(0.22, 1, 0.36, 1) both; }

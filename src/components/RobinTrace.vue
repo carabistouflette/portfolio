@@ -23,7 +23,6 @@ const glyphs = [
   },
 ] as const;
 
-const delays = [0, 0.16, 0.32, 0.48, 0.64];
 const ease = [0.22, 1, 0.36, 1] as const;
 const hydrated = ref(false);
 const reducedMotion = ref(false);
@@ -53,8 +52,10 @@ onBeforeUnmount(() => {
     <svg v-if="animated" class="hero-robin-trace hero-robin-trace-active" viewBox="0 0 2890 1000" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
       <g v-for="(glyph, index) in glyphs" :key="index" :transform="glyph.transform">
         <path
+          v-for="(path, pathIndex) in glyph.d.split(/(?=M)/)"
+          :key="pathIndex"
           pathLength="1"
-          :d="glyph.d"
+          :d="path"
         />
       </g>
     </svg>
