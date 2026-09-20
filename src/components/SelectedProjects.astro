@@ -1,50 +1,140 @@
 ---
-import { caseStudies, type Locale, type PortfolioContent } from "../data/portfolio";
+import {
+  caseStudies,
+  type Locale,
+  type PortfolioContent,
+} from "../data/portfolio";
 import EvidenceFigure from "./EvidenceFigure.astro";
 
-interface Props { content: PortfolioContent; locale: Locale; }
+interface Props {
+  content: PortfolioContent;
+  locale: Locale;
+}
 const { content, locale } = Astro.props;
 const genomint = caseStudies[locale].genomint;
 const maestria = caseStudies[locale].maestria;
-const genomintProject = content.projects.entries.find((project) => project.id === "genomint")!;
-const maestriaProject = content.projects.entries.find((project) => project.id === "maestria")!;
-const supplementary = content.projects.entries.filter((project) => project.id !== "genomint" && project.id !== "maestria");
+const genomintProject = content.projects.entries.find(
+  (project) => project.id === "genomint",
+)!;
+const maestriaProject = content.projects.entries.find(
+  (project) => project.id === "maestria",
+)!;
+const supplementary = content.projects.entries.filter(
+  (project) => project.id !== "genomint" && project.id !== "maestria",
+);
 ---
-<section id="projects" class="content-shell pb-20 md:pb-28" aria-labelledby="projects-title">
-  <h2 id="projects-title" class="mb-12 font-display text-[clamp(1.75rem,3vw,2.5rem)] leading-tight md:mb-16">{content.projects.heading}</h2>
-  <article id="project-genomint" class="grid gap-12 bg-[#e7e9e2] px-6 py-12 text-ink target:scroll-mt-6 [&_a:focus-visible]:outline-ink md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16" tabindex="-1">
+
+<section
+  id="projects"
+  class="content-shell pb-20 md:pb-28"
+  aria-labelledby="projects-title"
+>
+  <h2
+    id="projects-title"
+    class="mb-12 font-display text-[clamp(1.75rem,3vw,2.5rem)] leading-tight md:mb-16"
+  >
+    {content.projects.heading}
+  </h2>
+  <article
+    id="project-genomint"
+    class="grid gap-12 bg-[#e7e9e2] px-6 py-12 text-ink target:scroll-mt-6 [&_a:focus-visible]:outline-ink md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16"
+    tabindex="-1"
+  >
     <div class="min-w-0">
-      <p class="font-mono text-xs leading-relaxed text-[#46545b]">{genomint.kicker}</p>
-      <h3 class="mt-5 text-[clamp(2.75rem,5.5vw,5rem)] font-medium leading-none tracking-[-0.06em]"><a class="text-ink" href={genomint.path}>{genomint.title}</a></h3>
-      <p class="mt-6 max-w-[26ch] text-[clamp(1.25rem,2vw,1.75rem)] leading-snug tracking-tight text-balance">{genomint.question}</p>
-      <p class="mt-8 max-w-[43ch] text-base leading-loose text-[#46545b]">{genomintProject.description}</p>
-      <a class="mt-6 inline-flex min-h-11 items-center border-b border-ink text-sm font-medium text-ink" href={genomint.path}>{genomintProject.linkLabel}</a>
+      <p class="font-mono text-xs leading-relaxed text-[#46545b]">
+        {genomint.kicker}
+      </p>
+      <h3 class="mt-5 text-[clamp(2.75rem,5.5vw,5rem)] font-medium leading-none tracking-[-0.06em]">
+        <a class="text-ink" href={genomint.path}>
+          {genomint.title}
+        </a>
+      </h3>
+      <p class="mt-6 max-w-[26ch] text-[clamp(1.25rem,2vw,1.75rem)] leading-snug tracking-tight text-balance">
+        {genomint.question}
+      </p>
+      <p class="mt-8 max-w-[43ch] text-base leading-loose text-[#46545b]">
+        {genomintProject.description}
+      </p>
+      <a
+        class="mt-6 inline-flex min-h-11 items-center border-b border-ink text-sm font-medium text-ink"
+        href={genomint.path}
+      >
+        {genomintProject.linkLabel}
+      </a>
     </div>
     <div class="min-w-0 [&_figcaption]:text-[#46545b]">
       <EvidenceFigure locale={locale} projectId="genomint" compact />
     </div>
   </article>
-  <article id="project-maestria" class="relative my-8 grid gap-12 border-y border-[#87b7dc]/30 bg-linear-to-br from-[#102637]/80 to-[#07121b]/40 px-6 py-12 target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16 lg:p-16" tabindex="-1">
+  <article
+    id="project-maestria"
+    class="relative my-8 grid gap-12 border-y border-[#87b7dc]/30 bg-linear-to-br from-[#102637]/80 to-[#07121b]/40 px-6 py-12 target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16 lg:p-16"
+    tabindex="-1"
+  >
     <div class="min-w-0">
-      {maestria.relatedProject && <a class="text-link mb-7 text-xs uppercase tracking-[0.14em] text-[#abd1ed] underline decoration-[#abd1ed]/40 underline-offset-4" href={maestria.relatedProject.href}>{maestria.relatedProject.label}<span class="ml-2" aria-hidden="true">↗</span></a>}
-      <p class="mb-4 font-mono text-xs leading-relaxed text-muted">{maestria.kicker}</p>
-      <h3 class="font-display text-[clamp(2.75rem,5.5vw,5rem)] leading-none tracking-[-0.05em]"><a href={maestria.path}>{maestria.title}</a></h3>
-      <p class="mt-6 max-w-[25ch] text-[clamp(1.35rem,2.2vw,1.9rem)] leading-snug tracking-tight text-balance">{maestria.question}</p>
-      <p class="mt-8 max-w-[43ch] text-base leading-loose text-muted">{maestriaProject.description}</p>
-      <p class="mt-5 font-mono text-xs leading-relaxed text-[#abd1ed]">{maestriaProject.technologies}</p>
-      <a class="text-link mt-6 border-b border-paper text-sm" href={maestria.path}>{maestriaProject.linkLabel}<span class="ml-3" aria-hidden="true">→</span></a>
+      {maestria.relatedProject && (
+        <a
+          class="text-link mb-7 text-xs uppercase tracking-[0.14em] text-[#abd1ed] underline decoration-[#abd1ed]/40 underline-offset-4"
+          href={maestria.relatedProject.href}
+        >
+          {maestria.relatedProject.label}
+          <span class="ml-2" aria-hidden="true">
+            ↗
+          </span>
+        </a>
+      )}
+      <p class="mb-4 font-mono text-xs leading-relaxed text-muted">
+        {maestria.kicker}
+      </p>
+      <h3 class="font-display text-[clamp(2.75rem,5.5vw,5rem)] leading-none tracking-[-0.05em]">
+        <a href={maestria.path}>{maestria.title}</a>
+      </h3>
+      <p class="mt-6 max-w-[25ch] text-[clamp(1.35rem,2.2vw,1.9rem)] leading-snug tracking-tight text-balance">
+        {maestria.question}
+      </p>
+      <p class="mt-8 max-w-[43ch] text-base leading-loose text-muted">
+        {maestriaProject.description}
+      </p>
+      <p class="mt-5 font-mono text-xs leading-relaxed text-[#abd1ed]">
+        {maestriaProject.technologies}
+      </p>
+      <a
+        class="text-link mt-6 border-b border-paper text-sm"
+        href={maestria.path}
+      >
+        {maestriaProject.linkLabel}
+        <span class="ml-3" aria-hidden="true">
+          →
+        </span>
+      </a>
     </div>
-    <div class="min-w-0"><EvidenceFigure locale={locale} projectId="maestria" compact /></div>
+    <div class="min-w-0">
+      <EvidenceFigure locale={locale} projectId="maestria" compact />
+    </div>
   </article>
   <div class="grid gap-10 pt-8 lg:grid-cols-[1fr_3fr] lg:gap-16">
-    <h3 class="font-mono text-xs leading-relaxed text-muted">{content.projects.otherHeading}</h3>
+    <h3 class="font-mono text-xs leading-relaxed text-muted">
+      {content.projects.otherHeading}
+    </h3>
     <div class="grid gap-12 sm:grid-cols-2 lg:gap-20">
       {supplementary.map((project) => (
-        <article id={`project-${project.id}`} class="min-w-0 target:scroll-mt-8" tabindex="-1">
+        <article
+          id={`project-${project.id}`}
+          class="min-w-0 target:scroll-mt-8"
+          tabindex="-1"
+        >
           <h4 class="text-lg font-medium">{project.title}</h4>
-          <p class="mt-4 text-base leading-loose text-muted">{project.description}</p>
-          <p class="mt-3 font-mono text-xs text-muted">{project.technologies}</p>
-          {project.url && <a class="text-link mt-2 text-sm underline" href={project.url}>{project.linkLabel}</a>}
+          <p class="mt-4 text-base leading-loose text-muted">
+            {project.description}
+          </p>
+          <p class="mt-3 font-mono text-xs text-muted">
+            {project.technologies}
+          </p>
+          {project.url && (
+            <a class="text-link mt-2 text-sm underline" href={project.url}>
+              {project.linkLabel}
+            </a>
+          )}
         </article>
       ))}
     </div>

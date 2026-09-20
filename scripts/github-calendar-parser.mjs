@@ -71,9 +71,10 @@ function parseDate(value) {
 
 function parseTooltip(text, date) {
   const normalized = text.replace(/\s+/g, " ").trim();
-  const dateMatch = /(?:No contributions|[0-9][0-9,]* contribution(?:s)?) on ([A-Za-z]+) (\d{1,2})(?:st|nd|rd|th)\.$/.exec(
-    normalized,
-  );
+  const dateMatch =
+    /(?:No contributions|[0-9][0-9,]* contribution(?:s)?) on ([A-Za-z]+) (\d{1,2})(?:st|nd|rd|th)\.$/.exec(
+      normalized,
+    );
   if (!dateMatch) {
     throw new Error(`Unexpected contribution tooltip: ${normalized}`);
   }
@@ -109,7 +110,10 @@ function parseTooltip(text, date) {
   if (!Number.isSafeInteger(count) || count < 1 || count > 10_000) {
     throw new Error(`Contribution count is out of bounds: ${countText}`);
   }
-  if ((count === 1 && !normalized.includes(" contribution on ")) || (count !== 1 && !normalized.includes(" contributions on "))) {
+  if (
+    (count === 1 && !normalized.includes(" contribution on ")) ||
+    (count !== 1 && !normalized.includes(" contributions on "))
+  ) {
     throw new Error(`Contribution singularity is inconsistent: ${normalized}`);
   }
   return count;
@@ -121,7 +125,9 @@ function isContributionCell(node) {
   }
 
   const attrs = attributes(node);
-  const classes = new Set((attrs.get("class") ?? "").split(/\s+/).filter(Boolean));
+  const classes = new Set(
+    (attrs.get("class") ?? "").split(/\s+/).filter(Boolean),
+  );
   return (
     classes.has("ContributionCalendar-day") ||
     attrs.has("data-date") ||
@@ -131,7 +137,11 @@ function isContributionCell(node) {
 }
 
 export function parseGitHubCalendarHtml(html) {
-  if (typeof html !== "string" || html.length === 0 || html.length > MAX_HTML_BYTES) {
+  if (
+    typeof html !== "string" ||
+    html.length === 0 ||
+    html.length > MAX_HTML_BYTES
+  ) {
     throw new Error("GitHub contribution HTML is empty or too large");
   }
 
@@ -183,7 +193,6 @@ export function parseGitHubCalendarHtml(html) {
       throw new Error(`Unexpected contribution tooltip: ${target}`);
     }
   }
-
 
   const parsedCells = cells
     .map((cell) => ({ ...cell, timestamp: parseDate(cell.date) }))

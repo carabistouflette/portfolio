@@ -29,9 +29,24 @@ function validSnapshot() {
 
 test("calendar parser orders cells and preserves actual boundaries", () => {
   const html = [
-    calendarCell("2026-01-02", "contribution-day-component-2", 1, "2 contributions on January 2nd."),
-    calendarCell("2026-01-01", "contribution-day-component-1", 0, "No contributions on January 1st."),
-    calendarCell("2026-01-03", "contribution-day-component-3", 0, "No contributions on January 3rd."),
+    calendarCell(
+      "2026-01-02",
+      "contribution-day-component-2",
+      1,
+      "2 contributions on January 2nd.",
+    ),
+    calendarCell(
+      "2026-01-01",
+      "contribution-day-component-1",
+      0,
+      "No contributions on January 1st.",
+    ),
+    calendarCell(
+      "2026-01-03",
+      "contribution-day-component-3",
+      0,
+      "No contributions on January 3rd.",
+    ),
   ].join("");
 
   assert.deepEqual(parseGitHubCalendarHtml(html), {
@@ -46,21 +61,29 @@ test("calendar parser orders cells and preserves actual boundaries", () => {
 });
 
 test("calendar parser rejects missing tooltips and date gaps", () => {
-  assert.throws(
-    () =>
-      parseGitHubCalendarHtml(
-        '<td class="ContributionCalendar-day" id="contribution-day-component-1" data-date="2026-01-01" data-level="0"></td>',
-      ),
+  assert.throws(() =>
+    parseGitHubCalendarHtml(
+      '<td class="ContributionCalendar-day" id="contribution-day-component-1" data-date="2026-01-01" data-level="0"></td>',
+    ),
   );
 
-  assert.throws(
-    () =>
-      parseGitHubCalendarHtml(
-        [
-          calendarCell("2026-01-01", "contribution-day-component-1", 0, "No contributions on January 1st."),
-          calendarCell("2026-01-03", "contribution-day-component-3", 0, "No contributions on January 3rd."),
-        ].join(""),
-      ),
+  assert.throws(() =>
+    parseGitHubCalendarHtml(
+      [
+        calendarCell(
+          "2026-01-01",
+          "contribution-day-component-1",
+          0,
+          "No contributions on January 1st.",
+        ),
+        calendarCell(
+          "2026-01-03",
+          "contribution-day-component-3",
+          0,
+          "No contributions on January 3rd.",
+        ),
+      ].join(""),
+    ),
   );
 });
 
@@ -91,21 +114,20 @@ test("snapshot validator rejects hostile pull-request URLs", () => {
 });
 
 test("sync parser rejects search results authored by another login", () => {
-  assert.throws(
-    () =>
-      toPullRequest({
-        user: { login: "another-account" },
-        repository_url: "https://api.github.com/repos/example/project",
-        number: 7,
-        title: "Public pull request",
-        html_url: "https://github.com/example/project/pull/7",
-        created_at: "2026-01-01T00:00:00Z",
-        updated_at: "2026-01-01T00:00:00Z",
-        state: "open",
-        draft: false,
-        author_association: "NONE",
-        pull_request: { merged_at: null },
-      }),
+  assert.throws(() =>
+    toPullRequest({
+      user: { login: "another-account" },
+      repository_url: "https://api.github.com/repos/example/project",
+      number: 7,
+      title: "Public pull request",
+      html_url: "https://github.com/example/project/pull/7",
+      created_at: "2026-01-01T00:00:00Z",
+      updated_at: "2026-01-01T00:00:00Z",
+      state: "open",
+      draft: false,
+      author_association: "NONE",
+      pull_request: { merged_at: null },
+    }),
   );
 });
 
@@ -160,7 +182,12 @@ test("snapshot validator accepts dynamic featured pull requests", () => {
 
 test("snapshot validator rejects malformed or duplicated featured pull requests", () => {
   const malformed = validSnapshot();
-  malformed.featured = [{ ...featuredPullRequest(), url: "https://evil.example/brio-labs/maestria/pull/485" }];
+  malformed.featured = [
+    {
+      ...featuredPullRequest(),
+      url: "https://evil.example/brio-labs/maestria/pull/485",
+    },
+  ];
   assert.throws(() => validateGitHubSnapshot(malformed));
   const duplicated = validSnapshot();
   duplicated.featured = [featuredPullRequest(), featuredPullRequest()];

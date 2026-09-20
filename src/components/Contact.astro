@@ -1,5 +1,9 @@
 ---
-import { destinations, type Locale, type PortfolioContent } from "../data/portfolio";
+import {
+  destinations,
+  type Locale,
+  type PortfolioContent,
+} from "../data/portfolio";
 
 interface Props {
   content: PortfolioContent;
@@ -15,12 +19,22 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
 
 <div class="contact-and-footer relative">
   <!-- Contact Section -->
-  <section id={section.id} class="contact-section section-shell content-shell text-left scroll-mt-24 pt-16 md:pt-24" aria-labelledby="contact-title">
+  <section
+    id={section.id}
+    class="contact-section section-shell content-shell text-left scroll-mt-24 pt-16 md:pt-24"
+    aria-labelledby="contact-title"
+  >
     <div class="contact-inner">
       <!-- Section Header -->
-      <header class="section-heading border-t border-rule/50 pt-12 md:pt-16" data-motion-reveal>
+      <header
+        class="section-heading border-t border-rule/50 pt-12 md:pt-16"
+        data-motion-reveal
+      >
         <p class="eyebrow text-[#9dc7df]">{contact.eyebrow}</p>
-        <h2 id="contact-title" class="section-title mt-4 font-display text-[clamp(2.5rem,5.5vw,5rem)] leading-[1.05] tracking-tight text-paper">
+        <h2
+          id="contact-title"
+          class="section-title mt-4 font-display text-[clamp(2.5rem,5.5vw,5rem)] leading-[1.05] tracking-tight text-paper"
+        >
           {contact.heading}
         </h2>
         <p class="contact-description mt-6 max-w-[52ch] text-base leading-relaxed text-muted text-pretty sm:text-lg">
@@ -29,8 +43,12 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
         <!-- Availability Callout matching Hero and Journey DA -->
         <div class="mt-8 max-w-2xl border-l-2 border-[#8fc6ee] bg-linear-to-r from-[#102637]/60 to-transparent py-3.5 pl-5">
           <p class="text-base font-medium leading-snug text-paper">
-            <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
-            <span class="text-rule/80 mx-2" aria-hidden="true">·</span>
+            <span class="text-[#abd1ed]">
+              {content.hero.availability.label}
+            </span>
+            <span class="text-rule/80 mx-2" aria-hidden="true">
+              ·
+            </span>
             <span>{content.hero.availability.detail}</span>
           </p>
           {content.hero.availability.note && (
@@ -44,9 +62,15 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
       <!-- Main Contact Grid -->
       <div class="contact-layout mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
         <!-- Primary Contact Card (Email & Copy) -->
-        <div class="contact-primary-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rule/60 bg-linear-to-br from-[#102637]/50 via-[#07121b]/70 to-[#020508]/90 p-7 sm:p-9 md:p-10 backdrop-blur-md transition-colors hover:border-[#9dc7df]/60" data-motion-reveal>
+        <div
+          class="contact-primary-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rule/60 bg-linear-to-br from-[#102637]/50 via-[#07121b]/70 to-[#020508]/90 p-7 sm:p-9 md:p-10 backdrop-blur-md transition-colors hover:border-[#9dc7df]/60"
+          data-motion-reveal
+        >
           <!-- Subtle celestial glow accent in the card -->
-          <div class="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(157,199,223,0.14),transparent_70%)]" aria-hidden="true"></div>
+          <div
+            class="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(157,199,223,0.14),transparent_70%)]"
+            aria-hidden="true"
+          ></div>
 
           <div class="relative z-10 min-w-0">
             <span class="eyebrow mb-3 block text-xs tracking-[0.16em] text-[#9dc7df]">
@@ -61,9 +85,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
               {contact.email}
             </a>
 
-            <p class="mt-4 text-xs text-muted">
-              {contact.responseTime}
-            </p>
+            <p class="mt-4 text-xs text-muted">{contact.responseTime}</p>
           </div>
 
           <!-- Action Buttons -->
@@ -73,7 +95,14 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
               href={destinations.email}
             >
               <span>{contact.emailCta}</span>
-              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true" class="shrink-0">
+              <svg
+                viewBox="0 0 20 20"
+                width="16"
+                height="16"
+                fill="currentColor"
+                aria-hidden="true"
+                class="shrink-0"
+              >
                 <path d="M3 4a2 2 0 0 0-2 2v1.161l8.441 4.221a1.25 1.25 0 0 0 1.118 0L19 7.162V6a2 2 0 0 0-2-2H3Z" />
                 <path d="m19 8.839-7.77 3.885a2.75 2.75 0 0 1-2.46 0L1 8.839V14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.839Z" />
               </svg>
@@ -87,12 +116,30 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
               data-default-label={contact.copyEmail}
               aria-label={contact.copyEmail}
             >
-              <svg class="copy-icon shrink-0" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <svg
+                class="copy-icon shrink-0"
+                viewBox="0 0 20 20"
+                width="16"
+                height="16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
                 <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-1.5h1V7h-3a1.5 1.5 0 0 1-1.5-1.5v-3H8.5a.5.5 0 0 0-.5.5v1.5H6.5V3.5A1.5 1.5 0 0 1 7 3.5Z" />
                 <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 11.5 6h-7Zm0 1.5h7a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5Z" />
               </svg>
-              <svg class="check-icon hidden shrink-0 text-emerald-400" viewBox="0 0 20 20" width="16" height="16" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" />
+              <svg
+                class="check-icon hidden shrink-0 text-emerald-400"
+                viewBox="0 0 20 20"
+                width="16"
+                height="16"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+                  clip-rule="evenodd"
+                />
               </svg>
               <span class="copy-label">{contact.copyEmail}</span>
             </button>
@@ -100,7 +147,10 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
         </div>
 
         <!-- Connected Channels (LinkedIn, GitHub, CV) -->
-        <nav class="contact-channels grid content-between gap-4" aria-label={section.label}>
+        <nav
+          class="contact-channels grid content-between gap-4"
+          aria-label={section.label}
+        >
           <!-- LinkedIn Card -->
           <a
             class="channel-card group relative flex flex-col justify-between rounded-xl border border-rule/60 bg-ink/50 p-5 transition-all duration-300 hover:border-[#9dc7df] hover:bg-[#102637]/30 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-2"
@@ -111,12 +161,24 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" class="shrink-0 text-[#9dc7df]">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  class="shrink-0 text-[#9dc7df]"
+                >
                   <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76c-.95 0-1.72-.77-1.72-1.72s.77-1.72 1.72-1.72 1.72.77 1.72 1.72-.77 1.72-1.72 1.72m1.39 9.74v-8.37H5.07v8.37h2.78Z" />
                 </svg>
                 <span>{contact.linkedin}</span>
               </span>
-              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
+              <span
+                class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                aria-hidden="true"
+              >
+                ↗
+              </span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.linkedinDescription}
@@ -133,12 +195,28 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" class="shrink-0 text-[#9dc7df]">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z" />
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  aria-hidden="true"
+                  class="shrink-0 text-[#9dc7df]"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"
+                  />
                 </svg>
                 <span>{contact.github}</span>
               </span>
-              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
+              <span
+                class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                aria-hidden="true"
+              >
+                ↗
+              </span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.githubDescription}
@@ -154,7 +232,18 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="shrink-0 text-[#9dc7df]">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                  class="shrink-0 text-[#9dc7df]"
+                >
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
                   <line x1="12" y1="18" x2="12" y2="12" />
@@ -163,7 +252,12 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 </svg>
                 <span>{contact.cv}</span>
               </span>
-              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-y-0.5 transition-transform" aria-hidden="true">↓</span>
+              <span
+                class="text-sm text-muted group-hover:text-paper group-hover:translate-y-0.5 transition-transform"
+                aria-hidden="true"
+              >
+                ↓
+              </span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.cvDescription}
@@ -175,9 +269,15 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
   </section>
 
   <!-- Celestial Moon Footer: The moon image is the atmospheric background -->
-  <footer class="site-footer relative mt-16 sm:mt-20 w-full overflow-hidden border-t border-rule/30 py-10 sm:py-12" role="contentinfo">
+  <footer
+    class="site-footer relative mt-16 sm:mt-20 w-full overflow-hidden border-t border-rule/30 py-10 sm:py-12"
+    role="contentinfo"
+  >
     <!-- The Moon Image as atmospheric background -->
-    <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-black" aria-hidden="true">
+    <div
+      class="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-black"
+      aria-hidden="true"
+    >
       <img
         src="/images/moon-1672.webp"
         srcset="/images/moon-640.webp 640w, /images/moon-1080.webp 1080w, /images/moon-1672.webp 1672w"
@@ -195,35 +295,69 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
 
     <div class="content-shell relative z-10 flex flex-col gap-8">
       <!-- Main row: Brand signature, Nav links, Back to top -->
-      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between" data-motion-reveal>
+      <div
+        class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+        data-motion-reveal
+      >
         <div class="flex items-center gap-3.5">
           <a
             class="header-signature inline-flex items-center no-underline focus-visible:outline-2 focus-visible:outline-paper"
             href={`${homeHref}#main`}
-            aria-label={locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"}
+            aria-label={
+              locale === "fr" ? "Alexis Robin — accueil" : "Alexis Robin — home"
+            }
           >
-            <img class="h-8 w-8 object-contain" src="/butterflies/home.webp" alt="" width="256" height="213" decoding="async" />
+            <img
+              class="h-8 w-8 object-contain"
+              src="/butterflies/home.webp"
+              alt=""
+              width="256"
+              height="213"
+              decoding="async"
+            />
           </a>
           <div>
-            <p class="text-base font-medium tracking-tight text-paper">Alexis Robin</p>
+            <p class="text-base font-medium tracking-tight text-paper">
+              Alexis Robin
+            </p>
             <p class="text-xs text-muted">{contact.colophon}</p>
           </div>
         </div>
 
-        <nav class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted" aria-label={locale === "fr" ? "Navigation secondaire" : "Secondary navigation"}>
-          <a class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper" href={`${homeHref}#projects`}>
+        <nav
+          class="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted"
+          aria-label={
+            locale === "fr" ? "Navigation secondaire" : "Secondary navigation"
+          }
+        >
+          <a
+            class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper"
+            href={`${homeHref}#projects`}
+          >
             {content.navigation.sections.projects.label}
           </a>
-          <a class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper" href={`${homeHref}#skills`}>
+          <a
+            class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper"
+            href={`${homeHref}#skills`}
+          >
             {content.navigation.sections.skills.label}
           </a>
-          <a class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper" href={`${homeHref}#journey`}>
+          <a
+            class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper"
+            href={`${homeHref}#journey`}
+          >
             {content.navigation.sections.journey.label}
           </a>
-          <a class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper" href={githubHref}>
+          <a
+            class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper"
+            href={githubHref}
+          >
             GitHub
           </a>
-          <a class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper" href={`${homeHref}#${section.id}`}>
+          <a
+            class="text-muted hover:text-paper hover:underline focus-visible:outline-2 focus-visible:outline-paper"
+            href={`${homeHref}#${section.id}`}
+          >
             {section.label}
           </a>
         </nav>
@@ -234,17 +368,25 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
           data-back-to-top
         >
           <span>{contact.backToTop}</span>
-          <span class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-rule/50 bg-ink/50 transition-transform group-hover:-translate-y-0.5 group-hover:border-paper" aria-hidden="true">
+          <span
+            class="inline-flex h-7 w-7 items-center justify-center rounded-full border border-rule/50 bg-ink/50 transition-transform group-hover:-translate-y-0.5 group-hover:border-paper"
+            aria-hidden="true"
+          >
             ↑
           </span>
         </button>
       </div>
 
       <!-- Bottom row: Legal & Tech -->
-      <div class="flex flex-col gap-2 border-t border-rule/20 pt-6 text-xs text-muted/70 sm:flex-row sm:items-center sm:justify-between" data-motion-reveal>
+      <div
+        class="flex flex-col gap-2 border-t border-rule/20 pt-6 text-xs text-muted/70 sm:flex-row sm:items-center sm:justify-between"
+        data-motion-reveal
+      >
         <p>© 2026 Alexis Robin. {contact.legal}.</p>
         <p class="text-muted/50">
-          {locale === "fr" ? "Montpellier, France · Astro, Tailwind CSS & Vue" : "Montpellier, France · Astro, Tailwind CSS & Vue"}
+          {locale === "fr"
+            ? "Montpellier, France · Astro, Tailwind CSS & Vue"
+            : "Montpellier, France · Astro, Tailwind CSS & Vue"}
         </p>
       </div>
     </div>
@@ -256,47 +398,57 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
 
   onPageLoad((signal) => {
     // 1. Copy email functionality
-    const copyButtons = document.querySelectorAll<HTMLButtonElement>("[data-copy-email]");
+    const copyButtons =
+      document.querySelectorAll<HTMLButtonElement>("[data-copy-email]");
     copyButtons.forEach((button) => {
       let timeoutId: number | undefined;
 
-      button.addEventListener("click", async () => {
-        const email = button.dataset.copyEmail;
-        if (!email) return;
+      button.addEventListener(
+        "click",
+        async () => {
+          const email = button.dataset.copyEmail;
+          if (!email) return;
 
-        try {
-          await navigator.clipboard.writeText(email);
-          const copyIcon = button.querySelector(".copy-icon");
-          const checkIcon = button.querySelector(".check-icon");
-          const label = button.querySelector(".copy-label");
-          const copiedText = button.dataset.copiedLabel || "Copié !";
-          const defaultText = button.dataset.defaultLabel || "Copier";
+          try {
+            await navigator.clipboard.writeText(email);
+            const copyIcon = button.querySelector(".copy-icon");
+            const checkIcon = button.querySelector(".check-icon");
+            const label = button.querySelector(".copy-label");
+            const copiedText = button.dataset.copiedLabel || "Copié !";
+            const defaultText = button.dataset.defaultLabel || "Copier";
 
-          if (copyIcon && checkIcon && label) {
-            copyIcon.classList.add("hidden");
-            checkIcon.classList.remove("hidden");
-            label.textContent = copiedText;
+            if (copyIcon && checkIcon && label) {
+              copyIcon.classList.add("hidden");
+              checkIcon.classList.remove("hidden");
+              label.textContent = copiedText;
 
-            if (timeoutId) window.clearTimeout(timeoutId);
-            timeoutId = window.setTimeout(() => {
-              copyIcon.classList.remove("hidden");
-              checkIcon.classList.add("hidden");
-              label.textContent = defaultText;
-            }, 2400);
+              if (timeoutId) window.clearTimeout(timeoutId);
+              timeoutId = window.setTimeout(() => {
+                copyIcon.classList.remove("hidden");
+                checkIcon.classList.add("hidden");
+                label.textContent = defaultText;
+              }, 2400);
+            }
+          } catch {
+            // Fallback if clipboard API is blocked or denied
+            window.location.href = `mailto:${email}`;
           }
-        } catch {
-          // Fallback if clipboard API is blocked or denied
-          window.location.href = `mailto:${email}`;
-        }
-      }, { signal });
+        },
+        { signal },
+      );
     });
 
     // 2. Back to top smooth scroll
-    const backToTopButtons = document.querySelectorAll<HTMLButtonElement>("[data-back-to-top]");
+    const backToTopButtons =
+      document.querySelectorAll<HTMLButtonElement>("[data-back-to-top]");
     backToTopButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }, { signal });
+      button.addEventListener(
+        "click",
+        () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        { signal },
+      );
     });
   });
 </script>

@@ -1,34 +1,64 @@
 ---
 import type { PortfolioContent } from "../data/portfolio";
 import SkillsCatalog from "./SkillsCatalog.vue";
-interface Props { content: PortfolioContent; }
+interface Props {
+  content: PortfolioContent;
+}
 const { content } = Astro.props;
 const copy = content.skills;
-const projects = new Map(content.projects.entries.map((project) => [project.id, project]));
-const projectLinks = content.projects.entries.map(({ id, title, url }) => ({ id, title, url }));
+const projects = new Map(
+  content.projects.entries.map((project) => [project.id, project]),
+);
+const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
+  id,
+  title,
+  url,
+}));
 ---
-<section id={content.navigation.sections.skills.id} class="section-shell content-shell" aria-labelledby="skills-title">
+
+<section
+  id={content.navigation.sections.skills.id}
+  class="section-shell content-shell"
+  aria-labelledby="skills-title"
+>
   <header class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
-    <h2 id="skills-title" class="section-title">{copy.heading}</h2>
-    <p class="max-w-[56ch] text-base leading-loose text-muted">{copy.instruction}</p>
+    <h2 id="skills-title" class="section-title">
+      {copy.heading}
+    </h2>
+    <p class="max-w-[56ch] text-base leading-loose text-muted">
+      {copy.instruction}
+    </p>
   </header>
 
   <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
     {copy.capabilities.map((capability) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="text-xl font-medium tracking-tight">{capability.title}</h3>
-        <p class="mt-3 max-w-[40ch] text-sm leading-relaxed text-muted">{capability.claim}</p>
+        <p class="mt-3 max-w-[40ch] text-sm leading-relaxed text-muted">
+          {capability.claim}
+        </p>
         <ul class="mt-5 flex flex-wrap gap-2">
           {capability.technologies.map((technology) => {
-            const project = technology.projectId ? projects.get(technology.projectId) : undefined;
+            const project = technology.projectId
+              ? projects.get(technology.projectId)
+              : undefined;
             return (
               <li>
                 {project ? (
-                  <a class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper" href={project.url || `#project-${project.id}`}>
-                    <span class="sr-only">{copy.projectLabel} </span>{technology.name}<span class="ml-2 text-[#9dc7df]" aria-hidden="true">↗</span>
+                  <a
+                    class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
+                    href={project.url || `#project-${project.id}`}
+                  >
+                    <span class="sr-only">{copy.projectLabel} </span>
+                    {technology.name}
+                    <span class="ml-2 text-[#9dc7df]" aria-hidden="true">
+                      ↗
+                    </span>
                   </a>
                 ) : (
-                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90">{technology.name}</span>
+                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90">
+                    {technology.name}
+                  </span>
                 )}
               </li>
             );
@@ -38,12 +68,13 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({ id,
     ))}
   </ul>
 
-  <h3 class="mt-20 text-xl font-medium tracking-tight">{copy.catalogHeading}</h3>
+  <h3 class="mt-20 text-xl font-medium tracking-tight">
+    {copy.catalogHeading}
+  </h3>
   <SkillsCatalog
     client:load
     groups={copy.groups}
     projects={projectLinks}
     projectLabel={copy.projectLabel}
   />
-
 </section>

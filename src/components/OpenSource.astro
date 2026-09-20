@@ -1,77 +1,231 @@
 ---
 import type { Locale, PortfolioContent } from "../data/portfolio";
 import rawSnapshot from "../data/github.json";
-import { GITHUB_PROFILE_URL, validateGitHubSnapshot, type PRScope } from "../lib/github";
+import {
+  GITHUB_PROFILE_URL,
+  validateGitHubSnapshot,
+  type PRScope,
+} from "../lib/github";
 import GitHubPullRequest from "./GitHubPullRequest.astro";
 import GitHubCalendar from "./GitHubCalendar.astro";
-interface Props { content: PortfolioContent["openSource"]; locale: Locale; detailed?: boolean; }
+interface Props {
+  content: PortfolioContent["openSource"];
+  locale: Locale;
+  detailed?: boolean;
+}
 const { content, locale, detailed = false } = Astro.props;
 const Heading = detailed ? "h1" : "h2";
 const activityPath = locale === "fr" ? "/github/" : "/en/github/";
 const copy = content.github;
 const snapshot = validateGitHubSnapshot(rawSnapshot);
-const dateFormat = new Intl.DateTimeFormat(locale, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
-const syncFormat = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short", timeZone: "UTC" });
-const scopes = Object.entries(copy.scopes) as [PRScope, { label: string; description: string }][];
-const search = (qualifier = "") => `https://github.com/pulls?q=${encodeURIComponent(`is:pr is:public author:${snapshot.login} ${qualifier}`.trim())}`;
-const json = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c");
+const dateFormat = new Intl.DateTimeFormat(locale, {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const syncFormat = new Intl.DateTimeFormat(locale, {
+  dateStyle: "medium",
+  timeStyle: "short",
+  timeZone: "UTC",
+});
+const scopes = Object.entries(copy.scopes) as [
+  PRScope,
+  { label: string; description: string },
+][];
+const search = (qualifier = "") =>
+  `https://github.com/pulls?q=${encodeURIComponent(`is:pr is:public author:${snapshot.login} ${qualifier}`.trim())}`;
+const json = (value: unknown) =>
+  JSON.stringify(value).replaceAll("<", "\\u003c");
 ---
-<section id="open-source" class="content-shell pb-24 md:pb-36" aria-labelledby="open-source-title" data-github-activity data-github-preview={!detailed ? "" : undefined} data-locale={locale}>
+
+<section
+  id="open-source"
+  class="content-shell pb-24 md:pb-36"
+  aria-labelledby="open-source-title"
+  data-github-activity
+  data-github-preview={!detailed ? "" : undefined}
+  data-locale={locale}
+>
   <header class="grid gap-8 border-t border-rule pt-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-20">
     <div>
-      <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">{copy.eyebrow}</p>
-      <Heading id="open-source-title" class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight">{detailed ? copy.pageTitle : content.heading}</Heading>
+      <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">
+        {copy.eyebrow}
+      </p>
+      <Heading
+        id="open-source-title"
+        class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight"
+      >
+        {detailed ? copy.pageTitle : content.heading}
+      </Heading>
     </div>
     <div>
-      <p class="max-w-[48ch] text-base leading-loose text-muted">{content.intro}</p>
-      <a class="text-link mt-6 inline-flex min-h-11 items-center text-sm underline" href={detailed ? GITHUB_PROFILE_URL : activityPath}>{detailed ? content.profileLabel : copy.exploreLabel}</a>
+      <p class="max-w-[48ch] text-base leading-loose text-muted">
+        {content.intro}
+      </p>
+      <a
+        class="text-link mt-6 inline-flex min-h-11 items-center text-sm underline"
+        href={detailed ? GITHUB_PROFILE_URL : activityPath}
+      >
+        {detailed ? content.profileLabel : copy.exploreLabel}
+      </a>
     </div>
   </header>
   {detailed && (
-    <div data-motion-reveal class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-b border-rule/60 pb-10 md:mt-14">
-      <a class="group inline-flex min-h-14 items-baseline gap-3" href={search("is:open")}><span class="font-display text-3xl" data-github-open>{snapshot.counts.open}</span><span class="text-sm text-muted underline group-hover:text-paper">{copy.openCountLabel}</span></a>
-      <a class="group inline-flex min-h-14 items-baseline gap-3" href={search("is:merged")}><span class="font-display text-3xl" data-github-merged>{snapshot.counts.merged}</span><span class="text-sm text-muted underline group-hover:text-paper">{copy.mergedCountLabel}</span></a>
+    <div
+      data-motion-reveal
+      class="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-b border-rule/60 pb-10 md:mt-14"
+    >
+      <a
+        class="group inline-flex min-h-14 items-baseline gap-3"
+        href={search("is:open")}
+      >
+        <span class="font-display text-3xl" data-github-open>
+          {snapshot.counts.open}
+        </span>
+        <span class="text-sm text-muted underline group-hover:text-paper">
+          {copy.openCountLabel}
+        </span>
+      </a>
+      <a
+        class="group inline-flex min-h-14 items-baseline gap-3"
+        href={search("is:merged")}
+      >
+        <span class="font-display text-3xl" data-github-merged>
+          {snapshot.counts.merged}
+        </span>
+        <span class="text-sm text-muted underline group-hover:text-paper">
+          {copy.mergedCountLabel}
+        </span>
+      </a>
     </div>
   )}
   {detailed && (
-  <div data-motion-reveal class="mt-14 md:mt-20">
-    <div class="flex flex-wrap items-baseline justify-between gap-6">
-      <h3 class="text-xl font-medium md:text-2xl">{copy.latestHeading}</h3>
-      <a class="text-link text-sm underline" href={search()}>{copy.allPRLabel}</a>
+    <div data-motion-reveal class="mt-14 md:mt-20">
+      <div class="flex flex-wrap items-baseline justify-between gap-6">
+        <h3 class="text-xl font-medium md:text-2xl">{copy.latestHeading}</h3>
+        <a class="text-link text-sm underline" href={search()}>
+          {copy.allPRLabel}
+        </a>
+      </div>
+      <div
+        class="mt-6 flex flex-wrap gap-x-8 gap-y-3"
+        data-github-scopes
+        role="group"
+        aria-label={copy.scopeLabel}
+        hidden
+      >
+        {scopes.map(([scope, labels]) => (
+          <button
+            type="button"
+            class="min-h-12 cursor-pointer border-b-2 border-transparent text-sm text-muted hover:text-paper aria-pressed:border-paper aria-pressed:text-paper"
+            data-github-scope={scope}
+            aria-pressed={scope === "recent" ? "true" : "false"}
+            aria-controls="github-pull-requests"
+          >
+            {labels.label}
+          </button>
+        ))}
+      </div>
+      <p
+        data-github-scope-description
+        class="mb-8 mt-6 max-w-[80ch] text-sm leading-loose text-muted"
+      >
+        {copy.scopes.recent.description}
+      </p>
+      <ul
+        id="github-pull-requests"
+        data-github-pr-list
+        class="min-w-0 border-b border-rule/60"
+      >
+        {snapshot.pullRequests.recent.map((request) => (
+          <GitHubPullRequest
+            request={request}
+            copy={copy}
+            dateFormat={dateFormat}
+          />
+        ))}
+      </ul>
+      <p
+        data-github-pr-empty
+        class="py-8 text-sm text-muted"
+        hidden={snapshot.pullRequests.recent.length > 0}
+      >
+        {copy.emptyPRLabel}
+      </p>
+      <template data-github-pr-template>
+        <GitHubPullRequest copy={copy} dateFormat={dateFormat} />
+      </template>
     </div>
-    <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3" data-github-scopes role="group" aria-label={copy.scopeLabel} hidden>
-      {scopes.map(([scope, labels]) => <button type="button" class="min-h-12 cursor-pointer border-b-2 border-transparent text-sm text-muted hover:text-paper aria-pressed:border-paper aria-pressed:text-paper" data-github-scope={scope} aria-pressed={scope === "recent" ? "true" : "false"} aria-controls="github-pull-requests">{labels.label}</button>)}
-    </div>
-    <p data-github-scope-description class="mb-8 mt-6 max-w-[80ch] text-sm leading-loose text-muted">{copy.scopes.recent.description}</p>
-    <ul id="github-pull-requests" data-github-pr-list class="min-w-0 border-b border-rule/60">
-      {snapshot.pullRequests.recent.map((request) => <GitHubPullRequest request={request} copy={copy} dateFormat={dateFormat} />)}
-    </ul>
-    <p data-github-pr-empty class="py-8 text-sm text-muted" hidden={snapshot.pullRequests.recent.length > 0}>{copy.emptyPRLabel}</p>
-    <template data-github-pr-template><GitHubPullRequest copy={copy} dateFormat={dateFormat} /></template>
-  </div>
   )}
   <div data-motion-reveal class:list={[detailed ? "mt-20 md:mt-28" : "mt-8"]}>
-    <GitHubCalendar calendar={snapshot.calendar} locale={locale} copy={copy.calendar} preview={!detailed} />
+    <GitHubCalendar
+      calendar={snapshot.calendar}
+      locale={locale}
+      copy={copy.calendar}
+      preview={!detailed}
+    />
   </div>
-  <div data-motion-reveal class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs leading-relaxed text-muted">
-    <p>{copy.snapshotLabel} <time data-github-updated datetime={snapshot.updatedAt}>{syncFormat.format(new Date(snapshot.updatedAt))} UTC</time></p>
-    <button type="button" data-github-refresh class="min-h-11 cursor-pointer text-paper underline disabled:cursor-wait disabled:opacity-60" hidden>{copy.refreshLabel}</button>
-    <p data-github-sync-status role="status" aria-live="polite" aria-atomic="true"></p>
+  <div
+    data-motion-reveal
+    class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs leading-relaxed text-muted"
+  >
+    <p>
+      {copy.snapshotLabel}{" "}
+      <time data-github-updated datetime={snapshot.updatedAt}>
+        {syncFormat.format(new Date(snapshot.updatedAt))} UTC
+      </time>
+    </p>
+    <button
+      type="button"
+      data-github-refresh
+      class="min-h-11 cursor-pointer text-paper underline disabled:cursor-wait disabled:opacity-60"
+      hidden
+    >
+      {copy.refreshLabel}
+    </button>
+    <p
+      data-github-sync-status
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
   </div>
   {detailed && (
-  <footer data-motion-reveal class="mt-12 border-t border-rule/60 pt-6">
-    <p class="max-w-[90ch] text-xs leading-loose text-muted">{copy.refreshPolicy}</p>
-    <details class="mt-4">
-      <summary class="min-h-11 cursor-pointer py-3 text-sm text-muted hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4">{copy.methodHeading}</summary>
-      <div class="grid gap-x-12 gap-y-6 py-6 text-sm leading-loose text-muted md:grid-cols-2">
-        {copy.methodParagraphs.map((paragraph) => <p>{paragraph}</p>)}
-      </div>
-      <a class="text-link text-sm underline" href="https://docs.github.com/en/account-and-profile/concepts/contributions-on-your-profile">{copy.sourceLabel}</a>
-    </details>
-  </footer>
+    <footer data-motion-reveal class="mt-12 border-t border-rule/60 pt-6">
+      <p class="max-w-[90ch] text-xs leading-loose text-muted">
+        {copy.refreshPolicy}
+      </p>
+      <details class="mt-4">
+        <summary class="min-h-11 cursor-pointer py-3 text-sm text-muted hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4">
+          {copy.methodHeading}
+        </summary>
+        <div class="grid gap-x-12 gap-y-6 py-6 text-sm leading-loose text-muted md:grid-cols-2">
+          {copy.methodParagraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+        <a
+          class="text-link text-sm underline"
+          href="https://docs.github.com/en/account-and-profile/concepts/contributions-on-your-profile"
+        >
+          {copy.sourceLabel}
+        </a>
+      </details>
+    </footer>
   )}
-  <script is:inline type="application/json" data-github-snapshot set:html={json(snapshot)}></script>
-  <script is:inline type="application/json" data-github-copy set:html={json(copy)}></script>
+  <script
+    is:inline
+    type="application/json"
+    data-github-snapshot
+    set:html={json(snapshot)}
+  ></script>
+  <script
+    is:inline
+    type="application/json"
+    data-github-copy
+    set:html={json(copy)}
+  ></script>
 </section>
 <script>
   import "../scripts/github-activity.ts";

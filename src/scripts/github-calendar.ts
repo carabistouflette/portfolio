@@ -1,4 +1,8 @@
-import { getCalendarStats, type GitHubDay, type GitHubSnapshot } from "../lib/github";
+import {
+  getCalendarStats,
+  type GitHubDay,
+  type GitHubSnapshot,
+} from "../lib/github";
 import type { PortfolioContent } from "../data/portfolio";
 type Calendar = GitHubSnapshot["calendar"];
 type View = "year" | "month";
@@ -32,10 +36,25 @@ const getFormatters = (locale: string): CalendarFormatters => {
   const cached = formatterCache.get(locale);
   if (cached) return cached;
   const formatters = {
-    date: new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }),
-    month: new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }),
-    shortMonth: new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" }),
-    weekday: new Intl.DateTimeFormat(locale, { weekday: "short", timeZone: "UTC" }),
+    date: new Intl.DateTimeFormat(locale, {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }),
+    month: new Intl.DateTimeFormat(locale, {
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }),
+    shortMonth: new Intl.DateTimeFormat(locale, {
+      month: "short",
+      timeZone: "UTC",
+    }),
+    weekday: new Intl.DateTimeFormat(locale, {
+      weekday: "short",
+      timeZone: "UTC",
+    }),
   };
   formatterCache.set(locale, formatters);
   return formatters;
@@ -104,7 +123,8 @@ const readCopy = (root: HTMLElement): CalendarCopy => {
     "noActivityLabel",
   ];
   for (const key of keys) {
-    if (typeof copy[key] !== "string") throw new Error(`GitHub calendar copy key is missing: ${key}`);
+    if (typeof copy[key] !== "string")
+      throw new Error(`GitHub calendar copy key is missing: ${key}`);
   }
   return copy as CalendarCopy;
 };
@@ -113,7 +133,9 @@ const readInitialCalendar = (root: HTMLElement): Calendar => {
   const from = root.dataset.calendarFrom;
   const to = root.dataset.calendarTo;
   if (!from || !to) throw new Error("GitHub calendar range is missing");
-  const days = Array.from(root.querySelectorAll<HTMLElement>("[data-github-day]"))
+  const days = Array.from(
+    root.querySelectorAll<HTMLElement>("[data-github-day]"),
+  )
     .map((element) => ({
       date: element.dataset.date ?? "",
       count: Number(element.dataset.count),
@@ -125,10 +147,14 @@ const readInitialCalendar = (root: HTMLElement): Calendar => {
   return { from, to, days };
 };
 
-const formatDate = (locale: string, date: string): string => getFormatters(locale).date.format(dateAtUtc(date));
-const formatMonth = (locale: string, month: string): string => getFormatters(locale).month.format(monthStart(month));
-const formatShortMonth = (locale: string, date: Date): string => getFormatters(locale).shortMonth.format(date);
-const formatWeekday = (locale: string, index: number): string => getFormatters(locale).weekday.format(new Date(Date.UTC(2023, 0, 1 + index)));
+const formatDate = (locale: string, date: string): string =>
+  getFormatters(locale).date.format(dateAtUtc(date));
+const formatMonth = (locale: string, month: string): string =>
+  getFormatters(locale).month.format(monthStart(month));
+const formatShortMonth = (locale: string, date: Date): string =>
+  getFormatters(locale).shortMonth.format(date);
+const formatWeekday = (locale: string, index: number): string =>
+  getFormatters(locale).weekday.format(new Date(Date.UTC(2023, 0, 1 + index)));
 
 const getMonths = (calendar: Calendar): string[] => {
   const months = new Set<string>();
@@ -144,10 +170,15 @@ const getMonths = (calendar: Calendar): string[] => {
   return [...months].sort();
 };
 
-const closestDate = (desired: string | null, days: GitHubDay[]): string | null => {
+const closestDate = (
+  desired: string | null,
+  days: GitHubDay[],
+): string | null => {
   if (days.length === 0) return null;
   if (!desired) return days.at(-1)?.date ?? null;
-  return days.find((day) => day.date >= desired)?.date ?? days.at(-1)?.date ?? null;
+  return (
+    days.find((day) => day.date >= desired)?.date ?? days.at(-1)?.date ?? null
+  );
 };
 const closestMonth = (desired: string | null, months: string[]): string => {
   if (months.length === 0) return "";
@@ -155,13 +186,27 @@ const closestMonth = (desired: string | null, months: string[]): string => {
   return months.find((month) => month >= desired) ?? months.at(-1) ?? months[0];
 };
 
-const dayDescription = (day: GitHubDay, copy: CalendarCopy, locale: string): string => {
-  const template = day.count === 0 ? copy.zeroDayLabel : day.count === 1 ? copy.daySingular : copy.dayPlural;
-  return template.replaceAll("{date}", formatDate(locale, day.date)).replaceAll("{count}", String(day.count));
+const dayDescription = (
+  day: GitHubDay,
+  copy: CalendarCopy,
+  locale: string,
+): string => {
+  const template =
+    day.count === 0
+      ? copy.zeroDayLabel
+      : day.count === 1
+        ? copy.daySingular
+        : copy.dayPlural;
+  return template
+    .replaceAll("{date}", formatDate(locale, day.date))
+    .replaceAll("{count}", String(day.count));
 };
-const hrefForDay = (date: string): string => `${PROFILE_URL}?tab=overview&from=${date}&to=${date}`;
+const hrefForDay = (date: string): string =>
+  `${PROFILE_URL}?tab=overview&from=${date}&to=${date}`;
 const dayClass = (day: GitHubDay, showNumber: boolean): string => {
-  const size = showNumber ? "min-h-11 min-w-11 text-sm" : "min-h-5 min-w-5 text-[0.6rem]";
+  const size = showNumber
+    ? "min-h-11 min-w-11 text-sm"
+    : "min-h-5 min-w-5 text-[0.6rem]";
   return `github-calendar-day grid ${size} place-items-center rounded-sm text-ink transition-colors motion-reduce:transition-none hover:ring-2 hover:ring-paper focus-visible:z-1 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-3 data-[selected=true]:ring-2 data-[selected=true]:ring-paper data-[selected=true]:ring-offset-2 data-[selected=true]:ring-offset-ink data-[level=0]:text-paper data-[level=1]:text-paper ${LEVEL_CLASSES[day.level]}`;
 };
 
@@ -177,56 +222,98 @@ const renderDay = (
   const selectedAttribute = selected === day.date ? "true" : "false";
   const description = escapeHtml(dayDescription(day, copy, locale));
   const tag = preview ? "span" : "a";
-  return `<${tag} class="${dayClass(day, showNumber)}" role="${preview ? "cell" : "gridcell"}" data-github-day data-date="${day.date}" data-count="${day.count}" data-level="${day.level}" data-grid-row="${position.row}" data-grid-col="${position.col}" data-selected="${selectedAttribute}" ${preview ? "" : `aria-selected="${selectedAttribute}" href="${hrefForDay(day.date)}" tabindex="-1"`} aria-label="${description}" title="${description}">${showNumber ? `<span aria-hidden="true">${day.date.slice(8)}</span>` : "<span aria-hidden=\"true\"></span>"}</${tag}>`;
+  return `<${tag} class="${dayClass(day, showNumber)}" role="${preview ? "cell" : "gridcell"}" data-github-day data-date="${day.date}" data-count="${day.count}" data-level="${day.level}" data-grid-row="${position.row}" data-grid-col="${position.col}" data-selected="${selectedAttribute}" ${preview ? "" : `aria-selected="${selectedAttribute}" href="${hrefForDay(day.date)}" tabindex="-1"`} aria-label="${description}" title="${description}">${showNumber ? `<span aria-hidden="true">${day.date.slice(8)}</span>` : '<span aria-hidden="true"></span>'}</${tag}>`;
 };
 const renderUnavailable = (showNumber = false): string => {
   const size = showNumber ? "min-h-11 min-w-11 text-sm" : "min-h-5 min-w-5";
   return `<span class="${size}" role="gridcell" aria-hidden="true"></span>`;
 };
 
-const renderYear = (calendar: Calendar, copy: CalendarCopy, locale: string, selected: string | null, preview = false): string => {
+const renderYear = (
+  calendar: Calendar,
+  copy: CalendarCopy,
+  locale: string,
+  selected: string | null,
+  preview = false,
+): string => {
   const days = new Map(calendar.days.map((day) => [day.date, day]));
   const from = dateAtUtc(calendar.from);
   const to = dateAtUtc(calendar.to);
   const firstWeek = startOfWeek(from);
-  const weekCount = Math.max(1, Math.floor((to.getTime() - firstWeek.getTime()) / DAY_MS / 7) + 1);
+  const weekCount = Math.max(
+    1,
+    Math.floor((to.getTime() - firstWeek.getTime()) / DAY_MS / 7) + 1,
+  );
   const monthMarkers: string[] = [];
   for (let week = 0; week < weekCount; week += 1) {
     const current = addDays(firstWeek, week * 7);
-    const previous = week === 0 ? "" : formatShortMonth(locale, addDays(firstWeek, (week - 1) * 7));
+    const previous =
+      week === 0
+        ? ""
+        : formatShortMonth(locale, addDays(firstWeek, (week - 1) * 7));
     const label = formatShortMonth(locale, current);
-    if (label !== previous) monthMarkers.push(`<span class="truncate pb-1 text-[0.68rem] text-muted" aria-hidden="true" style="grid-row:1;grid-column:${week + 2} / span ${Math.min(4, weekCount - week)}">${escapeHtml(label)}</span>`);
+    if (label !== previous)
+      monthMarkers.push(
+        `<span class="truncate pb-1 text-[0.68rem] text-muted" aria-hidden="true" style="grid-row:1;grid-column:${week + 2} / span ${Math.min(4, weekCount - week)}">${escapeHtml(label)}</span>`,
+      );
   }
   const rows = Array.from({ length: 7 }, (_, weekday) => {
     const cells = Array.from({ length: weekCount }, (_, week) => {
       const date = addDays(firstWeek, week * 7 + weekday);
       const key = dateKey(date);
       const day = date >= from && date <= to ? days.get(key) : undefined;
-      return day ? renderDay(day, copy, locale, { row: weekday, col: week }, selected, false, preview) : renderUnavailable();
+      return day
+        ? renderDay(
+            day,
+            copy,
+            locale,
+            { row: weekday, col: week },
+            selected,
+            false,
+            preview,
+          )
+        : renderUnavailable();
     }).join("");
     return `<div class="contents" role="row"><span class="flex items-center text-[0.68rem] text-muted" role="rowheader">${escapeHtml(formatWeekday(locale, weekday))}</span>${cells}</div>`;
   }).join("");
   return `<div class="min-w-0 overflow-x-auto pb-3" data-github-calendar-year-panel ${preview ? `tabindex="0" aria-label="${escapeHtml(copy.yearLabel)}"` : ""}><div class="min-w-[52rem]" data-github-calendar-grid-wrapper><div class="grid gap-x-1" aria-hidden="true" data-github-calendar-month-markers style="grid-template-columns:2.75rem repeat(${weekCount},minmax(1.15rem,1fr));"><div></div>${monthMarkers.join("")}</div><div class="grid gap-x-1 gap-y-1" role="${preview ? "table" : "grid"}" aria-label="${escapeHtml(copy.yearLabel)}" aria-rowcount="7" aria-colcount="${weekCount}" data-github-calendar-grid style="grid-template-columns:2.75rem repeat(${weekCount},minmax(1.15rem,1fr));">${rows}</div></div></div>`;
 };
 
-const renderMonth = (calendar: Calendar, copy: CalendarCopy, locale: string, selected: string | null, month: string): string => {
+const renderMonth = (
+  calendar: Calendar,
+  copy: CalendarCopy,
+  locale: string,
+  selected: string | null,
+  month: string,
+): string => {
   const days = new Map(calendar.days.map((day) => [day.date, day]));
   const from = dateAtUtc(calendar.from);
   const to = dateAtUtc(calendar.to);
   const first = monthStart(month);
-  const last = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0));
+  const last = new Date(
+    Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0),
+  );
   const firstWeek = startOfWeek(first);
   const rows = Array.from({ length: 6 }, (_, row) => {
     const cells = Array.from({ length: 7 }, (_, col) => {
       const date = addDays(firstWeek, row * 7 + col);
       const key = dateKey(date);
-      const inMonth = date.getUTCMonth() === first.getUTCMonth() && date.getUTCFullYear() === first.getUTCFullYear();
-      const day = inMonth && date >= from && date <= to ? days.get(key) : undefined;
-      return day ? renderDay(day, copy, locale, { row, col }, selected, true) : renderUnavailable(true);
+      const inMonth =
+        date.getUTCMonth() === first.getUTCMonth() &&
+        date.getUTCFullYear() === first.getUTCFullYear();
+      const day =
+        inMonth && date >= from && date <= to ? days.get(key) : undefined;
+      return day
+        ? renderDay(day, copy, locale, { row, col }, selected, true)
+        : renderUnavailable(true);
     }).join("");
     return `<div class="contents" role="row"><span class="sr-only">${row + 1}</span>${cells}</div>`;
   }).join("");
-  const weekdayHeaders = Array.from({ length: 7 }, (_, index) => `<span class="text-center text-xs text-muted" role="columnheader">${escapeHtml(formatWeekday(locale, index))}</span>`).join("");
+  const weekdayHeaders = Array.from(
+    { length: 7 },
+    (_, index) =>
+      `<span class="text-center text-xs text-muted" role="columnheader">${escapeHtml(formatWeekday(locale, index))}</span>`,
+  ).join("");
   return `<div data-github-calendar-month-panel><div class="mb-4 flex items-baseline justify-between gap-4"><h4 class="text-base font-medium" data-github-calendar-current-month>${escapeHtml(formatMonth(locale, month))}</h4><span class="text-xs text-muted">${escapeHtml(`${formatDate(locale, dateKey(first))} — ${formatDate(locale, dateKey(last))}`)}</span></div><div class="grid grid-cols-7 gap-1" role="grid" aria-label="${escapeHtml(formatMonth(locale, month))}" aria-rowcount="6" aria-colcount="7"><div class="contents" role="row">${weekdayHeaders}</div>${rows}</div></div>`;
 };
 
@@ -234,12 +321,18 @@ export interface GitHubCalendarController {
   update(calendar: Calendar): void;
 }
 
-export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController {
+export function initGitHubCalendar(
+  root: HTMLElement,
+): GitHubCalendarController {
   const copy = readCopy(root);
   const locale = root.dataset.locale ?? "en";
   if (root.hasAttribute("data-calendar-preview")) {
-    const panels = root.querySelector<HTMLElement>("[data-github-calendar-panels]")!;
-    const range = root.querySelector<HTMLElement>("[data-github-calendar-range]")!;
+    const panels = root.querySelector<HTMLElement>(
+      "[data-github-calendar-panels]",
+    )!;
+    const range = root.querySelector<HTMLElement>(
+      "[data-github-calendar-range]",
+    )!;
     root.dataset.githubCalendarInitialized = "true";
     return {
       update(calendar: Calendar): void {
@@ -253,34 +346,72 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   const initialCalendar = readInitialCalendar(root);
   const months = getMonths(initialCalendar);
   const mediaQuery = window.matchMedia("(max-width: 48rem), (pointer: coarse)");
-  const initialSelected = closestDate(root.querySelector<HTMLElement>("[data-github-day][data-selected='true']")?.dataset.date ?? null, initialCalendar.days);
+  const initialSelected = closestDate(
+    root.querySelector<HTMLElement>("[data-github-day][data-selected='true']")
+      ?.dataset.date ?? null,
+    initialCalendar.days,
+  );
   const state: CalendarState = {
     calendar: initialCalendar,
     view: mediaQuery.matches ? "month" : "year",
-    month: closestMonth(initialSelected ? monthKey(initialSelected) : null, months),
+    month: closestMonth(
+      initialSelected ? monthKey(initialSelected) : null,
+      months,
+    ),
     selected: initialSelected,
   };
 
-  const controls = root.querySelector<HTMLElement>("[data-github-calendar-controls]");
-  const monthControls = root.querySelector<HTMLElement>("[data-github-calendar-month-controls]");
-  const panels = root.querySelector<HTMLElement>("[data-github-calendar-panels]");
-  const monthPicker = root.querySelector<HTMLSelectElement>("[data-github-calendar-month-picker]");
-  const previous = root.querySelector<HTMLButtonElement>("[data-github-calendar-previous]");
-  const next = root.querySelector<HTMLButtonElement>("[data-github-calendar-next]");
+  const controls = root.querySelector<HTMLElement>(
+    "[data-github-calendar-controls]",
+  );
+  const monthControls = root.querySelector<HTMLElement>(
+    "[data-github-calendar-month-controls]",
+  );
+  const panels = root.querySelector<HTMLElement>(
+    "[data-github-calendar-panels]",
+  );
+  const monthPicker = root.querySelector<HTMLSelectElement>(
+    "[data-github-calendar-month-picker]",
+  );
+  const previous = root.querySelector<HTMLButtonElement>(
+    "[data-github-calendar-previous]",
+  );
+  const next = root.querySelector<HTMLButtonElement>(
+    "[data-github-calendar-next]",
+  );
   const range = root.querySelector<HTMLElement>("[data-github-calendar-range]");
-  const selection = root.querySelector<HTMLElement>("[data-github-calendar-selection]");
-  const inspect = root.querySelector<HTMLAnchorElement>("[data-github-calendar-inspect]");
+  const selection = root.querySelector<HTMLElement>(
+    "[data-github-calendar-selection]",
+  );
+  const inspect = root.querySelector<HTMLAnchorElement>(
+    "[data-github-calendar-inspect]",
+  );
   const stats = {
-    total: root.querySelector<HTMLElement>("[data-github-calendar-stat='total']"),
-    active: root.querySelector<HTMLElement>("[data-github-calendar-stat='active']"),
+    total: root.querySelector<HTMLElement>(
+      "[data-github-calendar-stat='total']",
+    ),
+    active: root.querySelector<HTMLElement>(
+      "[data-github-calendar-stat='active']",
+    ),
     last: root.querySelector<HTMLElement>("[data-github-calendar-stat='last']"),
   };
-  if (!controls || !monthControls || !panels || !monthPicker || !previous || !next || !range || !selection || !inspect) {
+  if (
+    !controls ||
+    !monthControls ||
+    !panels ||
+    !monthPicker ||
+    !previous ||
+    !next ||
+    !range ||
+    !selection ||
+    !inspect
+  ) {
     throw new Error("GitHub calendar markup is incomplete");
   }
 
   const getDays = (): GitHubDay[] => state.calendar.days;
-  const getDay = (date: string | null): GitHubDay | undefined => getDays().find((day) => day.date === date);
+  const getDay = (date: string | null): GitHubDay | undefined =>
+    getDays().find((day) => day.date === date);
   const syncSelectionAttributes = (): void => {
     for (const day of root.querySelectorAll<HTMLElement>("[data-github-day]")) {
       const isSelected = day.dataset.date === state.selected;
@@ -303,9 +434,15 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   };
   const updateStats = (): void => {
     const computed = getCalendarStats(state.calendar);
-    if (stats.total) stats.total.textContent = computed.totalContributions.toLocaleString(locale);
-    if (stats.active) stats.active.textContent = computed.activeDays.toLocaleString(locale);
-    if (stats.last) stats.last.textContent = computed.lastActiveDate ? formatDate(locale, computed.lastActiveDate) : copy.noActivityLabel;
+    if (stats.total)
+      stats.total.textContent =
+        computed.totalContributions.toLocaleString(locale);
+    if (stats.active)
+      stats.active.textContent = computed.activeDays.toLocaleString(locale);
+    if (stats.last)
+      stats.last.textContent = computed.lastActiveDate
+        ? formatDate(locale, computed.lastActiveDate)
+        : copy.noActivityLabel;
     range.textContent = `${formatDate(locale, state.calendar.from)} — ${formatDate(locale, state.calendar.to)}`;
   };
   const updateMonthControls = (): void => {
@@ -325,7 +462,9 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
     monthControls.hidden = state.view !== "month";
   };
   const updateViewButtons = (): void => {
-    for (const button of root.querySelectorAll<HTMLButtonElement>("[data-github-calendar-view-button]")) {
+    for (const button of root.querySelectorAll<HTMLButtonElement>(
+      "[data-github-calendar-view-button]",
+    )) {
       const active = button.dataset.githubCalendarViewButton === state.view;
       button.setAttribute("aria-pressed", String(active));
       button.classList.toggle("border-paper", active);
@@ -335,14 +474,25 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   };
   const focusDayAfterRender = (date: string | null): void => {
     if (!date) return;
-    const target = Array.from(root.querySelectorAll<HTMLElement>("[data-github-day]")).find((day) => day.dataset.date === date);
+    const target = Array.from(
+      root.querySelectorAll<HTMLElement>("[data-github-day]"),
+    ).find((day) => day.dataset.date === date);
     target?.focus({ preventScroll: true });
   };
   const render = (focusDate: string | null = null): void => {
     const availableMonths = getMonths(state.calendar);
     state.month = closestMonth(state.month, availableMonths);
     state.selected = closestDate(state.selected, state.calendar.days);
-    panels.innerHTML = state.view === "year" ? renderYear(state.calendar, copy, locale, state.selected) : renderMonth(state.calendar, copy, locale, state.selected, state.month);
+    panels.innerHTML =
+      state.view === "year"
+        ? renderYear(state.calendar, copy, locale, state.selected)
+        : renderMonth(
+            state.calendar,
+            copy,
+            locale,
+            state.selected,
+            state.month,
+          );
     updateViewButtons();
     updateMonthControls();
     syncSelectionAttributes();
@@ -352,7 +502,9 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   };
   const selectMonth = (month: string): void => {
     state.month = month;
-    const firstDayInMonth = state.calendar.days.find((day) => monthKey(day.date) === month);
+    const firstDayInMonth = state.calendar.days.find(
+      (day) => monthKey(day.date) === month,
+    );
     state.selected = firstDayInMonth?.date ?? null;
     render();
   };
@@ -362,7 +514,10 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
     syncSelectionAttributes();
     updateInspector();
   };
-  const moveDay = (origin: HTMLElement, direction: "left" | "right" | "up" | "down" | "home" | "end"): void => {
+  const moveDay = (
+    origin: HTMLElement,
+    direction: "left" | "right" | "up" | "down" | "home" | "end",
+  ): void => {
     const row = Number(origin.dataset.gridRow);
     const col = Number(origin.dataset.gridCol);
     if (!Number.isInteger(row) || !Number.isInteger(col)) return;
@@ -380,7 +535,10 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
     if (direction === "home" || direction === "end") {
       const rowDays = [...daysByPosition.entries()]
         .filter(([position]) => Number(position.split(":")[0]) === row)
-        .sort(([left], [right]) => Number(left.split(":")[1]) - Number(right.split(":")[1]))
+        .sort(
+          ([left], [right]) =>
+            Number(left.split(":")[1]) - Number(right.split(":")[1]),
+        )
         .map(([, day]) => day);
       const candidate = direction === "home" ? rowDays[0] : rowDays.at(-1);
       if (candidate) {
@@ -393,7 +551,12 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
     const colDelta = direction === "left" ? -1 : direction === "right" ? 1 : 0;
     let nextRow = row + rowDelta;
     let nextCol = col + colDelta;
-    while (nextRow >= 0 && nextRow <= maxRow && nextCol >= 0 && nextCol <= maxCol) {
+    while (
+      nextRow >= 0 &&
+      nextRow <= maxRow &&
+      nextCol >= 0 &&
+      nextCol <= maxCol
+    ) {
       const candidate = daysByPosition.get(`${nextRow}:${nextCol}`);
       if (candidate) {
         candidate.focus();
@@ -408,28 +571,49 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   controls.hidden = false;
   root.dataset.githubCalendarInitialized = "true";
   root.addEventListener("click", (event) => {
-    const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-github-day]") : null;
+    const target =
+      event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-github-day]")
+        : null;
     if (target?.dataset.date) {
       if (!event.ctrlKey && !event.metaKey) event.preventDefault();
       setSelected(target.dataset.date);
     }
-    const viewButton = event.target instanceof Element ? event.target.closest<HTMLButtonElement>("[data-github-calendar-view-button]") : null;
-    if (viewButton?.dataset.githubCalendarViewButton === "year" || viewButton?.dataset.githubCalendarViewButton === "month") {
+    const viewButton =
+      event.target instanceof Element
+        ? event.target.closest<HTMLButtonElement>(
+            "[data-github-calendar-view-button]",
+          )
+        : null;
+    if (
+      viewButton?.dataset.githubCalendarViewButton === "year" ||
+      viewButton?.dataset.githubCalendarViewButton === "month"
+    ) {
       state.view = viewButton.dataset.githubCalendarViewButton;
-      if (state.view === "month" && state.selected) state.month = monthKey(state.selected);
+      if (state.view === "month" && state.selected)
+        state.month = monthKey(state.selected);
       render();
     }
   });
   root.addEventListener("focusin", (event) => {
-    const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-github-day]") : null;
+    const target =
+      event.target instanceof Element
+        ? event.target.closest<HTMLElement>("[data-github-day]")
+        : null;
     if (target?.dataset.date) {
       setSelected(target.dataset.date);
     }
   });
   root.addEventListener("keydown", (event) => {
-    const target = event.target instanceof HTMLElement ? event.target.closest<HTMLElement>("[data-github-day]") : null;
+    const target =
+      event.target instanceof HTMLElement
+        ? event.target.closest<HTMLElement>("[data-github-day]")
+        : null;
     if (!target) return;
-    const keyMap: Record<string, "left" | "right" | "up" | "down" | "home" | "end"> = {
+    const keyMap: Record<
+      string,
+      "left" | "right" | "up" | "down" | "home" | "end"
+    > = {
       ArrowLeft: "left",
       ArrowRight: "right",
       ArrowUp: "up",
@@ -459,21 +643,31 @@ export function initGitHubCalendar(root: HTMLElement): GitHubCalendarController 
   next.addEventListener("click", () => {
     const availableMonths = getMonths(state.calendar);
     const index = availableMonths.indexOf(state.month);
-    if (index >= 0 && index < availableMonths.length - 1) selectMonth(availableMonths[index + 1] ?? state.month);
+    if (index >= 0 && index < availableMonths.length - 1)
+      selectMonth(availableMonths[index + 1] ?? state.month);
   });
 
   render();
 
   return {
     update(calendar: Calendar): void {
-      const activeDay = root.ownerDocument.activeElement?.closest<HTMLElement>("[data-github-day]")?.dataset.date ?? null;
+      const activeDay =
+        root.ownerDocument.activeElement?.closest<HTMLElement>(
+          "[data-github-day]",
+        )?.dataset.date ?? null;
       const oldSelected = state.selected;
       const oldMonth = state.month;
       state.calendar = calendar;
       state.selected = closestDate(oldSelected, calendar.days);
       const availableMonths = getMonths(calendar);
-      state.month = availableMonths.includes(oldMonth) ? oldMonth : closestMonth(oldMonth, availableMonths);
-      render(activeDay && calendar.days.some((day) => day.date === activeDay) ? activeDay : null);
+      state.month = availableMonths.includes(oldMonth)
+        ? oldMonth
+        : closestMonth(oldMonth, availableMonths);
+      render(
+        activeDay && calendar.days.some((day) => day.date === activeDay)
+          ? activeDay
+          : null,
+      );
     },
   };
 }

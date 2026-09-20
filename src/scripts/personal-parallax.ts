@@ -25,8 +25,12 @@ onPageLoad((signal) => {
     }
 
     const bounds = frame.getBoundingClientRect();
-    const distanceFromCenter = window.innerHeight / 2 - (bounds.top + bounds.height / 2);
-    const shift = Math.max(-MAX_SHIFT, Math.min(MAX_SHIFT, distanceFromCenter * PARALLAX_FACTOR));
+    const distanceFromCenter =
+      window.innerHeight / 2 - (bounds.top + bounds.height / 2);
+    const shift = Math.max(
+      -MAX_SHIFT,
+      Math.min(MAX_SHIFT, distanceFromCenter * PARALLAX_FACTOR),
+    );
     image.style.setProperty("--personal-photo-shift", `${shift.toFixed(2)}px`);
   };
 
@@ -37,10 +41,14 @@ onPageLoad((signal) => {
 
   window.addEventListener("scroll", schedule, { passive: true, signal });
   window.addEventListener("resize", schedule, { passive: true, signal });
-  reducedMotion.addEventListener("change", () => {
-    if (reducedMotion.matches) reset();
-    else schedule();
-  }, { signal });
+  reducedMotion.addEventListener(
+    "change",
+    () => {
+      if (reducedMotion.matches) reset();
+      else schedule();
+    },
+    { signal },
+  );
   signal.addEventListener("abort", reset, { once: true });
   schedule();
 });

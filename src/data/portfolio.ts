@@ -12,7 +12,8 @@ export interface Project {
   linkLabel?: string;
 }
 
-export type JourneyPoint = "2023" | "2024" | "2025" | "2026-but" | "2026-master" | "2027" | "2028";
+export type JourneyPoint =
+  "2023" | "2024" | "2025" | "2026-but" | "2026-master" | "2027" | "2028";
 
 export interface JourneyEntry {
   kind: "education" | "experience";
@@ -25,7 +26,6 @@ export interface JourneyEntry {
   projectId?: ProjectId;
 }
 
-
 export interface Skill {
   name: string;
   projectIds: ProjectId[];
@@ -37,7 +37,8 @@ export interface SkillGroup {
   items: Skill[];
 }
 
-export type SectionId = "projects" | "open-source" | "journey" | "skills" | "contact";
+export type SectionId =
+  "projects" | "open-source" | "journey" | "skills" | "contact";
 
 export interface NavigationSection {
   id: SectionId;
@@ -148,7 +149,11 @@ export interface PortfolioContent {
     personal: string;
     profileLabel: string;
     profileUrl: string;
-    selectedContributions: { number: number; problem: string; change: string }[];
+    selectedContributions: {
+      number: number;
+      problem: string;
+      change: string;
+    }[];
     github: {
       eyebrow: string;
       exploreLabel: string;
@@ -156,7 +161,10 @@ export interface PortfolioContent {
       homeLabel: string;
       latestHeading: string;
       scopeLabel: string;
-      scopes: Record<"recent" | "external" | "open", { label: string; description: string }>;
+      scopes: Record<
+        "recent" | "external" | "open",
+        { label: string; description: string }
+      >;
       states: Record<"open" | "merged" | "closed" | "draft", string>;
       relationships: Record<"personal" | "organization" | "external", string>;
       createdLabel: string;
@@ -222,7 +230,11 @@ export interface PortfolioContent {
   skills: {
     heading: string;
     instruction: string;
-    capabilities: { title: string; claim: string; technologies: { name: string; projectId?: ProjectId }[] }[];
+    capabilities: {
+      title: string;
+      claim: string;
+      technologies: { name: string; projectId?: ProjectId }[];
+    }[];
     catalogHeading: string;
     projectLabel: string;
     groups: SkillGroup[];
@@ -318,7 +330,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "GenomInt",
           description:
             "Au CIRAD, j’ai relié des agents IA à un graphe de données génomiques. Mon travail : l’orchestration, les services Python et l’accès aux données.",
-          technologies: "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
+          technologies:
+            "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
           url: "/projets/genomint/",
           linkLabel: "Lire le dossier",
         },
@@ -341,7 +354,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "brio",
           title: "Brio",
-          description: "Le projet d’orchestration d’agents IA dans lequel s’inscrit Maestria. J’en développe aussi le site avec Next.js.",
+          description:
+            "Le projet d’orchestration d’agents IA dans lequel s’inscrit Maestria. J’en développe aussi le site avec Next.js.",
           technologies: "Next.js",
           url: destinations.brio,
           linkLabel: "Visiter Brio",
@@ -350,25 +364,33 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     openSource: {
       heading: "Le travail continue sur GitHub.",
-      intro: "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur mon profil.",
-      personal: "Python en autodidacte, puis C et Rust en explorant Linux. J’aime le logiciel libre.",
+      intro:
+        "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur mon profil.",
+      personal:
+        "Python en autodidacte, puis C et Rust en explorant Linux. J’aime le logiciel libre.",
       profileLabel: "carabistouflette sur GitHub",
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
           number: 485,
-          problem: "L’indexation créait un effet par fragment : échanges et écritures multipliés, état difficile à rejouer.",
-          change: "Le travail est regroupé par document : un appel d’embedding par lot, un état rejouable, des contrôles de cohérence conservés.",
+          problem:
+            "L’indexation créait un effet par fragment : échanges et écritures multipliés, état difficile à rejouer.",
+          change:
+            "Le travail est regroupé par document : un appel d’embedding par lot, un état rejouable, des contrôles de cohérence conservés.",
         },
         {
           number: 501,
-          problem: "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
-          change: "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
+          problem:
+            "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
+          change:
+            "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
         },
         {
           number: 511,
-          problem: "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents. Le verdict est un résultat négatif.",
-          change: "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
+          problem:
+            "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents. Le verdict est un résultat négatif.",
+          change:
+            "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
         },
       ],
       github: {
@@ -379,12 +401,33 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         latestHeading: "Les dernières contributions",
         scopeLabel: "Contributions à afficher",
         scopes: {
-          recent: { label: "Les plus récentes", description: "Les trois dernières pull requests publiques que j’ai ouvertes, tous statuts confondus, par date de création." },
-          external: { label: "Hors dépôts personnels", description: "Les trois dernières PR hors de mes dépôts personnels. Les projets d’organisations auxquelles je participe sont inclus et distingués." },
-          open: { label: "En cours", description: "Jusqu’à trois PR encore ouvertes, triées par dernière mise à jour. Les brouillons sont indiqués." },
+          recent: {
+            label: "Les plus récentes",
+            description:
+              "Les trois dernières pull requests publiques que j’ai ouvertes, tous statuts confondus, par date de création.",
+          },
+          external: {
+            label: "Hors dépôts personnels",
+            description:
+              "Les trois dernières PR hors de mes dépôts personnels. Les projets d’organisations auxquelles je participe sont inclus et distingués.",
+          },
+          open: {
+            label: "En cours",
+            description:
+              "Jusqu’à trois PR encore ouvertes, triées par dernière mise à jour. Les brouillons sont indiqués.",
+          },
         },
-        states: { open: "Ouverte", merged: "Fusionnée", closed: "Fermée sans fusion", draft: "Brouillon" },
-        relationships: { personal: "Dépôt personnel", organization: "Membre / propriétaire de l’organisation", external: "Autre dépôt" },
+        states: {
+          open: "Ouverte",
+          merged: "Fusionnée",
+          closed: "Fermée sans fusion",
+          draft: "Brouillon",
+        },
+        relationships: {
+          personal: "Dépôt personnel",
+          organization: "Membre / propriétaire de l’organisation",
+          external: "Autre dépôt",
+        },
         createdLabel: "Ouverte le",
         updatedLabel: "Actualisée le",
         mergedLabel: "Fusionnée le",
@@ -400,9 +443,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         refreshingLabel: "Récupération du dernier instantané…",
         refreshedLabel: "Dernier instantané récupéré.",
         cachedLabel: "Instantané conservé dans ce navigateur.",
-        staleLabel: "Cet instantané date de plus de 36 heures. GitHub peut afficher une activité plus récente.",
-        updateFailedLabel: "La vérification en ligne est indisponible. Les données datées restent consultables.",
-        refreshPolicy: "Synchronisation horaire prévue via GitHub Actions. Le calendrier suit les délais de comptabilisation de GitHub.",
+        staleLabel:
+          "Cet instantané date de plus de 36 heures. GitHub peut afficher une activité plus récente.",
+        updateFailedLabel:
+          "La vérification en ligne est indisponible. Les données datées restent consultables.",
+        refreshPolicy:
+          "Synchronisation horaire prévue via GitHub Actions. Le calendrier suit les délais de comptabilisation de GitHub.",
         methodHeading: "Ce que montrent ces données",
         methodParagraphs: [
           "Les PR viennent de l’API publique GitHub et sont attribuées à carabistouflette. Une PR sur un dépôt personnel n’est pas présentée comme une contribution à un projet tiers. L’association à une organisation est celle indiquée par GitHub sur la PR.",
@@ -413,7 +459,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         sourceLabel: "Comprendre le calendrier GitHub",
         calendar: {
           heading: "Au fil des jours",
-          intro: "Une année d’activité telle que GitHub la comptabilise. Sélectionnez une journée pour en retrouver la trace.",
+          intro:
+            "Une année d’activité telle que GitHub la comptabilise. Sélectionnez une journée pour en retrouver la trace.",
           viewLabel: "Vue du calendrier",
           yearLabel: "Année",
           monthLabel: "Mois",
@@ -427,7 +474,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           zeroDayLabel: "{date} · aucune contribution comptabilisée",
           inspectLabel: "Voir cette journée sur GitHub",
           selectionLabel: "Journée sélectionnée",
-          navigationHint: "Au clavier : flèches pour changer de jour, Début / Fin pour parcourir une ligne.",
+          navigationHint:
+            "Au clavier : flèches pour changer de jour, Début / Fin pour parcourir une ligne.",
           activeDaysLabel: "Jours avec contributions",
           totalLabel: "Contributions sur la période",
           lastActiveLabel: "Dernier jour avec contribution",
@@ -437,12 +485,15 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Expérience & formation",
-      intro: "Du développement full-stack à l’IA appliquée, en parallèle de ma formation en informatique.",
-      scaleNote: "En 2026, le stage CIRAD fait partie du BUT et précède l’entrée en master. Les espacements de la frise sont schématiques.",
+      intro:
+        "Du développement full-stack à l’IA appliquée, en parallèle de ma formation en informatique.",
+      scaleNote:
+        "En 2026, le stage CIRAD fait partie du BUT et précède l’entrée en master. Les espacements de la frise sont schématiques.",
       labels: { education: "Formation", experience: "Expérience" },
       invitation: {
         title: "Vous ?",
-        description: "Je cherche un stage du 22 mars au 21 août 2027, à Montpellier ou Lille. Une alternance en M2 est également possible à partir de septembre 2027.",
+        description:
+          "Je cherche un stage du 22 mars au 21 août 2027, à Montpellier ou Lille. Une alternance en M2 est également possible à partir de septembre 2027.",
         linkLabel: "Proposer un stage",
         start: "2026-master",
         end: "2028",
@@ -480,7 +531,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           subtitle: "Stage full-stack",
           period: "Février–mai 2025",
           start: "2025",
-          detail: "Outils de traitement CSV : import, jointures et export pour les équipes d’agriculture digitale.",
+          detail:
+            "Outils de traitement CSV : import, jointures et export pour les équipes d’agriculture digitale.",
         },
         {
           kind: "education",
@@ -538,106 +590,162 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       catalogHeading: "Le catalogue complet",
       projectLabel: "Voir dans le projet",
       groups: [
-        { label: "Langages", description: "Écrire la logique, des scripts aux applications et aux systèmes.", items: [
-          { name: "Python", projectIds: ["genomint"] },
-          { name: "Rust", projectIds: ["maestria"] },
-          { name: "TypeScript", projectIds: [] },
-          { name: "Java", projectIds: ["encrypted-voting"] },
-          { name: "C", projectIds: [] },
-        ] },
-        { label: "Web & interfaces", description: "Relier les interfaces, les API et les services applicatifs.", items: [
-          { name: "Astro", projectIds: [] },
-          { name: "React", projectIds: [] },
-          { name: "Next.js", projectIds: ["brio"] },
-          { name: "Vue.js", projectIds: [] },
-          { name: "Nuxt.js", projectIds: [] },
-          { name: "Tailwind CSS", projectIds: [] },
-          { name: "FastAPI", projectIds: ["genomint"] },
-          { name: "Flask", projectIds: [] },
-          { name: "Spring Boot", projectIds: ["encrypted-voting"] },
-          { name: "Thymeleaf", projectIds: [] },
-        ] },
-        { label: "Données & analyse", description: "Préparer les datasets, transformer les tableaux et explorer les données.", items: [
-          { name: "Polars", projectIds: [] },
-          { name: "Pandas", projectIds: [] },
-          { name: "Datasets", projectIds: [] },
-          { name: "NumPy", projectIds: [] },
-          { name: "SciPy", projectIds: [] },
-          { name: "Scikit-learn", projectIds: [] },
-        ] },
-        { label: "IA & fine-tuning", description: "Adapter les modèles, préparer les tokens et optimiser l’inférence.", items: [
-          { name: "PyTorch", projectIds: [] },
-          { name: "Transformers", projectIds: [] },
-          { name: "Unsloth", projectIds: [] },
-          { name: "Tokenizers", projectIds: [] },
-          { name: "PEFT", projectIds: [] },
-          { name: "TRL", projectIds: [] },
-          { name: "bitsandbytes", projectIds: [] },
-          { name: "Safetensors", projectIds: [] },
-          { name: "LangChain", projectIds: [] },
-          { name: "Haystack", projectIds: [] },
-          { name: "vLLM", projectIds: [] },
-        ] },
-        { label: "Entraînement & suivi", description: "Exécuter les entraînements, comparer les expériences et suivre les métriques.", items: [
-          { name: "Accelerate", projectIds: [] },
-          { name: "PyTorch Lightning", projectIds: [] },
-          { name: "Weights & Biases", projectIds: [] },
-          { name: "DeepSpeed", projectIds: [] },
-          { name: "TensorBoard", projectIds: [] },
-          { name: "MLflow", projectIds: [] },
-          { name: "Optuna", projectIds: [] },
-        ] },
-        { label: "Visualisation", description: "Lire les distributions, visualiser les résultats et construire des graphiques interactifs.", items: [
-          { name: "Matplotlib", projectIds: [] },
-          { name: "Seaborn", projectIds: [] },
-          { name: "Plotly", projectIds: [] },
-          { name: "Altair", projectIds: [] },
-        ] },
-        { label: "Bases de données", description: "Organiser les données, du relationnel aux documents et aux graphes.", items: [
-          { name: "PostgreSQL", projectIds: ["genomint"] },
-          { name: "MySQL", projectIds: [] },
-          { name: "MariaDB", projectIds: [] },
-          { name: "SQLite", projectIds: ["maestria"] },
-          { name: "MongoDB", projectIds: [] },
-          { name: "Cassandra", projectIds: [] },
-          { name: "Neo4j", projectIds: ["genomint"] },
-        ] },
-        { label: "Systèmes & déploiement", description: "Construire, automatiser et faire communiquer les services.", items: [
-          { name: "Docker", projectIds: ["genomint"] },
-          { name: "Podman", projectIds: [] },
-          { name: "Maven", projectIds: [] },
-          { name: "Ansible", projectIds: [] },
-          { name: "Terraform", projectIds: [] },
-          { name: "GitLab CI/CD", projectIds: [] },
-          { name: "GitHub Actions", projectIds: [] },
-          { name: "gRPC", projectIds: [] },
-          { name: "Tokio", projectIds: [] },
-          { name: "WebAssembly", projectIds: [] },
-        ] },
-        { label: "Sécurité & réseau", description: "Explorer les environnements, les échanges réseau et leur sécurité.", items: [
-          { name: "Linux", projectIds: ["genomint"] },
-          { name: "Nmap", projectIds: [] },
-          { name: "Cisco Packet Tracer", projectIds: [] },
-          { name: "OpenSSL", projectIds: [] },
-          { name: "Wireshark", projectIds: [] },
-          { name: "ZAP Proxy", projectIds: [] },
-        ] },
+        {
+          label: "Langages",
+          description:
+            "Écrire la logique, des scripts aux applications et aux systèmes.",
+          items: [
+            { name: "Python", projectIds: ["genomint"] },
+            { name: "Rust", projectIds: ["maestria"] },
+            { name: "TypeScript", projectIds: [] },
+            { name: "Java", projectIds: ["encrypted-voting"] },
+            { name: "C", projectIds: [] },
+          ],
+        },
+        {
+          label: "Web & interfaces",
+          description:
+            "Relier les interfaces, les API et les services applicatifs.",
+          items: [
+            { name: "Astro", projectIds: [] },
+            { name: "React", projectIds: [] },
+            { name: "Next.js", projectIds: ["brio"] },
+            { name: "Vue.js", projectIds: [] },
+            { name: "Nuxt.js", projectIds: [] },
+            { name: "Tailwind CSS", projectIds: [] },
+            { name: "FastAPI", projectIds: ["genomint"] },
+            { name: "Flask", projectIds: [] },
+            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
+            { name: "Thymeleaf", projectIds: [] },
+          ],
+        },
+        {
+          label: "Données & analyse",
+          description:
+            "Préparer les datasets, transformer les tableaux et explorer les données.",
+          items: [
+            { name: "Polars", projectIds: [] },
+            { name: "Pandas", projectIds: [] },
+            { name: "Datasets", projectIds: [] },
+            { name: "NumPy", projectIds: [] },
+            { name: "SciPy", projectIds: [] },
+            { name: "Scikit-learn", projectIds: [] },
+          ],
+        },
+        {
+          label: "IA & fine-tuning",
+          description:
+            "Adapter les modèles, préparer les tokens et optimiser l’inférence.",
+          items: [
+            { name: "PyTorch", projectIds: [] },
+            { name: "Transformers", projectIds: [] },
+            { name: "Unsloth", projectIds: [] },
+            { name: "Tokenizers", projectIds: [] },
+            { name: "PEFT", projectIds: [] },
+            { name: "TRL", projectIds: [] },
+            { name: "bitsandbytes", projectIds: [] },
+            { name: "Safetensors", projectIds: [] },
+            { name: "LangChain", projectIds: [] },
+            { name: "Haystack", projectIds: [] },
+            { name: "vLLM", projectIds: [] },
+          ],
+        },
+        {
+          label: "Entraînement & suivi",
+          description:
+            "Exécuter les entraînements, comparer les expériences et suivre les métriques.",
+          items: [
+            { name: "Accelerate", projectIds: [] },
+            { name: "PyTorch Lightning", projectIds: [] },
+            { name: "Weights & Biases", projectIds: [] },
+            { name: "DeepSpeed", projectIds: [] },
+            { name: "TensorBoard", projectIds: [] },
+            { name: "MLflow", projectIds: [] },
+            { name: "Optuna", projectIds: [] },
+          ],
+        },
+        {
+          label: "Visualisation",
+          description:
+            "Lire les distributions, visualiser les résultats et construire des graphiques interactifs.",
+          items: [
+            { name: "Matplotlib", projectIds: [] },
+            { name: "Seaborn", projectIds: [] },
+            { name: "Plotly", projectIds: [] },
+            { name: "Altair", projectIds: [] },
+          ],
+        },
+        {
+          label: "Bases de données",
+          description:
+            "Organiser les données, du relationnel aux documents et aux graphes.",
+          items: [
+            { name: "PostgreSQL", projectIds: ["genomint"] },
+            { name: "MySQL", projectIds: [] },
+            { name: "MariaDB", projectIds: [] },
+            { name: "SQLite", projectIds: ["maestria"] },
+            { name: "MongoDB", projectIds: [] },
+            { name: "Cassandra", projectIds: [] },
+            { name: "Neo4j", projectIds: ["genomint"] },
+          ],
+        },
+        {
+          label: "Systèmes & déploiement",
+          description:
+            "Construire, automatiser et faire communiquer les services.",
+          items: [
+            { name: "Docker", projectIds: ["genomint"] },
+            { name: "Podman", projectIds: [] },
+            { name: "Maven", projectIds: [] },
+            { name: "Ansible", projectIds: [] },
+            { name: "Terraform", projectIds: [] },
+            { name: "GitLab CI/CD", projectIds: [] },
+            { name: "GitHub Actions", projectIds: [] },
+            { name: "gRPC", projectIds: [] },
+            { name: "Tokio", projectIds: [] },
+            { name: "WebAssembly", projectIds: [] },
+          ],
+        },
+        {
+          label: "Sécurité & réseau",
+          description:
+            "Explorer les environnements, les échanges réseau et leur sécurité.",
+          items: [
+            { name: "Linux", projectIds: ["genomint"] },
+            { name: "Nmap", projectIds: [] },
+            { name: "Cisco Packet Tracer", projectIds: [] },
+            { name: "OpenSSL", projectIds: [] },
+            { name: "Wireshark", projectIds: [] },
+            { name: "ZAP Proxy", projectIds: [] },
+          ],
+        },
       ],
     },
     personal: {
       heading: "Et loin du clavier ?",
       eyebrow: "Un autre rythme",
-      intro: "Je suis originaire de Montpellier. Loin du code, je fais de la randonnée en montagne et de la photographie. J’aime aussi le VTT et les voyages.",
-      photoAlt: "Un ruisseau descend entre les rochers d’une forêt de conifères, dans la brume éclairée par le soleil.",
+      intro:
+        "Je suis originaire de Montpellier. Loin du code, je fais de la randonnée en montagne et de la photographie. J’aime aussi le VTT et les voyages.",
+      photoAlt:
+        "Un ruisseau descend entre les rochers d’une forêt de conifères, dans la brume éclairée par le soleil.",
       interests: [
-        { title: "Écrire & imaginer", description: "J’écris des histoires. La lecture et la philosophie font aussi partie de mes centres d’intérêt." },
-        { title: "Bricoler & partager", description: "Je bricole des PC, des Raspberry Pi et de l’électronique. Et j’aime les jeux de société." },
+        {
+          title: "Écrire & imaginer",
+          description:
+            "J’écris des histoires. La lecture et la philosophie font aussi partie de mes centres d’intérêt.",
+        },
+        {
+          title: "Bricoler & partager",
+          description:
+            "Je bricole des PC, des Raspberry Pi et de l’électronique. Et j’aime les jeux de société.",
+        },
       ],
     },
     contact: {
       eyebrow: "Contact & opportunités",
       heading: "Donnons vie à vos projets.",
-      description: "Que ce soit pour concevoir une architecture logicielle, intégrer des modèles d'IA ou échanger autour de l'open source, ma boîte mail est ouverte.",
+      description:
+        "Que ce soit pour concevoir une architecture logicielle, intégrer des modèles d'IA ou échanger autour de l'open source, ma boîte mail est ouverte.",
       email: "arobin9999@gmail.com",
       emailCta: "Envoyer un e-mail",
       copyEmail: "Copier l'adresse",
@@ -708,7 +816,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "GenomInt",
           description:
             "At CIRAD, I connected AI agents to a genomic knowledge graph. My work covered orchestration, Python services and data access.",
-          technologies: "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
+          technologies:
+            "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
           linkLabel: "Read the case study",
         },
@@ -731,7 +840,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "brio",
           title: "Brio",
-          description: "The AI agent orchestration project that Maestria belongs to. I also build its website with Next.js.",
+          description:
+            "The AI agent orchestration project that Maestria belongs to. I also build its website with Next.js.",
           technologies: "Next.js",
           url: destinations.brio,
           linkLabel: "Visit Brio",
@@ -740,25 +850,33 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     openSource: {
       heading: "The work continues on GitHub.",
-      intro: "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on my profile.",
-      personal: "Self-taught Python, then C and Rust through Linux. I love open source.",
+      intro:
+        "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on my profile.",
+      personal:
+        "Self-taught Python, then C and Rust through Linux. I love open source.",
       profileLabel: "carabistouflette on GitHub",
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
         {
           number: 485,
-          problem: "Indexing created one effect per chunk: multiplied exchanges and writes, state that was hard to replay.",
-          change: "Work is grouped per document: one batch embedding call, replayable state, consistency checks preserved.",
+          problem:
+            "Indexing created one effect per chunk: multiplied exchanges and writes, state that was hard to replay.",
+          change:
+            "Work is grouped per document: one batch embedding call, replayable state, consistency checks preserved.",
         },
         {
           number: 501,
-          problem: "An asynchronous façade imposed complexity the actual work did not require.",
-          change: "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
+          problem:
+            "An asynchronous façade imposed complexity the actual work did not require.",
+          change:
+            "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
         },
         {
           number: 511,
-          problem: "A retrieval lane that looked attractive on paper: better passage ranking for agents. The verdict is a negative result.",
-          change: "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
+          problem:
+            "A retrieval lane that looked attractive on paper: better passage ranking for agents. The verdict is a negative result.",
+          change:
+            "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
         },
       ],
       github: {
@@ -769,12 +887,33 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         latestHeading: "Latest contributions",
         scopeLabel: "Contributions to display",
         scopes: {
-          recent: { label: "Most recent", description: "The three latest public pull requests I opened, across all statuses, ordered by creation date." },
-          external: { label: "Outside personal repos", description: "The three latest PRs outside my personal repositories. Projects in organizations I participate in are included and identified." },
-          open: { label: "In progress", description: "Up to three PRs that are still open, ordered by latest update. Drafts are identified." },
+          recent: {
+            label: "Most recent",
+            description:
+              "The three latest public pull requests I opened, across all statuses, ordered by creation date.",
+          },
+          external: {
+            label: "Outside personal repos",
+            description:
+              "The three latest PRs outside my personal repositories. Projects in organizations I participate in are included and identified.",
+          },
+          open: {
+            label: "In progress",
+            description:
+              "Up to three PRs that are still open, ordered by latest update. Drafts are identified.",
+          },
         },
-        states: { open: "Open", merged: "Merged", closed: "Closed without merging", draft: "Draft" },
-        relationships: { personal: "Personal repository", organization: "Organization member / owner", external: "Other repository" },
+        states: {
+          open: "Open",
+          merged: "Merged",
+          closed: "Closed without merging",
+          draft: "Draft",
+        },
+        relationships: {
+          personal: "Personal repository",
+          organization: "Organization member / owner",
+          external: "Other repository",
+        },
         createdLabel: "Opened on",
         updatedLabel: "Updated on",
         mergedLabel: "Merged on",
@@ -790,9 +929,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         refreshingLabel: "Fetching the latest snapshot…",
         refreshedLabel: "Latest snapshot retrieved.",
         cachedLabel: "Snapshot saved in this browser.",
-        staleLabel: "This snapshot is over 36 hours old. GitHub may show more recent activity.",
-        updateFailedLabel: "The online check is unavailable. The dated snapshot remains accessible.",
-        refreshPolicy: "Hourly synchronization scheduled through GitHub Actions. The calendar follows GitHub’s contribution counting delays.",
+        staleLabel:
+          "This snapshot is over 36 hours old. GitHub may show more recent activity.",
+        updateFailedLabel:
+          "The online check is unavailable. The dated snapshot remains accessible.",
+        refreshPolicy:
+          "Hourly synchronization scheduled through GitHub Actions. The calendar follows GitHub’s contribution counting delays.",
         methodHeading: "What these data show",
         methodParagraphs: [
           "PRs come from GitHub’s public API and are authored by carabistouflette. A PR in a personal repository is not presented as a contribution to a third-party project. Organization association is the one GitHub reports on the PR.",
@@ -803,7 +945,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         sourceLabel: "How GitHub counts contributions",
         calendar: {
           heading: "Day by day",
-          intro: "A year of activity as GitHub counts it. Select a day to trace it back to the source.",
+          intro:
+            "A year of activity as GitHub counts it. Select a day to trace it back to the source.",
           viewLabel: "Calendar view",
           yearLabel: "Year",
           monthLabel: "Month",
@@ -817,7 +960,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           zeroDayLabel: "{date} · no contributions counted",
           inspectLabel: "View this day on GitHub",
           selectionLabel: "Selected day",
-          navigationHint: "Keyboard: use arrows to change days, Home / End to move within a row.",
+          navigationHint:
+            "Keyboard: use arrows to change days, Home / End to move within a row.",
           activeDaysLabel: "Days with contributions",
           totalLabel: "Contributions in this period",
           lastActiveLabel: "Last day with a contribution",
@@ -827,12 +971,15 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Experience & education",
-      intro: "From full-stack development to applied AI, alongside my computer science studies.",
-      scaleNote: "In 2026, the CIRAD internship belongs to the BUT degree and precedes the master’s programme. Timeline spacing is schematic.",
+      intro:
+        "From full-stack development to applied AI, alongside my computer science studies.",
+      scaleNote:
+        "In 2026, the CIRAD internship belongs to the BUT degree and precedes the master’s programme. Timeline spacing is schematic.",
       labels: { education: "Education", experience: "Experience" },
       invitation: {
         title: "You?",
-        description: "I’m looking for an internship from 22 March to 21 August 2027, in Montpellier or Lille. An M2 apprenticeship is also possible from September 2027.",
+        description:
+          "I’m looking for an internship from 22 March to 21 August 2027, in Montpellier or Lille. An M2 apprenticeship is also possible from September 2027.",
         linkLabel: "Discuss an internship",
         start: "2026-master",
         end: "2028",
@@ -861,7 +1008,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           subtitle: "Agentic AI / RAG internship",
           period: "April–August 2026",
           start: "2026-but",
-          detail: "BUT degree internship · agronomy research · the GenomInt project.",
+          detail:
+            "BUT degree internship · agronomy research · the GenomInt project.",
           projectId: "genomint",
         },
         {
@@ -870,7 +1018,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           subtitle: "Full-stack internship",
           period: "February–May 2025",
           start: "2025",
-          detail: "CSV tools: imports, joins and exports for digital-agriculture teams.",
+          detail:
+            "CSV tools: imports, joins and exports for digital-agriculture teams.",
         },
         {
           kind: "education",
@@ -879,7 +1028,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           period: "2023–2026",
           start: "2023",
           end: "2026-master",
-          detail: "French three-year bachelor’s-equivalent degree · network deployment and security",
+          detail:
+            "French three-year bachelor’s-equivalent degree · network deployment and security",
         },
       ],
     },
@@ -928,106 +1078,156 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       catalogHeading: "The full catalog",
       projectLabel: "See in project",
       groups: [
-        { label: "Languages", description: "Write the logic, from scripts to applications and systems.", items: [
-          { name: "Python", projectIds: ["genomint"] },
-          { name: "Rust", projectIds: ["maestria"] },
-          { name: "TypeScript", projectIds: [] },
-          { name: "Java", projectIds: ["encrypted-voting"] },
-          { name: "C", projectIds: [] },
-        ] },
-        { label: "Web & interfaces", description: "Connect interfaces, APIs and application services.", items: [
-          { name: "Astro", projectIds: [] },
-          { name: "React", projectIds: [] },
-          { name: "Next.js", projectIds: ["brio"] },
-          { name: "Vue.js", projectIds: [] },
-          { name: "Nuxt.js", projectIds: [] },
-          { name: "Tailwind CSS", projectIds: [] },
-          { name: "FastAPI", projectIds: ["genomint"] },
-          { name: "Flask", projectIds: [] },
-          { name: "Spring Boot", projectIds: ["encrypted-voting"] },
-          { name: "Thymeleaf", projectIds: [] },
-        ] },
-        { label: "Data & analysis", description: "Prepare datasets, transform tables and explore data.", items: [
-          { name: "Polars", projectIds: [] },
-          { name: "Pandas", projectIds: [] },
-          { name: "Datasets", projectIds: [] },
-          { name: "NumPy", projectIds: [] },
-          { name: "SciPy", projectIds: [] },
-          { name: "Scikit-learn", projectIds: [] },
-        ] },
-        { label: "AI & fine-tuning", description: "Adapt models, prepare tokens and optimize inference.", items: [
-          { name: "PyTorch", projectIds: [] },
-          { name: "Transformers", projectIds: [] },
-          { name: "Unsloth", projectIds: [] },
-          { name: "Tokenizers", projectIds: [] },
-          { name: "PEFT", projectIds: [] },
-          { name: "TRL", projectIds: [] },
-          { name: "bitsandbytes", projectIds: [] },
-          { name: "Safetensors", projectIds: [] },
-          { name: "LangChain", projectIds: [] },
-          { name: "Haystack", projectIds: [] },
-          { name: "vLLM", projectIds: [] },
-        ] },
-        { label: "Training & tracking", description: "Run training jobs, compare experiments and track metrics.", items: [
-          { name: "Accelerate", projectIds: [] },
-          { name: "PyTorch Lightning", projectIds: [] },
-          { name: "Weights & Biases", projectIds: [] },
-          { name: "DeepSpeed", projectIds: [] },
-          { name: "TensorBoard", projectIds: [] },
-          { name: "MLflow", projectIds: [] },
-          { name: "Optuna", projectIds: [] },
-        ] },
-        { label: "Visualization", description: "Read distributions, visualize results and build interactive charts.", items: [
-          { name: "Matplotlib", projectIds: [] },
-          { name: "Seaborn", projectIds: [] },
-          { name: "Plotly", projectIds: [] },
-          { name: "Altair", projectIds: [] },
-        ] },
-        { label: "Databases", description: "Organize data, from relations to documents and graphs.", items: [
-          { name: "PostgreSQL", projectIds: ["genomint"] },
-          { name: "MySQL", projectIds: [] },
-          { name: "MariaDB", projectIds: [] },
-          { name: "SQLite", projectIds: ["maestria"] },
-          { name: "MongoDB", projectIds: [] },
-          { name: "Cassandra", projectIds: [] },
-          { name: "Neo4j", projectIds: ["genomint"] },
-        ] },
-        { label: "Systems & deployment", description: "Build, automate and connect services.", items: [
-          { name: "Docker", projectIds: ["genomint"] },
-          { name: "Podman", projectIds: [] },
-          { name: "Maven", projectIds: [] },
-          { name: "Ansible", projectIds: [] },
-          { name: "Terraform", projectIds: [] },
-          { name: "GitLab CI/CD", projectIds: [] },
-          { name: "GitHub Actions", projectIds: [] },
-          { name: "gRPC", projectIds: [] },
-          { name: "Tokio", projectIds: [] },
-          { name: "WebAssembly", projectIds: [] },
-        ] },
-        { label: "Security & networking", description: "Explore environments, network traffic and security.", items: [
-          { name: "Linux", projectIds: ["genomint"] },
-          { name: "Nmap", projectIds: [] },
-          { name: "Cisco Packet Tracer", projectIds: [] },
-          { name: "OpenSSL", projectIds: [] },
-          { name: "Wireshark", projectIds: [] },
-          { name: "ZAP Proxy", projectIds: [] },
-        ] },
+        {
+          label: "Languages",
+          description:
+            "Write the logic, from scripts to applications and systems.",
+          items: [
+            { name: "Python", projectIds: ["genomint"] },
+            { name: "Rust", projectIds: ["maestria"] },
+            { name: "TypeScript", projectIds: [] },
+            { name: "Java", projectIds: ["encrypted-voting"] },
+            { name: "C", projectIds: [] },
+          ],
+        },
+        {
+          label: "Web & interfaces",
+          description: "Connect interfaces, APIs and application services.",
+          items: [
+            { name: "Astro", projectIds: [] },
+            { name: "React", projectIds: [] },
+            { name: "Next.js", projectIds: ["brio"] },
+            { name: "Vue.js", projectIds: [] },
+            { name: "Nuxt.js", projectIds: [] },
+            { name: "Tailwind CSS", projectIds: [] },
+            { name: "FastAPI", projectIds: ["genomint"] },
+            { name: "Flask", projectIds: [] },
+            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
+            { name: "Thymeleaf", projectIds: [] },
+          ],
+        },
+        {
+          label: "Data & analysis",
+          description: "Prepare datasets, transform tables and explore data.",
+          items: [
+            { name: "Polars", projectIds: [] },
+            { name: "Pandas", projectIds: [] },
+            { name: "Datasets", projectIds: [] },
+            { name: "NumPy", projectIds: [] },
+            { name: "SciPy", projectIds: [] },
+            { name: "Scikit-learn", projectIds: [] },
+          ],
+        },
+        {
+          label: "AI & fine-tuning",
+          description: "Adapt models, prepare tokens and optimize inference.",
+          items: [
+            { name: "PyTorch", projectIds: [] },
+            { name: "Transformers", projectIds: [] },
+            { name: "Unsloth", projectIds: [] },
+            { name: "Tokenizers", projectIds: [] },
+            { name: "PEFT", projectIds: [] },
+            { name: "TRL", projectIds: [] },
+            { name: "bitsandbytes", projectIds: [] },
+            { name: "Safetensors", projectIds: [] },
+            { name: "LangChain", projectIds: [] },
+            { name: "Haystack", projectIds: [] },
+            { name: "vLLM", projectIds: [] },
+          ],
+        },
+        {
+          label: "Training & tracking",
+          description:
+            "Run training jobs, compare experiments and track metrics.",
+          items: [
+            { name: "Accelerate", projectIds: [] },
+            { name: "PyTorch Lightning", projectIds: [] },
+            { name: "Weights & Biases", projectIds: [] },
+            { name: "DeepSpeed", projectIds: [] },
+            { name: "TensorBoard", projectIds: [] },
+            { name: "MLflow", projectIds: [] },
+            { name: "Optuna", projectIds: [] },
+          ],
+        },
+        {
+          label: "Visualization",
+          description:
+            "Read distributions, visualize results and build interactive charts.",
+          items: [
+            { name: "Matplotlib", projectIds: [] },
+            { name: "Seaborn", projectIds: [] },
+            { name: "Plotly", projectIds: [] },
+            { name: "Altair", projectIds: [] },
+          ],
+        },
+        {
+          label: "Databases",
+          description: "Organize data, from relations to documents and graphs.",
+          items: [
+            { name: "PostgreSQL", projectIds: ["genomint"] },
+            { name: "MySQL", projectIds: [] },
+            { name: "MariaDB", projectIds: [] },
+            { name: "SQLite", projectIds: ["maestria"] },
+            { name: "MongoDB", projectIds: [] },
+            { name: "Cassandra", projectIds: [] },
+            { name: "Neo4j", projectIds: ["genomint"] },
+          ],
+        },
+        {
+          label: "Systems & deployment",
+          description: "Build, automate and connect services.",
+          items: [
+            { name: "Docker", projectIds: ["genomint"] },
+            { name: "Podman", projectIds: [] },
+            { name: "Maven", projectIds: [] },
+            { name: "Ansible", projectIds: [] },
+            { name: "Terraform", projectIds: [] },
+            { name: "GitLab CI/CD", projectIds: [] },
+            { name: "GitHub Actions", projectIds: [] },
+            { name: "gRPC", projectIds: [] },
+            { name: "Tokio", projectIds: [] },
+            { name: "WebAssembly", projectIds: [] },
+          ],
+        },
+        {
+          label: "Security & networking",
+          description: "Explore environments, network traffic and security.",
+          items: [
+            { name: "Linux", projectIds: ["genomint"] },
+            { name: "Nmap", projectIds: [] },
+            { name: "Cisco Packet Tracer", projectIds: [] },
+            { name: "OpenSSL", projectIds: [] },
+            { name: "Wireshark", projectIds: [] },
+            { name: "ZAP Proxy", projectIds: [] },
+          ],
+        },
       ],
     },
     personal: {
       heading: "Away from the keyboard?",
       eyebrow: "A different pace",
-      intro: "I’m from Montpellier. Away from code, I hike in the mountains and take photographs. I also enjoy mountain biking and travelling.",
-      photoAlt: "A stream flows between rocks in a conifer forest, surrounded by mist lit by the sun.",
+      intro:
+        "I’m from Montpellier. Away from code, I hike in the mountains and take photographs. I also enjoy mountain biking and travelling.",
+      photoAlt:
+        "A stream flows between rocks in a conifer forest, surrounded by mist lit by the sun.",
       interests: [
-        { title: "Writing & imagining", description: "I write stories. Reading and philosophy are also among my interests." },
-        { title: "Making & sharing", description: "I tinker with PCs, Raspberry Pis and electronics. And I enjoy board games." },
+        {
+          title: "Writing & imagining",
+          description:
+            "I write stories. Reading and philosophy are also among my interests.",
+        },
+        {
+          title: "Making & sharing",
+          description:
+            "I tinker with PCs, Raspberry Pis and electronics. And I enjoy board games.",
+        },
       ],
     },
     contact: {
       eyebrow: "Contact & opportunities",
       heading: "Let's build something together.",
-      description: "Whether you want to design a software architecture, integrate AI models or discuss open source, feel free to reach out.",
+      description:
+        "Whether you want to design a software architecture, integrate AI models or discuss open source, feel free to reach out.",
       email: "arobin9999@gmail.com",
       emailCta: "Send an email",
       copyEmail: "Copy address",
@@ -1058,19 +1258,41 @@ const genomintFr: CaseStudy = {
   atGlance: {
     label: "Le projet en bref",
     entries: [
-      { label: "Contexte", value: "Stage au CIRAD · UMR AGAP (Montpellier) · sujet officiel : un chatbot LLM qui génère des requêtes Cypher en langage naturel" },
+      {
+        label: "Contexte",
+        value:
+          "Stage au CIRAD · UMR AGAP (Montpellier) · sujet officiel : un chatbot LLM qui génère des requêtes Cypher en langage naturel",
+      },
       { label: "Période", value: "20 avril – 7 août 2026" },
-      { label: "Équipe", value: "Encadrante : Létizia Camus-Kulandaivelu · interface web portée par Théodore de Boisseson" },
-      { label: "Ma part", value: "Orchestration agentique, services Python, accès aux données, sécurité, déploiement" },
-      { label: "État", value: "Stage achevé · code fermé pendant la préparation de la publication" },
-      { label: "Valorisation", value: "Publication scientifique issue du stage en préparation · co-auteur" },
-      { label: "Démonstration", value: "Trace réelle : question → outils → réponse sourcée" },
+      {
+        label: "Équipe",
+        value:
+          "Encadrante : Létizia Camus-Kulandaivelu · interface web portée par Théodore de Boisseson",
+      },
+      {
+        label: "Ma part",
+        value:
+          "Orchestration agentique, services Python, accès aux données, sécurité, déploiement",
+      },
+      {
+        label: "État",
+        value:
+          "Stage achevé · code fermé pendant la préparation de la publication",
+      },
+      {
+        label: "Valorisation",
+        value:
+          "Publication scientifique issue du stage en préparation · co-auteur",
+      },
+      {
+        label: "Démonstration",
+        value: "Trace réelle : question → outils → réponse sourcée",
+      },
     ],
   },
   understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role:
-    "J’ai travaillé sur l’orchestration Pi, les services Python, les parcours et exports Neo4j, la sécurité et le déploiement. Théodore DE BOISSESON portait principalement l’interface web ; nous avons partagé l’intégration et les contrats d’API.",
+  role: "J’ai travaillé sur l’orchestration Pi, les services Python, les parcours et exports Neo4j, la sécurité et le déploiement. Théodore DE BOISSESON portait principalement l’interface web ; nous avons partagé l’intégration et les contrats d’API.",
   roleLabel: "Périmètre personnel",
   path: "/projets/genomint/",
   contextLabel: "Contexte et périmètre",
@@ -1079,13 +1301,13 @@ const genomintFr: CaseStudy = {
   figure: {
     kind: "screenshot",
     title: "Une question, trois appels d’outil, une réponse sourcée",
-    alt:
-      "Capture d’une trace GenomInt montrant la question sur les gènes du core genome de G. boninense, puis READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J et la réponse avec des identifiants de gènes et de pangènes.",
+    alt: "Capture d’une trace GenomInt montrant la question sur les gènes du core genome de G. boninense, puis READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J et la réponse avec des identifiants de gènes et de pangènes.",
     caption:
       "Trace réelle reproduite sur l’environnement de développement le 31 juillet 2026 : la question déclenche READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J ; la requête est limitée à 100 résultats et la conversation est persistée.",
     source: "Rapport de stage · annexe B · observation du 31 juillet 2026.",
     src: "/images/genomint-evidence.webp",
-    srcset: "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
+    srcset:
+      "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
     openLabel: "Agrandir la capture",
   },
   pagination: {
@@ -1108,8 +1330,16 @@ const genomintFr: CaseStudy = {
         "Le pont JSONL-RPC sérialise des requêtes corrélées par identifiant, maintient un lecteur unique pour démultiplexer réponses et événements, et signale les délais ou l’arrêt du processus. Une conversation PostgreSQL doit être créée avant de considérer la session comme valide : si cette persistance échoue, Pi est arrêté au lieu de laisser vivre une session introuvable.",
       ],
       points: [
-        { label: "Choix", detail: "Découpler les responsabilités sans prétendre isoler totalement l’agent : Pi peut tourner comme sous-processus local ou dans un conteneur." },
-        { label: "Compromis", detail: "Le mode local retenu sur le VPS simplifie le déploiement, mais offre moins d’isolation que le mode conteneur ; une reconnexion sur un autre réplica ne reprend pas automatiquement un Pi en cours." },
+        {
+          label: "Choix",
+          detail:
+            "Découpler les responsabilités sans prétendre isoler totalement l’agent : Pi peut tourner comme sous-processus local ou dans un conteneur.",
+        },
+        {
+          label: "Compromis",
+          detail:
+            "Le mode local retenu sur le VPS simplifie le déploiement, mais offre moins d’isolation que le mode conteneur ; une reconnexion sur un autre réplica ne reprend pas automatiquement un Pi en cours.",
+        },
       ],
     },
     {
@@ -1119,8 +1349,16 @@ const genomintFr: CaseStudy = {
         "Pour les exports biologiques, les chemins suivent la hiérarchie exacte demandée (par exemple gène → ARNm → exon → CDS → UTR). Les marches FASTA respectent l’orientation avant la découpe des coordonnées ; les pages de segments et les lots de résolution sont bornés par construction.",
       ],
       points: [
-        { label: "Effet calculable", detail: "15 615 segments : 16 pages de 1 000 deviennent 2 pages de 10 000, soit 14 requêtes de page en moins et 87,5 % de requêtes en moins — pas 87,5 % de temps en moins." },
-        { label: "Garde-fou", detail: "La taille des lignes, les tampons du pilote Neo4j et les fichiers ZIP ne sont pas tous bornés en octets ; le pic RSS et la tenue en charge restent à mesurer." },
+        {
+          label: "Effet calculable",
+          detail:
+            "15 615 segments : 16 pages de 1 000 deviennent 2 pages de 10 000, soit 14 requêtes de page en moins et 87,5 % de requêtes en moins — pas 87,5 % de temps en moins.",
+        },
+        {
+          label: "Garde-fou",
+          detail:
+            "La taille des lignes, les tampons du pilote Neo4j et les fichiers ZIP ne sont pas tous bornés en octets ; le pic RSS et la tenue en charge restent à mesurer.",
+        },
       ],
     },
     {
@@ -1130,8 +1368,16 @@ const genomintFr: CaseStudy = {
         "Après cette barrière, QueryService impose une exécution en lecture seule et un délai ; le client Neo4j refuse les appels non read-only et ouvre une session READ_ACCESS. La route ajoute encore capacité, permission ou scope de service et limitation de débit. Ces couches réduisent le risque applicatif, mais ne prouvent pas à elles seules que le compte Neo4j est configuré avec des privilèges minimaux.",
       ],
       points: [
-        { label: "Défense", detail: "Validation applicative → service de lecture → session Neo4j orientée lecture → droits de la base." },
-        { label: "Limite", detail: "Les tests ciblent les contournements connus ; fuzzing adversarial, test d’intrusion et validation de la configuration de privilèges restent hors preuve." },
+        {
+          label: "Défense",
+          detail:
+            "Validation applicative → service de lecture → session Neo4j orientée lecture → droits de la base.",
+        },
+        {
+          label: "Limite",
+          detail:
+            "Les tests ciblent les contournements connus ; fuzzing adversarial, test d’intrusion et validation de la configuration de privilèges restent hors preuve.",
+        },
       ],
     },
     {
@@ -1141,8 +1387,16 @@ const genomintFr: CaseStudy = {
         "Le déploiement utilise helm upgrade --install avec --atomic, --wait et un plafond de quinze minutes, puis vérifie les déploiements, les pods, les services et plusieurs routes protégées. Cette procédure donne une livraison reproductible et observable, pas une promesse de disponibilité sous charge.",
       ],
       points: [
-        { label: "Preuve", detail: "Le rapport documente le chemin CI/CD, les contrôles post-déploiement et un parcours agentique observé sur l’environnement de développement." },
-        { label: "Limite", detail: "La continuité d’un flux Pi entre réplicas, le comportement sous charge et une validation biologique de bout en bout restent à établir." },
+        {
+          label: "Preuve",
+          detail:
+            "Le rapport documente le chemin CI/CD, les contrôles post-déploiement et un parcours agentique observé sur l’environnement de développement.",
+        },
+        {
+          label: "Limite",
+          detail:
+            "La continuité d’un flux Pi entre réplicas, le comportement sous charge et une validation biologique de bout en bout restent à établir.",
+        },
       ],
     },
   ],
@@ -1154,10 +1408,22 @@ const genomintFr: CaseStudy = {
   ],
   sourcesLabel: "Sources de la lecture",
   sources: [
-    { label: "Rapport de stage · §4.1–4.4 · architecture et périmètre", detail: "Architecture du système et répartition des contributions." },
-    { label: "Rapport de stage · §5.1.3–5.1.7 · core-ai, Pi et persistance", detail: "Contrats JSONL-RPC, cycle de vie et scénario observé." },
-    { label: "Rapport de stage · §5.2.1–5.2.4 · exports et coûts structurels", detail: "Pagination, parcours sélectionnés et limites des gains." },
-    { label: "Rapport de stage · §5.3 et §5.4 · sécurité et livraison", detail: "Contrôles Cypher, Helm, K3s et vérifications post-déploiement." },
+    {
+      label: "Rapport de stage · §4.1–4.4 · architecture et périmètre",
+      detail: "Architecture du système et répartition des contributions.",
+    },
+    {
+      label: "Rapport de stage · §5.1.3–5.1.7 · core-ai, Pi et persistance",
+      detail: "Contrats JSONL-RPC, cycle de vie et scénario observé.",
+    },
+    {
+      label: "Rapport de stage · §5.2.1–5.2.4 · exports et coûts structurels",
+      detail: "Pagination, parcours sélectionnés et limites des gains.",
+    },
+    {
+      label: "Rapport de stage · §5.3 et §5.4 · sécurité et livraison",
+      detail: "Contrôles Cypher, Helm, K3s et vérifications post-déploiement.",
+    },
   ],
   sourcesNote:
     "Le rapport de stage n’est pas public (sa diffusion relève de l’autorisation du CIRAD) et l’attestation de stage contient des données personnelles qui ne sont pas republiées. Le code reste fermé pendant la préparation de la publication scientifique, qui créditera cette contribution ; les sections citées du rapport indiquent en attendant où chaque preuve est documentée.",
@@ -1175,19 +1441,41 @@ const genomintEn: CaseStudy = {
   atGlance: {
     label: "The project at a glance",
     entries: [
-      { label: "Context", value: "Internship at CIRAD · UMR AGAP (Montpellier) · official topic: an LLM chatbot generating Cypher queries from natural language" },
+      {
+        label: "Context",
+        value:
+          "Internship at CIRAD · UMR AGAP (Montpellier) · official topic: an LLM chatbot generating Cypher queries from natural language",
+      },
       { label: "Period", value: "20 April – 7 August 2026" },
-      { label: "Team", value: "Supervisor: Létizia Camus-Kulandaivelu · web interface built by Théodore de Boisseson" },
-      { label: "My part", value: "Agent orchestration, Python services, data access, security, deployment" },
-      { label: "Status", value: "Internship completed · code closed while the research publication is in preparation" },
-      { label: "Output", value: "Research publication from this internship in preparation · co-author" },
-      { label: "Demonstration", value: "Real trace: question → tools → sourced answer" },
+      {
+        label: "Team",
+        value:
+          "Supervisor: Létizia Camus-Kulandaivelu · web interface built by Théodore de Boisseson",
+      },
+      {
+        label: "My part",
+        value:
+          "Agent orchestration, Python services, data access, security, deployment",
+      },
+      {
+        label: "Status",
+        value:
+          "Internship completed · code closed while the research publication is in preparation",
+      },
+      {
+        label: "Output",
+        value:
+          "Research publication from this internship in preparation · co-author",
+      },
+      {
+        label: "Demonstration",
+        value: "Real trace: question → tools → sourced answer",
+      },
     ],
   },
   understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role:
-    "I worked on Pi orchestration, Python services, Neo4j traversals and exports, security and deployment. Théodore DE BOISSESON primarily developed the web interface; we shared integration and API contracts.",
+  role: "I worked on Pi orchestration, Python services, Neo4j traversals and exports, security and deployment. Théodore DE BOISSESON primarily developed the web interface; we shared integration and API contracts.",
   roleLabel: "Personal scope",
   path: "/en/projects/genomint/",
   contextLabel: "Context and scope",
@@ -1196,13 +1484,13 @@ const genomintEn: CaseStudy = {
   figure: {
     kind: "screenshot",
     title: "One question, three tool calls, one traceable answer",
-    alt:
-      "GenomInt trace showing a question about genes in the core genome of G. boninense, followed by READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J and an answer with gene and pangene identifiers.",
+    alt: "GenomInt trace showing a question about genes in the core genome of G. boninense, followed by READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J and an answer with gene and pangene identifiers.",
     caption:
       "Real trace replayed on the development environment on 31 July 2026: the question triggers READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J; the query is limited to 100 results and the conversation is persisted.",
     source: "Internship report · Appendix B · observed on 31 July 2026.",
     src: "/images/genomint-evidence.webp",
-    srcset: "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
+    srcset:
+      "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
     openLabel: "View full-size capture",
   },
   pagination: {
@@ -1225,8 +1513,16 @@ const genomintEn: CaseStudy = {
         "The JSONL-RPC bridge serializes requests correlated by ID, keeps one reader to demultiplex responses and events, and reports timeouts or process exit. A PostgreSQL conversation must exist before a session is considered valid: if persistence fails, Pi is terminated rather than leaving an untraceable session alive.",
       ],
       points: [
-        { label: "Decision", detail: "Decouple responsibilities without claiming total isolation: Pi can run as a local subprocess or in a container." },
-        { label: "Trade-off", detail: "The VPS uses local mode for simpler deployment, but with less isolation than the container mode; a replica switch does not automatically resume an in-flight Pi." },
+        {
+          label: "Decision",
+          detail:
+            "Decouple responsibilities without claiming total isolation: Pi can run as a local subprocess or in a container.",
+        },
+        {
+          label: "Trade-off",
+          detail:
+            "The VPS uses local mode for simpler deployment, but with less isolation than the container mode; a replica switch does not automatically resume an in-flight Pi.",
+        },
       ],
     },
     {
@@ -1236,8 +1532,16 @@ const genomintEn: CaseStudy = {
         "For biological exports, paths follow the exact requested hierarchy (for example gene → mRNA → exon → CDS → UTR). FASTA walks orient segments before slicing coordinates; segment pages and resolution batches are bounded by construction.",
       ],
       points: [
-        { label: "Calculable effect", detail: "15,615 segments: 16 pages of 1,000 become 2 pages of 10,000, 14 fewer page requests and 87.5% fewer requests — not 87.5% less time." },
-        { label: "Guardrail", detail: "Row size, Neo4j driver buffers and ZIP output files are not all bounded in bytes; peak RSS and load behavior remain unmeasured." },
+        {
+          label: "Calculable effect",
+          detail:
+            "15,615 segments: 16 pages of 1,000 become 2 pages of 10,000, 14 fewer page requests and 87.5% fewer requests — not 87.5% less time.",
+        },
+        {
+          label: "Guardrail",
+          detail:
+            "Row size, Neo4j driver buffers and ZIP output files are not all bounded in bytes; peak RSS and load behavior remain unmeasured.",
+        },
       ],
     },
     {
@@ -1247,8 +1551,16 @@ const genomintEn: CaseStudy = {
         "After that barrier, QueryService enforces read-only execution and a timeout; the Neo4j client rejects non-read-only calls and opens a READ_ACCESS session. The route adds capability, user permission or service scope, and rate limiting. These layers reduce application risk, but do not on their own prove least-privilege Neo4j credentials.",
       ],
       points: [
-        { label: "Defense", detail: "Application validation → read service → read-oriented Neo4j session → database privileges." },
-        { label: "Limit", detail: "Tests target known bypass classes; adversarial fuzzing, penetration testing and privilege configuration review remain outside the evidence." },
+        {
+          label: "Defense",
+          detail:
+            "Application validation → read service → read-oriented Neo4j session → database privileges.",
+        },
+        {
+          label: "Limit",
+          detail:
+            "Tests target known bypass classes; adversarial fuzzing, penetration testing and privilege configuration review remain outside the evidence.",
+        },
       ],
     },
     {
@@ -1258,8 +1570,16 @@ const genomintEn: CaseStudy = {
         "Deployment uses helm upgrade --install with --atomic, --wait and a fifteen-minute ceiling, then checks deployments, pods, services and protected routes. This makes delivery reproducible and observable, not a promise of availability under load.",
       ],
       points: [
-        { label: "Evidence", detail: "The report documents the CI/CD path, post-deployment checks and an agentic scenario observed in the development environment." },
-        { label: "Limit", detail: "Continuity of an in-flight Pi stream across replicas, load behavior and end-to-end biological validation remain open." },
+        {
+          label: "Evidence",
+          detail:
+            "The report documents the CI/CD path, post-deployment checks and an agentic scenario observed in the development environment.",
+        },
+        {
+          label: "Limit",
+          detail:
+            "Continuity of an in-flight Pi stream across replicas, load behavior and end-to-end biological validation remain open.",
+        },
       ],
     },
   ],
@@ -1271,10 +1591,22 @@ const genomintEn: CaseStudy = {
   ],
   sourcesLabel: "Sources for this reading",
   sources: [
-    { label: "Internship report · §§4.1–4.4 · architecture and scope", detail: "System architecture and division of contributions." },
-    { label: "Internship report · §§5.1.3–5.1.7 · core-ai, Pi and persistence", detail: "JSONL-RPC contracts, lifecycle and observed scenario." },
-    { label: "Internship report · §§5.2.1–5.2.4 · exports and structural cost", detail: "Pagination, selected traversals and limits of the gains." },
-    { label: "Internship report · §§5.3 and 5.4 · security and delivery", detail: "Cypher controls, Helm, K3s and post-deployment checks." },
+    {
+      label: "Internship report · §§4.1–4.4 · architecture and scope",
+      detail: "System architecture and division of contributions.",
+    },
+    {
+      label: "Internship report · §§5.1.3–5.1.7 · core-ai, Pi and persistence",
+      detail: "JSONL-RPC contracts, lifecycle and observed scenario.",
+    },
+    {
+      label: "Internship report · §§5.2.1–5.2.4 · exports and structural cost",
+      detail: "Pagination, selected traversals and limits of the gains.",
+    },
+    {
+      label: "Internship report · §§5.3 and 5.4 · security and delivery",
+      detail: "Cypher controls, Helm, K3s and post-deployment checks.",
+    },
   ],
   sourcesNote:
     "The internship report is not public (its release is subject to CIRAD authorization) and the internship certificate contains personal data that is not republished. The code stays closed while the research publication is in preparation; it will credit this contribution. Until then, the cited report sections show where each piece of evidence is documented.",
@@ -1292,20 +1624,38 @@ const maestriaFr: CaseStudy = {
   atGlance: {
     label: "Le projet en bref",
     entries: [
-      { label: "Contexte", value: "Projet open source Brio · runtime local de connaissances et de preuves" },
+      {
+        label: "Contexte",
+        value:
+          "Projet open source Brio · runtime local de connaissances et de preuves",
+      },
       { label: "Depuis", value: "2026 · en développement" },
-      { label: "Ma part", value: "Moteur de recherche, ingestion vectorielle, évaluation des documents visuels" },
+      {
+        label: "Ma part",
+        value:
+          "Moteur de recherche, ingestion vectorielle, évaluation des documents visuels",
+      },
       { label: "État", value: "PR fusionnées jusqu’à #514 · #515 ouverte" },
-      { label: "Décision issue de l’évaluation", value: "La voie visuelle reste expérimentale : 4 des 6 cas dépassent encore le budget de bout en bout malgré l’optimisation du calcul (PR #514)" },
-      { label: "Preuves", value: "PR fusionnées publiques : #411, #485, #493, #501, #507, #511, #514" },
+      {
+        label: "Décision issue de l’évaluation",
+        value:
+          "La voie visuelle reste expérimentale : 4 des 6 cas dépassent encore le budget de bout en bout malgré l’optimisation du calcul (PR #514)",
+      },
+      {
+        label: "Preuves",
+        value:
+          "PR fusionnées publiques : #411, #485, #493, #501, #507, #511, #514",
+      },
     ],
   },
   understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role:
-    "Je contribue au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels. Les PR présentées ici montrent des changements fusionnés : simplifier l’exécution, regrouper le travail par document et mesurer les modèles locaux avant d’en autoriser l’usage.",
+  role: "Je contribue au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels. Les PR présentées ici montrent des changements fusionnés : simplifier l’exécution, regrouper le travail par document et mesurer les modèles locaux avant d’en autoriser l’usage.",
   roleLabel: "Mon travail",
-  relatedProject: { label: "Dans le cadre du projet Brio", href: destinations.brio },
+  relatedProject: {
+    label: "Dans le cadre du projet Brio",
+    href: destinations.brio,
+  },
   path: "/projets/maestria/",
   contextLabel: "La place de Maestria dans Brio",
   context:
@@ -1314,14 +1664,31 @@ const maestriaFr: CaseStudy = {
     kind: "diagram",
     title: "Des sources au travail de l’agent",
     alt: "Trois étapes : choisir les fichiers, retrouver des extraits sourcés, puis utiliser ces preuves dans Studio, la mémoire et les tâches.",
-    caption: "Vue fonctionnelle simplifiée, pas une capture du logiciel. Les interfaces et les règles de validation sont décrites dans les PR et le code publics.",
+    caption:
+      "Vue fonctionnelle simplifiée, pas une capture du logiciel. Les interfaces et les règles de validation sont décrites dans les PR et le code publics.",
     source: "Studio #411 · moteur #501 · ingestion #485",
     nodes: [
-      { title: "Choisir les sources", detail: "Des fichiers locaux, indexés et explicitement rattachés au notebook." },
-      { title: "Retrouver les passages", detail: "Une recherche dans le périmètre autorisé, avec des extraits reliés à leur source et à leur version." },
-      { title: "Travailler avec les preuves", detail: "Du contexte pour les agents ; des références pour les réponses, la mémoire et les tâches." },
+      {
+        title: "Choisir les sources",
+        detail:
+          "Des fichiers locaux, indexés et explicitement rattachés au notebook.",
+      },
+      {
+        title: "Retrouver les passages",
+        detail:
+          "Une recherche dans le périmètre autorisé, avec des extraits reliés à leur source et à leur version.",
+      },
+      {
+        title: "Travailler avec les preuves",
+        detail:
+          "Du contexte pour les agents ; des références pour les réponses, la mémoire et les tâches.",
+      },
     ],
-    optional: { title: "Des actions explicites", detail: "Studio ne sauvegarde pas automatiquement les réponses. Les propositions de mémoire passent par un circuit de validation." },
+    optional: {
+      title: "Des actions explicites",
+      detail:
+        "Studio ne sauvegarde pas automatiquement les réponses. Les propositions de mémoire passent par un circuit de validation.",
+    },
   },
   sections: [
     {
@@ -1331,8 +1698,16 @@ const maestriaFr: CaseStudy = {
         "L’interface est écrite en Rust avec Dioxus. Studio est la surface HTTP du navigateur ; le daemon conserve l’autorité sur les sources, les preuves et les révisions. L’agent externe communique via ACP : Maestria lui fournit un contexte, sans devenir lui-même un fournisseur de modèles.",
       ],
       points: [
-        { label: "Usage", detail: "Retrouver un passage, inspecter sa source et choisir ce que l’on conserve." },
-        { label: "Architecture", detail: "Une interface de travail distincte du runtime qui détient l’état durable." },
+        {
+          label: "Usage",
+          detail:
+            "Retrouver un passage, inspecter sa source et choisir ce que l’on conserve.",
+        },
+        {
+          label: "Architecture",
+          detail:
+            "Une interface de travail distincte du runtime qui détient l’état durable.",
+        },
       ],
     },
     {
@@ -1342,8 +1717,16 @@ const maestriaFr: CaseStudy = {
         "J’ai aussi rendu visible l’origine d’une recherche dans la CLI : servie par le daemon ou exécutée localement (PR #493). Cette attribution permet de savoir quel chemin on observe, plutôt que de comparer des exécutions différentes sans le voir.",
       ],
       points: [
-        { label: "Choix", detail: "Retirer une couche inutile sans confondre synchrone et séquentiel." },
-        { label: "Contrôle", detail: "Des budgets et une annulation coopérative, pas une promesse d’interruption instantanée." },
+        {
+          label: "Choix",
+          detail:
+            "Retirer une couche inutile sans confondre synchrone et séquentiel.",
+        },
+        {
+          label: "Contrôle",
+          detail:
+            "Des budgets et une annulation coopérative, pas une promesse d’interruption instantanée.",
+        },
       ],
     },
     {
@@ -1353,8 +1736,16 @@ const maestriaFr: CaseStudy = {
         "Ce changement touche aussi le cycle de vie : l’état en attente peut être rejoué, l’identité de la génération est vérifiée et la réponse du fournisseur doit correspondre aux fragments demandés. L’objectif est de réduire les échanges et les écritures intermédiaires sans perdre ces contrôles.",
       ],
       points: [
-        { label: "Unité de travail", detail: "Le document et ses fragments, plutôt qu’une succession d’effets isolés." },
-        { label: "Portée", detail: "Une amélioration du chemin vectoriel, pas un chiffre de performance valable pour toute recherche." },
+        {
+          label: "Unité de travail",
+          detail:
+            "Le document et ses fragments, plutôt qu’une succession d’effets isolés.",
+        },
+        {
+          label: "Portée",
+          detail:
+            "Une amélioration du chemin vectoriel, pas un chiffre de performance valable pour toute recherche.",
+        },
       ],
     },
     {
@@ -1365,8 +1756,16 @@ const maestriaFr: CaseStudy = {
         "Le même principe vaut pour les pistes qui ne convainquent pas : les résultats négatifs de la recherche late-interaction sont archivés, sans introduire un nouvel index non justifié (PR #511).",
       ],
       points: [
-        { label: "Contribution", detail: "Banc réel, corrections d’intégration et critères d’activation explicites." },
-        { label: "Décision", detail: "Conserver les limites et les résultats négatifs, plutôt que présenter une expérimentation comme un gain produit." },
+        {
+          label: "Contribution",
+          detail:
+            "Banc réel, corrections d’intégration et critères d’activation explicites.",
+        },
+        {
+          label: "Décision",
+          detail:
+            "Conserver les limites et les résultats négatifs, plutôt que présenter une expérimentation comme un gain produit.",
+        },
       ],
     },
   ],
@@ -1378,16 +1777,57 @@ const maestriaFr: CaseStudy = {
   ],
   sourcesLabel: "Projet, code et contributions",
   sources: [
-    { label: "Brio · orchestration d’agents", href: destinations.brio, detail: "Le projet dans lequel s’inscrit Maestria." },
-    { label: "Dépôt Maestria", href: "https://github.com/brio-labs/maestria", detail: "Runtime, interfaces et historique public." },
-    { label: "Studio · espace notebook · #411", href: "https://github.com/brio-labs/maestria/pull/411", detail: "Fusionnée · Dioxus, sources, questions, citations et brouillons." },
-    { label: "Moteur synchrone · #501", href: "https://github.com/brio-labs/maestria/pull/501", detail: "Fusionnée · interfaces synchrones et concurrence bornée." },
-    { label: "Attribution des recherches · #493", href: "https://github.com/brio-labs/maestria/pull/493", detail: "Fusionnée · distinguer daemon et exécution locale." },
-    { label: "Ingestion par artefact · #485", href: "https://github.com/brio-labs/maestria/pull/485", detail: "Fusionnée · effets vectoriels regroupés et état rejouable." },
-    { label: "Évaluation visuelle · #507", href: "https://github.com/brio-labs/maestria/pull/507", detail: "Fusionnée · SigLIP, RapidOCR et corrections de recadrage." },
-    { label: "Latence et télémétrie visuelles · #514", href: "https://github.com/brio-labs/maestria/pull/514", detail: "Fusionnée · optimisation CPU et limites de promotion." },
-    { label: "Résultat négatif late-interaction · #511", href: "https://github.com/brio-labs/maestria/pull/511", detail: "Fusionnée · preuves de recherche, sans nouvel index." },
-    { label: "Télémétrie partagée · #515", href: "https://github.com/brio-labs/maestria/pull/515", detail: "Ouverte lors de la consultation · non présentée comme livrée." },
+    {
+      label: "Brio · orchestration d’agents",
+      href: destinations.brio,
+      detail: "Le projet dans lequel s’inscrit Maestria.",
+    },
+    {
+      label: "Dépôt Maestria",
+      href: "https://github.com/brio-labs/maestria",
+      detail: "Runtime, interfaces et historique public.",
+    },
+    {
+      label: "Studio · espace notebook · #411",
+      href: "https://github.com/brio-labs/maestria/pull/411",
+      detail:
+        "Fusionnée · Dioxus, sources, questions, citations et brouillons.",
+    },
+    {
+      label: "Moteur synchrone · #501",
+      href: "https://github.com/brio-labs/maestria/pull/501",
+      detail: "Fusionnée · interfaces synchrones et concurrence bornée.",
+    },
+    {
+      label: "Attribution des recherches · #493",
+      href: "https://github.com/brio-labs/maestria/pull/493",
+      detail: "Fusionnée · distinguer daemon et exécution locale.",
+    },
+    {
+      label: "Ingestion par artefact · #485",
+      href: "https://github.com/brio-labs/maestria/pull/485",
+      detail: "Fusionnée · effets vectoriels regroupés et état rejouable.",
+    },
+    {
+      label: "Évaluation visuelle · #507",
+      href: "https://github.com/brio-labs/maestria/pull/507",
+      detail: "Fusionnée · SigLIP, RapidOCR et corrections de recadrage.",
+    },
+    {
+      label: "Latence et télémétrie visuelles · #514",
+      href: "https://github.com/brio-labs/maestria/pull/514",
+      detail: "Fusionnée · optimisation CPU et limites de promotion.",
+    },
+    {
+      label: "Résultat négatif late-interaction · #511",
+      href: "https://github.com/brio-labs/maestria/pull/511",
+      detail: "Fusionnée · preuves de recherche, sans nouvel index.",
+    },
+    {
+      label: "Télémétrie partagée · #515",
+      href: "https://github.com/brio-labs/maestria/pull/515",
+      detail: "Ouverte lors de la consultation · non présentée comme livrée.",
+    },
   ],
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
@@ -1403,20 +1843,36 @@ const maestriaEn: CaseStudy = {
   atGlance: {
     label: "The project at a glance",
     entries: [
-      { label: "Context", value: "Brio open-source project · local knowledge and evidence runtime" },
+      {
+        label: "Context",
+        value:
+          "Brio open-source project · local knowledge and evidence runtime",
+      },
       { label: "Since", value: "2026 · in development" },
-      { label: "My part", value: "Search engine, vector ingestion, visual-document evaluation" },
+      {
+        label: "My part",
+        value: "Search engine, vector ingestion, visual-document evaluation",
+      },
       { label: "Status", value: "PRs merged through #514 · #515 open" },
-      { label: "Evaluation outcome", value: "The visual lane stays experimental: 4 of 6 cases still exceed the end-to-end budget despite faster inference (PR #514)" },
-      { label: "Evidence", value: "Public merged PRs: #411, #485, #493, #501, #507, #511, #514" },
+      {
+        label: "Evaluation outcome",
+        value:
+          "The visual lane stays experimental: 4 of 6 cases still exceed the end-to-end budget despite faster inference (PR #514)",
+      },
+      {
+        label: "Evidence",
+        value: "Public merged PRs: #411, #485, #493, #501, #507, #511, #514",
+      },
     ],
   },
   understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role:
-    "I contribute to the search engine, vector ingestion and visual-document evaluation. The PRs presented here show merged changes: simplifying execution, batching work by document and measuring local models before allowing their use.",
+  role: "I contribute to the search engine, vector ingestion and visual-document evaluation. The PRs presented here show merged changes: simplifying execution, batching work by document and measuring local models before allowing their use.",
   roleLabel: "My work",
-  relatedProject: { label: "Part of the Brio project", href: destinations.brio },
+  relatedProject: {
+    label: "Part of the Brio project",
+    href: destinations.brio,
+  },
   path: "/en/projects/maestria/",
   contextLabel: "Maestria within Brio",
   context:
@@ -1425,14 +1881,29 @@ const maestriaEn: CaseStudy = {
     kind: "diagram",
     title: "From sources to agent work",
     alt: "Three steps: select files, retrieve source-linked excerpts, then use this evidence in Studio, memory and tasks.",
-    caption: "Simplified functional overview, not an application screenshot. The public PRs and code describe the interfaces and validation rules.",
+    caption:
+      "Simplified functional overview, not an application screenshot. The public PRs and code describe the interfaces and validation rules.",
     source: "Studio #411 · engine #501 · ingestion #485",
     nodes: [
-      { title: "Select the sources", detail: "Local files, indexed and explicitly attached to the notebook." },
-      { title: "Retrieve passages", detail: "Search within the allowed scope, with excerpts linked to their source and version." },
-      { title: "Work with evidence", detail: "Context for agents; references for answers, memory and tasks." },
+      {
+        title: "Select the sources",
+        detail: "Local files, indexed and explicitly attached to the notebook.",
+      },
+      {
+        title: "Retrieve passages",
+        detail:
+          "Search within the allowed scope, with excerpts linked to their source and version.",
+      },
+      {
+        title: "Work with evidence",
+        detail: "Context for agents; references for answers, memory and tasks.",
+      },
     ],
-    optional: { title: "Explicit actions", detail: "Studio does not save answers automatically. Memory proposals go through a validation process." },
+    optional: {
+      title: "Explicit actions",
+      detail:
+        "Studio does not save answers automatically. Memory proposals go through a validation process.",
+    },
   },
   sections: [
     {
@@ -1442,8 +1913,15 @@ const maestriaEn: CaseStudy = {
         "The interface is written in Rust with Dioxus. Studio is the browser-facing HTTP surface; the daemon retains authority over sources, evidence and revisions. The external agent communicates through ACP: Maestria supplies context without becoming a model provider itself.",
       ],
       points: [
-        { label: "Workflow", detail: "Find a passage, inspect its source and choose what to keep." },
-        { label: "Architecture", detail: "A working interface separate from the runtime that owns durable state." },
+        {
+          label: "Workflow",
+          detail: "Find a passage, inspect its source and choose what to keep.",
+        },
+        {
+          label: "Architecture",
+          detail:
+            "A working interface separate from the runtime that owns durable state.",
+        },
       ],
     },
     {
@@ -1453,8 +1931,16 @@ const maestriaEn: CaseStudy = {
         "I also made the origin of a CLI search visible: served by the daemon or executed locally (PR #493). That attribution makes it possible to tell which path is being observed, rather than unknowingly comparing different execution paths.",
       ],
       points: [
-        { label: "Decision", detail: "Remove an unnecessary layer without confusing synchronous with sequential." },
-        { label: "Control", detail: "Budgets and cooperative cancellation, not a promise of instant interruption." },
+        {
+          label: "Decision",
+          detail:
+            "Remove an unnecessary layer without confusing synchronous with sequential.",
+        },
+        {
+          label: "Control",
+          detail:
+            "Budgets and cooperative cancellation, not a promise of instant interruption.",
+        },
       ],
     },
     {
@@ -1464,8 +1950,16 @@ const maestriaEn: CaseStudy = {
         "The change also addresses lifecycle: pending state can be replayed, generation identity is checked and the provider response must match the requested chunks. The aim is to reduce intermediate exchanges and writes without losing those checks.",
       ],
       points: [
-        { label: "Unit of work", detail: "The document and its chunks, rather than a sequence of isolated effects." },
-        { label: "Scope", detail: "An improvement to vector ingestion, not a performance figure that applies to every search." },
+        {
+          label: "Unit of work",
+          detail:
+            "The document and its chunks, rather than a sequence of isolated effects.",
+        },
+        {
+          label: "Scope",
+          detail:
+            "An improvement to vector ingestion, not a performance figure that applies to every search.",
+        },
       ],
     },
     {
@@ -1476,8 +1970,16 @@ const maestriaEn: CaseStudy = {
         "The same principle applies to approaches that do not justify adoption: negative late-interaction results are archived without introducing an unsupported new index (PR #511).",
       ],
       points: [
-        { label: "Contribution", detail: "A real-provider harness, integration fixes and explicit activation criteria." },
-        { label: "Decision", detail: "Keep limitations and negative results visible instead of presenting an experiment as a product gain." },
+        {
+          label: "Contribution",
+          detail:
+            "A real-provider harness, integration fixes and explicit activation criteria.",
+        },
+        {
+          label: "Decision",
+          detail:
+            "Keep limitations and negative results visible instead of presenting an experiment as a product gain.",
+        },
       ],
     },
   ],
@@ -1489,16 +1991,56 @@ const maestriaEn: CaseStudy = {
   ],
   sourcesLabel: "Project, code and contributions",
   sources: [
-    { label: "Brio · agent orchestration", href: destinations.brio, detail: "The project that Maestria belongs to." },
-    { label: "Maestria repository", href: "https://github.com/brio-labs/maestria", detail: "Runtime, interfaces and public history." },
-    { label: "Studio · notebook workspace · #411", href: "https://github.com/brio-labs/maestria/pull/411", detail: "Merged · Dioxus, sources, questions, citations and drafts." },
-    { label: "Synchronous engine · #501", href: "https://github.com/brio-labs/maestria/pull/501", detail: "Merged · synchronous interfaces and bounded concurrency." },
-    { label: "Search attribution · #493", href: "https://github.com/brio-labs/maestria/pull/493", detail: "Merged · distinguish daemon and local execution." },
-    { label: "Per-artifact ingestion · #485", href: "https://github.com/brio-labs/maestria/pull/485", detail: "Merged · batched vector effects and replayable state." },
-    { label: "Visual evaluation · #507", href: "https://github.com/brio-labs/maestria/pull/507", detail: "Merged · SigLIP, RapidOCR and cropping fixes." },
-    { label: "Visual latency and telemetry · #514", href: "https://github.com/brio-labs/maestria/pull/514", detail: "Merged · CPU tuning and promotion limitations." },
-    { label: "Negative late-interaction result · #511", href: "https://github.com/brio-labs/maestria/pull/511", detail: "Merged · research evidence, without a new index." },
-    { label: "Shared telemetry · #515", href: "https://github.com/brio-labs/maestria/pull/515", detail: "Open when reviewed · not presented as shipped." },
+    {
+      label: "Brio · agent orchestration",
+      href: destinations.brio,
+      detail: "The project that Maestria belongs to.",
+    },
+    {
+      label: "Maestria repository",
+      href: "https://github.com/brio-labs/maestria",
+      detail: "Runtime, interfaces and public history.",
+    },
+    {
+      label: "Studio · notebook workspace · #411",
+      href: "https://github.com/brio-labs/maestria/pull/411",
+      detail: "Merged · Dioxus, sources, questions, citations and drafts.",
+    },
+    {
+      label: "Synchronous engine · #501",
+      href: "https://github.com/brio-labs/maestria/pull/501",
+      detail: "Merged · synchronous interfaces and bounded concurrency.",
+    },
+    {
+      label: "Search attribution · #493",
+      href: "https://github.com/brio-labs/maestria/pull/493",
+      detail: "Merged · distinguish daemon and local execution.",
+    },
+    {
+      label: "Per-artifact ingestion · #485",
+      href: "https://github.com/brio-labs/maestria/pull/485",
+      detail: "Merged · batched vector effects and replayable state.",
+    },
+    {
+      label: "Visual evaluation · #507",
+      href: "https://github.com/brio-labs/maestria/pull/507",
+      detail: "Merged · SigLIP, RapidOCR and cropping fixes.",
+    },
+    {
+      label: "Visual latency and telemetry · #514",
+      href: "https://github.com/brio-labs/maestria/pull/514",
+      detail: "Merged · CPU tuning and promotion limitations.",
+    },
+    {
+      label: "Negative late-interaction result · #511",
+      href: "https://github.com/brio-labs/maestria/pull/511",
+      detail: "Merged · research evidence, without a new index.",
+    },
+    {
+      label: "Shared telemetry · #515",
+      href: "https://github.com/brio-labs/maestria/pull/515",
+      detail: "Open when reviewed · not presented as shipped.",
+    },
   ],
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",

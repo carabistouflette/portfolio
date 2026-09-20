@@ -17,6 +17,7 @@ interface Props {
 const { locale, content } = Astro.props;
 const canonicalPath = locale === "fr" ? "/" : "/en/";
 ---
+
 <BaseLayout locale={locale} content={content} canonicalPath={canonicalPath}>
   <div class="portfolio-page">
     <div class="portfolio-composition">

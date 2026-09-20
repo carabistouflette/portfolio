@@ -34,23 +34,37 @@ const catalogRoot = ref<HTMLElement | null>(null);
 const closeTimers = new Map<number, number>();
 const CLOSE_DURATION = 320;
 const moving = ref(new Set<number>());
-const iconFlights = new Map<number, { clones: HTMLElement[]; animations: Animation[] }>();
+const iconFlights = new Map<
+  number,
+  { clones: HTMLElement[]; animations: Animation[] }
+>();
 
-const projectById = computed(() => new Map(props.projects.map((project) => [project.id, project])));
-const cardMotion = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : {
-  opacity: 1,
-  y: 0,
-  filter: "blur(0)",
-  transition: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
-});
-const cardInitial = computed(() => reducedMotion.value ? { opacity: 1, y: 0 } : {
-  opacity: 0,
-  y: 8,
-  filter: "blur(14px)",
-});
+const projectById = computed(
+  () => new Map(props.projects.map((project) => [project.id, project])),
+);
+const cardMotion = computed(() =>
+  reducedMotion.value
+    ? { opacity: 1, y: 0 }
+    : {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0)",
+        transition: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+      },
+);
+const cardInitial = computed(() =>
+  reducedMotion.value
+    ? { opacity: 1, y: 0 }
+    : {
+        opacity: 0,
+        y: 8,
+        filter: "blur(14px)",
+      },
+);
 
 const isExpanded = (index: number): boolean => expanded.value.has(index);
-const isOpen = (index: number): boolean => isExpanded(index) || closing.value.has(index);
+const isOpen = (index: number): boolean =>
+  isExpanded(index) || closing.value.has(index);
 
 const applyToggle = (index: number): void => {
   const nextExpanded = new Set(expanded.value);
@@ -100,8 +114,14 @@ const playIconFlight = async (
   await nextTick();
   await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
-  const details = catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
-  const targets = details ? [...details.querySelectorAll<HTMLElement>(targetSelector)].slice(0, sources.length) : [];
+  const details =
+    catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
+  const targets = details
+    ? [...details.querySelectorAll<HTMLElement>(targetSelector)].slice(
+        0,
+        sources.length,
+      )
+    : [];
   if (targets.length !== sources.length) {
     clearIconFlight(index);
     return;
@@ -125,17 +145,27 @@ const playIconFlight = async (
     });
     document.body.appendChild(clone);
     clones.push(clone);
-    animations.push(clone.animate(
-      [
-        { transform: "translate3d(0, 0, 0)" },
-        { transform: `translate3d(${targetRect.left - sourceRect.left}px, ${targetRect.top - sourceRect.top}px, 0)` },
-      ],
-      { duration: CLOSE_DURATION, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "both" },
-    ));
+    animations.push(
+      clone.animate(
+        [
+          { transform: "translate3d(0, 0, 0)" },
+          {
+            transform: `translate3d(${targetRect.left - sourceRect.left}px, ${targetRect.top - sourceRect.top}px, 0)`,
+          },
+        ],
+        {
+          duration: CLOSE_DURATION,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "both",
+        },
+      ),
+    );
   }
 
   iconFlights.set(index, { clones, animations });
-  await Promise.all(animations.map((animation) => animation.finished.catch(() => undefined)));
+  await Promise.all(
+    animations.map((animation) => animation.finished.catch(() => undefined)),
+  );
   if (iconFlights.get(index)?.animations === animations) clearIconFlight(index);
 };
 
@@ -146,11 +176,14 @@ const toggle = (index: number): void => {
     return;
   }
 
-  const details = catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
+  const details =
+    catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details")[index];
   const opening = !isExpanded(index);
   const sourceSelector = opening ? "[data-preview-icon]" : "[data-panel-icon]";
   const targetSelector = opening ? "[data-panel-icon]" : "[data-preview-icon]";
-  const sources = details ? [...details.querySelectorAll<HTMLElement>(sourceSelector)].slice(0, 3) : [];
+  const sources = details
+    ? [...details.querySelectorAll<HTMLElement>(sourceSelector)].slice(0, 3)
+    : [];
   const sourceRects = sources.map((source) => source.getBoundingClientRect());
   if (!sources.length) {
     applyToggle(index);
@@ -164,9 +197,10 @@ const toggle = (index: number): void => {
   void playIconFlight(index, sources, sourceRects, targetSelector);
 };
 
-const relatedProjects = (skill: SkillItem): Project[] => skill.projectIds
-  .map((projectId) => projectById.value.get(projectId))
-  .filter((project): project is Project => Boolean(project));
+const relatedProjects = (skill: SkillItem): Project[] =>
+  skill.projectIds
+    .map((projectId) => projectById.value.get(projectId))
+    .filter((project): project is Project => Boolean(project));
 
 const updateReducedMotion = (): void => {
   reducedMotion.value = mediaQuery?.matches ?? false;
@@ -174,9 +208,11 @@ const updateReducedMotion = (): void => {
 
 onMounted(() => {
   const initialExpanded = new Set<number>();
-  catalogRoot.value?.querySelectorAll<HTMLDetailsElement>("details").forEach((details, index) => {
-    if (details.open) initialExpanded.add(index);
-  });
+  catalogRoot.value
+    ?.querySelectorAll<HTMLDetailsElement>("details")
+    .forEach((details, index) => {
+      if (details.open) initialExpanded.add(index);
+    });
   expanded.value = initialExpanded;
   mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   updateReducedMotion();
@@ -193,13 +229,21 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="catalogRoot" data-motion-reveal class="mt-6 grid items-start gap-6 lg:grid-cols-2">
+  <div
+    ref="catalogRoot"
+    data-motion-reveal
+    class="mt-6 grid items-start gap-6 lg:grid-cols-2"
+  >
     <details
       v-for="(group, index) in props.groups"
       :key="group.label"
       data-motion-catalog
       :open="isOpen(index)"
-      :class="['group min-w-0 rounded-xl border bg-[#07121b]/45', isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60', moving.has(index) && 'skills-icons-moving']"
+      :class="[
+        'group min-w-0 rounded-xl border bg-[#07121b]/45',
+        isExpanded(index) ? 'border-[#9dc7df]/60' : 'border-rule/60',
+        moving.has(index) && 'skills-icons-moving',
+      ]"
     >
       <summary
         :id="`skills-summary-${index}`"
@@ -210,38 +254,95 @@ onBeforeUnmount(() => {
       >
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0">
-            <h4 class="text-xl font-medium tracking-tight sm:text-2xl">{{ group.label }}</h4>
-            <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted">{{ group.description }}</p>
+            <h4 class="text-xl font-medium tracking-tight sm:text-2xl">
+              {{ group.label }}
+            </h4>
+            <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted">
+              {{ group.description }}
+            </p>
           </div>
-          <span class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]" aria-hidden="true">
+          <span
+            class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]"
+            aria-hidden="true"
+          >
             <span class="font-mono text-xs">{{ group.items.length }}</span>
-            <span :class="['disclosure-mark text-2xl leading-none', isExpanded(index) && 'rotate-45']">+</span>
+            <span
+              :class="[
+                'disclosure-mark text-2xl leading-none',
+                isExpanded(index) && 'rotate-45',
+              ]"
+              >+</span
+            >
           </span>
         </div>
-        <div :class="['skill-preview mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90', isExpanded(index) && 'hidden']" :aria-hidden="isExpanded(index)">
-          <span v-for="skill in group.items.slice(0, 3)" :key="skill.name" class="inline-flex items-center gap-3"><span data-preview-icon class="skills-icon-anchor inline-flex shrink-0"><ToolIcon :name="skill.name" /></span>{{ skill.name }}</span>
-          <span v-if="group.items.length > 3" class="font-mono text-xs text-muted">+{{ group.items.length - 3 }}</span>
+        <div
+          :class="[
+            'skill-preview mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90',
+            isExpanded(index) && 'hidden',
+          ]"
+          :aria-hidden="isExpanded(index)"
+        >
+          <span
+            v-for="skill in group.items.slice(0, 3)"
+            :key="skill.name"
+            class="inline-flex items-center gap-3"
+            ><span
+              data-preview-icon
+              class="skills-icon-anchor inline-flex shrink-0"
+              ><ToolIcon :name="skill.name" /></span
+            >{{ skill.name }}</span
+          >
+          <span
+            v-if="group.items.length > 3"
+            class="font-mono text-xs text-muted"
+            >+{{ group.items.length - 3 }}</span
+          >
         </div>
       </summary>
 
       <div
         :id="`skills-panel-${index}`"
         role="region"
-        :class="['skills-panel overflow-hidden', hydrated && 'skills-panel-motion', hydrated && isExpanded(index) && 'skills-panel-open']"
+        :class="[
+          'skills-panel overflow-hidden',
+          hydrated && 'skills-panel-motion',
+          hydrated && isExpanded(index) && 'skills-panel-open',
+        ]"
       >
         <div class="skills-panel-inner">
-          <ul class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8">
+          <ul
+            class="mx-6 grid gap-3 border-t border-rule/50 pb-6 pt-6 sm:mx-8 sm:grid-cols-2 sm:pb-8"
+          >
             <li
               v-for="(skill, skillIndex) in group.items"
               :key="skill.name"
               v-motion
               :initial="cardInitial"
               :enter="cardMotion"
-              :hovered="reducedMotion ? undefined : { y: -2, borderColor: 'rgba(157, 199, 223, 0.6)' }"
+              :hovered="
+                reducedMotion
+                  ? undefined
+                  : { y: -2, borderColor: 'rgba(157, 199, 223, 0.6)' }
+              "
               class="flex min-w-0 flex-col justify-center rounded-md border border-rule/40 bg-[#050d14]/65 px-4 py-3"
             >
-              <div class="flex items-center gap-3"><span :data-panel-icon="skillIndex < 3 ? '' : undefined" class="skills-icon-anchor inline-flex shrink-0"><ToolIcon :name="skill.name" /></span><span class="break-words font-mono text-sm">{{ skill.name }}</span></div>
-              <a v-for="project in relatedProjects(skill)" :key="project.id" class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper" :href="project.url || `#project-${project.id}`"><span class="sr-only">{{ props.projectLabel }} </span>{{ project.title }}<span aria-hidden="true">↗</span></a>
+              <div class="flex items-center gap-3">
+                <span
+                  :data-panel-icon="skillIndex < 3 ? '' : undefined"
+                  class="skills-icon-anchor inline-flex shrink-0"
+                  ><ToolIcon :name="skill.name" /></span
+                ><span class="break-words font-mono text-sm">{{
+                  skill.name
+                }}</span>
+              </div>
+              <a
+                v-for="project in relatedProjects(skill)"
+                :key="project.id"
+                class="mt-1 inline-flex min-h-11 items-center gap-2 text-xs text-[#9dc7df] underline hover:text-paper"
+                :href="project.url || `#project-${project.id}`"
+                ><span class="sr-only">{{ props.projectLabel }} </span
+                >{{ project.title }}<span aria-hidden="true">↗</span></a
+              >
             </li>
           </ul>
         </div>

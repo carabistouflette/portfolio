@@ -13,7 +13,9 @@
   --color-muted: #bcc9d2;
   --color-rule: #4d6675;
   --font-display: "Ortica Linear", Arial, sans-serif;
-  --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 @font-face {
@@ -34,10 +36,19 @@
     --shell-width: 88rem;
     --gutter: 1.5rem;
     --section-space: clamp(4rem, 8vw, 8rem);
-    --background-field: radial-gradient(ellipse at 49% 46%, #081724 0%, #03090f 48%, #010204 76%, #000 100%);
+    --background-field: radial-gradient(
+      ellipse at 49% 46%,
+      #081724 0%,
+      #03090f 48%,
+      #010204 76%,
+      #000 100%
+    );
   }
 
-  html { background: var(--background); scroll-padding-top: 4rem; }
+  html {
+    background: var(--background);
+    scroll-padding-top: 4rem;
+  }
 
   body {
     min-height: 100vh;
@@ -51,13 +62,15 @@
     text-rendering: optimizeLegibility;
   }
 
-  button, a {
+  button,
+  a {
     min-height: 2.75rem;
     font: inherit;
     -webkit-tap-highlight-color: transparent;
   }
 
-  button:focus-visible, a:focus-visible {
+  button:focus-visible,
+  a:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 4px;
   }
@@ -68,13 +81,21 @@
     text-underline-offset: 0.22em;
   }
 
-  a:hover { text-decoration: underline; }
+  a:hover {
+    text-decoration: underline;
+  }
 
-  [hidden] { display: none !important; }
+  [hidden] {
+    display: none !important;
+  }
 
   @media (min-width: 48rem) {
-    :root { --gutter: 3rem; }
-    html { scroll-padding-top: 6rem; }
+    :root {
+      --gutter: 3rem;
+    }
+    html {
+      scroll-padding-top: 6rem;
+    }
   }
 }
 
@@ -183,7 +204,6 @@
     display: block;
   }
 
-
   .header-section-link::after {
     position: absolute;
     right: 0.25rem;
@@ -195,7 +215,9 @@
     opacity: 0;
     transform: scaleX(0.35);
     transform-origin: left;
-    transition: opacity 140ms ease, transform 140ms ease;
+    transition:
+      opacity 140ms ease,
+      transform 140ms ease;
   }
 
   .header-section-link:hover,
@@ -211,7 +233,9 @@
   }
 
   @media (max-width: 47.999rem) {
-    html { scroll-padding-top: 4.5rem; }
+    html {
+      scroll-padding-top: 4.5rem;
+    }
 
     .header-inner {
       flex-wrap: wrap;
@@ -354,13 +378,25 @@
 }
 
 @keyframes content-enter {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes title-enter {
-  from { opacity: 0.85; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0.85;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes title-blur-enter {
@@ -397,7 +433,9 @@
 }
 
 @keyframes hero-cat-blink {
-  0%, 90%, 100% {
+  0%,
+  90%,
+  100% {
     opacity: 1;
     transform: translateX(-50%) scaleY(0);
   }
@@ -405,7 +443,8 @@
     opacity: 1;
     transform: translateX(-50%) scaleY(0.5);
   }
-  93%, 94% {
+  93%,
+  94% {
     opacity: 1;
     transform: translateX(-50%) scaleY(1);
   }
@@ -427,7 +466,9 @@
 }
 /* VueUse Motion does not map SVG pathLength to stroke dashes. */
 @keyframes robin-stroke {
-  to { stroke-dashoffset: 0; }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
@@ -448,7 +489,6 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   }
 }
 
-
 .hero-robin-trace {
   display: none;
   position: absolute;
@@ -459,11 +499,17 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   overflow: visible;
   pointer-events: none;
 }
-.hero-robin-trace-active { display: block; }
-.hero-name-fallback-active { opacity: 0; }
+.hero-robin-trace-active {
+  display: block;
+}
+.hero-name-fallback-active {
+  opacity: 0;
+}
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-name-fallback { opacity: 0; }
+  .hero-name-fallback {
+    opacity: 0;
+  }
 }
 .hero-robin-trace path {
   fill: none;
@@ -476,7 +522,9 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   stroke-dashoffset: 1;
 }
 
-details[data-disclosure-animating] { overflow: clip; }
+details[data-disclosure-animating] {
+  overflow: clip;
+}
 
 details[data-disclosure-animating] .skill-preview {
   display: flex;
@@ -505,8 +553,13 @@ details[data-disclosure-animating] .skill-preview {
 
 @media (prefers-reduced-motion: reduce) {
   .skills-panel-motion,
-  .skills-panel-motion.skills-panel-open { transition: none; filter: none; }
-  .header-section-link::after { transition: none; }
+  .skills-panel-motion.skills-panel-open {
+    transition: none;
+    filter: none;
+  }
+  .header-section-link::after {
+    transition: none;
+  }
 }
 .skills-icons-moving [data-preview-icon],
 .skills-icons-moving [data-panel-icon] {
@@ -539,7 +592,9 @@ details[data-disclosure-animating] .skill-preview {
     min-width: 9.5rem;
     justify-content: center;
   }
-  .hero-robin-trace path { stroke-width: 1.5px; }
+  .hero-robin-trace path {
+    stroke-width: 1.5px;
+  }
 }
 
 .motion-toggle::before {
@@ -571,15 +626,20 @@ details[data-disclosure-animating] .skill-preview {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 
-  .disclosure-mark { transition: rotate 220ms ease; }
-
+  .disclosure-mark {
+    transition: rotate 220ms ease;
+  }
 
   .hero-copy > * {
     animation: content-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .hero-copy > h1 { animation-name: title-enter; }
+  .hero-copy > h1 {
+    animation-name: title-enter;
+  }
   .hero-name-first {
     animation: title-blur-enter 3s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -590,20 +650,32 @@ details[data-disclosure-animating] .skill-preview {
     animation: robin-stroke 4s linear both;
   }
 
-  .hero-copy > :nth-child(n + 3) { animation-delay: 70ms; }
-  .hero-summary { animation: content-enter 500ms 140ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .hero-actions { animation: content-enter 500ms 210ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .hero-copy > :nth-child(n + 3) {
+    animation-delay: 70ms;
+  }
+  .hero-summary {
+    animation: content-enter 500ms 140ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-actions {
+    animation: content-enter 500ms 210ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 
   /* Focus never waits for an entrance animation. */
-  .hero-actions:focus-within { animation: none; }
+  .hero-actions:focus-within {
+    animation: none;
+  }
 
   :where(a, button, summary) {
-    transition: color 160ms ease, background-color 160ms ease,
-      border-color 160ms ease, text-decoration-color 160ms ease;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease,
+      text-decoration-color 160ms ease;
   }
 
   #projects article {
-    transition: translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    transition:
+      translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 200ms ease;
   }
 
@@ -612,10 +684,15 @@ details[data-disclosure-animating] .skill-preview {
   }
 
   .hero-actions > :is(a, button) {
-    transition: color 160ms ease, border-color 160ms ease, scale 140ms ease;
+    transition:
+      color 160ms ease,
+      border-color 160ms ease,
+      scale 140ms ease;
   }
 
-  .hero-actions > :is(a, button):active { scale: 0.98; }
+  .hero-actions > :is(a, button):active {
+    scale: 0.98;
+  }
 
   .text-link > span[aria-hidden="true"] {
     transition: translate 160ms ease;
@@ -633,6 +710,10 @@ details[data-disclosure-animating] .skill-preview {
   }
 }
 @media (forced-colors: active) {
-  .hero-name-fallback { opacity: 1; }
-  .hero-robin-trace { display: none; }
+  .hero-name-fallback {
+    opacity: 1;
+  }
+  .hero-robin-trace {
+    display: none;
+  }
 }

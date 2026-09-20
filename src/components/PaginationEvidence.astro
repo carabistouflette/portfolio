@@ -1,24 +1,57 @@
 ---
 import type { CaseStudy } from "../data/portfolio";
-interface Props { content: NonNullable<CaseStudy["pagination"]>; }
+interface Props {
+  content: NonNullable<CaseStudy["pagination"]>;
+}
 const { content } = Astro.props;
 ---
-<section class="my-10 border-y border-rule py-7" aria-labelledby="pagination-heading">
-  <h3 id="pagination-heading" class="text-xl font-medium tracking-tight">{content.heading}</h3>
-  <p class="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted">{content.intro}</p>
+
+<section
+  class="my-10 border-y border-rule py-7"
+  aria-labelledby="pagination-heading"
+>
+  <h3 id="pagination-heading" class="text-xl font-medium tracking-tight">
+    {content.heading}
+  </h3>
+  <p class="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted">
+    {content.intro}
+  </p>
   <table class="mt-6 max-w-xl text-left text-sm">
     <tbody>
       <tr class="border-b border-rule">
-        <th scope="row" class="py-3 pr-6 align-middle text-xs font-normal uppercase tracking-[0.1em] text-muted">{content.beforeLabel}</th>
-        <td class="py-3 pr-4 align-middle"><span class="font-mono text-4xl tracking-tight sm:text-5xl">{content.beforeValue}</span></td>
+        <th
+          scope="row"
+          class="py-3 pr-6 align-middle text-xs font-normal uppercase tracking-[0.1em] text-muted"
+        >
+          {content.beforeLabel}
+        </th>
+        <td class="py-3 pr-4 align-middle">
+          <span class="font-mono text-4xl tracking-tight sm:text-5xl">
+            {content.beforeValue}
+          </span>
+        </td>
         <td class="py-3 align-middle text-xs text-muted">{content.unit}</td>
       </tr>
       <tr>
-        <th scope="row" class="py-3 pr-6 align-middle text-xs font-normal uppercase tracking-[0.1em] text-muted">{content.afterLabel}</th>
-        <td class="py-3 pr-4 align-middle"><span class="font-mono text-4xl tracking-tight sm:text-5xl">{content.afterValue}</span></td>
+        <th
+          scope="row"
+          class="py-3 pr-6 align-middle text-xs font-normal uppercase tracking-[0.1em] text-muted"
+        >
+          {content.afterLabel}
+        </th>
+        <td class="py-3 pr-4 align-middle">
+          <span class="font-mono text-4xl tracking-tight sm:text-5xl">
+            {content.afterValue}
+          </span>
+        </td>
         <td class="py-3 align-middle text-xs text-muted">{content.unit}</td>
       </tr>
     </tbody>
   </table>
-  <p id="pagination-notice" class="mt-5 max-w-[75ch] text-xs leading-relaxed text-muted">{content.notice}</p>
+  <p
+    id="pagination-notice"
+    class="mt-5 max-w-[75ch] text-xs leading-relaxed text-muted"
+  >
+    {content.notice}
+  </p>
 </section>

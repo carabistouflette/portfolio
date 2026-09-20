@@ -1,7 +1,11 @@
 ---
 import EvidenceFigure from "./EvidenceFigure.astro";
 import PaginationEvidence from "./PaginationEvidence.astro";
-import type { CaseStudy as CaseStudyData, CaseStudyId, Locale } from "../data/portfolio";
+import type {
+  CaseStudy as CaseStudyData,
+  CaseStudyId,
+  Locale,
+} from "../data/portfolio";
 
 interface Props {
   locale: Locale;
@@ -11,44 +15,98 @@ interface Props {
 
 const { locale, projectId, study } = Astro.props;
 const homePath = locale === "fr" ? "/" : "/en/";
-const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
-
+const counterpartPath =
+  locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
 ---
+
 <main id="main">
   <article class="content-shell pb-20 pt-10 sm:pb-28 sm:pt-16">
     <header class="max-w-5xl">
       <a class="text-link text-sm text-muted underline" href={homePath}>
-        <span class="mr-2" aria-hidden="true">←</span>{study.homeLabel}
+        <span class="mr-2" aria-hidden="true">
+          ←
+        </span>
+        {study.homeLabel}
       </a>
       <p class="eyebrow mt-12 mb-4 text-xs">{study.kicker}</p>
-      {study.relatedProject && <a class="text-link mb-6 text-sm text-[#abd1ed] underline underline-offset-4" href={study.relatedProject.href}>{study.relatedProject.label}<span class="ml-2" aria-hidden="true">↗</span></a>}
-      <h1 id="case-study-title" class="font-display max-w-4xl text-[clamp(2.8rem,7vw,6.8rem)] leading-[0.98] tracking-[-0.045em] text-balance">{study.title}</h1>
-      <h2 class="mt-8 max-w-4xl text-[clamp(1.55rem,3.2vw,3rem)] font-medium leading-tight tracking-[-0.025em] text-balance">{study.question}</h2>
-      <p class="mt-7 max-w-3xl text-lg leading-relaxed text-muted text-pretty">{study.summary}</p>
-      <section class="mt-10 max-w-3xl border border-rule p-5 sm:p-6" aria-label={study.atGlance.label}>
-        <p class="text-xs uppercase tracking-[0.14em] text-muted">{study.atGlance.label}</p>
+      {study.relatedProject && (
+        <a
+          class="text-link mb-6 text-sm text-[#abd1ed] underline underline-offset-4"
+          href={study.relatedProject.href}
+        >
+          {study.relatedProject.label}
+          <span class="ml-2" aria-hidden="true">
+            ↗
+          </span>
+        </a>
+      )}
+      <h1
+        id="case-study-title"
+        class="font-display max-w-4xl text-[clamp(2.8rem,7vw,6.8rem)] leading-[0.98] tracking-[-0.045em] text-balance"
+      >
+        {study.title}
+      </h1>
+      <h2 class="mt-8 max-w-4xl text-[clamp(1.55rem,3.2vw,3rem)] font-medium leading-tight tracking-[-0.025em] text-balance">
+        {study.question}
+      </h2>
+      <p class="mt-7 max-w-3xl text-lg leading-relaxed text-muted text-pretty">
+        {study.summary}
+      </p>
+      <section
+        class="mt-10 max-w-3xl border border-rule p-5 sm:p-6"
+        aria-label={study.atGlance.label}
+      >
+        <p class="text-xs uppercase tracking-[0.14em] text-muted">
+          {study.atGlance.label}
+        </p>
         <dl class="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {study.atGlance.entries.map((entry) => (
             <div class="min-w-0">
-              <dt class="text-xs uppercase tracking-[0.08em] text-muted">{entry.label}</dt>
+              <dt class="text-xs uppercase tracking-[0.08em] text-muted">
+                {entry.label}
+              </dt>
               <dd class="mt-1 text-sm leading-relaxed">{entry.value}</dd>
             </div>
           ))}
         </dl>
         <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3 border-t border-rule/60 pt-4">
-          <a class="text-link min-h-0 text-sm underline" href="#case-context">{study.understandLabel}<span class="ml-2" aria-hidden="true">↓</span></a>
-          <a class="text-link min-h-0 text-sm underline" href="#case-sections">{study.technicalLabel}<span class="ml-2" aria-hidden="true">↓</span></a>
+          <a class="text-link min-h-0 text-sm underline" href="#case-context">
+            {study.understandLabel}
+            <span class="ml-2" aria-hidden="true">
+              ↓
+            </span>
+          </a>
+          <a class="text-link min-h-0 text-sm underline" href="#case-sections">
+            {study.technicalLabel}
+            <span class="ml-2" aria-hidden="true">
+              ↓
+            </span>
+          </a>
         </div>
       </section>
     </header>
 
-    <div id="case-context" data-motion-reveal class="mt-14 grid gap-8 border-y border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12">
+    <div
+      id="case-context"
+      data-motion-reveal
+      class="mt-14 grid gap-8 border-y border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12"
+    >
       <section aria-labelledby="case-context-label">
-        <h3 id="case-context-label" class="text-xs uppercase tracking-[0.14em] text-muted">{study.contextLabel}</h3>
+        <h3
+          id="case-context-label"
+          class="text-xs uppercase tracking-[0.14em] text-muted"
+        >
+          {study.contextLabel}
+        </h3>
         <p class="mt-3 max-w-[58ch] text-sm leading-relaxed">{study.context}</p>
       </section>
       <section aria-labelledby="case-role-label">
-        <h3 id="case-role-label" class="text-xs uppercase tracking-[0.14em] text-muted">{study.roleLabel}</h3>
+        <h3
+          id="case-role-label"
+          class="text-xs uppercase tracking-[0.14em] text-muted"
+        >
+          {study.roleLabel}
+        </h3>
         <p class="mt-3 max-w-[58ch] text-sm leading-relaxed">{study.role}</p>
       </section>
     </div>
@@ -60,55 +118,112 @@ const counterpartPath = locale === "fr" ? `/en/projects/${projectId}/` : `/proje
     <div id="case-sections" class="mt-16 sm:mt-24">
       <ol class="m-0 list-none p-0">
         {study.sections.map((section, index) => (
-          <li data-motion-reveal class="grid gap-7 border-t border-rule py-9 md:grid-cols-[minmax(10rem,0.55fr)_minmax(0,1.45fr)] md:gap-12 md:py-12" id={`decision-${index + 1}`}>
-            <h3 class="text-xs uppercase tracking-[0.14em] text-muted">{section.heading}</h3>
+          <li
+            data-motion-reveal
+            class="grid gap-7 border-t border-rule py-9 md:grid-cols-[minmax(10rem,0.55fr)_minmax(0,1.45fr)] md:gap-12 md:py-12"
+            id={`decision-${index + 1}`}
+          >
+            <h3 class="text-xs uppercase tracking-[0.14em] text-muted">
+              {section.heading}
+            </h3>
             <div class="max-w-3xl">
-              {section.paragraphs.map((paragraph) => <p class="mb-5 text-base leading-[1.75] text-pretty last:mb-0">{paragraph}</p>)}
+              {section.paragraphs.map((paragraph) => (
+                <p class="mb-5 text-base leading-[1.75] text-pretty last:mb-0">
+                  {paragraph}
+                </p>
+              ))}
               {section.points && (
                 <dl class="mt-8 grid gap-5 border-l border-rule pl-5 sm:grid-cols-2 sm:gap-x-8">
                   {section.points.map((point) => (
                     <div>
                       <dt class="text-sm font-medium">{point.label}</dt>
-                      <dd class="mt-1 text-sm leading-relaxed text-muted">{point.detail}</dd>
+                      <dd class="mt-1 text-sm leading-relaxed text-muted">
+                        {point.detail}
+                      </dd>
                     </div>
                   ))}
                 </dl>
               )}
-              {index === 1 && study.pagination && <PaginationEvidence content={study.pagination} />}
+              {index === 1 && study.pagination && (
+                <PaginationEvidence content={study.pagination} />
+              )}
             </div>
           </li>
         ))}
       </ol>
     </div>
 
-    <div data-motion-reveal class="mt-10 grid gap-12 border-t border-rule pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16">
+    <div
+      data-motion-reveal
+      class="mt-10 grid gap-12 border-t border-rule pt-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16"
+    >
       <aside aria-labelledby="case-limitations-title">
-        <h2 id="case-limitations-title" class="text-xl font-medium tracking-tight">{study.limitationsLabel}</h2>
+        <h2
+          id="case-limitations-title"
+          class="text-xl font-medium tracking-tight"
+        >
+          {study.limitationsLabel}
+        </h2>
         <ul class="mt-5 m-0 grid list-none gap-4 border-l border-rule pl-5">
-          {study.limitations.map((limitation) => <li class="text-sm leading-relaxed text-muted">{limitation}</li>)}
+          {study.limitations.map((limitation) => (
+            <li class="text-sm leading-relaxed text-muted">{limitation}</li>
+          ))}
         </ul>
       </aside>
       <section aria-labelledby="case-sources-title">
-        <h2 id="case-sources-title" class="text-xl font-medium tracking-tight">{study.sourcesLabel}</h2>
+        <h2 id="case-sources-title" class="text-xl font-medium tracking-tight">
+          {study.sourcesLabel}
+        </h2>
         <ul class="mt-5 m-0 grid list-none gap-4">
           {study.sources.map((source) => (
             <li class="border-b border-rule/60 pb-4 last:border-0">
               {source.href ? (
-                <a class="text-link min-h-0 text-sm underline" href={source.href} target="_blank" rel="noreferrer">{source.label}<span class="ml-2 text-muted" aria-hidden="true">↗</span></a>
+                <a
+                  class="text-link min-h-0 text-sm underline"
+                  href={source.href}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {source.label}
+                  <span class="ml-2 text-muted" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
               ) : (
                 <span class="text-sm">{source.label}</span>
               )}
-              {source.detail && <p class="mt-1 text-xs leading-relaxed text-muted">{source.detail}</p>}
+              {source.detail && (
+                <p class="mt-1 text-xs leading-relaxed text-muted">
+                  {source.detail}
+                </p>
+              )}
             </li>
           ))}
         </ul>
-        {study.sourcesNote && <p class="mt-6 max-w-[60ch] text-xs leading-relaxed text-muted">{study.sourcesNote}</p>}
+        {study.sourcesNote && (
+          <p class="mt-6 max-w-[60ch] text-xs leading-relaxed text-muted">
+            {study.sourcesNote}
+          </p>
+        )}
       </section>
     </div>
 
-    <footer data-motion-reveal class="mt-16 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-rule pt-6 text-sm">
-      <a class="text-link min-h-0 underline" href={homePath}><span class="mr-2" aria-hidden="true">←</span>{study.homeLabel}</a>
-      <a class="text-link min-h-0 underline" href={counterpartPath}>{study.counterpartLabel}<span class="ml-2" aria-hidden="true">→</span></a>
+    <footer
+      data-motion-reveal
+      class="mt-16 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 border-t border-rule pt-6 text-sm"
+    >
+      <a class="text-link min-h-0 underline" href={homePath}>
+        <span class="mr-2" aria-hidden="true">
+          ←
+        </span>
+        {study.homeLabel}
+      </a>
+      <a class="text-link min-h-0 underline" href={counterpartPath}>
+        {study.counterpartLabel}
+        <span class="ml-2" aria-hidden="true">
+          →
+        </span>
+      </a>
     </footer>
   </article>
 </main>

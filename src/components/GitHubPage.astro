@@ -2,17 +2,35 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import OpenSource from "./OpenSource.astro";
 import { portfolio, type Locale } from "../data/portfolio";
-interface Props { locale: Locale; }
+interface Props {
+  locale: Locale;
+}
 const { locale } = Astro.props;
 const content = portfolio[locale];
 const copy = content.openSource.github;
 const homePath = locale === "fr" ? "/" : "/en/";
 const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
 ---
-<BaseLayout locale={locale} content={content} canonicalPath={paths[locale]} alternatePaths={paths} meta={{ title: `${copy.pageTitle} — Alexis Robin`, description: content.openSource.intro }}>
+
+<BaseLayout
+  locale={locale}
+  content={content}
+  canonicalPath={paths[locale]}
+  alternatePaths={paths}
+  meta={{
+    title: `${copy.pageTitle} — Alexis Robin`,
+    description: content.openSource.intro,
+  }}
+>
   <main id="main">
     <div class="content-shell pb-10 pt-10 sm:pt-16">
-      <a class="text-link inline-flex min-h-11 items-center gap-2 text-sm text-muted underline" href={`${homePath}#open-source`}><span aria-hidden="true">←</span>{copy.homeLabel}</a>
+      <a
+        class="text-link inline-flex min-h-11 items-center gap-2 text-sm text-muted underline"
+        href={`${homePath}#open-source`}
+      >
+        <span aria-hidden="true">←</span>
+        {copy.homeLabel}
+      </a>
     </div>
     <OpenSource locale={locale} content={content.openSource} detailed />
   </main>
