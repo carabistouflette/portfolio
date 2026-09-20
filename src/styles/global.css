@@ -293,7 +293,7 @@
       right: -1.5rem;
       left: auto !important;
       width: 34% !important;
-      opacity: 0.55 !important;
+      opacity: 1 !important;
     }
 
     .hero-availability-note,
@@ -348,6 +348,9 @@
     text-wrap: balance;
     overflow-wrap: anywhere;
   }
+  .hero-cat {
+    aspect-ratio: 640 / 785;
+  }
 }
 
 @keyframes content-enter {
@@ -358,6 +361,58 @@
 @keyframes title-enter {
   from { opacity: 0.85; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+.hero-cat-eye {
+  position: absolute;
+  z-index: 1;
+  width: 11%;
+  height: 7%;
+  border-radius: 50%;
+  background: rgb(2 5 8);
+  filter: blur(2.4px);
+  opacity: 1;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top center;
+}
+
+.hero-cat-eye-left {
+  top: 38%;
+  left: 30%;
+}
+
+.hero-cat-eye-right {
+  top: 40%;
+  left: 54.5%;
+}
+
+@keyframes hero-cat-blink {
+  0%, 90%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(0);
+  }
+  91.5% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(0.5);
+  }
+  93%, 94% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1);
+  }
+  95.5% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(0.5);
+  }
+  97% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cat-eye {
+    animation: hero-cat-blink 6s 1.2s ease-in-out infinite;
+    will-change: transform;
+  }
 }
 /* VueUse Motion does not map SVG pathLength to stroke dashes. */
 @keyframes robin-stroke {
