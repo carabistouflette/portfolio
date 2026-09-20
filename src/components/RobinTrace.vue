@@ -23,7 +23,6 @@ const glyphs = [
   },
 ] as const;
 
-const ease = [0.22, 1, 0.36, 1] as const;
 const hydrated = ref(false);
 const reducedMotion = ref(false);
 let mediaQuery: MediaQueryList | undefined;
@@ -47,10 +46,27 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <span aria-hidden="true" class="hero-name-last block relative ml-[0.12em] mt-3 text-transparent [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db] forced-colors:text-[CanvasText]">
-    <span :class="['hero-name-fallback', animated && 'hero-name-fallback-active']">Robin</span>
-    <svg v-if="animated" class="hero-robin-trace hero-robin-trace-active" viewBox="0 0 2890 1000" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
-      <g v-for="(glyph, index) in glyphs" :key="index" :transform="glyph.transform">
+  <span
+    aria-hidden="true"
+    class="hero-name-last block relative ml-[0.12em] mt-3 text-transparent [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db] forced-colors:text-[CanvasText]"
+  >
+    <span
+      :class="['hero-name-fallback', animated && 'hero-name-fallback-active']"
+      >Robin</span
+    >
+    <svg
+      v-if="animated"
+      class="hero-robin-trace hero-robin-trace-active"
+      viewBox="0 0 2890 1000"
+      preserveAspectRatio="xMinYMid meet"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g
+        v-for="(glyph, index) in glyphs"
+        :key="index"
+        :transform="glyph.transform"
+      >
         <path
           v-for="(path, pathIndex) in glyph.d.split(/(?=M)/)"
           :key="pathIndex"

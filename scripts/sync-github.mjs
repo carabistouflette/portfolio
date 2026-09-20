@@ -7,7 +7,8 @@ const LOGIN = "carabistouflette";
 const REPOSITORY_ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const SNAPSHOT_PATH = resolve(REPOSITORY_ROOT, "src/data/github.json");
 const GITHUB_API = "https://api.github.com/search/issues";
-const GITHUB_CALENDAR = "https://github.com/users/carabistouflette/contributions";
+const GITHUB_CALENDAR =
+  "https://github.com/users/carabistouflette/contributions";
 const AUTHOR_QUERY = "author:carabistouflette is:pr is:public";
 const FEATURED_REPOSITORY = "brio-labs/maestria";
 const FEATURED_PULL_NUMBERS = [485, 501, 511];
@@ -30,12 +31,16 @@ async function fetchText(url) {
       signal: controller.signal,
     });
     if (!response.ok) {
-      throw new Error(`GitHub request failed (${response.status}) for ${new URL(url).pathname}`);
+      throw new Error(
+        `GitHub request failed (${response.status}) for ${new URL(url).pathname}`,
+      );
     }
     return await response.text();
   } catch (error) {
     if (error?.name === "AbortError") {
-      throw new Error(`GitHub request timed out for ${new URL(url).pathname}`);
+      throw new Error(`GitHub request timed out for ${new URL(url).pathname}`, {
+        cause: error,
+      });
     }
     throw error;
   } finally {
@@ -48,7 +53,9 @@ async function fetchJson(url) {
   try {
     return JSON.parse(text);
   } catch {
-    throw new Error(`GitHub returned malformed JSON for ${new URL(url).pathname}`);
+    throw new Error(
+      `GitHub returned malformed JSON for ${new URL(url).pathname}`,
+    );
   }
 }
 
@@ -60,9 +67,10 @@ function assertRecord(value, message) {
 }
 
 function assertDateTime(value, field) {
-  const normalized = typeof value === "string" && value.endsWith("Z") && !value.includes(".")
-    ? `${value.slice(0, -1)}.000Z`
-    : value;
+  const normalized =
+    typeof value === "string" && value.endsWith("Z") && !value.includes(".")
+      ? `${value.slice(0, -1)}.000Z`
+      : value;
   if (
     typeof value !== "string" ||
     !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value) ||
@@ -78,9 +86,10 @@ function parseRepository(item) {
   if (typeof item.repository_url !== "string") {
     throw new Error("GitHub search item is missing repository_url");
   }
-  const match = /^https:\/\/api\.github\.com\/repos\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/.exec(
-    item.repository_url,
-  );
+  const match =
+    /^https:\/\/api\.github\.com\/repos\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/.exec(
+      item.repository_url,
+    );
   if (!match) {
     throw new Error("GitHub search item has an unexpected repository URL");
   }
@@ -91,7 +100,9 @@ export function toPullRequest(item) {
   assertRecord(item, "GitHub search item is malformed");
   const user = assertRecord(item.user, "GitHub search item is missing user");
   if (typeof user.login !== "string" || user.login.toLowerCase() !== LOGIN) {
-    throw new Error("GitHub search item author does not match the configured login");
+    throw new Error(
+      "GitHub search item author does not match the configured login",
+    );
   }
   if (
     !Number.isSafeInteger(item.number) ||
@@ -100,6 +111,7 @@ export function toPullRequest(item) {
     typeof item.title !== "string" ||
     item.title.length < 1 ||
     item.title.length > 500 ||
+    // eslint-disable-next-line no-control-regex -- validate against control characters
     /[\u0000-\u001f\u007f]/.test(item.title) ||
     typeof item.html_url !== "string" ||
     typeof item.created_at !== "string" ||
@@ -121,13 +133,25 @@ export function toPullRequest(item) {
     throw new Error("GitHub pull-request dates are not chronological");
   }
 
-  const pullRequest = assertRecord(item.pull_request, "GitHub search item is missing pull_request");
-  if (pullRequest.merged_at !== null && typeof pullRequest.merged_at !== "string") {
+  const pullRequest = assertRecord(
+    item.pull_request,
+    "GitHub search item is missing pull_request",
+  );
+  if (
+    pullRequest.merged_at !== null &&
+    typeof pullRequest.merged_at !== "string"
+  ) {
     throw new Error("GitHub pull-request merged_at is malformed");
   }
   const mergedAt =
-    pullRequest.merged_at === null ? null : assertDateTime(pullRequest.merged_at, "merged_at");
-  if (mergedAt !== null && (Date.parse(createdAt) > Date.parse(mergedAt) || Date.parse(mergedAt) > Date.parse(updatedAt))) {
+    pullRequest.merged_at === null
+      ? null
+      : assertDateTime(pullRequest.merged_at, "merged_at");
+  if (
+    mergedAt !== null &&
+    (Date.parse(createdAt) > Date.parse(mergedAt) ||
+      Date.parse(mergedAt) > Date.parse(updatedAt))
+  ) {
     throw new Error("GitHub pull-request merge date is not chronological");
   }
 
@@ -135,10 +159,12 @@ export function toPullRequest(item) {
   const relationship =
     owner.toLowerCase() === LOGIN
       ? "personal"
-      : item.author_association === "MEMBER" || item.author_association === "OWNER"
+      : item.author_association === "MEMBER" ||
+          item.author_association === "OWNER"
         ? "organization"
         : "external";
-  const state = mergedAt !== null ? "merged" : item.draft ? "draft" : item.state;
+  const state =
+    mergedAt !== null ? "merged" : item.draft ? "draft" : item.state;
 
   return {
     repository,
@@ -197,20 +223,28 @@ function buildSnapshot(recent, external, open, merged, featuredPool, calendar) {
     throw new Error("GitHub open search returned a total without any records");
   }
   if (merged.totalCount > 0 && merged.items.length === 0) {
-    throw new Error("GitHub merged search returned a total without any records");
+    throw new Error(
+      "GitHub merged search returned a total without any records",
+    );
   }
-  if (open.items.some((item) => item.state !== "open" && item.state !== "draft")) {
+  if (
+    open.items.some((item) => item.state !== "open" && item.state !== "draft")
+  ) {
     throw new Error("GitHub open search returned a non-open pull request");
   }
   if (merged.items.some((item) => item.state !== "merged")) {
     throw new Error("GitHub merged search returned a non-merged pull request");
   }
 
-  const byNumber = new Map(featuredPool.items.map((item) => [item.number, item]));
+  const byNumber = new Map(
+    featuredPool.items.map((item) => [item.number, item]),
+  );
   const featured = FEATURED_PULL_NUMBERS.map((number) => {
     const record = byNumber.get(number);
     if (!record) {
-      throw new Error(`GitHub featured pull request #${number} is missing from the ${FEATURED_REPOSITORY} search`);
+      throw new Error(
+        `GitHub featured pull request #${number} is missing from the ${FEATURED_REPOSITORY} search`,
+      );
     }
     return record;
   });
@@ -235,7 +269,11 @@ function buildSnapshot(recent, external, open, merged, featuredPool, calendar) {
 
 async function writeSnapshot(snapshot) {
   const temporaryPath = `${SNAPSHOT_PATH}.tmp-${process.pid}`;
-  await writeFile(temporaryPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");
+  await writeFile(
+    temporaryPath,
+    `${JSON.stringify(snapshot, null, 2)}\n`,
+    "utf8",
+  );
   await rename(temporaryPath, SNAPSHOT_PATH);
 }
 
@@ -260,20 +298,37 @@ function startConcurrent(task, index) {
   });
 }
 
-
 export async function syncGitHubSnapshot() {
   const jobs = [
     () => fetchSearch(AUTHOR_QUERY, "created", "recent", 3),
-    () => fetchSearch(`${AUTHOR_QUERY} -user:carabistouflette`, "created", "external", 3),
+    () =>
+      fetchSearch(
+        `${AUTHOR_QUERY} -user:carabistouflette`,
+        "created",
+        "external",
+        3,
+      ),
     () => fetchSearch(`${AUTHOR_QUERY} is:open`, "updated", "open", 3),
     () => fetchSearch(`${AUTHOR_QUERY} is:merged`, null, "merged", 1),
-    () => fetchSearch(`${AUTHOR_QUERY} repo:${FEATURED_REPOSITORY}`, "created", "featured", 30),
+    () =>
+      fetchSearch(
+        `${AUTHOR_QUERY} repo:${FEATURED_REPOSITORY}`,
+        "created",
+        "featured",
+        30,
+      ),
     () => fetchCalendar(),
   ];
-  const [recent, external, open, merged, featuredPool, calendar] = await Promise.all(
-    jobs.map((job, index) => startConcurrent(job, index)),
+  const [recent, external, open, merged, featuredPool, calendar] =
+    await Promise.all(jobs.map((job, index) => startConcurrent(job, index)));
+  const snapshot = buildSnapshot(
+    recent,
+    external,
+    open,
+    merged,
+    featuredPool,
+    calendar,
   );
-  const snapshot = buildSnapshot(recent, external, open, merged, featuredPool, calendar);
   const { validateGitHubSnapshot } = await importValidator();
   validateGitHubSnapshot(snapshot);
   await writeSnapshot(snapshot);
@@ -282,7 +337,8 @@ export async function syncGitHubSnapshot() {
 
 async function main() {
   const argumentsList = process.argv.slice(2);
-  const allowStale = argumentsList.length === 1 && argumentsList[0] === "--allow-stale";
+  const allowStale =
+    argumentsList.length === 1 && argumentsList[0] === "--allow-stale";
   if (argumentsList.length > 1 || (argumentsList.length === 1 && !allowStale)) {
     throw new Error("Usage: node scripts/sync-github.mjs [--allow-stale]");
   }
@@ -299,15 +355,23 @@ async function main() {
 
     const existing = await readExistingSnapshot();
     if (existing === null) {
-      throw new Error(`GitHub sync failed and no existing snapshot is available: ${error.message}`);
+      throw new Error(
+        `GitHub sync failed and no existing snapshot is available: ${error.message}`,
+        { cause: error },
+      );
     }
     const { validateGitHubSnapshot } = await importValidator();
     try {
       validateGitHubSnapshot(existing);
-    } catch {
-      throw new Error(`GitHub sync failed and the existing snapshot is invalid: ${error.message}`);
+    } catch (validateError) {
+      throw new Error(
+        `GitHub sync failed and the existing snapshot is invalid: ${error.message}`,
+        { cause: validateError },
+      );
     }
-    console.warn(`GitHub sync failed; retaining the validated existing snapshot: ${error.message}`);
+    console.warn(
+      `GitHub sync failed; retaining the validated existing snapshot: ${error.message}`,
+    );
   }
 }
 

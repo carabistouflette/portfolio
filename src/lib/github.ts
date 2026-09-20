@@ -47,8 +47,7 @@ const MAX_REPOSITORY_LENGTH = 200;
 const MAX_COUNT = 10_000;
 const MAX_TOTAL_COUNT = 2_000_000_000;
 const DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
-const DATE_TIME_PATTERN =
-  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
+const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/;
 const REPOSITORY_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -60,10 +59,16 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return prototype === Object.prototype || prototype === null;
 }
 
-function hasExactKeys(value: Record<string, unknown>, keys: readonly string[]): boolean {
+function hasExactKeys(
+  value: Record<string, unknown>,
+  keys: readonly string[],
+): boolean {
   const actual = Object.keys(value).sort();
   const expected = [...keys].sort();
-  return actual.length === expected.length && actual.every((key, index) => key === expected[index]);
+  return (
+    actual.length === expected.length &&
+    actual.every((key, index) => key === expected[index])
+  );
 }
 
 function parseDateOnly(value: unknown): number | null {
@@ -100,8 +105,14 @@ function parseDateTime(value: unknown): number | null {
   }
 
   const timestamp = Date.parse(value);
-  const normalized = value.endsWith("Z") && !value.includes(".") ? `${value.slice(0, -1)}.000Z` : value;
-  if (!Number.isFinite(timestamp) || new Date(timestamp).toISOString() !== normalized) {
+  const normalized =
+    value.endsWith("Z") && !value.includes(".")
+      ? `${value.slice(0, -1)}.000Z`
+      : value;
+  if (
+    !Number.isFinite(timestamp) ||
+    new Date(timestamp).toISOString() !== normalized
+  ) {
     return null;
   }
 
@@ -139,6 +150,7 @@ function validatePullRequest(value: unknown): value is GitHubPullRequest {
     typeof value.title !== "string" ||
     value.title.length < 1 ||
     value.title.length > MAX_TITLE_LENGTH ||
+    // eslint-disable-next-line no-control-regex -- validate against control characters
     /[\u0000-\u001f\u007f]/.test(value.title) ||
     typeof value.url !== "string" ||
     value.url.length > 500 ||
@@ -147,18 +159,25 @@ function validatePullRequest(value: unknown): value is GitHubPullRequest {
     typeof value.updatedAt !== "string" ||
     parseDateTime(value.updatedAt) === null ||
     (value.mergedAt !== null &&
-      (typeof value.mergedAt !== "string" || parseDateTime(value.mergedAt) === null)) ||
+      (typeof value.mergedAt !== "string" ||
+        parseDateTime(value.mergedAt) === null)) ||
     !["open", "merged", "closed", "draft"].includes(value.state as string) ||
-    !["personal", "organization", "external"].includes(value.relationship as string)
+    !["personal", "organization", "external"].includes(
+      value.relationship as string,
+    )
   ) {
     return false;
   }
 
-  const repositoryOwner = value.repository.slice(0, value.repository.indexOf("/"));
+  const repositoryOwner = value.repository.slice(
+    0,
+    value.repository.indexOf("/"),
+  );
   const expectedUrl = `https://github.com/${value.repository}/pull/${value.number}`;
   const createdAt = parseDateTime(value.createdAt);
   const updatedAt = parseDateTime(value.updatedAt);
-  const mergedAt = value.mergedAt === null ? null : parseDateTime(value.mergedAt);
+  const mergedAt =
+    value.mergedAt === null ? null : parseDateTime(value.mergedAt);
 
   if (
     value.url !== expectedUrl ||
@@ -171,8 +190,10 @@ function validatePullRequest(value: unknown): value is GitHubPullRequest {
   }
 
   if (
-    (value.relationship === "personal" && repositoryOwner.toLowerCase() !== LOGIN) ||
-    (value.relationship !== "personal" && repositoryOwner.toLowerCase() === LOGIN)
+    (value.relationship === "personal" &&
+      repositoryOwner.toLowerCase() !== LOGIN) ||
+    (value.relationship !== "personal" &&
+      repositoryOwner.toLowerCase() === LOGIN)
   ) {
     return false;
   }
@@ -204,7 +225,12 @@ function validateCalendar(value: unknown): value is GitHubSnapshot["calendar"] {
 
   const from = parseDateOnly(value.from);
   const to = parseDateOnly(value.to);
-  if (from === null || to === null || from > to || value.days.length !== (to - from) / 86_400_000 + 1) {
+  if (
+    from === null ||
+    to === null ||
+    from > to ||
+    value.days.length !== (to - from) / 86_400_000 + 1
+  ) {
     return false;
   }
 
@@ -229,7 +255,8 @@ function validateCalendar(value: unknown): value is GitHubSnapshot["calendar"] {
     const timestamp = parseDateOnly(rawDay.date);
     if (
       timestamp === null ||
-      (previousTimestamp !== null && timestamp - previousTimestamp !== 86_400_000) ||
+      (previousTimestamp !== null &&
+        timestamp - previousTimestamp !== 86_400_000) ||
       (index === 0 && timestamp !== from) ||
       (index === value.days.length - 1 && timestamp !== to) ||
       (rawDay.count === 0 && rawDay.level !== 0) ||
@@ -245,11 +272,20 @@ function validateCalendar(value: unknown): value is GitHubSnapshot["calendar"] {
 }
 
 export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
-  const snapshotKeys = ["version", "login", "updatedAt", "pullRequests", "counts", "calendar"];
+  const snapshotKeys = [
+    "version",
+    "login",
+    "updatedAt",
+    "pullRequests",
+    "counts",
+    "calendar",
+  ];
   if (
     !isRecord(value) ||
     !snapshotKeys.every((key) => key in value) ||
-    Object.keys(value).some((key) => key !== "featured" && !snapshotKeys.includes(key)) ||
+    Object.keys(value).some(
+      (key) => key !== "featured" && !snapshotKeys.includes(key),
+    ) ||
     value.version !== 1 ||
     value.login !== LOGIN ||
     typeof value.updatedAt !== "string" ||
@@ -273,7 +309,11 @@ export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
 
   for (const scope of PR_SCOPES) {
     const records = value.pullRequests[scope];
-    if (!Array.isArray(records) || records.length > 3 || !records.every(validatePullRequest)) {
+    if (
+      !Array.isArray(records) ||
+      records.length > 3 ||
+      !records.every(validatePullRequest)
+    ) {
       throw new Error(`Invalid GitHub ${scope} pull requests`);
     }
     const urls = new Set<string>();
@@ -282,10 +322,16 @@ export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
       if (
         urls.has(request.url) ||
         (scope === "external" && request.relationship === "personal") ||
-        (scope === "open" && request.state !== "open" && request.state !== "draft") ||
-        (index > 0 && Date.parse(request[dateKey]) > Date.parse(records[index - 1][dateKey]))
+        (scope === "open" &&
+          request.state !== "open" &&
+          request.state !== "draft") ||
+        (index > 0 &&
+          Date.parse(request[dateKey]) >
+            Date.parse(records[index - 1][dateKey]))
       ) {
-        throw new Error(`Invalid GitHub ${scope} pull-request ordering or scope`);
+        throw new Error(
+          `Invalid GitHub ${scope} pull-request ordering or scope`,
+        );
       }
       urls.add(request.url);
     }
@@ -296,9 +342,7 @@ export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
     throw new Error("Invalid GitHub open pull requests");
   }
 
-  if (
-    openRecords.length !== Math.min(value.counts.open, 3)
-  ) {
+  if (openRecords.length !== Math.min(value.counts.open, 3)) {
     throw new Error("GitHub open pull-request totals do not match records");
   }
 
@@ -308,7 +352,8 @@ export function validateGitHubSnapshot(value: unknown): GitHubSnapshot {
       value.featured.length === 0 ||
       value.featured.length > 10 ||
       !value.featured.every(validatePullRequest) ||
-      new Set(value.featured.map((request) => request.url)).size !== value.featured.length
+      new Set(value.featured.map((request) => request.url)).size !==
+        value.featured.length
     ) {
       throw new Error("Invalid GitHub featured pull requests");
     }
