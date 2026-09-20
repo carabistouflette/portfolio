@@ -82,6 +82,7 @@
   // fast power stroke, the rapid pitch flip at the bottom, the slower recovery,
   // and a second pitch flip while the wing briefly hangs at the top.
   // Values are art-directed for this side-profile artwork.
+  const _flapPose = { angle: 0, feather: 0, sweep: 0, camber: 0, power: 0 };
   function wingCycle(phase) {
     const p=fract(phase);
     const downEnd=.34, bottomFlipEnd=.415, upEnd=.91;
@@ -95,7 +96,6 @@
       power=Math.pow(Math.sin(Math.PI*s),1.55);
     } else if(p<bottomFlipEnd) {
       const s=smoother((p-downEnd)/(bottomFlipEnd-downEnd));
-      // The stroke almost stops while the wing rapidly pronates.
       angle=-.50+.022*Math.sin(Math.PI*s);
       feather=mix(.24,-.31,s);
       sweep=mix(.050,.035,s);
@@ -108,23 +108,24 @@
       camber=-.024*Math.sin(Math.PI*s);
     } else {
       const s=smoother((p-upEnd)/(1-upEnd));
-      // Supination happens while the wing is almost stationary at the top.
       angle=1.14-.014*Math.sin(Math.PI*s);
       feather=mix(-.20,.36,s);
       sweep=mix(-.035,-.030,s);
       camber=mix(-.006,0,s);
     }
-    return {angle,feather,sweep,camber,power};
+    _flapPose.angle = angle;
+    _flapPose.feather = feather;
+    _flapPose.sweep = sweep;
+    _flapPose.camber = camber;
+    _flapPose.power = power;
+    return _flapPose;
   }
 
+  const _glidePose = { angle: 0, feather: 0, sweep: -.018, camber: .010, power: 0 };
   function glidePose(t,seed) {
-    return {
-      angle:.82+.025*noise(t*.42,seed+72),
-      feather:.055+.018*noise(t*.31,seed+19),
-      sweep:-.018,
-      camber:.010,
-      power:0
-    };
+    _glidePose.angle = .82+.025*noise(t*.42,seed+72);
+    _glidePose.feather = .055+.018*noise(t*.31,seed+19);
+    return _glidePose;
   }
 
   let width=1, height=1, dpr=1, time=0, accumulator=0;
@@ -137,8 +138,8 @@
   const params = new URLSearchParams(location.search);
   const solo = params.get('solo') === '1'; // Inspection mode, no added interface.
   const manual = params.get('manual') === '1';
-  const fixedDT = 1/120;
-  const maxSubsteps = 6;
+  const fixedDT = 1/60;
+  const maxSubsteps = 4;
   const stats={frames:0,physicsTotal:0,physicsMax:0,submitTotal:0,frameIntervals:0,
     intervalCount:0,discardedCatchups:0,simulationSteps:0};
   const byDepth=(a,b)=>a.depth-b.depth;
@@ -453,27 +454,16 @@
     varying vec2 v_uv;
     varying float v_facing;
     void main() {
-      // A lightweight separable-style blur is applied directly in the butterfly material.
-      vec2 d=u_texel*u_blur;
-      vec4 texel=texture2D(u_texture,v_uv,u_softness)*0.16;
-      texel+=texture2D(u_texture,v_uv+vec2(d.x,0.0),u_softness)*0.12;
-      texel+=texture2D(u_texture,v_uv-vec2(d.x,0.0),u_softness)*0.12;
-      texel+=texture2D(u_texture,v_uv+vec2(0.0,d.y),u_softness)*0.12;
-      texel+=texture2D(u_texture,v_uv-vec2(0.0,d.y),u_softness)*0.12;
-      texel+=texture2D(u_texture,v_uv+d,u_softness)*0.08;
-      texel+=texture2D(u_texture,v_uv-d,u_softness)*0.08;
-      texel+=texture2D(u_texture,v_uv+vec2(d.x,-d.y),u_softness)*0.08;
-      texel+=texture2D(u_texture,v_uv+vec2(-d.x,d.y),u_softness)*0.08;
-      if(u_blur>1.1){
-        vec2 d2=d*2.0;
-        texel+=texture2D(u_texture,v_uv+vec2(d2.x,0.0),u_softness)*0.03;
-        texel+=texture2D(u_texture,v_uv-vec2(d2.x,0.0),u_softness)*0.03;
-        texel+=texture2D(u_texture,v_uv+vec2(0.0,d2.y),u_softness)*0.03;
-        texel+=texture2D(u_texture,v_uv-vec2(0.0,d2.y),u_softness)*0.03;
-        texel+=texture2D(u_texture,v_uv+d2,u_softness)*0.02;
-        texel+=texture2D(u_texture,v_uv-d2,u_softness)*0.02;
-        texel+=texture2D(u_texture,v_uv+vec2(d2.x,-d2.y),u_softness)*0.02;
-        texel+=texture2D(u_texture,v_uv+vec2(-d2.x,d2.y),u_softness)*0.02;
+      vec4 texel;
+      if(u_blur > 0.05) {
+        vec2 d = u_texel * u_blur;
+        texel = texture2D(u_texture, v_uv, u_softness) * 0.40;
+        texel += (texture2D(u_texture, v_uv + vec2(d.x, d.y), u_softness)
+                + texture2D(u_texture, v_uv - vec2(d.x, d.y), u_softness)
+                + texture2D(u_texture, v_uv + vec2(-d.x, d.y), u_softness)
+                + texture2D(u_texture, v_uv + vec2(d.x, -d.y), u_softness)) * 0.15;
+      } else {
+        texel = texture2D(u_texture, v_uv, u_softness);
       }
       if(texel.a<.002) discard;
       gl_FragColor=vec4(texel.rgb*u_exposure*v_facing*u_opacity,texel.a*u_opacity);
@@ -535,6 +525,7 @@
       if(!this.gl) throw new Error('WebGL is not available.');
       const g=this.gl;
       this.resources=[];
+      this.extVAO=g.getExtension('OES_vertex_array_object');
       this.wing=this.program(VERTEX,FRAGMENT,['a_xy','a_uv'],[
         'u_resolution','u_origin','u_scale','u_direction','u_pitch','u_yaw','u_elevation',
         'u_angle','u_velocity','u_side','u_part','u_time','u_opacity','u_exposure','u_softness','u_blur','u_texel','u_texture','u_kinematic'
@@ -565,6 +556,7 @@
       g.texParameteri(g.TEXTURE_2D,g.TEXTURE_WRAP_T,g.CLAMP_TO_EDGE);
       this.framebuffer=g.createFramebuffer(); this.resources.push(['Framebuffer',this.framebuffer]);
       g.disable(g.DEPTH_TEST);g.disable(g.CULL_FACE);
+      this.currentVAO=null; this.currentTex=null; this.currentBuf=null;
     }
     program(vs,fs,attribs,uniforms) {
       const g=this.gl, p=g.createProgram();
@@ -597,7 +589,19 @@
       this.resources.push(['Buffer',vertices],['Buffer',elements]);
       g.bindBuffer(g.ARRAY_BUFFER,vertices);g.bufferData(g.ARRAY_BUFFER,new Float32Array(data),g.STATIC_DRAW);
       g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,elements);g.bufferData(g.ELEMENT_ARRAY_BUFFER,new Uint16Array(indices),g.STATIC_DRAW);
-      return {vertices,elements,count:indices.length,vertexCount:(nx+1)*(ny+1)};
+      let vao=null;
+      if(this.extVAO) {
+        vao=this.extVAO.createVertexArrayOES();
+        this.extVAO.bindVertexArrayOES(vao);
+        g.bindBuffer(g.ARRAY_BUFFER,vertices);
+        g.enableVertexAttribArray(this.wing.a_xy);
+        g.enableVertexAttribArray(this.wing.a_uv);
+        g.vertexAttribPointer(this.wing.a_xy,2,g.FLOAT,false,16,0);
+        g.vertexAttribPointer(this.wing.a_uv,2,g.FLOAT,false,16,8);
+        g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,elements);
+        this.extVAO.bindVertexArrayOES(null);
+      }
+      return {vertices,elements,vao,count:indices.length,vertexCount:(nx+1)*(ny+1)};
     }
     texture(image) {
       const g=this.gl,t=g.createTexture();this.resources.push(['Texture',t]);
@@ -651,13 +655,26 @@
       g.uniform1f(p.u_softness,softness);
       const blur=clamp(cfg.butterflyBlur + (1-b.depth)*cfg.butterflyDepthBlur + Math.abs(b.angularVelocity)*cfg.butterflyMotionBlur*0.018, 0.0, 6.0);
       g.uniform1f(p.u_blur,blur);
-      g.uniform2f(p.u_texel,1/512,1/512);
       const textureSet=this.textures[(b.variantIndex??0) % this.textures.length] || this.textures[0];
-      g.bindTexture(g.TEXTURE_2D,textureSet[name]);
-      g.bindBuffer(g.ARRAY_BUFFER,m.vertices);g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,m.elements);
-      g.enableVertexAttribArray(p.a_xy);g.enableVertexAttribArray(p.a_uv);
-      g.vertexAttribPointer(p.a_xy,2,g.FLOAT,false,16,0);
-      g.vertexAttribPointer(p.a_uv,2,g.FLOAT,false,16,8);
+      const tex=textureSet[name];
+      if(this.currentTex!==tex) {
+        g.bindTexture(g.TEXTURE_2D,tex);
+        this.currentTex=tex;
+      }
+      if(this.extVAO) {
+        if(this.currentVAO!==m.vao) {
+          this.extVAO.bindVertexArrayOES(m.vao);
+          this.currentVAO=m.vao;
+        }
+      } else {
+        if(this.currentBuf!==m.vertices) {
+          g.bindBuffer(g.ARRAY_BUFFER,m.vertices);
+          g.bindBuffer(g.ELEMENT_ARRAY_BUFFER,m.elements);
+          g.vertexAttribPointer(p.a_xy,2,g.FLOAT,false,16,0);
+          g.vertexAttribPointer(p.a_uv,2,g.FLOAT,false,16,8);
+          this.currentBuf=m.vertices;
+        }
+      }
       g.drawElements(g.TRIANGLES,m.count,g.UNSIGNED_SHORT,0);
     }
     draw(t,alpha=1) {
@@ -672,8 +689,13 @@
       const p=this.wing;g.useProgram(p.p);
       g.uniform2f(p.u_resolution,width,height);
       g.uniform1f(p.u_exposure,cfg.exposure);
+      g.uniform2f(p.u_texel,1/512,1/512);
       g.uniform1i(p.u_texture,0);g.activeTexture(g.TEXTURE0);
-      // Depth is coherent: a distant animal is smaller, dimmer and softer, not a random giant.
+      this.currentVAO=null; this.currentTex=null; this.currentBuf=null;
+      if(!this.extVAO) {
+        g.enableVertexAttribArray(p.a_xy);
+        g.enableVertexAttribArray(p.a_uv);
+      }
       for(const bird of drawOrder()) {
         const b=bird.pose(alpha);
         if(b.x < -b.span*2.7 || b.x > width+b.span*2.7)continue;
@@ -692,7 +714,12 @@
         this.part(b,'forewing',1,1,b.angle+.005,b.opacity);
         this.part(b,'body',0,0,0,b.opacity);
       }
-      g.disableVertexAttribArray(p.a_xy);g.disableVertexAttribArray(p.a_uv);
+      if(this.extVAO) {
+        this.extVAO.bindVertexArrayOES(null);
+      } else {
+        g.disableVertexAttribArray(p.a_xy);
+        g.disableVertexAttribArray(p.a_uv);
+      }
       g.disable(g.BLEND);g.bindFramebuffer(g.FRAMEBUFFER,null);
       const q=this.post;g.useProgram(q.p);
       g.bindTexture(g.TEXTURE_2D,this.scene);g.uniform1i(q.u_scene,0);
@@ -701,6 +728,9 @@
       this.fullScreen(q);
     }
     destroy() {
+      if(this.extVAO) {
+        for(const m of Object.values(this.meshes)) if(m.vao) this.extVAO.deleteVertexArrayOES(m.vao);
+      }
       for(const [type,obj] of this.resources)this.gl[`delete${type}`](obj);
       this.resources=[];
     }
@@ -839,7 +869,7 @@
     time=0;accumulator=0;
     const n=countForViewport();birds=Array.from({length:n},(_,i)=>new Butterfly(i,n));
     // Bring motion and wing activation into a settled state without moving across the field.
-    for(let j=0;j<36;j++)for(const b of birds) {
+    for(let j=0;j<18;j++)for(const b of birds) {
       const x=b.x,y=b.y;b.update(fixedDT);b.x=x;b.y=y;
     }
     for(const b of birds)b.capturePrevious();
@@ -998,6 +1028,9 @@
       document.addEventListener('visibilitychange',visibilityChange);
       reducedQuery.addEventListener('change',motionChange);
       if(renderer){renderer.draw(time);if(!paused)play();}
+      requestAnimationFrame(() => {
+        canvas.dataset.ready = 'true';
+      });
       dispatchEvent(new Event('butterflyfieldready'));
     }catch(error){
       console.error(error);

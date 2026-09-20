@@ -433,6 +433,21 @@
 html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   animation: none;
 }
+#butterfly-field {
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#butterfly-field[data-ready="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #butterfly-field {
+    transition: none;
+  }
+}
+
 
 .hero-robin-trace {
   display: none;
@@ -566,13 +581,13 @@ details[data-disclosure-animating] .skill-preview {
   }
   .hero-copy > h1 { animation-name: title-enter; }
   .hero-name-first {
-    animation: title-blur-enter 2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: title-blur-enter 3s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .hero-cat {
-    animation: title-blur-enter 2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: title-blur-enter 3s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .hero-robin-trace-active path {
-    animation: robin-stroke 2s linear both;
+    animation: robin-stroke 4s linear both;
   }
 
   .hero-copy > :nth-child(n + 3) { animation-delay: 70ms; }
