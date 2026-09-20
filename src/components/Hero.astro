@@ -26,20 +26,20 @@ const nameLines = content.hero.title.split(" ");
         <RobinTrace client:load />
       ))}
     </h1>
-    <p class="mt-6 max-w-[30ch] text-[clamp(1.35rem,2.2vw,1.9rem)] font-medium leading-snug tracking-tight text-balance">{content.hero.headline}</p>
-    <p class="mt-4 text-base font-medium leading-snug">{content.hero.availability.label} · {content.hero.availability.detail}</p>
-    <p class="hero-availability-note mt-1 text-sm leading-relaxed text-muted">{content.hero.availability.note}</p>
-    <p class="hero-academic academic-line mt-4 max-w-[32ch] text-base font-medium leading-relaxed text-muted sm:text-lg">{content.hero.academic}</p>
+    <p class="mt-8 max-w-[30ch] text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-snug tracking-tight text-balance">{content.hero.headline}</p>
+    <p class="mt-5 text-lg font-medium leading-snug sm:text-xl">{content.hero.availability.label} · {content.hero.availability.detail}</p>
+    <p class="hero-availability-note mt-2 text-base leading-relaxed text-muted">{content.hero.availability.note}</p>
+    <p class="hero-academic academic-line mt-5 max-w-[32ch] text-lg font-medium leading-relaxed text-muted sm:text-xl">{content.hero.academic}</p>
   </div>
-  <aside class="hero-summary relative z-10 min-w-0 md:pt-[26rem] lg:pt-[32rem] [@media(max-height:820px)]:lg:pt-56" aria-label={content.hero.summaryTitle}>
-    <p class="max-w-[40ch] text-[clamp(1.35rem,2.2vw,1.75rem)] leading-snug tracking-tight text-pretty">{content.hero.description}</p>
-    <p class="hero-personal mt-6 max-w-[40ch] text-sm leading-relaxed text-muted sm:text-base">{content.openSource.personal}</p>
+  <aside class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:pt-[28rem] [@media(max-height:820px)]:lg:pt-48" aria-label={content.hero.summaryTitle}>
+    <p class="max-w-[38ch] text-[clamp(1.5rem,2.4vw,2.15rem)] leading-snug tracking-tight text-pretty">{content.hero.description}</p>
+    <p class="hero-personal mt-8 max-w-[40ch] text-base leading-relaxed text-muted sm:text-lg">{content.openSource.personal}</p>
   </aside>
-  <div class="hero-actions relative z-10 flex flex-wrap items-center gap-x-8 gap-y-5 md:col-span-2">
-    <a class="group inline-flex min-h-14 items-center gap-8 border-b border-paper text-base" href={`#${content.navigation.sections.projects.id}`}>
+  <div class="hero-actions relative z-10 flex flex-wrap items-center gap-x-10 gap-y-5 md:col-span-2">
+    <a class="group inline-flex min-h-16 items-center gap-8 border-b-2 border-paper text-lg font-medium" href={`#${content.navigation.sections.projects.id}`}>
       {content.hero.projectsCta}<span class="text-2xl motion-safe:transition-transform motion-safe:group-hover:translate-y-1" aria-hidden="true">↓</span>
     </a>
-    <a class="inline-flex min-h-11 items-center border border-rule px-4 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper" href={destinations.cv} download>{content.hero.cvCta}</a>
-    <a class="text-link text-sm text-muted" href={`#${content.navigation.sections.contact.id}`}>{content.hero.contactCta}</a>
+    <a class="inline-flex min-h-12 items-center border border-rule px-5 font-mono text-sm uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper" href={destinations.cv} download>{content.hero.cvCta}</a>
+    <a class="text-link text-base text-muted" href={`#${content.navigation.sections.contact.id}`}>{content.hero.contactCta}</a>
   </div>
 </section>
