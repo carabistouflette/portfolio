@@ -26,14 +26,17 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
         <p class="contact-description mt-6 max-w-[52ch] text-base leading-relaxed text-muted text-pretty sm:text-lg">
           {contact.description}
         </p>
-        <div class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-xs text-muted">
-          <span class="text-[#abd1ed] font-medium">{content.hero.availability.label}</span>
-          <span class="text-rule/80" aria-hidden="true">·</span>
-          <span>{content.hero.availability.detail}</span>
+        <!-- Availability Callout matching Hero and Journey DA -->
+        <div class="mt-8 max-w-2xl border-l-2 border-[#8fc6ee] bg-linear-to-r from-[#102637]/60 to-transparent py-3.5 pl-5">
+          <p class="text-base font-medium leading-snug text-paper">
+            <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
+            <span class="text-rule/80 mx-2" aria-hidden="true">·</span>
+            <span>{content.hero.availability.detail}</span>
+          </p>
           {content.hero.availability.note && (
-            <span class="text-muted/70 block w-full sm:inline sm:w-auto sm:before:content-['·_'] sm:before:text-rule/80 sm:before:mr-3">
+            <p class="mt-1.5 text-sm leading-relaxed text-muted">
               {content.hero.availability.note}
-            </span>
+            </p>
           )}
         </div>
       </header>
