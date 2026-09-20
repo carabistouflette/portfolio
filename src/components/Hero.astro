@@ -6,7 +6,7 @@ interface Props { content: PortfolioContent; }
 const { content } = Astro.props;
 const nameLines = content.hero.title.split(" ");
 ---
-<section class="hero content-shell relative isolate grid gap-14 pb-20 pt-12 md:min-h-[min(58rem,90svh)] md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-start lg:items-end md:gap-x-12 md:gap-y-8 md:pb-20 xl:gap-x-16" aria-labelledby="hero-title">
+<section class="hero content-shell relative isolate grid min-h-[calc(100vh-3.75rem)] min-h-[calc(100svh-3.75rem)] min-h-[calc(100dvh-3.75rem)] gap-14 pb-16 pt-8 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:content-between md:items-start md:gap-x-12 md:gap-y-8 md:pb-16 md:pt-10 lg:items-end xl:gap-x-16" aria-labelledby="hero-title">
   <div class="pointer-events-none absolute inset-0 -z-10 overflow-clip" aria-hidden="true">
     <div class="absolute -right-24 top-0 h-[32rem] w-[38rem] bg-[radial-gradient(ellipse,rgba(23,75,105,0.32),transparent_68%)] md:right-0 md:h-[46rem] md:w-[56rem]"></div>
   </div>
