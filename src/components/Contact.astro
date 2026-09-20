@@ -18,7 +18,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
   <section id={section.id} class="contact-section section-shell content-shell text-left scroll-mt-24 pt-16 md:pt-24" aria-labelledby="contact-title">
     <div class="contact-inner">
       <!-- Section Header -->
-      <header class="section-heading border-t border-rule/50 pt-12 md:pt-16">
+      <header class="section-heading border-t border-rule/50 pt-12 md:pt-16" data-motion-reveal>
         <p class="eyebrow text-[#9dc7df]">{contact.eyebrow}</p>
         <h2 id="contact-title" class="section-title mt-4 font-display text-[clamp(2.5rem,5.5vw,5rem)] leading-[1.05] tracking-tight text-paper">
           {contact.heading}
@@ -44,12 +44,12 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
       <!-- Main Contact Grid -->
       <div class="contact-layout mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
         <!-- Primary Contact Card (Email & Copy) -->
-        <div class="contact-primary-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rule/60 bg-linear-to-br from-[#102637]/50 via-[#07121b]/70 to-[#020508]/90 p-7 sm:p-9 md:p-10 backdrop-blur-md transition-colors hover:border-[#9dc7df]/60">
+        <div class="contact-primary-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rule/60 bg-linear-to-br from-[#102637]/50 via-[#07121b]/70 to-[#020508]/90 p-7 sm:p-9 md:p-10 backdrop-blur-md transition-colors hover:border-[#9dc7df]/60" data-motion-reveal>
           <!-- Subtle celestial glow accent in the card -->
           <div class="pointer-events-none absolute -top-16 -right-16 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(157,199,223,0.14),transparent_70%)]" aria-hidden="true"></div>
 
           <div class="relative z-10 min-w-0">
-            <span class="font-mono text-xs uppercase tracking-[0.16em] text-[#9dc7df]">
+            <span class="eyebrow mb-3 block text-xs tracking-[0.16em] text-[#9dc7df]">
               {locale === "fr" ? "Adresse e-mail" : "Email address"}
             </span>
 
@@ -107,6 +107,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
             href={destinations.linkedin}
             target="_blank"
             rel="noreferrer"
+            data-motion-reveal
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
@@ -115,7 +116,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 </svg>
                 <span>{contact.linkedin}</span>
               </span>
-              <span class="font-mono text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
+              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.linkedinDescription}
@@ -128,6 +129,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
             href={destinations.github}
             target="_blank"
             rel="noreferrer"
+            data-motion-reveal
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
@@ -136,7 +138,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 </svg>
                 <span>{contact.github}</span>
               </span>
-              <span class="font-mono text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
+              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true">↗</span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.githubDescription}
@@ -148,6 +150,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
             class="channel-card group relative flex flex-col justify-between rounded-xl border border-rule/60 bg-ink/50 p-5 transition-all duration-300 hover:border-[#9dc7df] hover:bg-[#102637]/30 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-2"
             href={destinations.cv}
             download
+            data-motion-reveal
           >
             <div class="flex items-center justify-between">
               <span class="font-medium text-paper text-base group-hover:text-[#9dc7df] transition-colors flex items-center gap-2">
@@ -160,7 +163,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 </svg>
                 <span>{contact.cv}</span>
               </span>
-              <span class="font-mono text-sm text-muted group-hover:text-paper group-hover:translate-y-0.5 transition-transform" aria-hidden="true">↓</span>
+              <span class="text-sm text-muted group-hover:text-paper group-hover:translate-y-0.5 transition-transform" aria-hidden="true">↓</span>
             </div>
             <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
               {contact.cvDescription}
@@ -192,7 +195,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
 
     <div class="content-shell relative z-10 flex flex-col gap-8">
       <!-- Main row: Brand signature, Nav links, Back to top -->
-      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between" data-motion-reveal>
         <div class="flex items-center gap-3.5">
           <a
             class="header-signature inline-flex items-center no-underline focus-visible:outline-2 focus-visible:outline-paper"
@@ -238,7 +241,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
       </div>
 
       <!-- Bottom row: Legal & Tech -->
-      <div class="flex flex-col gap-2 border-t border-rule/20 pt-6 text-xs text-muted/70 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex flex-col gap-2 border-t border-rule/20 pt-6 text-xs text-muted/70 sm:flex-row sm:items-center sm:justify-between" data-motion-reveal>
         <p>© 2026 Alexis Robin. {contact.legal}.</p>
         <p class="text-muted/50">
           {locale === "fr" ? "Montpellier, France · Astro, Tailwind CSS & Vue" : "Montpellier, France · Astro, Tailwind CSS & Vue"}
