@@ -28,7 +28,7 @@ const canonicalPath = locale === "fr" ? "/" : "/en/";
         <SelectedContributions content={content} locale={locale} />
         <Personal content={content.personal} />
       </main>
-      <Contact content={content} />
+      <Contact content={content} locale={locale} />
     </div>
   </div>
 </BaseLayout>

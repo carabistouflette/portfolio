@@ -235,18 +235,33 @@ export interface PortfolioContent {
     interests: { title: string; description: string }[];
   };
   contact: {
+    eyebrow?: string;
+    heading?: string;
     description: string;
     email: string;
+    emailCta?: string;
+    copyEmail?: string;
+    copiedEmail?: string;
+    status?: string;
+    location?: string;
+    responseTime?: string;
     linkedin: string;
     linkedinDescription: string;
+    github?: string;
+    githubDescription?: string;
     cv: string;
     cvDescription: string;
+    backToTop?: string;
+    colophon?: string;
+    legal?: string;
+    moonAlt?: string;
   };
 }
 
 export const destinations = {
   email: "mailto:arobin9999@gmail.com",
   linkedin: "https://www.linkedin.com/in/alexis-robin-41703a2ab/",
+  github: "https://github.com/AlexisRobin",
   brio: "https://brio.build/",
   cv: "/cv/Alexis-Robin-CV-2026.pdf",
 } as const;
@@ -620,12 +635,26 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      description: "Quelques lignes suffisent : le contexte, votre objectif et ce que vous aimeriez construire.",
+      eyebrow: "Contact & opportunités",
+      heading: "Donnons vie à vos projets.",
+      description: "Que ce soit pour concevoir une architecture logicielle, intégrer des modèles d'IA ou échanger autour de l'open source, ma boîte mail est ouverte.",
       email: "arobin9999@gmail.com",
+      emailCta: "Envoyer un e-mail",
+      copyEmail: "Copier l'adresse",
+      copiedEmail: "Adresse copiée !",
+      status: "Disponible pour de nouvelles opportunités",
+      location: "Montpellier · Remote",
+      responseTime: "Réponse habituelle sous 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Parcours professionnel & réseau",
+      github: "GitHub",
+      githubDescription: "Code source, projets & contributions",
       cv: "Télécharger le CV",
       cvDescription: "Formation & expériences · PDF en français",
+      backToTop: "Haut de page",
+      colophon: "Alexis Robin · IA, systèmes logiciels & open source",
+      legal: "Tous droits réservés",
+      moonAlt: "Croissant de lune céleste dans la nuit étoilée",
     },
   },
   en: {
@@ -996,12 +1025,26 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      description: "A few lines are enough: the context, your goal and what you would like to build.",
+      eyebrow: "Contact & opportunities",
+      heading: "Let's build something together.",
+      description: "Whether you want to design a software architecture, integrate AI models or discuss open source, feel free to reach out.",
       email: "arobin9999@gmail.com",
+      emailCta: "Send an email",
+      copyEmail: "Copy address",
+      copiedEmail: "Address copied!",
+      status: "Available for new opportunities",
+      location: "Montpellier · Remote",
+      responseTime: "Typically replies within 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Professional background & network",
+      github: "GitHub",
+      githubDescription: "Source code, projects & contributions",
       cv: "Download CV",
       cvDescription: "Education & experience · PDF in French",
+      backToTop: "Back to top",
+      colophon: "Alexis Robin · AI, software systems & open source",
+      legal: "All rights reserved",
+      moonAlt: "Celestial crescent moon in the starry night",
     },
   },
 };
