@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 
 const glyphs = [
   {
@@ -25,6 +25,7 @@ const glyphs = [
 
 const hydrated = ref(false);
 const reducedMotion = ref(false);
+const svgRef = ref<SVGSVGElement | null>(null);
 let mediaQuery: MediaQueryList | undefined;
 
 const animated = computed(() => hydrated.value && !reducedMotion.value);
@@ -33,27 +34,53 @@ const updateReducedMotion = (): void => {
   reducedMotion.value = mediaQuery?.matches ?? false;
 };
 
-onMounted(() => {
+onMounted(async () => {
   mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   updateReducedMotion();
   mediaQuery.addEventListener("change", updateReducedMotion);
   hydrated.value = true;
+  await nextTick();
+  if (svgRef.value && !reducedMotion.value) {
+    const paths = svgRef.value.querySelectorAll<SVGPathElement>("path");
+    paths.forEach((p) => {
+      p.removeAttribute("pathLength");
+      const len = Math.ceil(p.getTotalLength());
+      p.style.strokeDasharray = `${len}px ${len}px`;
+      p.style.strokeDashoffset = `${len}px`;
+      p.animate(
+        [
+          { strokeDashoffset: `${len}px` },
+          { strokeDashoffset: "0px" }
+        ],
+        {
+          duration: 4000,
+          easing: "cubic-bezier(0.42, 0, 0.58, 1)",
+          fill: "both"
+        }
+      );
+    });
+  }
 });
-
 onBeforeUnmount(() => {
   mediaQuery?.removeEventListener("change", updateReducedMotion);
 });
 </script>
-
 <template>
-  <span aria-hidden="true" class="hero-name-last block relative ml-[0.12em] mt-3 text-transparent [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db] forced-colors:text-[CanvasText]">
-    <span :class="['hero-name-fallback', animated && 'hero-name-fallback-active']">Robin</span>
-    <svg v-if="animated" class="hero-robin-trace hero-robin-trace-active" viewBox="0 0 2890 1000" preserveAspectRatio="xMinYMid meet" aria-hidden="true" focusable="false">
+  <span aria-hidden="true" class="hero-name-last block relative ml-[0.12em] mt-3 text-transparent forced-colors:text-[CanvasText]">
+    <span :class="['hero-name-fallback [-webkit-text-stroke:1px_#a9c8db] md:[-webkit-text-stroke:1.5px_#a9c8db]', animated && 'hero-name-fallback-active']">Robin</span>
+    <svg
+      v-if="animated"
+      ref="svgRef"
+      class="hero-robin-trace hero-robin-trace-active"
+      viewBox="0 0 2890 1000"
+      preserveAspectRatio="xMinYMid meet"
+      aria-hidden="true"
+      focusable="false"
+    >
       <g v-for="(glyph, index) in glyphs" :key="index" :transform="glyph.transform">
         <path
           v-for="(path, pathIndex) in glyph.d.split(/(?=M)/)"
           :key="pathIndex"
-          pathLength="1"
           :d="path"
         />
       </g>

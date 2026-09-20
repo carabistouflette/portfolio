@@ -425,10 +425,6 @@
     will-change: transform;
   }
 }
-/* VueUse Motion does not map SVG pathLength to stroke dashes. */
-@keyframes robin-stroke {
-  to { stroke-dashoffset: 0; }
-}
 
 html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   animation: none;
@@ -460,10 +456,10 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   pointer-events: none;
 }
 .hero-robin-trace-active { display: block; }
-.hero-name-fallback-active { opacity: 0; }
+.hero-name-fallback-active { opacity: 0; visibility: hidden; }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero-name-fallback { opacity: 0; }
+  .hero-name-fallback { opacity: 0; visibility: hidden; }
 }
 .hero-robin-trace path {
   fill: none;
@@ -472,8 +468,7 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+
 }
 
 details[data-disclosure-animating] { overflow: clip; }
@@ -585,9 +580,6 @@ details[data-disclosure-animating] .skill-preview {
   }
   .hero-cat {
     animation: title-blur-enter 3s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  .hero-robin-trace-active path {
-    animation: robin-stroke 4s cubic-bezier(0.45, 0.05, 0.2, 1) both;
   }
 
   .hero-copy > :nth-child(n + 3) { animation-delay: 70ms; }
