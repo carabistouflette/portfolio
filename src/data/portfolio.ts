@@ -24,7 +24,7 @@ export interface JourneyEntry {
   end?: JourneyPoint;
   detail?: string;
   projectId?: ProjectId;
-  logo?: string;
+  logos?: string[];
 }
 
 export interface Skill {
@@ -410,7 +410,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           period: "2026–2028",
           start: "2026-master",
           end: "2028",
-          logo: "/logos/centrale-lille.png",
+          logos: ["/logos/centrale-lille.png"],
         },
         {
           kind: "experience",
@@ -420,7 +420,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           start: "2026-but",
           detail: "Stage de BUT · recherche en agronomie · projet GenomInt.",
           projectId: "genomint",
-          logo: "/logos/cirad.png",
+          logos: ["/logos/cirad.png"],
         },
         {
           kind: "experience",
@@ -430,7 +430,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           start: "2025",
           detail:
             "Outils de traitement CSV : import, jointures et export pour les équipes d’agriculture digitale.",
-          logo: "/logos/smag.png",
+          logos: ["/logos/smag.png"],
         },
         {
           kind: "education",
@@ -440,7 +440,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           start: "2023",
           end: "2026-master",
           detail: "Déploiement et sécurisation des réseaux informatiques",
-          logo: "/logos/iut-montpellier.png",
+          logos: ["/logos/um-montpellier.png", "/logos/iut-swoosh.png"],
         },
       ],
     },
@@ -836,7 +836,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           period: "2026–2028",
           start: "2026-master",
           end: "2028",
-          logo: "/logos/centrale-lille.png",
+          logos: ["/logos/centrale-lille.png"],
         },
         {
           kind: "experience",
@@ -847,7 +847,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           detail:
             "BUT degree internship · agronomy research · the GenomInt project.",
           projectId: "genomint",
-          logo: "/logos/cirad.png",
+          logos: ["/logos/cirad.png"],
         },
         {
           kind: "experience",
@@ -857,7 +857,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           start: "2025",
           detail:
             "CSV tools: imports, joins and exports for digital-agriculture teams.",
-          logo: "/logos/smag.png",
+          logos: ["/logos/smag.png"],
         },
         {
           kind: "education",
@@ -868,7 +868,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           end: "2026-master",
           detail:
             "French three-year bachelor’s-equivalent degree · network deployment and security",
-          logo: "/logos/iut-montpellier.png",
+          logos: ["/logos/um-montpellier.png", "/logos/iut-swoosh.png"],
         },
       ],
     },
