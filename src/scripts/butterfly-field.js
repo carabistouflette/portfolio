@@ -193,25 +193,20 @@
     dpr = 1,
     time = 0,
     accumulator = 0;
-  const MOTION_STORAGE_KEY = "portfolio.butterflies.paused";
-  const storedPausePreference = (() => {
-    try {
-      return localStorage.getItem(MOTION_STORAGE_KEY) === "true";
-    } catch {
-      return false;
-    }
-  })();
   let birds = [],
     ordered = [],
     raf = 0,
     lastTimestamp = 0,
-    paused = storedPausePreference,
+    paused = false,
     destroyed = false;
   let ready = false,
     lost = false,
     renderer = null,
     images = null;
   let cameraY = window.scrollY;
+  // scrollY at which the hero fully exits the viewport; 0 = page without a hero.
+  let heroStopY = 0;
+  let motionScale = 1;
   const VARIANT_COUNT = ASSET_SETS ? ASSET_SETS.length : 0;
   const params = new URLSearchParams(location.search);
   const solo = params.get("solo") === "1"; // Inspection mode, no added interface.
@@ -1457,6 +1452,42 @@
   function isReduced() {
     return cfg.respectReducedMotion && reducedQuery.matches;
   }
+  function measureHero() {
+    const hero = document.querySelector(".hero");
+    heroStopY = hero
+      ? Math.max(1, hero.getBoundingClientRect().bottom + window.scrollY)
+      : 0;
+  }
+  // Full speed over the hero, smootherstep slowdown while it scrolls out,
+  // complete stop exactly when the hero leaves the viewport.
+  function targetMotionScale() {
+    if (solo) return 1;
+    if (heroStopY <= 0) return 0;
+    return 1 - smoother(clamp(window.scrollY / heroStopY, 0, 1));
+  }
+  function updateMotion() {
+    motionScale = targetMotionScale();
+    if (
+      destroyed ||
+      lost ||
+      !ready ||
+      document.hidden ||
+      paused ||
+      manual ||
+      isReduced()
+    )
+      return;
+    if (motionScale <= 0) {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        lastTimestamp = 0;
+      }
+      if (renderer) renderer.draw(time); // Re-projects the camera wrap onto the frozen pose.
+    } else if (!raf) {
+      play();
+    }
+  }
   function resize() {
     if (destroyed) return;
     const oldW = width,
@@ -1490,6 +1521,8 @@
       renderer.resize();
       renderer.draw(time);
     } else if (images) drawFallback();
+    measureHero();
+    updateMotion();
   }
   function step(dt) {
     time += dt;
@@ -1507,6 +1540,10 @@
       manual
     )
       return;
+    if (motionScale <= 0) {
+      renderer.draw(time);
+      return;
+    }
     const rawDT = lastTimestamp
       ? Math.max(0, (timestamp - lastTimestamp) / 1000)
       : 1 / 60;
@@ -1516,7 +1553,7 @@
     }
     if (rawDT > fixedDT * maxSubsteps) stats.discardedCatchups++;
     lastTimestamp = timestamp;
-    accumulator += Math.min(rawDT, fixedDT * maxSubsteps);
+    accumulator += Math.min(rawDT, fixedDT * maxSubsteps) * motionScale;
     const start = performance.now();
     let steps = 0;
     while (accumulator >= fixedDT && steps < maxSubsteps) {
@@ -1562,14 +1599,14 @@
       cancelAnimationFrame(raf);
       raf = 0;
       lastTimestamp = 0;
-    } else if (!paused) play();
+    } else if (!paused) updateMotion();
   }
   function motionChange() {
     if (isReduced()) {
       cancelAnimationFrame(raf);
       raf = 0;
       if (renderer) renderer.draw(time);
-    } else if (!paused) play();
+    } else if (!paused) updateMotion();
   }
   function drawFallback() {
     // A static raster composition, never a broken/slideshow imitation of the rig.
@@ -1613,8 +1650,6 @@
   }
   const api = {
     ready: false,
-    pause,
-    play,
     reseed(seed = cfg.seed + 173) {
       cfg.seed = finite(seed, cfg.seed) >>> 0;
       reset();
@@ -1719,6 +1754,7 @@
       destroyed = true;
       removeEventListener("resize", resize);
       removeEventListener("scroll", scrollChange);
+      document.removeEventListener("astro:page-load", onPageSwap);
       document.removeEventListener("visibilitychange", visibilityChange);
       reducedQuery.removeEventListener("change", motionChange);
       canvas.removeEventListener("webglcontextlost", contextLost);
@@ -1729,7 +1765,7 @@
   window.butterflyField = api;
   function scrollChange() {
     cameraY = window.scrollY;
-    // Scrolling changes the viewpoint, never the simulation clock or pause state.
+    // In frozen states, scrolling still re-projects the viewpoint without advancing the clock.
     if (
       ready &&
       renderer &&
@@ -1739,6 +1775,7 @@
       (paused || isReduced() || manual)
     )
       renderer.draw(time);
+    updateMotion();
   }
   function contextLost(e) {
     e.preventDefault();
@@ -1751,7 +1788,7 @@
     try {
       renderer = new Renderer();
       resize();
-      if (!paused) play();
+      if (!paused) updateMotion();
     } catch (e) {
       console.error(e);
     }
@@ -1765,6 +1802,11 @@
       image.src = src;
     });
   }
+  // Astro SPA navigations keep the transition:persist canvas; re-measure the hero and re-evaluate motion.
+  const onPageSwap = () => {
+    measureHero();
+    updateMotion();
+  };
   async function init() {
     try {
       canvas = document.getElementById("butterfly-field");
@@ -1795,9 +1837,11 @@
       addEventListener("scroll", scrollChange, { passive: true });
       document.addEventListener("visibilitychange", visibilityChange);
       reducedQuery.addEventListener("change", motionChange);
+      document.addEventListener("astro:page-load", onPageSwap);
       if (renderer) {
         renderer.draw(time);
-        if (!paused) play();
+        measureHero();
+        updateMotion();
       }
       requestAnimationFrame(() => {
         canvas.dataset.ready = "true";

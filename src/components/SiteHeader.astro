@@ -90,25 +90,11 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
           {content.localeSwitch.en}
         </a>
       </nav>
-      <button
-        id="motion-toggle"
-        class="motion-toggle header-motion-toggle min-h-9 cursor-pointer text-xs text-muted hover:text-paper"
-        type="button"
-        aria-hidden="true"
-        tabindex="-1"
-        aria-pressed="false"
-        aria-label={content.hero.motionToggle}
-        data-motion-on={content.hero.motionOnLabel}
-        data-motion-off={content.hero.motionOffLabel}
-      >
-        {content.hero.motionOffLabel}
-      </button>
     </div>
   </div>
 </header>
 <script>
   import { onPageLoad } from "../scripts/page-lifecycle";
-  import "../scripts/motion-control.ts";
 
   onPageLoad((signal) => {
     const header = document.querySelector<HTMLElement>(".site-header");

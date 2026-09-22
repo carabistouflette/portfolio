@@ -8,8 +8,6 @@ interface ButterflyFieldState {
 
 interface ButterflyFieldApi {
   ready: boolean;
-  pause(): void;
-  play(): void;
   getState(): ButterflyFieldState;
 }
 
