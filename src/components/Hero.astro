@@ -59,12 +59,18 @@ const nameLines = content.hero.title.split(" ");
     <p class="mt-8 max-w-[30ch] text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
-    <p class="mt-5 text-lg font-medium leading-snug sm:text-xl">
-      {content.hero.availability.label} · {content.hero.availability.detail}
-    </p>
-    <p class="hero-availability-note mt-2 text-base leading-relaxed text-muted">
-      {content.hero.availability.note}
-    </p>
+    <div
+      class="hero-availability mt-6 max-w-xl border-l-2 border-[#8fc6ee] bg-linear-to-r from-[#102637]/60 to-transparent py-3.5 pl-5"
+    >
+      <p class="text-lg font-medium leading-snug text-paper sm:text-xl">
+        <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
+        <span class="text-rule/80 mx-2" aria-hidden="true">·</span>
+        <span>{content.hero.availability.detail}</span>
+      </p>
+      <p class="hero-availability-note mt-1.5 text-base leading-relaxed text-muted">
+        {content.hero.availability.note}
+      </p>
+    </div>
     <p class="hero-academic academic-line mt-5 max-w-[32ch] text-lg font-medium leading-relaxed text-muted sm:text-xl">
       {content.hero.academic}
     </p>
