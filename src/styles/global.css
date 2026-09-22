@@ -412,9 +412,9 @@
 
     .hero-cat {
       top: 0.5rem !important;
-      right: -1.5rem;
+      right: 0.5rem;
       left: auto !important;
-      width: 34% !important;
+      width: 40% !important;
       opacity: 1;
     }
 
