@@ -272,7 +272,7 @@ export interface PortfolioContent {
 
 export const destinations = {
   email: "mailto:arobin9999@gmail.com",
-  linkedin: "https://www.linkedin.com/in/alexis-robin-41703a2ab/",
+  linkedin: "https://www.linkedin.com/in/alexisr-dev",
   github: "https://github.com/carabistouflette",
   brio: "https://brio.build/",
   cv: "/cv/Alexis-Robin-CV-2026.pdf",
