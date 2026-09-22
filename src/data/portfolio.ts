@@ -98,8 +98,8 @@ export interface CaseStudy {
   context: string;
   figure: CaseStudyFigure;
   sections: CaseStudySection[];
-  limitationsLabel: string;
-  limitations: string[];
+  limitationsLabel?: string;
+  limitations?: string[];
   sourcesLabel: string;
   sources: CaseStudySource[];
   sourcesNote?: string;
@@ -294,7 +294,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "Maestria",
           description:
             "Dans le cadre de Brio, je contribue à ce runtime Rust qui relie fichiers locaux, recherche, mémoire et tâches. Mon travail porte notamment sur le moteur, l’ingestion vectorielle et l’évaluation des documents visuels.",
-          technologies: "Rust · Tantivy · SQLite · Dioxus",
+          technologies: "Rust · Tantivy · SQLite",
           url: "/projets/maestria/",
           linkLabel: "Lire le dossier",
         },
@@ -721,7 +721,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "Maestria",
           description:
             "As part of Brio, I contribute to this Rust runtime connecting local files, retrieval, memory and tasks. My work includes the search engine, vector ingestion and visual-document evaluation.",
-          technologies: "Rust · Tantivy · SQLite · Dioxus",
+          technologies: "Rust · Tantivy · SQLite",
           url: "/en/projects/maestria/",
           linkLabel: "Read the case study",
         },
@@ -1456,217 +1456,85 @@ const genomintEn: CaseStudy = {
 
 const maestriaFr: CaseStudy = {
   title: "Maestria",
-  question: "Des fichiers locaux à une mémoire traçable.",
-  kicker: "Rust · runtime local-first · en développement",
+  question: "Un Raycast open source, ancré dans vos fichiers.",
+  kicker: "Rust · lanceur Linux · open source · en développement",
   summary:
-    "Maestria se développe dans le cadre du projet Brio. Il indexe des fichiers, retrouve des passages et relie les preuves aux agents, à la mémoire et aux tâches. L’enjeu dépasse la recherche : conserver le lien entre ce qu’un agent utilise et les sources qui permettent de le vérifier.",
+    "Maestria vise ce que Raycast fait sur macOS, en open source et pour Linux : un lanceur qui ouvre, calcule, exécute — et surtout cherche vraiment, en local, dans vos fichiers. Je contribue dans le cadre de Brio au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels.",
   atGlance: {
     label: "Le projet en bref",
     entries: [
-      {
-        label: "Contexte",
-        value:
-          "Projet open source Brio · runtime local de connaissances et de preuves",
-      },
+      { label: "Contexte", value: "Projet Brio · open source · Linux-first" },
       { label: "Depuis", value: "2026 · en développement" },
-      {
-        label: "Ma part",
-        value:
-          "Moteur de recherche, ingestion vectorielle, évaluation des documents visuels",
-      },
-      { label: "État", value: "PR fusionnées jusqu’à #514 · #515 ouverte" },
-      {
-        label: "Décision issue de l’évaluation",
-        value:
-          "La voie visuelle reste expérimentale : 4 des 6 cas dépassent encore le budget de bout en bout malgré l’optimisation du calcul (PR #514)",
-      },
-      {
-        label: "Preuves",
-        value:
-          "PR fusionnées publiques : #411, #485, #493, #501, #507, #511, #514",
-      },
     ],
   },
   understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role: "Je contribue au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels. Les PR présentées ici montrent des changements fusionnés : simplifier l’exécution, regrouper le travail par document et mesurer les modèles locaux avant d’en autoriser l’usage.",
+  role: "Je travaille sur le moteur de recherche, l’ingestion vectorielle et l’évaluation des documents visuels. La recherche est le cœur du produit : c’est elle qui décidera si le lanceur est bon.",
   roleLabel: "Mon travail",
   relatedProject: {
     label: "Dans le cadre du projet Brio",
     href: destinations.brio,
   },
   path: "/projets/maestria/",
-  contextLabel: "La place de Maestria dans Brio",
+  contextLabel: "Le projet",
   context:
-    "Brio explore l’orchestration d’agents IA. Maestria s’inscrit dans ce projet avec un runtime local de connaissances et de preuves : des sources choisies, un contexte inspectable et des changements soumis à validation. Ce n’est ni un fournisseur de modèles ni simplement une interface de chat.",
+    "Brio explore l’orchestration d’agents IA ; Maestria en est le volet local. Le projet a démarré par le socle de recherche — indexation, retrieval, preuves — et une interface web (Studio) pour l’interroger. Cette interface disparaît : le lanceur natif, aujourd’hui en construction, rend ce relais inutile.",
   figure: {
     kind: "diagram",
-    title: "Des sources au travail de l’agent",
-    alt: "Trois étapes : choisir les fichiers, retrouver des extraits sourcés, puis utiliser ces preuves dans Studio, la mémoire et les tâches.",
-    caption:
-      "Vue fonctionnelle simplifiée, pas une capture du logiciel. Les interfaces et les règles de validation sont décrites dans les PR et le code publics.",
-    source: "Studio #411 · moteur #501 · ingestion #485",
+    title: "La boucle du lanceur",
+    alt: "Trois étapes : invoquer le lanceur et taper une requête, chercher localement, exécuter le résultat choisi.",
+    caption: "La boucle visée, du raccourci clavier à l’action exécutée.",
+    source: "github.com/brio-labs/maestria",
     nodes: [
       {
-        title: "Choisir les sources",
-        detail:
-          "Des fichiers locaux, indexés et explicitement rattachés au notebook.",
+        title: "Invoquer & taper",
+        detail: "Un raccourci, une requête : fichiers, applications, commandes.",
       },
       {
-        title: "Retrouver les passages",
+        title: "Chercher localement",
         detail:
-          "Une recherche dans le périmètre autorisé, avec des extraits reliés à leur source et à leur version.",
+          "Recherche lexicale et vectorielle sur les fichiers indexés, extraits reliés à leur source.",
       },
       {
-        title: "Travailler avec les preuves",
-        detail:
-          "Du contexte pour les agents ; des références pour les réponses, la mémoire et les tâches.",
+        title: "Exécuter",
+        detail: "Ouvrir, copier, lancer — explicitement, résultat par résultat.",
       },
     ],
-    optional: {
-      title: "Des actions explicites",
-      detail:
-        "Studio ne sauvegarde pas automatiquement les réponses. Les propositions de mémoire passent par un circuit de validation.",
-    },
   },
   sections: [
     {
-      heading: "01 · Du fichier au notebook",
+      heading: "01 · Un lanceur, d’abord",
       paragraphs: [
-        "Dans Studio, le parcours commence par un notebook et des sources choisies. On peut poser une question, consulter les extraits associés aux citations, puis transférer un brouillon et décider de le sauvegarder. Le contexte ne doit pas s’étendre silencieusement à tous les fichiers de la machine.",
-        "L’interface est écrite en Rust avec Dioxus. Studio est la surface HTTP du navigateur ; le daemon conserve l’autorité sur les sources, les preuves et les révisions. L’agent externe communique via ACP : Maestria lui fournit un contexte, sans devenir lui-même un fournisseur de modèles.",
-      ],
-      points: [
-        {
-          label: "Usage",
-          detail:
-            "Retrouver un passage, inspecter sa source et choisir ce que l’on conserve.",
-        },
-        {
-          label: "Architecture",
-          detail:
-            "Une interface de travail distincte du runtime qui détient l’état durable.",
-        },
+        "La boucle visée tient en quatre temps : on invoque le lanceur, on tape, on choisit, ça s’exécute. Lancer une application, retrouver un fichier, calculer, déclencher une commande d’extension. Raycast a prouvé le concept sur macOS ; Maestria en veut la version ouverte, pour Linux, avec un vrai moteur de recherche en dessous — pas du simple fuzzy matching.",
+        "Studio, l’interface web écrite en Dioxus, va disparaître : le lanceur natif rend ce relais inutile. Ce qui reste, c’est la partie difficile — retrouver le bon passage dans vos fichiers, localement, sans rien envoyer à personne.",
       ],
     },
     {
-      heading: "02 · Simplifier le moteur",
+      heading: "02 · Un moteur plus simple",
       paragraphs: [
-        "J’ai remplacé la façade asynchrone du moteur de recherche par des interfaces synchrones adaptées au travail réellement exécuté. Les voies de recherche peuvent toujours travailler en parallèle, sur des threads à portée limitée et avec une concurrence bornée. Le daemon conserve une frontière explicite pour ce travail bloquant (PR #501).",
-        "J’ai aussi rendu visible l’origine d’une recherche dans la CLI : servie par le daemon ou exécutée localement (PR #493). Cette attribution permet de savoir quel chemin on observe, plutôt que de comparer des exécutions différentes sans le voir.",
-      ],
-      points: [
-        {
-          label: "Choix",
-          detail:
-            "Retirer une couche inutile sans confondre synchrone et séquentiel.",
-        },
-        {
-          label: "Contrôle",
-          detail:
-            "Des budgets et une annulation coopérative, pas une promesse d’interruption instantanée.",
-        },
+        "Le moteur traînait une façade asynchrone héritée d’une itération passée : une couche entière à lire et à maintenir, sans bénéfice — les voies de recherche travaillent déjà en parallèle, avec une concurrence bornée. Je l’ai remplacée par des interfaces synchrones ; le daemon reste le seul endroit où ce travail bloquant est encadré. Dans la CLI, une recherche dit maintenant si elle vient du daemon ou d’une exécution locale : on sait ce qu’on observe.",
       ],
     },
     {
-      heading: "03 · Ingérer à l’échelle du document",
+      heading: "03 · Ingérer par document",
       paragraphs: [
-        "Pour l’indexation vectorielle, j’ai regroupé le travail par artefact plutôt que de multiplier les effets pour chaque fragment. Les fragments en attente passent dans un appel d’embedding par lot, suivi d’une mise à jour de projection et d’une complétion métier (PR #485).",
-        "Ce changement touche aussi le cycle de vie : l’état en attente peut être rejoué, l’identité de la génération est vérifiée et la réponse du fournisseur doit correspondre aux fragments demandés. L’objectif est de réduire les échanges et les écritures intermédiaires sans perdre ces contrôles.",
-      ],
-      points: [
-        {
-          label: "Unité de travail",
-          detail:
-            "Le document et ses fragments, plutôt qu’une succession d’effets isolés.",
-        },
-        {
-          label: "Portée",
-          detail:
-            "Une amélioration du chemin vectoriel, pas un chiffre de performance valable pour toute recherche.",
-        },
+        "L’indexation vectorielle créait un effet par fragment de texte : des dizaines d’écritures pour un seul fichier. Le travail est regroupé à l’échelle du document — un appel d’embedding par lot, une mise à jour de projection, un état d’attente rejouable après interruption. Sur le jeu d’essai interne, l’ingestion dense est passée de 82 s à 41 s.",
       ],
     },
     {
-      heading: "04 · Évaluer avant d’activer",
+      heading: "04 · Mesurer avant d’activer",
       paragraphs: [
-        "Pour les documents visuels, j’ai construit un banc utilisant réellement SigLIP et RapidOCR, puis corrigé le protocole d’intégration, la sortie ONNX retenue et le recadrage des régions de page (PR #507). Évaluer la bonne région compte autant que brancher un modèle.",
-        "J’ai ensuite ajusté l’exécution CPU de SigLIP et renforcé les critères de mesure : une consommation d’énergie ou une télémétrie indisponible ne doit pas passer pour un zéro mesuré (PR #514). Le calcul du modèle est plus rapide dans le protocole étudié, mais quatre des six cas visuels dépassent encore leur budget de bout en bout. La voie reste expérimentale, sans promotion.",
-        "Le même principe vaut pour les pistes qui ne convainquent pas : les résultats négatifs de la recherche late-interaction sont archivés, sans introduire un nouvel index non justifié (PR #511).",
-      ],
-      points: [
-        {
-          label: "Contribution",
-          detail:
-            "Banc réel, corrections d’intégration et critères d’activation explicites.",
-        },
-        {
-          label: "Décision",
-          detail:
-            "Conserver les limites et les résultats négatifs, plutôt que présenter une expérimentation comme un gain produit.",
-        },
+        "Pour les documents visuels — PDF scannés, captures —, j’ai construit un banc d’évaluation qui fait réellement tourner SigLIP et RapidOCR, puis corrigé la sortie ONNX et le recadrage des régions de page. L’inférence CPU est plus rapide, mais quatre cas sur six dépassent encore le budget de bout en bout : la voie reste expérimentale. Une autre piste, la late interaction, a donné des résultats décevants ; le résultat négatif est archivé dans le dépôt plutôt que d’ajouter un index dont personne ne veut.",
       ],
     },
   ],
-  limitationsLabel: "État et limites",
-  limitations: [
-    "Cette présentation s’appuie sur les PR fusionnées jusqu’à #514. La factorisation de télémétrie proposée dans #515 est encore ouverte à la date de consultation, le 14 septembre 2026.",
-    "L’évaluation visuelle porte sur six cas préparés et une référence simplifiée. Elle ne mesure pas la qualité générale du moteur sur les documents des utilisateurs.",
-    "Une citation présente dans le contexte autorisé ne garantit pas que chaque phrase générée soit correcte. Les capacités expérimentales et les changements de mémoire restent soumis à leurs règles d’activation ou de validation.",
-  ],
-  sourcesLabel: "Projet, code et contributions",
+  sourcesLabel: "Liens",
   sources: [
-    {
-      label: "Brio · orchestration d’agents",
-      href: destinations.brio,
-      detail: "Le projet dans lequel s’inscrit Maestria.",
-    },
     {
       label: "Dépôt Maestria",
       href: "https://github.com/brio-labs/maestria",
-      detail: "Runtime, interfaces et historique public.",
     },
-    {
-      label: "Studio · espace notebook · #411",
-      href: "https://github.com/brio-labs/maestria/pull/411",
-      detail:
-        "Fusionnée · Dioxus, sources, questions, citations et brouillons.",
-    },
-    {
-      label: "Moteur synchrone · #501",
-      href: "https://github.com/brio-labs/maestria/pull/501",
-      detail: "Fusionnée · interfaces synchrones et concurrence bornée.",
-    },
-    {
-      label: "Attribution des recherches · #493",
-      href: "https://github.com/brio-labs/maestria/pull/493",
-      detail: "Fusionnée · distinguer daemon et exécution locale.",
-    },
-    {
-      label: "Ingestion par artefact · #485",
-      href: "https://github.com/brio-labs/maestria/pull/485",
-      detail: "Fusionnée · effets vectoriels regroupés et état rejouable.",
-    },
-    {
-      label: "Évaluation visuelle · #507",
-      href: "https://github.com/brio-labs/maestria/pull/507",
-      detail: "Fusionnée · SigLIP, RapidOCR et corrections de recadrage.",
-    },
-    {
-      label: "Latence et télémétrie visuelles · #514",
-      href: "https://github.com/brio-labs/maestria/pull/514",
-      detail: "Fusionnée · optimisation CPU et limites de promotion.",
-    },
-    {
-      label: "Résultat négatif late-interaction · #511",
-      href: "https://github.com/brio-labs/maestria/pull/511",
-      detail: "Fusionnée · preuves de recherche, sans nouvel index.",
-    },
-    {
-      label: "Télémétrie partagée · #515",
-      href: "https://github.com/brio-labs/maestria/pull/515",
-      detail: "Ouverte lors de la consultation · non présentée comme livrée.",
-    },
+    { label: "Brio", href: destinations.brio },
   ],
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
@@ -1675,211 +1543,85 @@ const maestriaFr: CaseStudy = {
 
 const maestriaEn: CaseStudy = {
   title: "Maestria",
-  question: "From local files to traceable memory.",
-  kicker: "Rust · local-first runtime · in development",
+  question: "An open-source Raycast, rooted in your files.",
+  kicker: "Rust · Linux launcher · open source · in development",
   summary:
-    "Maestria is being developed as part of Brio. It indexes files, retrieves passages and connects evidence to agents, memory and tasks. The challenge goes beyond search: preserving the link between what an agent uses and the sources that let someone check it.",
+    "Maestria aims to be what Raycast is on macOS, open source and for Linux: a launcher that opens, calculates, executes — and above all really searches, locally, through your files. As part of Brio, I work on the search engine, vector ingestion and visual-document evaluation.",
   atGlance: {
     label: "The project at a glance",
     entries: [
-      {
-        label: "Context",
-        value:
-          "Brio open-source project · local knowledge and evidence runtime",
-      },
+      { label: "Context", value: "Brio project · open source · Linux-first" },
       { label: "Since", value: "2026 · in development" },
-      {
-        label: "My part",
-        value: "Search engine, vector ingestion, visual-document evaluation",
-      },
-      { label: "Status", value: "PRs merged through #514 · #515 open" },
-      {
-        label: "Evaluation outcome",
-        value:
-          "The visual lane stays experimental: 4 of 6 cases still exceed the end-to-end budget despite faster inference (PR #514)",
-      },
-      {
-        label: "Evidence",
-        value: "Public merged PRs: #411, #485, #493, #501, #507, #511, #514",
-      },
     ],
   },
   understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role: "I contribute to the search engine, vector ingestion and visual-document evaluation. The PRs presented here show merged changes: simplifying execution, batching work by document and measuring local models before allowing their use.",
+  role: "I work on the search engine, vector ingestion and visual-document evaluation. Search is the heart of the product: it will decide whether the launcher is any good.",
   roleLabel: "My work",
   relatedProject: {
     label: "Part of the Brio project",
     href: destinations.brio,
   },
   path: "/en/projects/maestria/",
-  contextLabel: "Maestria within Brio",
+  contextLabel: "The project",
   context:
-    "Brio explores AI agent orchestration. Maestria belongs to that project as a local knowledge and evidence runtime: selected sources, inspectable context and changes subject to validation. It is neither a model provider nor simply a chat interface.",
+    "Brio explores AI agent orchestration; Maestria is its local pillar. The project started with the search backbone — indexing, retrieval, evidence — and a web interface (Studio) to query it. That interface is going away: the native launcher, now being built, makes it pointless.",
   figure: {
     kind: "diagram",
-    title: "From sources to agent work",
-    alt: "Three steps: select files, retrieve source-linked excerpts, then use this evidence in Studio, memory and tasks.",
-    caption:
-      "Simplified functional overview, not an application screenshot. The public PRs and code describe the interfaces and validation rules.",
-    source: "Studio #411 · engine #501 · ingestion #485",
+    title: "The launcher loop",
+    alt: "Three steps: invoke the launcher and type a query, search locally, execute the chosen result.",
+    caption: "The target loop, from keyboard shortcut to executed action.",
+    source: "github.com/brio-labs/maestria",
     nodes: [
       {
-        title: "Select the sources",
-        detail: "Local files, indexed and explicitly attached to the notebook.",
+        title: "Invoke & type",
+        detail: "One shortcut, one query: files, apps, commands.",
       },
       {
-        title: "Retrieve passages",
+        title: "Search locally",
         detail:
-          "Search within the allowed scope, with excerpts linked to their source and version.",
+          "Lexical and vector search over indexed files, excerpts linked to their source.",
       },
       {
-        title: "Work with evidence",
-        detail: "Context for agents; references for answers, memory and tasks.",
+        title: "Execute",
+        detail: "Open, copy, run — explicitly, result by result.",
       },
     ],
-    optional: {
-      title: "Explicit actions",
-      detail:
-        "Studio does not save answers automatically. Memory proposals go through a validation process.",
-    },
   },
   sections: [
     {
-      heading: "01 · From files to notebooks",
+      heading: "01 · A launcher first",
       paragraphs: [
-        "In Studio, the workflow starts with a notebook and selected sources. You can ask a question, inspect the excerpts behind citations, then transfer a draft and decide whether to save it. Context should not silently expand to every file on the machine.",
-        "The interface is written in Rust with Dioxus. Studio is the browser-facing HTTP surface; the daemon retains authority over sources, evidence and revisions. The external agent communicates through ACP: Maestria supplies context without becoming a model provider itself.",
-      ],
-      points: [
-        {
-          label: "Workflow",
-          detail: "Find a passage, inspect its source and choose what to keep.",
-        },
-        {
-          label: "Architecture",
-          detail:
-            "A working interface separate from the runtime that owns durable state.",
-        },
+        "The target loop takes four beats: invoke the launcher, type, pick, it runs. Launch an app, find a file, compute, trigger an extension command. Raycast proved the concept on macOS; Maestria wants the open version, for Linux, with a real search engine underneath — not plain fuzzy matching.",
+        "Studio, the Dioxus web interface, is going away: the native launcher makes the detour pointless. What remains is the hard part — finding the right passage in your files, locally, without sending anything to anyone.",
       ],
     },
     {
-      heading: "02 · Simplifying the engine",
+      heading: "02 · A simpler engine",
       paragraphs: [
-        "I replaced the search engine’s asynchronous façade with synchronous interfaces suited to the work actually being done. Retrieval lanes can still run in parallel, on scoped threads with bounded concurrency. The daemon keeps an explicit boundary for this blocking work (PR #501).",
-        "I also made the origin of a CLI search visible: served by the daemon or executed locally (PR #493). That attribution makes it possible to tell which path is being observed, rather than unknowingly comparing different execution paths.",
-      ],
-      points: [
-        {
-          label: "Decision",
-          detail:
-            "Remove an unnecessary layer without confusing synchronous with sequential.",
-        },
-        {
-          label: "Control",
-          detail:
-            "Budgets and cooperative cancellation, not a promise of instant interruption.",
-        },
+        "The engine carried an asynchronous façade inherited from an earlier iteration: a whole layer to read and maintain, for no benefit — the retrieval lanes already run in parallel, with bounded concurrency. I replaced it with synchronous interfaces; the daemon remains the only place where this blocking work is contained. In the CLI, a search now says whether the daemon served it or it ran locally: you know what you are looking at.",
       ],
     },
     {
-      heading: "03 · Ingesting by document",
+      heading: "03 · Ingest by document",
       paragraphs: [
-        "For vector indexing, I grouped work by artifact instead of creating an effect for every chunk. Pending chunks go through one batch embedding call, followed by a projection update and a domain completion (PR #485).",
-        "The change also addresses lifecycle: pending state can be replayed, generation identity is checked and the provider response must match the requested chunks. The aim is to reduce intermediate exchanges and writes without losing those checks.",
-      ],
-      points: [
-        {
-          label: "Unit of work",
-          detail:
-            "The document and its chunks, rather than a sequence of isolated effects.",
-        },
-        {
-          label: "Scope",
-          detail:
-            "An improvement to vector ingestion, not a performance figure that applies to every search.",
-        },
+        "Vector indexing used to create one effect per text chunk: dozens of writes for a single file. Work is now grouped at the document level — one batched embedding call, one projection update, pending state that can be replayed after an interruption. On the internal test set, dense ingestion went from 82 s to 41 s.",
       ],
     },
     {
-      heading: "04 · Evaluate before enabling",
+      heading: "04 · Measure before enabling",
       paragraphs: [
-        "For visual documents, I built an evaluation harness using real SigLIP and RapidOCR providers, then fixed the integration protocol, ONNX output selection and page-region cropping (PR #507). Evaluating the right region matters as much as connecting a model.",
-        "I then tuned SigLIP’s CPU execution and strengthened measurement criteria: unavailable energy or telemetry must not count as a measured zero (PR #514). Model inference is faster in the studied protocol, but four of the six visual cases still exceed their end-to-end budget. The lane remains experimental, without promotion.",
-        "The same principle applies to approaches that do not justify adoption: negative late-interaction results are archived without introducing an unsupported new index (PR #511).",
-      ],
-      points: [
-        {
-          label: "Contribution",
-          detail:
-            "A real-provider harness, integration fixes and explicit activation criteria.",
-        },
-        {
-          label: "Decision",
-          detail:
-            "Keep limitations and negative results visible instead of presenting an experiment as a product gain.",
-        },
+        "For visual documents — scanned PDFs, screenshots — I built an evaluation harness that actually runs SigLIP and RapidOCR, then fixed the ONNX output selection and page-region cropping. CPU inference is faster, but four cases out of six still exceed the end-to-end budget, so the lane stays experimental. Another track, late interaction, gave disappointing results; the negative result is archived in the repository rather than adding an index nobody wants.",
       ],
     },
   ],
-  limitationsLabel: "Status and limitations",
-  limitations: [
-    "This presentation is based on PRs merged through #514. The telemetry refactoring proposed in #515 remains open as of the review date, 14 September 2026.",
-    "Visual evaluation covers six prepared cases and a simplified baseline. It does not measure the engine’s general quality on users’ documents.",
-    "A citation belonging to the allowed context does not guarantee that every generated sentence is correct. Experimental capabilities and memory changes remain subject to their activation or validation rules.",
-  ],
-  sourcesLabel: "Project, code and contributions",
+  sourcesLabel: "Links",
   sources: [
-    {
-      label: "Brio · agent orchestration",
-      href: destinations.brio,
-      detail: "The project that Maestria belongs to.",
-    },
     {
       label: "Maestria repository",
       href: "https://github.com/brio-labs/maestria",
-      detail: "Runtime, interfaces and public history.",
     },
-    {
-      label: "Studio · notebook workspace · #411",
-      href: "https://github.com/brio-labs/maestria/pull/411",
-      detail: "Merged · Dioxus, sources, questions, citations and drafts.",
-    },
-    {
-      label: "Synchronous engine · #501",
-      href: "https://github.com/brio-labs/maestria/pull/501",
-      detail: "Merged · synchronous interfaces and bounded concurrency.",
-    },
-    {
-      label: "Search attribution · #493",
-      href: "https://github.com/brio-labs/maestria/pull/493",
-      detail: "Merged · distinguish daemon and local execution.",
-    },
-    {
-      label: "Per-artifact ingestion · #485",
-      href: "https://github.com/brio-labs/maestria/pull/485",
-      detail: "Merged · batched vector effects and replayable state.",
-    },
-    {
-      label: "Visual evaluation · #507",
-      href: "https://github.com/brio-labs/maestria/pull/507",
-      detail: "Merged · SigLIP, RapidOCR and cropping fixes.",
-    },
-    {
-      label: "Visual latency and telemetry · #514",
-      href: "https://github.com/brio-labs/maestria/pull/514",
-      detail: "Merged · CPU tuning and promotion limitations.",
-    },
-    {
-      label: "Negative late-interaction result · #511",
-      href: "https://github.com/brio-labs/maestria/pull/511",
-      detail: "Merged · research evidence, without a new index.",
-    },
-    {
-      label: "Shared telemetry · #515",
-      href: "https://github.com/brio-labs/maestria/pull/515",
-      detail: "Open when reviewed · not presented as shipped.",
-    },
+    { label: "Brio", href: destinations.brio },
   ],
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
