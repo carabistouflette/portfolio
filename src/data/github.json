@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-09-22T09:59:45.044Z",
+  "updatedAt": "2026-09-22T14:56:39.255Z",
   "pullRequests": {
     "recent": [
       {
@@ -76,33 +76,33 @@
     "open": [
       {
         "repository": "Steel-Foundation/SteelMC",
+        "number": 554,
+        "title": "refactor: consolidate play packet routing into a declarative descriptor table",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/554",
+        "createdAt": "2026-08-28T23:27:47Z",
+        "updatedAt": "2026-09-22T14:32:11Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "external"
+      },
+      {
+        "repository": "Steel-Foundation/SteelMC",
+        "number": 553,
+        "title": "perf: demote audited movement and menu packets to narrower execution lanes",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/553",
+        "createdAt": "2026-08-28T23:27:45Z",
+        "updatedAt": "2026-09-22T14:32:09Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "external"
+      },
+      {
+        "repository": "Steel-Foundation/SteelMC",
         "number": 547,
         "title": "feat: vanilla framing parity, read-path hardening, and malformed packet kicks",
         "url": "https://github.com/Steel-Foundation/SteelMC/pull/547",
         "createdAt": "2026-08-28T23:26:40Z",
         "updatedAt": "2026-09-13T21:32:09Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 548,
-        "title": "feat: pre-play lifecycle timeouts, config keepalive, and favicon caching",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/548",
-        "createdAt": "2026-08-28T23:26:43Z",
-        "updatedAt": "2026-09-13T13:21:03Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 545,
-        "title": "perf: batch outbound writes with whole-buffer encryption and atomic bundles",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/545",
-        "createdAt": "2026-08-28T23:24:41Z",
-        "updatedAt": "2026-09-13T12:42:27Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
@@ -1984,8 +1984,8 @@
       },
       {
         "date": "2026-09-22",
-        "count": 0,
-        "level": 0
+        "count": 3,
+        "level": 1
       }
     ]
   }
