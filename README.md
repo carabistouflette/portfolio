@@ -1,4 +1,4 @@
-# Portfolio — Alexis Robin
+# Alexis Robin - Portfolio
 
 Portfolio personnel : IA, systèmes logiciels et logiciel libre. Construit avec [Astro](https://astro.build), Tailwind CSS 4 et quelques composants Vue.
 
