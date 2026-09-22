@@ -412,10 +412,17 @@
 
     .hero-cat {
       top: 0.5rem !important;
-      right: 0.5rem;
+      right: 0;
       left: auto !important;
-      width: 40% !important;
+      width: 38% !important;
       opacity: 1;
+    }
+
+    @media (max-width: 24rem) {
+      .hero-cat {
+        right: -1rem;
+        width: 35% !important;
+      }
     }
 
     .hero-summary,
