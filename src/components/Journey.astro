@@ -122,6 +122,14 @@ const projectForEntry = (entry: JourneyEntry) =>
             ]}
             style={`--start: ${start}; --end: ${end}; --mobile-lane: ${education ? 2 : 3}; --desktop-lane: ${education ? 1 : 2}`}
           >
+            {entry.logo && (
+              <img
+                class="mb-3 h-12 w-auto max-w-full object-contain object-left brightness-0 invert sm:h-14"
+                src={entry.logo}
+                alt=""
+                loading="lazy"
+              />
+            )}
             <p class="mb-3 font-mono text-[0.65rem] leading-relaxed text-muted tabular-nums sm:text-xs">
               {entry.period}
             </p>
