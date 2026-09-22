@@ -1,13 +1,19 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import OpenSource from "./OpenSource.astro";
+import GitHubCalendar from "./GitHubCalendar.astro";
 import { portfolio, type Locale } from "../data/portfolio";
+import rawSnapshot from "../data/github.json";
+import { validateGitHubSnapshot } from "../lib/github";
+
 interface Props {
   locale: Locale;
 }
+
 const { locale } = Astro.props;
 const content = portfolio[locale];
-const copy = content.openSource.github;
+const openSource = content.openSource;
+const copy = openSource.github;
+const snapshot = validateGitHubSnapshot(rawSnapshot);
 const homePath = locale === "fr" ? "/" : "/en/";
 const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
 ---
@@ -19,7 +25,7 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
   alternatePaths={paths}
   meta={{
     title: `${copy.pageTitle} — Alexis Robin`,
-    description: content.openSource.intro,
+    description: `${openSource.intro} ${openSource.profileLink.label}`,
   }}
 >
   <main id="main">
@@ -32,6 +38,92 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
         {copy.homeLabel}
       </a>
     </div>
-    <OpenSource locale={locale} content={content.openSource} detailed />
+    <section
+      class="content-shell pb-24 md:pb-36"
+      aria-labelledby="github-title"
+    >
+      <header
+        class="grid gap-8 border-t border-rule pt-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-20"
+      >
+        <div data-motion-reveal>
+          <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">
+            {copy.eyebrow}
+          </p>
+          <h1
+            id="github-title"
+            class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight"
+          >
+            {copy.pageTitle}
+          </h1>
+        </div>
+        <div data-motion-reveal>
+          <p class="max-w-[48ch] text-base leading-loose text-muted">
+            {openSource.intro}
+            {" "}
+            <a
+              class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+              href={openSource.profileLink.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {openSource.profileLink.label}
+            </a>
+          </p>
+        </div>
+      </header>
+      <div data-motion-reveal class="mt-14 md:mt-20">
+        <GitHubCalendar
+          calendar={snapshot.calendar}
+          locale={locale}
+          copy={copy.calendar}
+        />
+      </div>
+      <div data-motion-reveal class="mt-16 md:mt-24">
+        <h2 class="text-xl font-medium md:text-2xl">
+          {openSource.projects.heading}
+        </h2>
+        <ul class="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {openSource.projects.entries.map((project) => (
+            <li class="min-w-0 border-t border-rule pt-6">
+              <h3 class="text-lg font-medium leading-snug">
+                <a
+                  class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+                  href={project.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {project.name}
+                  <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+                </a>
+              </h3>
+              <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">
+                {project.role}
+              </p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">
+                {project.description}
+              </p>
+              {project.zenodo && (
+                <p class="mt-3 text-sm">
+                  <a
+                    class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+                    href={project.zenodo.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {project.zenodo.label}
+                    <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+                  </a>
+                </p>
+              )}
+              {project.publication && (
+                <p class="mt-2 text-sm leading-relaxed text-muted">
+                  {project.publication}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   </main>
 </BaseLayout>

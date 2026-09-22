@@ -69,8 +69,7 @@ const monthMarkers = Array.from(
 ).filter(
   (marker): marker is { label: string; column: number } => marker !== null,
 );
-const initialDay = calendar.days.at(-1) ?? null;
-const initialStats = getCalendarStats(calendar);
+const stats = getCalendarStats(calendar);
 const dayHref = (date: string): string =>
   `${profileUrl}?tab=overview&from=${date}&to=${date}`;
 const dayLabel = (day: GitHubDay): string => {
@@ -92,230 +91,100 @@ const levelClasses: Record<GitHubDay["level"], string> = {
   3: "bg-sky-400",
   4: "bg-sky-200",
 };
-const dateRangeLabel = `${dateFormat.format(fromDate)} — ${dateFormat.format(toDateValue)}`;
+const dateRangeLabel = `${dateFormat.format(fromDate)} → ${dateFormat.format(toDateValue)}`;
 ---
 
-<section
-  class="min-w-0 border-t border-rule/60 pt-8"
-  data-github-calendar
-  data-calendar-preview={preview ? "" : undefined}
-  data-calendar-from={calendar.from}
-  data-calendar-to={calendar.to}
-  data-locale={locale}
-  data-copy={JSON.stringify(copy)}
-  aria-labelledby="github-calendar-title"
->
-  <header class="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(16rem,0.75fr)] md:items-end">
-    <div>
-      <h3 id="github-calendar-title" class="text-lg font-medium">
-        {copy.heading}
-      </h3>
-      {!preview && (
-        <p class="mt-3 max-w-[62ch] text-sm leading-loose text-muted">
-          {copy.intro}
-        </p>
-      )}
-    </div>
-    <p class="text-xs text-muted md:text-right" data-github-calendar-range>
-      {dateRangeLabel}
+<section class="min-w-0" aria-labelledby="github-calendar-title">
+  <header
+    class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-rule/60 pt-8"
+  >
+    <h3 id="github-calendar-title" class="text-lg font-medium">
+      {copy.heading}
+    </h3>
+    <p class="text-xs text-muted">
+      <span class="font-display text-xl text-paper">
+        {stats.totalContributions.toLocaleString(locale)}
+      </span>
+      {" "}
+      {copy.totalLabel}
     </p>
   </header>
 
-  {!preview && (
-    <div
-      class="mt-7 flex min-w-0 flex-col gap-5"
-      data-github-calendar-controls
-      hidden
-    >
-      <div class="flex min-w-0 flex-wrap items-center gap-5">
-        <div
-          class="flex min-h-11 items-center gap-3"
-          role="group"
-          aria-label={copy.viewLabel}
-          data-github-calendar-view-selector
-        >
-          <span class="text-xs font-medium uppercase tracking-[0.12em] text-muted">
-            {copy.viewLabel}
-          </span>
-          <button
-            class="min-h-11 border-b border-paper px-2 text-sm"
-            type="button"
-            data-github-calendar-view-button="year"
-            aria-pressed="true"
-          >
-            {copy.yearLabel}
-          </button>
-          <button
-            class="min-h-11 border-b border-transparent px-2 text-sm text-muted"
-            type="button"
-            data-github-calendar-view-button="month"
-            aria-pressed="false"
-          >
-            {copy.monthLabel}
-          </button>
-        </div>
-        <div
-          class="flex min-h-11 flex-wrap items-center gap-3"
-          data-github-calendar-month-controls
-          hidden
-        >
-          <label
-            class="flex min-h-11 items-center gap-2 text-sm text-muted"
-            for="github-calendar-month-picker"
-          >
-            <span>{copy.monthLabel}</span>
-            <select
-              id="github-calendar-month-picker"
-              class="min-h-11 max-w-[13rem] rounded-none border border-rule bg-transparent px-2 text-paper"
-              data-github-calendar-month-picker
-              aria-label={copy.monthPickerLabel}
-            ></select>
-          </label>
-          <button
-            class="grid min-h-11 min-w-11 place-items-center border border-rule text-lg text-paper disabled:cursor-not-allowed disabled:opacity-40"
-            type="button"
-            data-github-calendar-previous
-            disabled
-            aria-label={copy.previousLabel}
-            title={copy.previousLabel}
-          >
-            <span aria-hidden="true">←</span>
-          </button>
-          <button
-            class="grid min-h-11 min-w-11 place-items-center border border-rule text-lg text-paper disabled:cursor-not-allowed disabled:opacity-40"
-            type="button"
-            data-github-calendar-next
-            disabled
-            aria-label={copy.nextLabel}
-            title={copy.nextLabel}
-          >
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </div>
-      <p
-        class="max-w-[70ch] text-xs leading-relaxed text-muted"
-        data-github-calendar-navigation-hint
+  <div class="mt-6 min-w-0 overflow-x-auto pb-3">
+    <div class="min-w-[52rem]">
+      <div
+        class="grid gap-x-1"
+        aria-hidden="true"
+        style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
       >
-        {copy.navigationHint}
-      </p>
-    </div>
-  )}
-
-  <div class="mt-6 min-w-0" data-github-calendar-panels>
-    <div
-      class="min-w-0 overflow-x-auto pb-3"
-      data-github-calendar-year-panel
-      tabindex={preview ? 0 : undefined}
-      aria-label={preview ? copy.yearLabel : undefined}
-    >
-      <div class="min-w-[52rem]" data-github-calendar-grid-wrapper>
-        <div
-          class="grid gap-x-1"
-          aria-hidden="true"
-          data-github-calendar-month-markers
-          style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
-        >
-          <div></div>
-          {monthMarkers.map((marker) => (
+        <div></div>
+        {monthMarkers.map((marker) => (
+          <span
+            class="truncate pb-1 text-[0.68rem] text-muted"
+            style={`grid-row: 1; grid-column: ${marker.column} / span ${Math.min(4, weekCount - marker.column + 2)};`}
+          >
+            {marker.label}
+          </span>
+        ))}
+      </div>
+      <div
+        class="grid gap-x-1 gap-y-1"
+        role="table"
+        aria-label={dateRangeLabel}
+        style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
+      >
+        {weekdayLabels.map((weekday, weekdayIndex) => (
+          <div class="contents" role="row">
             <span
-              class="truncate pb-1 text-[0.68rem] text-muted"
-              style={`grid-row: 1; grid-column: ${marker.column} / span ${Math.min(4, weekCount - marker.column + 2)};`}
+              class="flex items-center text-[0.68rem] text-muted"
+              role="rowheader"
             >
-              {marker.label}
+              {weekday}
             </span>
-          ))}
-        </div>
-        <div
-          class="grid gap-x-1 gap-y-1"
-          role={preview ? "table" : "grid"}
-          aria-label={copy.yearLabel}
-          aria-rowcount="7"
-          aria-colcount={String(Math.max(1, weekCount))}
-          data-github-calendar-grid
-          style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
-        >
-          {weekdayLabels.map((weekday, weekdayIndex) => (
-            <div class="contents" role="row">
-              <span
-                class="flex items-center text-[0.68rem] text-muted"
-                role="rowheader"
-              >
-                {weekday}
-              </span>
-              {weeks.map((week, weekIndex) => {
-                const cell = week[weekdayIndex];
-                return cell.day ? (
-                  <DayTag
-                    class:list={[
-                      "github-calendar-day",
-                      "grid",
-                      "min-h-5",
-                      "min-w-5",
-                      "place-items-center",
-                      "rounded-sm",
-                      "text-[0.6rem]",
-                      "text-ink",
-                      "transition-colors",
-                      "motion-reduce:transition-none",
-                      "hover:ring-2",
-                      "hover:ring-paper",
-                      "focus-visible:z-1",
-                      "focus-visible:outline-2",
-                      "focus-visible:outline-paper",
-                      "focus-visible:outline-offset-3",
-                      "data-[selected=true]:ring-2",
-                      "data-[selected=true]:ring-paper",
-                      "data-[selected=true]:ring-offset-2",
-                      "data-[selected=true]:ring-offset-ink",
-                      "data-[level=0]:text-paper",
-                      "data-[level=1]:text-paper",
-                      levelClasses[cell.day.level],
-                    ]}
-                    role={preview ? "cell" : "gridcell"}
-                    data-github-day
-                    data-date={cell.day.date}
-                    data-count={String(cell.day.count)}
-                    data-level={String(cell.day.level)}
-                    data-grid-row={String(weekdayIndex)}
-                    data-grid-col={String(weekIndex)}
-                    data-selected={
-                      !preview && initialDay?.date === cell.day.date
-                        ? "true"
-                        : "false"
-                    }
-                    aria-selected={
-                      preview
-                        ? undefined
-                        : initialDay?.date === cell.day.date
-                          ? "true"
-                          : "false"
-                    }
-                    aria-label={dayLabel(cell.day)}
-                    href={preview ? undefined : dayHref(cell.day.date)}
-                    title={dayLabel(cell.day)}
-                  >
-                    <span aria-hidden="true"></span>
-                  </DayTag>
-                ) : (
-                  <span
-                    class="min-h-5 min-w-5"
-                    role="gridcell"
-                    aria-hidden="true"
-                  ></span>
-                );
-              })}
-            </div>
-          ))}
-        </div>
+            {weeks.map((week) => {
+              const cell = week[weekdayIndex];
+              return cell.day ? (
+                <DayTag
+                  class:list={[
+                    "github-calendar-day",
+                    "grid",
+                    "min-h-5",
+                    "min-w-5",
+                    "place-items-center",
+                    "rounded-sm",
+                    "text-[0.6rem]",
+                    "text-ink",
+                    "transition-colors",
+                    "motion-reduce:transition-none",
+                    "hover:ring-2",
+                    "hover:ring-paper",
+                    "focus-visible:z-1",
+                    "focus-visible:outline-2",
+                    "focus-visible:outline-paper",
+                    "focus-visible:outline-offset-3",
+                    levelClasses[cell.day.level],
+                  ]}
+                  role="cell"
+                  title={dayLabel(cell.day)}
+                  aria-label={dayLabel(cell.day)}
+                  href={preview ? undefined : dayHref(cell.day.date)}
+                >
+                  <span aria-hidden="true"></span>
+                </DayTag>
+              ) : (
+                <span class="min-h-5 min-w-5" role="cell" aria-hidden="true">
+                </span>
+              );
+            })}
+          </div>
+        ))}
       </div>
     </div>
   </div>
 
   <div
-    class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted"
+    class="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted"
     aria-label={`${copy.lessLabel} — ${copy.moreLabel}`}
-    data-github-calendar-legend
   >
     <span>{copy.lessLabel}</span>
     <span class="h-3 w-3 rounded-sm bg-sky-950/70" aria-hidden="true"></span>
@@ -325,58 +194,4 @@ const dateRangeLabel = `${dateFormat.format(fromDate)} — ${dateFormat.format(t
     <span class="h-3 w-3 rounded-sm bg-sky-200" aria-hidden="true"></span>
     <span>{copy.moreLabel}</span>
   </div>
-
-  {!preview && (
-    <>
-      <dl class="mt-7 grid gap-5 sm:grid-cols-3" data-github-calendar-stats>
-        <div class="border-l border-rule pl-4">
-          <dt class="text-xs uppercase tracking-[0.1em] text-muted">
-            {copy.totalLabel}
-          </dt>
-          <dd class="mt-1 text-lg" data-github-calendar-stat="total">
-            {initialStats.totalContributions.toLocaleString(locale)}
-          </dd>
-        </div>
-        <div class="border-l border-rule pl-4">
-          <dt class="text-xs uppercase tracking-[0.1em] text-muted">
-            {copy.activeDaysLabel}
-          </dt>
-          <dd class="mt-1 text-lg" data-github-calendar-stat="active">
-            {initialStats.activeDays.toLocaleString(locale)}
-          </dd>
-        </div>
-        <div class="border-l border-rule pl-4">
-          <dt class="text-xs uppercase tracking-[0.1em] text-muted">
-            {copy.lastActiveLabel}
-          </dt>
-          <dd class="mt-1 text-lg" data-github-calendar-stat="last">
-            {initialStats.lastActiveDate
-              ? dateFormat.format(toDate(initialStats.lastActiveDate))
-              : copy.noActivityLabel}
-          </dd>
-        </div>
-      </dl>
-
-      <aside
-        class="mt-7 min-h-20 border border-rule/70 p-4"
-        data-github-calendar-inspector
-        aria-live="polite"
-      >
-        <p class="text-xs uppercase tracking-[0.1em] text-muted">
-          {copy.selectionLabel}
-        </p>
-        <p class="mt-2 text-sm" data-github-calendar-selection>
-          {initialDay ? dayLabel(initialDay) : copy.noActivityLabel}
-        </p>
-        <a
-          class="mt-2 inline-flex min-h-11 items-center text-xs underline"
-          data-github-calendar-inspect
-          href={initialDay ? dayHref(initialDay.date) : profileUrl}
-          hidden={!initialDay}
-        >
-          {copy.inspectLabel}
-        </a>
-      </aside>
-    </>
-  )}
 </section>

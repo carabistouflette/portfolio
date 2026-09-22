@@ -3,29 +3,15 @@ import type { Locale, PortfolioContent } from "../data/portfolio";
 import rawSnapshot from "../data/github.json";
 import { validateGitHubSnapshot } from "../lib/github";
 import GitHubCalendar from "./GitHubCalendar.astro";
+
 interface Props {
   content: PortfolioContent;
   locale: Locale;
 }
+
 const { content, locale } = Astro.props;
 const { openSource } = content;
-const activityPath = locale === "fr" ? "/github/" : "/en/github/";
 const snapshot = validateGitHubSnapshot(rawSnapshot);
-const byNumber = new Map(
-  (snapshot.featured ?? []).map((pullRequest) => [
-    pullRequest.number,
-    pullRequest,
-  ]),
-);
-const contributions = openSource.selectedContributions.map((entry) => {
-  const pullRequest = byNumber.get(entry.number);
-  if (!pullRequest) {
-    throw new Error(
-      `Featured pull request #${entry.number} is missing from the GitHub snapshot; run scripts/sync-github.mjs.`,
-    );
-  }
-  return { entry, pullRequest };
-});
 ---
 
 <section
@@ -44,29 +30,54 @@ const contributions = openSource.selectedContributions.map((entry) => {
   </h2>
   <p class="mt-6 max-w-[48ch] text-base leading-loose text-muted">
     {openSource.intro}
+    {" "}
+    <a
+      class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+      href={openSource.profileLink.url}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {openSource.profileLink.label}
+    </a>
   </p>
-  <ul class="mt-12 grid gap-10 lg:grid-cols-3">
-    {contributions.map(({ entry, pullRequest }) => (
+  <ul class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="text-xl font-medium leading-snug">
           <a
             class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
-            href={pullRequest.url}
+            href={project.url}
             target="_blank"
             rel="noreferrer"
           >
-            {pullRequest.title}
-            <span class="ml-2 text-muted" aria-hidden="true">
-              ↗
-            </span>
+            {project.name}
+            <span class="ml-2 text-muted" aria-hidden="true">↗</span>
           </a>
         </h3>
         <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">
-          {openSource.github.states[pullRequest.state]} ·{" "}
-          {pullRequest.repository}
+          {project.role}
         </p>
-        <p class="mt-4 text-sm leading-relaxed text-muted">{entry.problem}</p>
-        <p class="mt-2 text-sm leading-relaxed">{entry.change}</p>
+        <p class="mt-4 text-sm leading-relaxed text-muted">
+          {project.description}
+        </p>
+        {project.zenodo && (
+          <p class="mt-3 text-sm">
+            <a
+              class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+              href={project.zenodo.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {project.zenodo.label}
+              <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+            </a>
+          </p>
+        )}
+        {project.publication && (
+          <p class="mt-2 text-sm leading-relaxed text-muted">
+            {project.publication}
+          </p>
+        )}
       </li>
     ))}
   </ul>
@@ -77,27 +88,5 @@ const contributions = openSource.selectedContributions.map((entry) => {
       copy={openSource.github.calendar}
       preview
     />
-  </div>
-  <div class="mt-12 flex flex-wrap gap-x-10 gap-y-4">
-    <a
-      class="text-link inline-flex min-h-11 items-center text-sm underline"
-      href={activityPath}
-    >
-      {openSource.github.exploreLabel}
-      <span class="ml-2" aria-hidden="true">
-        →
-      </span>
-    </a>
-    <a
-      class="text-link inline-flex min-h-11 items-center text-sm text-muted underline"
-      href={openSource.profileUrl}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {openSource.profileLabel}
-      <span class="ml-2" aria-hidden="true">
-        ↗
-      </span>
-    </a>
   </div>
 </section>

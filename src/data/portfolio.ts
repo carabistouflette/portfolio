@@ -131,7 +131,6 @@ export interface PortfolioContent {
     description: string;
     availability: { label: string; detail: string; note: string };
     academic: string;
-    projectsCta: string;
     cvCta: string;
     contactCta: string;
   };
@@ -143,69 +142,31 @@ export interface PortfolioContent {
   openSource: {
     heading: string;
     intro: string;
+    profileLink: { label: string; url: string };
     personal: string;
-    profileLabel: string;
-    profileUrl: string;
-    selectedContributions: {
-      number: number;
-      problem: string;
-      change: string;
-    }[];
+    projects: {
+      heading: string;
+      entries: {
+        name: string;
+        url: string;
+        role: string;
+        description: string;
+        zenodo?: { label: string; url: string };
+        publication?: string;
+      }[];
+    };
     github: {
       eyebrow: string;
-      exploreLabel: string;
       pageTitle: string;
       homeLabel: string;
-      latestHeading: string;
-      scopeLabel: string;
-      scopes: Record<
-        "recent" | "external" | "open",
-        { label: string; description: string }
-      >;
-      states: Record<"open" | "merged" | "closed" | "draft", string>;
-      relationships: Record<"personal" | "organization" | "external", string>;
-      createdLabel: string;
-      updatedLabel: string;
-      mergedLabel: string;
-      discussionLabel: string;
-      filesLabel: string;
-      commitsLabel: string;
-      allPRLabel: string;
-      emptyPRLabel: string;
-      openCountLabel: string;
-      mergedCountLabel: string;
-      snapshotLabel: string;
-      refreshLabel: string;
-      refreshingLabel: string;
-      refreshedLabel: string;
-      cachedLabel: string;
-      staleLabel: string;
-      updateFailedLabel: string;
-      refreshPolicy: string;
-      methodHeading: string;
-      methodParagraphs: string[];
-      sourceLabel: string;
       calendar: {
         heading: string;
-        intro: string;
-        viewLabel: string;
-        yearLabel: string;
-        monthLabel: string;
-        monthPickerLabel: string;
-        previousLabel: string;
-        nextLabel: string;
+        totalLabel: string;
         lessLabel: string;
         moreLabel: string;
         daySingular: string;
         dayPlural: string;
         zeroDayLabel: string;
-        inspectLabel: string;
-        selectionLabel: string;
-        navigationHint: string;
-        activeDaysLabel: string;
-        totalLabel: string;
-        lastActiveLabel: string;
-        noActivityLabel: string;
       };
     };
   };
@@ -311,7 +272,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         note: "Alternance possible en M2 à partir de septembre 2027.",
       },
       academic: "Master MIAS · IA pour la santé · Centrale Lille",
-      projectsCta: "Voir mes réalisations",
       cvCta: "Télécharger le CV",
       contactCta: "Me contacter",
     },
@@ -359,121 +319,64 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     openSource: {
       heading: "Le travail continue sur GitHub.",
       intro:
-        "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur mon profil.",
+        "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur",
+      profileLink: {
+        label: "mon profil GitHub.",
+        url: "https://github.com/carabistouflette",
+      },
       personal:
         "J’aime le logiciel libre, les sujets de recherche et trifouiller sur Linux.",
-      profileLabel: "carabistouflette sur GitHub",
-      profileUrl: "https://github.com/carabistouflette",
-      selectedContributions: [
-        {
-          number: 485,
-          problem:
-            "L’indexation créait un effet par fragment : échanges et écritures multipliés, état difficile à rejouer.",
-          change:
-            "Le travail est regroupé par document : un appel d’embedding par lot, un état rejouable, des contrôles de cohérence conservés.",
-        },
-        {
-          number: 501,
-          problem:
-            "Une façade asynchrone imposait une complexité que le travail réel n’exigeait pas.",
-          change:
-            "Des interfaces synchrones adaptées au travail exécuté, un parallélisme sur threads à concurrence bornée, une frontière explicite côté daemon.",
-        },
-        {
-          number: 511,
-          problem:
-            "Une voie de recherche séduisante sur le papier : mieux classer les passages pour les agents. Le verdict est un résultat négatif.",
-          change:
-            "Les mesures ne l’ont pas justifiée : pas de nouvel index introduit, les résultats négatifs sont archivés et consultables dans la PR.",
-        },
-      ],
+      projects: {
+        heading: "Projets & communautés",
+        entries: [
+          {
+            name: "Maestria",
+            url: "https://github.com/brio-labs/maestria",
+            role: "Projet personnel",
+            description:
+              "Runtime Rust qui relie fichiers locaux, recherche, mémoire et tâches. Mon terrain principal : moteur, ingestion vectorielle, évaluation.",
+          },
+          {
+            name: "SteelMC",
+            url: "https://github.com/Steel-Foundation/SteelMC",
+            role: "Contributeur",
+            description:
+              "Serveur Minecraft en Rust. Contributions sur le routage des paquets réseau et le durcissement de la lecture.",
+          },
+          {
+            name: "HealthGraphBench",
+            url: "https://github.com/carabistouflette/HealthGraphBench",
+            role: "Projet personnel",
+            description:
+              "Benchmark reproductible qui évalue la valeur prédictive des graphes au-delà de baselines locales fortes, en ML de santé publique et réglementaire (FDA MAUDE, CMS).",
+            zenodo: {
+              label: "Expérimentation sur Zenodo",
+              url: "https://zenodo.org/records/22796551",
+            },
+            publication:
+              "Un article est en cours de rédaction, soumission à venir.",
+          },
+          {
+            name: "KolibriOS",
+            url: "https://github.com/KolibriOS/kolibrios",
+            role: "Projet passion",
+            description:
+              "Système d’exploitation minuscule en assembleur x86. J’en migre le code vers fasm2.",
+          },
+        ],
+      },
       github: {
         eyebrow: "Contributions & activité",
-        exploreLabel: "Explorer mon activité GitHub",
         pageTitle: "Contributions & activité GitHub",
         homeLabel: "Retour au portfolio",
-        latestHeading: "Les dernières contributions",
-        scopeLabel: "Contributions à afficher",
-        scopes: {
-          recent: {
-            label: "Les plus récentes",
-            description:
-              "Les trois dernières pull requests publiques que j’ai ouvertes, tous statuts confondus, par date de création.",
-          },
-          external: {
-            label: "Hors dépôts personnels",
-            description:
-              "Les trois dernières PR hors de mes dépôts personnels. Les projets d’organisations auxquelles je participe sont inclus et distingués.",
-          },
-          open: {
-            label: "En cours",
-            description:
-              "Jusqu’à trois PR encore ouvertes, triées par dernière mise à jour. Les brouillons sont indiqués.",
-          },
-        },
-        states: {
-          open: "Ouverte",
-          merged: "Fusionnée",
-          closed: "Fermée sans fusion",
-          draft: "Brouillon",
-        },
-        relationships: {
-          personal: "Dépôt personnel",
-          organization: "Membre / propriétaire de l’organisation",
-          external: "Autre dépôt",
-        },
-        createdLabel: "Ouverte le",
-        updatedLabel: "Actualisée le",
-        mergedLabel: "Fusionnée le",
-        discussionLabel: "Discussion",
-        filesLabel: "Fichiers modifiés",
-        commitsLabel: "Commits",
-        allPRLabel: "Toutes mes PR publiques",
-        emptyPRLabel: "Aucune pull request publique dans cette sélection.",
-        openCountLabel: "PR publiques ouvertes",
-        mergedCountLabel: "PR publiques fusionnées",
-        snapshotLabel: "Données synchronisées le",
-        refreshLabel: "Actualiser",
-        refreshingLabel: "Récupération du dernier instantané…",
-        refreshedLabel: "Dernier instantané récupéré.",
-        cachedLabel: "Instantané conservé dans ce navigateur.",
-        staleLabel:
-          "Cet instantané date de plus de 36 heures. GitHub peut afficher une activité plus récente.",
-        updateFailedLabel:
-          "La vérification en ligne est indisponible. Les données datées restent consultables.",
-        refreshPolicy:
-          "Synchronisation horaire prévue via GitHub Actions. Le calendrier suit les délais de comptabilisation de GitHub.",
-        methodHeading: "Ce que montrent ces données",
-        methodParagraphs: [
-          "Les PR viennent de l’API publique GitHub et sont attribuées à carabistouflette. Une PR sur un dépôt personnel n’est pas présentée comme une contribution à un projet tiers. L’association à une organisation est celle indiquée par GitHub sur la PR.",
-          "Le calendrier reproduit les contributions comptabilisées sur le profil public, pas tous les événements GitHub. Selon les réglages du profil, il peut inclure des nombres anonymisés de contributions privées ; aucun contenu privé n’est récupéré.",
-          "Une case vide signifie qu’aucune contribution n’est comptabilisée ce jour-là. Ce n’est pas une mesure du temps de travail ni de la productivité. Les journées absentes des données ne sont pas inventées.",
-          "Les totaux de PR ouvertes et fusionnées portent sur l’ensemble des PR publiques du compte. Les chiffres du calendrier portent uniquement sur la période affichée.",
-        ],
-        sourceLabel: "Comprendre le calendrier GitHub",
         calendar: {
           heading: "Au fil des jours",
-          intro:
-            "Une année d’activité telle que GitHub la comptabilise. Sélectionnez une journée pour en retrouver la trace.",
-          viewLabel: "Vue du calendrier",
-          yearLabel: "Année",
-          monthLabel: "Mois",
-          monthPickerLabel: "Mois à afficher",
-          previousLabel: "Mois précédent",
-          nextLabel: "Mois suivant",
+          totalLabel: "contributions sur les douze derniers mois",
           lessLabel: "Moins",
           moreLabel: "Plus",
           daySingular: "{date} · {count} contribution",
           dayPlural: "{date} · {count} contributions",
           zeroDayLabel: "{date} · aucune contribution comptabilisée",
-          inspectLabel: "Voir cette journée sur GitHub",
-          selectionLabel: "Journée sélectionnée",
-          navigationHint:
-            "Au clavier : flèches pour changer de jour, Début / Fin pour parcourir une ligne.",
-          activeDaysLabel: "Jours avec contributions",
-          totalLabel: "Contributions sur la période",
-          lastActiveLabel: "Dernier jour avec contribution",
-          noActivityLabel: "Aucune sur cette période",
         },
       },
     },
@@ -794,7 +697,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         note: "Apprenticeship (M2) possible from September 2027.",
       },
       academic: "MIAS master’s in AI for health · Centrale Lille",
-      projectsCta: "See the work",
       cvCta: "Download CV",
       contactCta: "Get in touch",
     },
@@ -842,121 +744,63 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     openSource: {
       heading: "The work continues on GitHub.",
       intro:
-        "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on my profile.",
+        "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on",
+      profileLink: {
+        label: "my GitHub profile.",
+        url: "https://github.com/carabistouflette",
+      },
       personal:
         "I enjoy open source, research topics and tinkering with Linux.",
-      profileLabel: "carabistouflette on GitHub",
-      profileUrl: "https://github.com/carabistouflette",
-      selectedContributions: [
-        {
-          number: 485,
-          problem:
-            "Indexing created one effect per chunk: multiplied exchanges and writes, state that was hard to replay.",
-          change:
-            "Work is grouped per document: one batch embedding call, replayable state, consistency checks preserved.",
-        },
-        {
-          number: 501,
-          problem:
-            "An asynchronous façade imposed complexity the actual work did not require.",
-          change:
-            "Synchronous interfaces fitted to the work executed, parallelism on bounded-concurrency threads, an explicit boundary in the daemon.",
-        },
-        {
-          number: 511,
-          problem:
-            "A retrieval lane that looked attractive on paper: better passage ranking for agents. The verdict is a negative result.",
-          change:
-            "The measurements did not justify it: no new index introduced, negative results archived and reviewable in the PR.",
-        },
-      ],
+      projects: {
+        heading: "Projects & communities",
+        entries: [
+          {
+            name: "Maestria",
+            url: "https://github.com/brio-labs/maestria",
+            role: "Personal project",
+            description:
+              "A Rust runtime linking local files, search, memory and tasks. My main playground: engine, vector ingestion, evaluation.",
+          },
+          {
+            name: "SteelMC",
+            url: "https://github.com/Steel-Foundation/SteelMC",
+            role: "Contributor",
+            description:
+              "A Minecraft server in Rust. Contributions to network packet routing and read-path hardening.",
+          },
+          {
+            name: "HealthGraphBench",
+            url: "https://github.com/carabistouflette/HealthGraphBench",
+            role: "Personal project",
+            description:
+              "A reproducible benchmark evaluating the predictive value of graphs beyond strong local baselines, in public-health and regulatory ML (FDA MAUDE, CMS).",
+            zenodo: {
+              label: "Experiment on Zenodo",
+              url: "https://zenodo.org/records/22796551",
+            },
+            publication: "A paper is in preparation and will be submitted soon.",
+          },
+          {
+            name: "KolibriOS",
+            url: "https://github.com/KolibriOS/kolibrios",
+            role: "Passion project",
+            description:
+              "A tiny operating system in x86 assembly. I am migrating its code to fasm2.",
+          },
+        ],
+      },
       github: {
         eyebrow: "Contributions & activity",
-        exploreLabel: "Explore my GitHub activity",
         pageTitle: "GitHub contributions & activity",
         homeLabel: "Back to portfolio",
-        latestHeading: "Latest contributions",
-        scopeLabel: "Contributions to display",
-        scopes: {
-          recent: {
-            label: "Most recent",
-            description:
-              "The three latest public pull requests I opened, across all statuses, ordered by creation date.",
-          },
-          external: {
-            label: "Outside personal repos",
-            description:
-              "The three latest PRs outside my personal repositories. Projects in organizations I participate in are included and identified.",
-          },
-          open: {
-            label: "In progress",
-            description:
-              "Up to three PRs that are still open, ordered by latest update. Drafts are identified.",
-          },
-        },
-        states: {
-          open: "Open",
-          merged: "Merged",
-          closed: "Closed without merging",
-          draft: "Draft",
-        },
-        relationships: {
-          personal: "Personal repository",
-          organization: "Organization member / owner",
-          external: "Other repository",
-        },
-        createdLabel: "Opened on",
-        updatedLabel: "Updated on",
-        mergedLabel: "Merged on",
-        discussionLabel: "Discussion",
-        filesLabel: "Changed files",
-        commitsLabel: "Commits",
-        allPRLabel: "All my public PRs",
-        emptyPRLabel: "No public pull requests in this selection.",
-        openCountLabel: "Open public PRs",
-        mergedCountLabel: "Merged public PRs",
-        snapshotLabel: "Data synchronized on",
-        refreshLabel: "Refresh",
-        refreshingLabel: "Fetching the latest snapshot…",
-        refreshedLabel: "Latest snapshot retrieved.",
-        cachedLabel: "Snapshot saved in this browser.",
-        staleLabel:
-          "This snapshot is over 36 hours old. GitHub may show more recent activity.",
-        updateFailedLabel:
-          "The online check is unavailable. The dated snapshot remains accessible.",
-        refreshPolicy:
-          "Hourly synchronization scheduled through GitHub Actions. The calendar follows GitHub’s contribution counting delays.",
-        methodHeading: "What these data show",
-        methodParagraphs: [
-          "PRs come from GitHub’s public API and are authored by carabistouflette. A PR in a personal repository is not presented as a contribution to a third-party project. Organization association is the one GitHub reports on the PR.",
-          "The calendar reproduces contributions counted on the public profile, not every GitHub event. Depending on profile settings, it may include anonymized private contribution counts; no private content is retrieved.",
-          "An empty square means no contribution was counted that day. It does not measure working time or productivity. Days missing from the source are not invented.",
-          "Open and merged PR totals cover all public PRs authored by this account. Calendar figures cover only the displayed date range.",
-        ],
-        sourceLabel: "How GitHub counts contributions",
         calendar: {
           heading: "Day by day",
-          intro:
-            "A year of activity as GitHub counts it. Select a day to trace it back to the source.",
-          viewLabel: "Calendar view",
-          yearLabel: "Year",
-          monthLabel: "Month",
-          monthPickerLabel: "Month to display",
-          previousLabel: "Previous month",
-          nextLabel: "Next month",
+          totalLabel: "contributions in the last twelve months",
           lessLabel: "Less",
           moreLabel: "More",
           daySingular: "{date} · {count} contribution",
           dayPlural: "{date} · {count} contributions",
           zeroDayLabel: "{date} · no contributions counted",
-          inspectLabel: "View this day on GitHub",
-          selectionLabel: "Selected day",
-          navigationHint:
-            "Keyboard: use arrows to change days, Home / End to move within a row.",
-          activeDaysLabel: "Days with contributions",
-          totalLabel: "Contributions in this period",
-          lastActiveLabel: "Last day with a contribution",
-          noActivityLabel: "None in this period",
         },
       },
     },
