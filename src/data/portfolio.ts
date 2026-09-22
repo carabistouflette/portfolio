@@ -173,7 +173,6 @@ export interface PortfolioContent {
   journey: {
     heading: string;
     intro: string;
-    scaleNote: string;
     labels: Record<"education" | "experience", string>;
     axis: { id: JourneyPoint; label: string; detail?: string }[];
     entries: JourneyEntry[];
@@ -384,8 +383,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       heading: "Expérience & formation",
       intro:
         "Du développement full-stack à l’IA appliquée, en parallèle de ma formation en informatique.",
-      scaleNote:
-        "En 2026, le stage CIRAD fait partie du BUT et précède l’entrée en master. Les espacements de la frise sont schématiques.",
       labels: { education: "Formation", experience: "Expérience" },
       invitation: {
         title: "Vous ?",
@@ -808,8 +805,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       heading: "Experience & education",
       intro:
         "From full-stack development to applied AI, alongside my computer science studies.",
-      scaleNote:
-        "In 2026, the CIRAD internship belongs to the BUT degree and precedes the master’s programme. Timeline spacing is schematic.",
       labels: { education: "Education", experience: "Experience" },
       invitation: {
         title: "You?",
