@@ -70,7 +70,8 @@
   }
 
   button:focus-visible,
-  a:focus-visible {
+  a:focus-visible,
+  [tabindex="-1"]:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 4px;
   }
@@ -95,6 +96,14 @@
     }
     html {
       scroll-padding-top: 6rem;
+    }
+  }
+
+  /* Stronger text/border contrast for users who request it. */
+  @media (prefers-contrast: more) {
+    :root {
+      --color-muted: #dde6ec;
+      --color-rule: #7d99a9;
     }
   }
 }
@@ -493,6 +502,17 @@
     aspect-ratio: 640 / 785;
     container-type: inline-size;
   }
+}
+
+/* Day cells stay compact to fit the year; widen the actual click target. */
+.github-calendar-day {
+  position: relative;
+}
+
+a.github-calendar-day::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
 }
 
 @keyframes content-enter {

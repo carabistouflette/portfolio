@@ -115,6 +115,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
               data-copied-label={contact.copiedEmail}
               data-default-label={contact.copyEmail}
               aria-label={contact.copyEmail}
+              aria-live="polite"
             >
               <svg
                 class="copy-icon shrink-0"
@@ -383,7 +384,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
         data-motion-reveal
       >
         <p>© 2026 Alexis Robin. {contact.legal}.</p>
-        <p class="text-muted/50">
+        <p class="text-muted/70">
           {locale === "fr"
             ? "Montpellier, France · Astro, Tailwind CSS & Vue"
             : "Montpellier, France · Astro, Tailwind CSS & Vue"}
@@ -445,7 +446,13 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
       button.addEventListener(
         "click",
         () => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+          ).matches;
+          window.scrollTo({
+            top: 0,
+            behavior: reducedMotion ? "auto" : "smooth",
+          });
         },
         { signal },
       );

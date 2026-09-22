@@ -91,32 +91,30 @@ const levelClasses: Record<GitHubDay["level"], string> = {
   3: "bg-sky-400",
   4: "bg-sky-200",
 };
-const dateRangeLabel = `${dateFormat.format(fromDate)} → ${dateFormat.format(toDateValue)}`;
+const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`;
 ---
 
 <section class="min-w-0" aria-labelledby="github-calendar-title">
-  <header
-    class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-rule/60 pt-8"
-  >
-    <h3 id="github-calendar-title" class="text-lg font-medium">
+  <header class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-rule/60 pt-8">
+    <h2 id="github-calendar-title" class="text-lg font-medium">
       {copy.heading}
-    </h3>
+    </h2>
     <p class="text-xs text-muted">
       <span class="font-display text-xl text-paper">
         {stats.totalContributions.toLocaleString(locale)}
-      </span>
-      {" "}
+      </span>{" "}
       {copy.totalLabel}
     </p>
   </header>
 
-  <div class="mt-6 min-w-0 overflow-x-auto pb-3">
+  <div
+    class:list={[
+      "mt-6 min-w-0 pb-3",
+      preview ? "overflow-x-clip" : "overflow-x-auto",
+    ]}
+  >
     <div class="min-w-[52rem]">
-      <div
-        class="grid gap-x-1"
-        aria-hidden="true"
-        style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
-      >
+      <div class="grid gap-x-1" aria-hidden="true" style={gridTemplate}>
         <div></div>
         {monthMarkers.map((marker) => (
           <span
@@ -127,17 +125,12 @@ const dateRangeLabel = `${dateFormat.format(fromDate)} → ${dateFormat.format(t
           </span>
         ))}
       </div>
-      <div
-        class="grid gap-x-1 gap-y-1"
-        role="table"
-        aria-label={dateRangeLabel}
-        style={`grid-template-columns: 2.75rem repeat(${Math.max(1, weekCount)}, minmax(1.15rem, 1fr));`}
-      >
+      <div class="grid gap-x-1 gap-y-1" style={gridTemplate}>
         {weekdayLabels.map((weekday, weekdayIndex) => (
-          <div class="contents" role="row">
+          <div class="contents">
             <span
               class="flex items-center text-[0.68rem] text-muted"
-              role="rowheader"
+              aria-hidden="true"
             >
               {weekday}
             </span>
@@ -164,16 +157,18 @@ const dateRangeLabel = `${dateFormat.format(fromDate)} → ${dateFormat.format(t
                     "focus-visible:outline-offset-3",
                     levelClasses[cell.day.level],
                   ]}
-                  role="cell"
-                  title={dayLabel(cell.day)}
-                  aria-label={dayLabel(cell.day)}
+                  {...(preview
+                    ? { "aria-hidden": "true" }
+                    : {
+                        title: dayLabel(cell.day),
+                        "aria-label": dayLabel(cell.day),
+                      })}
                   href={preview ? undefined : dayHref(cell.day.date)}
                 >
                   <span aria-hidden="true"></span>
                 </DayTag>
               ) : (
-                <span class="min-h-5 min-w-5" role="cell" aria-hidden="true">
-                </span>
+                <span class="min-h-5 min-w-5" aria-hidden="true"></span>
               );
             })}
           </div>
@@ -182,10 +177,7 @@ const dateRangeLabel = `${dateFormat.format(fromDate)} → ${dateFormat.format(t
     </div>
   </div>
 
-  <div
-    class="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted"
-    aria-label={`${copy.lessLabel} — ${copy.moreLabel}`}
-  >
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted">
     <span>{copy.lessLabel}</span>
     <span class="h-3 w-3 rounded-sm bg-sky-950/70" aria-hidden="true"></span>
     <span class="h-3 w-3 rounded-sm bg-sky-800/80" aria-hidden="true"></span>
