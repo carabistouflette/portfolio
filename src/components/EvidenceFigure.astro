@@ -80,7 +80,7 @@ const labelId = `${projectId}-evidence-label`;
     </div>
   )}
   <figcaption class="mt-3 text-xs leading-relaxed text-muted">
-    {!compact && <span class="block">{figure.caption}</span>}
+    {!compact && figure.caption && <span class="block">{figure.caption}</span>}
     <span class="mt-2 block">{figure.source}</span>
     {figure.src && figure.openLabel && (
       <a
