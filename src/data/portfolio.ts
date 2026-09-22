@@ -367,7 +367,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       intro:
         "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur mon profil.",
       personal:
-        "Python en autodidacte, puis C et Rust en explorant Linux. J’aime le logiciel libre.",
+        "J’aime le logiciel libre, les sujets de recherche et trifouiller sur Linux.",
       profileLabel: "carabistouflette sur GitHub",
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
@@ -853,7 +853,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       intro:
         "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on my profile.",
       personal:
-        "Self-taught Python, then C and Rust through Linux. I love open source.",
+        "I enjoy open source, research topics and tinkering with Linux.",
       profileLabel: "carabistouflette on GitHub",
       profileUrl: "https://github.com/carabistouflette",
       selectedContributions: [
