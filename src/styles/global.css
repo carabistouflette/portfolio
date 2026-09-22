@@ -484,6 +484,7 @@
   }
   .hero-cat {
     aspect-ratio: 640 / 785;
+    container-type: inline-size;
   }
 }
 
@@ -574,6 +575,102 @@
     will-change: transform;
   }
 }
+
+/* --- Bulle du chat : recherche de stage --- */
+.hero-cat-bubble {
+  position: absolute;
+  top: 43%;
+  right: -34%;
+  z-index: 2;
+  width: 8.25rem;
+  width: max(46cqw, 8.25rem);
+  padding: 1.05em 1.1em 1.15em;
+  font-size: 0.95rem;
+  font-size: max(3.9cqw, 13.5px);
+  rotate: -1.5deg;
+}
+
+.hero-cat-bubble-frame {
+  position: absolute;
+  inset: -0.3rem;
+  z-index: -1;
+  width: calc(100% + 0.6rem);
+  height: calc(100% + 0.6rem);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.hero-cat-bubble-outline,
+.hero-cat-bubble-beak {
+  fill: rgb(6 17 26 / 0.82);
+  stroke: #8fc6ee;
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-cat-bubble-label {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 0.8em;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #abd1ed;
+}
+
+.hero-cat-bubble-detail {
+  margin-top: 0.4em;
+  font-size: 1em;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-paper);
+  text-wrap: balance;
+}
+
+.hero-cat-bubble-note {
+  margin-top: 0.45em;
+  font-size: 0.8em;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+@keyframes bubble-pop {
+  from {
+    opacity: 0;
+    scale: 0.72;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes bubble-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-cat-bubble {
+    animation:
+      bubble-pop 460ms 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+      bubble-float 6s 1.4s ease-in-out infinite;
+  }
+}
+
+@media (forced-colors: active) {
+  .hero-cat-bubble-frame {
+    display: none;
+  }
+  .hero-cat-bubble {
+    border: 1px solid CanvasText;
+    border-radius: 1.25rem;
+  }
+}
 /* VueUse Motion does not map SVG pathLength to stroke dashes. */
 @keyframes robin-stroke {
   to {
@@ -581,7 +678,8 @@
   }
 }
 
-html[data-page-navigation] :is(.hero-copy > *, .hero-summary, .hero-actions) {
+html[data-page-navigation]
+  :is(.hero-copy > *, .hero-summary, .hero-actions, .hero-cat-bubble) {
   animation: none;
 }
 #butterfly-field {

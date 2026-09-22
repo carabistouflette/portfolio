@@ -37,6 +37,26 @@ const nameLines = content.hero.title.split(" ");
       />
       <span class="hero-cat-eye hero-cat-eye-left" aria-hidden="true"></span>
       <span class="hero-cat-eye hero-cat-eye-right" aria-hidden="true"></span>
+      <div class="hero-cat-bubble hidden lg:block">
+        <svg
+          class="hero-cat-bubble-frame"
+          viewBox="0 0 210 132"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path
+            class="hero-cat-bubble-outline"
+            d="M 9 46 C 8 60 8 74 8 86 C 8 96 9 106 13 114 C 18 122 28 127 42 127 C 74 130 128 130 170 127 C 190 126 200 116 201 100 C 204 80 201 55 202 32 C 203 16 194 8 178 6 C 140 2 72 2 30 6 C 20 7 13 12 10 18 C 9 20 9 23 9 26"
+          ></path>
+          <path
+            class="hero-cat-bubble-beak"
+            d="M 9 26 C -25 15 -68 13 -95 24 C -65 20 -35 38 9 46 Z"
+          ></path>
+        </svg>
+        <p class="hero-cat-bubble-label">{content.hero.availability.label}</p>
+        <p class="hero-cat-bubble-detail">{content.hero.availability.detail}</p>
+        <p class="hero-cat-bubble-note">{content.hero.availability.note}</p>
+      </div>
     </div>
   </div>
   <div class="hero-copy relative z-10 min-w-0">
@@ -59,18 +79,22 @@ const nameLines = content.hero.title.split(" ");
     <p class="mt-8 max-w-[30ch] text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
-    <div
-      class="hero-availability mt-6 max-w-xl border-l-2 border-[#8fc6ee] bg-linear-to-r from-[#102637]/60 to-transparent py-3.5 pl-5"
-    >
+    <div class="hero-availability mt-6 max-w-xl rounded-[52%_48%_56%_44%/62%_54%_46%_38%] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 lg:hidden">
       <p class="text-lg font-medium leading-snug text-paper sm:text-xl">
         <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
-        <span class="text-rule/80 mx-2" aria-hidden="true">·</span>
+        <span class="text-rule/80 mx-2" aria-hidden="true">
+          ·
+        </span>
         <span>{content.hero.availability.detail}</span>
       </p>
       <p class="hero-availability-note mt-1.5 text-base leading-relaxed text-muted">
         {content.hero.availability.note}
       </p>
     </div>
+    <p class="sr-only hidden lg:block">
+      {content.hero.availability.label} — {content.hero.availability.detail}.
+      {content.hero.availability.note}
+    </p>
     <p class="hero-academic academic-line mt-5 max-w-[32ch] text-lg font-medium leading-relaxed text-muted sm:text-xl">
       {content.hero.academic}
     </p>
