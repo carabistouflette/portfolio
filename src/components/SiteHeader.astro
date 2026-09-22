@@ -119,17 +119,66 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
     const mobile = window.matchMedia("(max-width: 47.999rem)");
 
     if (header && toggle && menu) {
-      const setOpen = (open: boolean) => {
-        toggle.setAttribute("aria-expanded", String(open));
-        menu.hidden = mobile.matches && !open;
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      const menuTransitionDuration = 320;
+      let closeTimer: number | undefined;
+      let openFrame: number | undefined;
+
+      const clearMenuTimers = () => {
+        if (closeTimer !== undefined) {
+          window.clearTimeout(closeTimer);
+          closeTimer = undefined;
+        }
+        if (openFrame !== undefined) {
+          window.cancelAnimationFrame(openFrame);
+          openFrame = undefined;
+        }
       };
+
+      const setOpen = (open: boolean, immediate = false) => {
+        const isMobile = mobile.matches;
+        const nextOpen = isMobile && open;
+        clearMenuTimers();
+        toggle.setAttribute("aria-expanded", String(nextOpen));
+
+        if (!isMobile) {
+          delete header.dataset.menuOpen;
+          menu.hidden = false;
+          return;
+        }
+
+        if (nextOpen) {
+          menu.hidden = false;
+          openFrame = window.requestAnimationFrame(() => {
+            openFrame = undefined;
+            if (toggle.getAttribute("aria-expanded") === "true")
+              header.dataset.menuOpen = "";
+          });
+          return;
+        }
+
+        delete header.dataset.menuOpen;
+        if (immediate || reducedMotion.matches) {
+          menu.hidden = true;
+          return;
+        }
+
+        closeTimer = window.setTimeout(() => {
+          closeTimer = undefined;
+          if (toggle.getAttribute("aria-expanded") !== "true")
+            menu.hidden = true;
+        }, menuTransitionDuration);
+      };
+
       const syncViewport = () => {
         if (!mobile.matches && document.activeElement === toggle) {
           header.querySelector<HTMLAnchorElement>(".header-signature")?.focus();
         } else if (mobile.matches && menu.contains(document.activeElement)) {
           toggle.focus();
         }
-        setOpen(false);
+        setOpen(false, true);
       };
       toggle.hidden = false;
       header.dataset.menuReady = "";
