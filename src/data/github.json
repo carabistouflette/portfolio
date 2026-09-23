@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-09-23T17:03:20.584Z",
+  "updatedAt": "2026-09-23T20:24:14.684Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-09-23T19:53:04Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
       {
         "repository": "carabistouflette/MedDataTrace",
         "number": 5,
@@ -25,20 +36,20 @@
         "mergedAt": "2026-09-13T13:58:51Z",
         "state": "merged",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/MedDataTrace",
-        "number": 3,
-        "title": "chore: add cross-platform task runner",
-        "url": "https://github.com/carabistouflette/MedDataTrace/pull/3",
-        "createdAt": "2026-09-13T00:07:49Z",
-        "updatedAt": "2026-09-13T00:09:35Z",
-        "mergedAt": "2026-09-13T00:09:34Z",
-        "state": "merged",
-        "relationship": "personal"
       }
     ],
     "external": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-09-23T19:53:04Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 515,
@@ -60,20 +71,20 @@
         "mergedAt": "2026-09-12T12:49:59Z",
         "state": "merged",
         "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 513,
-        "title": "docs(research): record supported-route evidence run",
-        "url": "https://github.com/brio-labs/maestria/pull/513",
-        "createdAt": "2026-09-10T20:43:03Z",
-        "updatedAt": "2026-09-10T20:52:58Z",
-        "mergedAt": "2026-09-10T20:52:56Z",
-        "state": "merged",
-        "relationship": "organization"
       }
     ],
     "open": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-09-23T19:53:04Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
       {
         "repository": "Steel-Foundation/SteelMC",
         "number": 554,
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "external"
-      },
-      {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 547,
-        "title": "feat: vanilla framing parity, read-path hardening, and malformed packet kicks",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/547",
-        "createdAt": "2026-08-28T23:26:40Z",
-        "updatedAt": "2026-09-13T21:32:09Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
       }
     ]
   },
   "counts": {
-    "open": 40,
+    "open": 41,
     "merged": 489
   },
   "featured": [
@@ -1989,7 +1989,7 @@
       },
       {
         "date": "2026-09-23",
-        "count": 1,
+        "count": 13,
         "level": 1
       }
     ]
