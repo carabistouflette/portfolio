@@ -10,8 +10,9 @@ const figure = caseStudies[locale][projectId].figure;
 const labelId = `${projectId}-evidence-label`;
 const showContext = !compact || figure.kind !== "screenshot";
 const closeLabel = locale === "fr" ? "Fermer" : "Close";
-const zoomLabel = locale === "fr" ? "Zoomer" : "Zoom in";
-const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
+const zoomAction =
+  locale === "fr" ? "Zoomer dans la capture" : "Zoom into image";
+const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
 ---
 
 <figure
@@ -112,28 +113,38 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
       data-evidence-dialog
       aria-label={figure.title}
     >
-      <div class="evidence-lightbox-toolbar">
-        <button type="button" data-evidence-zoom aria-pressed="false">
-          <span data-evidence-zoom-in>{zoomLabel}</span>
-          <span data-evidence-zoom-out hidden>
-            {fitLabel}
-          </span>
+      <div class="evidence-lightbox-stage">
+        <button
+          class="evidence-lightbox-image-target"
+          type="button"
+          data-evidence-image-target
+          aria-label={zoomAction}
+          data-zoom-label={zoomAction}
+          data-fit-label={fitAction}
+        >
+          <img
+            class="evidence-lightbox-image"
+            src={figure.src}
+            alt={figure.alt}
+            width="1600"
+            height="1352"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+          />
         </button>
-        <form method="dialog">
-          <button type="submit" autofocus>
-            {closeLabel} <span aria-hidden="true">×</span>
-          </button>
-        </form>
+        <button
+          class="evidence-lightbox-close"
+          type="button"
+          data-evidence-close
+          aria-label={closeLabel}
+          autofocus
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 5 19 19 M19 5 5 19" />
+          </svg>
+        </button>
       </div>
-      <img
-        class="evidence-lightbox-image"
-        src={figure.src}
-        alt={figure.alt}
-        width="1600"
-        height="1352"
-        loading="lazy"
-        decoding="async"
-      />
     </dialog>
   )}
 </figure>
@@ -142,24 +153,81 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
   import { onPageLoad } from "../scripts/page-lifecycle";
 
   onPageLoad((signal) => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     for (const figure of document.querySelectorAll<HTMLElement>(
       ".evidence-figure",
     )) {
       const dialog = figure.querySelector<HTMLDialogElement>(
         "[data-evidence-dialog]",
       );
-      if (!dialog || typeof dialog.showModal !== "function") continue;
+      const target = dialog?.querySelector<HTMLButtonElement>(
+        "[data-evidence-image-target]",
+      );
+      const image = target?.querySelector("img");
+      const closeButton = dialog?.querySelector<HTMLButtonElement>(
+        "[data-evidence-close]",
+      );
+      if (!dialog || !target || !image || !closeButton || !dialog.showModal)
+        continue;
 
       let opener: HTMLAnchorElement | null = null;
-      const zoom = dialog.querySelector<HTMLButtonElement>(
-        "[data-evidence-zoom]",
-      );
-      const zoomIn = dialog.querySelector<HTMLElement>(
-        "[data-evidence-zoom-in]",
-      );
-      const zoomOut = dialog.querySelector<HTMLElement>(
-        "[data-evidence-zoom-out]",
-      );
+      let closeTimer: number | undefined;
+      let scale = 1;
+      let originX = 0.5;
+      let originY = 0.5;
+      let panX = 0;
+      let panY = 0;
+      let pointerId: number | null = null;
+      let startX = 0;
+      let startY = 0;
+      let startPanX = 0;
+      let startPanY = 0;
+      let dragged = false;
+
+      const resetZoom = () => {
+        dialog.removeAttribute("data-zoomed");
+        dialog.removeAttribute("data-panning");
+        if (pointerId !== null && target.hasPointerCapture(pointerId))
+          target.releasePointerCapture(pointerId);
+        pointerId = null;
+        scale = 1;
+        panX = 0;
+        panY = 0;
+        image.style.removeProperty("--evidence-zoom-scale");
+        if (!dialog.open) {
+          image.style.removeProperty("--evidence-zoom-x");
+          image.style.removeProperty("--evidence-zoom-y");
+        }
+        image.style.removeProperty("--evidence-pan-x");
+        image.style.removeProperty("--evidence-pan-y");
+        target.setAttribute("aria-label", target.dataset.zoomLabel ?? "");
+      };
+
+      const setPan = (x: number, y: number) => {
+        const width = target.clientWidth;
+        const height = target.clientHeight;
+        panX = Math.max(
+          -(scale - 1) * (1 - originX) * width,
+          Math.min((scale - 1) * originX * width, x),
+        );
+        panY = Math.max(
+          -(scale - 1) * (1 - originY) * height,
+          Math.min((scale - 1) * originY * height, y),
+        );
+        image.style.setProperty("--evidence-pan-x", `${panX}px`);
+        image.style.setProperty("--evidence-pan-y", `${panY}px`);
+      };
+
+      const dismiss = () => {
+        if (!dialog.open || dialog.hasAttribute("data-closing")) return;
+        if (reducedMotion.matches) {
+          dialog.close();
+          return;
+        }
+        dialog.dataset.closing = "";
+        closeTimer = window.setTimeout(() => dialog.close(), 280);
+      };
 
       for (const link of figure.querySelectorAll<HTMLAnchorElement>(
         "[data-evidence-open]",
@@ -177,7 +245,6 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
               event.altKey
             )
               return;
-
             event.preventDefault();
             opener = link;
             dialog.showModal();
@@ -186,17 +253,95 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
         );
       }
 
-      zoom?.addEventListener(
+      target.addEventListener(
         "click",
-        () => {
-          const zoomed = dialog.toggleAttribute("data-zoomed");
-          zoom.setAttribute("aria-pressed", String(zoomed));
-          if (zoomIn) zoomIn.hidden = zoomed;
-          if (zoomOut) zoomOut.hidden = !zoomed;
+        (event) => {
+          if (dragged) {
+            dragged = false;
+            return;
+          }
+          if (dialog.hasAttribute("data-closing")) return;
+          if (dialog.hasAttribute("data-zoomed")) {
+            resetZoom();
+            return;
+          }
+
+          const bounds = target.getBoundingClientRect();
+          originX =
+            event.detail === 0
+              ? 0.5
+              : Math.max(
+                  0,
+                  Math.min(1, (event.clientX - bounds.left) / bounds.width),
+                );
+          originY =
+            event.detail === 0
+              ? 0.5
+              : Math.max(
+                  0,
+                  Math.min(1, (event.clientY - bounds.top) / bounds.height),
+                );
+          scale = Math.max(
+            1,
+            (image.naturalWidth || Number(image.getAttribute("width"))) /
+              target.clientWidth,
+          );
+          if (scale <= 1) return;
+          image.style.setProperty("--evidence-zoom-x", `${originX * 100}%`);
+          image.style.setProperty("--evidence-zoom-y", `${originY * 100}%`);
+          image.style.setProperty("--evidence-zoom-scale", String(scale));
+          dialog.dataset.zoomed = "";
+          target.setAttribute("aria-label", target.dataset.fitLabel ?? "");
         },
         { signal },
       );
 
+      target.addEventListener(
+        "pointerdown",
+        (event) => {
+          if (!dialog.hasAttribute("data-zoomed") || event.button !== 0) return;
+          pointerId = event.pointerId;
+          startX = event.clientX;
+          startY = event.clientY;
+          startPanX = panX;
+          startPanY = panY;
+          dragged = false;
+          target.setPointerCapture(event.pointerId);
+        },
+        { signal },
+      );
+      target.addEventListener(
+        "pointermove",
+        (event) => {
+          if (pointerId !== event.pointerId) return;
+          const dx = event.clientX - startX;
+          const dy = event.clientY - startY;
+          if (Math.hypot(dx, dy) > 4) dragged = true;
+          if (!dragged) return;
+          dialog.dataset.panning = "";
+          setPan(startPanX + dx, startPanY + dy);
+        },
+        { signal },
+      );
+      const finishPan = (event: PointerEvent) => {
+        if (pointerId !== event.pointerId) return;
+        if (target.hasPointerCapture(event.pointerId))
+          target.releasePointerCapture(event.pointerId);
+        pointerId = null;
+        dialog.removeAttribute("data-panning");
+      };
+      target.addEventListener("pointerup", finishPan, { signal });
+      target.addEventListener("pointercancel", finishPan, { signal });
+
+      closeButton.addEventListener("click", dismiss, { signal });
+      dialog.addEventListener(
+        "cancel",
+        (event) => {
+          event.preventDefault();
+          dismiss();
+        },
+        { signal },
+      );
       dialog.addEventListener(
         "click",
         (event) => {
@@ -208,24 +353,31 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
             event.clientY < bounds.top ||
             event.clientY > bounds.bottom
           )
-            dialog.close();
+            dismiss();
         },
         { signal },
       );
-
       dialog.addEventListener(
         "close",
         () => {
-          dialog.removeAttribute("data-zoomed");
-          dialog.scrollTo(0, 0);
-          zoom?.setAttribute("aria-pressed", "false");
-          if (zoomIn) zoomIn.hidden = false;
-          if (zoomOut) zoomOut.hidden = true;
+          window.clearTimeout(closeTimer);
+          dialog.removeAttribute("data-closing");
+          resetZoom();
           opener?.focus({ preventScroll: true });
           opener = null;
         },
         { signal },
       );
+      window.addEventListener(
+        "resize",
+        () => {
+          if (dialog.open) resetZoom();
+        },
+        { signal },
+      );
+      signal.addEventListener("abort", () => window.clearTimeout(closeTimer), {
+        once: true,
+      });
     }
   });
 </script>
@@ -234,64 +386,169 @@ const fitLabel = locale === "fr" ? "Ajuster" : "Fit image";
   .evidence-lightbox {
     position: fixed;
     inset: 0;
-    width: min(75rem, calc(100vw - 2rem));
-    max-width: none;
-    max-height: calc(100dvh - 2rem);
+    width: max-content;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
     margin: auto;
-    overflow: auto;
-    padding: 1rem;
-    border: 1px solid rgb(168 200 190 / 0.55);
-    background: #071214;
+    overflow: visible;
+    padding: 0;
+    border: 0;
+    background: transparent;
     color: #edf2f5;
-    box-shadow: 0 1.5rem 5rem rgb(0 0 0 / 0.5);
   }
 
   .evidence-lightbox::backdrop {
-    background: rgb(0 0 0 / 0.85);
+    background: rgb(1 7 9 / 0.3);
+    backdrop-filter: blur(16px) saturate(70%);
   }
 
-  .evidence-lightbox-toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    background: #071214;
+  .evidence-lightbox-stage {
+    position: relative;
+    max-width: calc(100vw - 1rem);
+    max-height: calc(100dvh - 1rem);
+    overflow: hidden;
   }
 
-  .evidence-lightbox-toolbar button {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.35rem 0.8rem;
-    border: 1px solid rgb(168 200 190 / 0.5);
-    background: #0b191b;
-    color: inherit;
-    cursor: pointer;
+  .evidence-lightbox-image-target {
+    display: block;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    line-height: 0;
+    cursor: zoom-in;
+  }
+
+  .evidence-lightbox[data-zoomed] .evidence-lightbox-image-target {
+    cursor: zoom-out;
+    touch-action: none;
+  }
+
+  .evidence-lightbox[data-panning] .evidence-lightbox-image-target {
+    cursor: grabbing;
   }
 
   .evidence-lightbox-image {
     display: block;
     width: auto;
-    max-width: 100%;
+    max-width: calc(100vw - 1rem);
     height: auto;
-    max-height: calc(100dvh - 8rem);
-    margin-inline: auto;
+    max-height: calc(100dvh - 1rem);
+    transform-origin: var(--evidence-zoom-x, 50%) var(--evidence-zoom-y, 50%);
+    transform: translate3d(
+        var(--evidence-pan-x, 0px),
+        var(--evidence-pan-y, 0px),
+        0
+      )
+      scale(var(--evidence-zoom-scale, 1));
+    transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .evidence-lightbox[data-zoomed] .evidence-lightbox-image {
-    max-width: none;
-    max-height: none;
+  .evidence-lightbox[data-panning] .evidence-lightbox-image {
+    transition: none;
   }
 
-  @media (max-width: 47.999rem) {
-    .evidence-lightbox {
-      width: calc(100vw - 1rem);
-      max-height: calc(100dvh - 1rem);
-      padding: 0.5rem;
+  .evidence-lightbox-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(2 10 12 / 0.45);
+    color: #fff;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 160ms ease;
+  }
+
+  .evidence-lightbox-close:is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .evidence-lightbox-close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  @keyframes evidence-enter {
+    from {
+      opacity: 0;
+      scale: 0.94;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+
+  @keyframes evidence-leave {
+    from {
+      opacity: 1;
+      scale: 1;
+    }
+    to {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+
+  @keyframes evidence-backdrop-enter {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(0);
+    }
+    to {
+      opacity: 1;
+      backdrop-filter: blur(16px) saturate(70%);
+    }
+  }
+
+  @keyframes evidence-backdrop-leave {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  .evidence-lightbox[open] {
+    animation: evidence-enter 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .evidence-lightbox[open]::backdrop {
+    animation: evidence-backdrop-enter 340ms ease both;
+  }
+
+  .evidence-lightbox[data-closing] {
+    animation: evidence-leave 260ms ease both;
+  }
+
+  .evidence-lightbox[data-closing]::backdrop {
+    animation: evidence-backdrop-leave 260ms ease both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .evidence-lightbox[open],
+    .evidence-lightbox[data-closing],
+    .evidence-lightbox[open]::backdrop,
+    .evidence-lightbox[data-closing]::backdrop {
+      animation: none;
+    }
+
+    .evidence-lightbox-image,
+    .evidence-lightbox-close {
+      transition: none;
     }
   }
 </style>
