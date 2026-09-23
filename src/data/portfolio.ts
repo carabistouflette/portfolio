@@ -480,7 +480,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogHeading: "Explorer le catalogue complet",
+      catalogHeading: "Technologies que j'ai déjà utilisé",
       projectLabel: "Voir dans le projet",
       groups: [
         {
@@ -903,7 +903,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogHeading: "Explore the full catalog",
+      catalogHeading: "Technologies I've used",
       projectLabel: "See in project",
       groups: [
         {
