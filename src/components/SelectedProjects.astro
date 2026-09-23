@@ -37,55 +37,38 @@ const supplementary = content.projects.entries.filter(
     class="project-research grid gap-12 bg-[#0b191b] px-6 py-12 text-paper target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16"
     tabindex="-1"
   >
-    <div
-      class="project-research-art pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      <svg
-        class="project-research-graph"
-        viewBox="0 0 680 720"
-        focusable="false"
-      >
-        <path
-          d="M360 355 Q307 287 260 235 Q215 174 150 150
-             M260 235 Q276 158 320 110
-             M360 355 Q397 251 440 190 Q507 158 585 145
-             M440 190 Q489 230 505 300 Q578 282 645 325
-             M360 355 Q435 328 505 300
-             M360 355 Q451 383 515 445 Q570 487 600 560
-             M515 445 Q458 491 385 525 Q369 598 340 655
-             M385 525 Q293 502 225 440 Q159 483 155 565
-             M225 440 Q148 383 75 385
-             M360 355 Q293 411 225 440"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.25"
-          opacity=".48"
-        />
-        <g fill="#0b191b" stroke="currentColor" stroke-width="1.25">
-          <circle cx="360" cy="355" r="10" fill="none" opacity=".5" />
-          <circle cx="360" cy="355" r="4" />
-          <circle cx="260" cy="235" r="5" />
-          <circle cx="440" cy="190" r="5" />
-          <circle cx="505" cy="300" r="5" />
-          <circle cx="515" cy="445" r="5" />
-          <circle cx="385" cy="525" r="5" />
-          <circle cx="225" cy="440" r="5" />
-          <circle cx="150" cy="150" r="3.5" />
-          <circle cx="320" cy="110" r="3.5" />
-          <circle cx="585" cy="145" r="3.5" />
-          <circle cx="645" cy="325" r="3.5" />
-          <circle cx="600" cy="560" r="3.5" />
-          <circle cx="340" cy="655" r="3.5" />
-          <circle cx="155" cy="565" r="3.5" />
-          <circle cx="75" cy="385" r="3.5" />
-        </g>
-      </svg>
-    </div>
     <div class="relative z-10 min-w-0">
-      <p class="inline-block border border-[#8eb7ae]/30 border-b-2 px-3 py-2 font-mono text-xs leading-relaxed text-[#a8c8be]">
-        {genomint.kicker}
-      </p>
+      <div class="flex items-center justify-between gap-6">
+        <p class="inline-block border border-[#8eb7ae]/30 border-b-2 px-3 py-2 font-mono text-xs leading-relaxed text-[#a8c8be]">
+          {genomint.kicker}
+        </p>
+        <svg
+          class="pointer-events-none hidden h-12 w-32 shrink-0 text-[#a8c8be] md:block"
+          viewBox="0 0 128 48"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M8 24 40 8 80 24 120 12 M8 24 40 40 80 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-opacity=".35"
+            stroke-width="1"
+          />
+          <g
+            fill="#0b191b"
+            stroke="currentColor"
+            stroke-opacity=".35"
+            stroke-width="1"
+          >
+            <circle cx="8" cy="24" r="3" />
+            <circle cx="40" cy="8" r="3" />
+            <circle cx="40" cy="40" r="3" />
+            <circle cx="80" cy="24" r="3" />
+            <circle cx="120" cy="12" r="3" />
+          </g>
+        </svg>
+      </div>
       <h3 class="feature-title mt-6">
         <a class="text-paper" href={genomint.path}>
           {genomint.title}
