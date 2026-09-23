@@ -148,7 +148,9 @@
     content-visibility: visible;
   }
 
-  .catalog-invitation:not([open]) > .reading-disclosure-body {
+  .catalog-invitation:not([open]) > .reading-disclosure-body,
+  .catalog-invitation[data-disclosure-external]:not([open])
+    + .reading-disclosure-body {
     position: relative;
     max-height: 18rem;
     overflow: hidden;
@@ -158,7 +160,9 @@
     user-select: none;
   }
 
-  .catalog-invitation:not([open]) > .reading-disclosure-body::after {
+  .catalog-invitation:not([open]) > .reading-disclosure-body::after,
+  .catalog-invitation[data-disclosure-external]:not([open])
+    + .reading-disclosure-body::after {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -172,15 +176,23 @@
   .catalog-invitation[data-disclosure-animating] {
     overflow: hidden;
   }
+  .catalog-invitation[data-disclosure-external][data-disclosure-animating]
+    + .reading-disclosure-body {
+    overflow: hidden;
+  }
 
   @media (min-width: 64rem) {
-    .catalog-invitation:not([open]) > .reading-disclosure-body {
+    .catalog-invitation:not([open]) > .reading-disclosure-body,
+    .catalog-invitation[data-disclosure-external]:not([open])
+      + .reading-disclosure-body {
       max-height: 22rem;
     }
   }
-  /* Without CSS inertness, keep native closed-details focus containment. */
+  /* When CSS inertness is unavailable, wait for the JS inert attribute. */
   @supports not (interactivity: inert) {
-    .catalog-invitation:not([open])::details-content {
+    .catalog-invitation:not([open]):not(
+        [data-disclosure-ready]
+      )::details-content {
       content-visibility: hidden;
     }
   }
@@ -660,15 +672,27 @@
   }
 }
 /* Keep the clipped teaser in its collapsed-card appearance when a category is open. */
-.catalog-invitation:not([open]) [data-motion-catalog][open] .skill-preview {
+.catalog-invitation:not([open]) [data-motion-catalog][open] .skill-preview,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  .skill-preview {
   display: flex;
 }
 
-.catalog-invitation:not([open]) [data-motion-catalog][open] > .skills-panel {
+.catalog-invitation:not([open]) [data-motion-catalog][open] > .skills-panel,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  > .skills-panel {
   display: none;
 }
 
-.catalog-invitation:not([open]) [data-motion-catalog][open] .disclosure-mark {
+.catalog-invitation:not([open]) [data-motion-catalog][open] .disclosure-mark,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  .disclosure-mark {
   rotate: 0deg;
 }
 

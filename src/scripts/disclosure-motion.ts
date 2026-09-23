@@ -16,6 +16,33 @@ onPageLoad((signal) => {
     let expanded = details.open;
     let animations: Animation[] = [];
 
+    const revealPanel =
+      panel && details.hasAttribute("data-disclosure-reveal") ? panel : null;
+    // Older engines cannot render closed ::details-content; reveal the same panel
+    // beside the native control instead of swapping in a duplicate preview.
+    const externalPanel =
+      revealPanel && !CSS.supports("selector(::details-content)")
+        ? revealPanel
+        : null;
+    if (externalPanel) {
+      details.dataset.disclosureExternal = "";
+      details.after(externalPanel);
+    }
+    const heightTarget = externalPanel ?? details;
+    if (revealPanel) {
+      revealPanel.inert = !expanded;
+      details.dataset.disclosureReady = "";
+      details.addEventListener(
+        "toggle",
+        () => {
+          if (animations.length) return;
+          expanded = details.open;
+          revealPanel.inert = !expanded;
+        },
+        { signal },
+      );
+    }
+
     const settle = (): void => {
       for (const animation of animations) {
         animation.onfinish = null;
@@ -23,6 +50,7 @@ onPageLoad((signal) => {
       }
       animations = [];
       details.open = expanded;
+      if (revealPanel) revealPanel.inert = !expanded;
       delete details.dataset.disclosureAnimating;
     };
 
@@ -37,7 +65,7 @@ onPageLoad((signal) => {
         if (reducedMotion.matches || !details.animate) return;
         event.preventDefault();
 
-        const startHeight = details.getBoundingClientRect().height;
+        const startHeight = heightTarget.getBoundingClientRect().height;
         const wasAnimating = animations.length > 0;
         const panelStyle =
           panel && !details.hasAttribute("data-disclosure-reveal")
@@ -59,7 +87,7 @@ onPageLoad((signal) => {
         // Read the current frame before canceling so rapid clicks reverse smoothly.
         expanded = animations.length ? !expanded : !details.open;
         settle();
-        const endHeight = details.getBoundingClientRect().height;
+        const endHeight = heightTarget.getBoundingClientRect().height;
         const endPreviewStyle = preview ? getComputedStyle(preview) : null;
         const endPreview =
           preview && endPreviewStyle
@@ -92,7 +120,7 @@ onPageLoad((signal) => {
             : { opacity: "0", filter: "blur(14px)" };
           animations.push(panel.animate([panelStart, panelEnd], timing));
         }
-        const height = details.animate(
+        const height = heightTarget.animate(
           [{ height: `${startHeight}px` }, { height: `${endHeight}px` }],
           timing,
         );
