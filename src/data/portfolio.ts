@@ -227,8 +227,10 @@ export interface PortfolioContent {
   };
 }
 
+const contactEmail = "contact@alexisrob.in";
+
 export const destinations = {
-  email: "mailto:arobin9999@gmail.com",
+  email: `mailto:${contactEmail}`,
   linkedin: "https://www.linkedin.com/in/alexisr-dev",
   github: "https://github.com/carabistouflette",
   brio: "https://brio.build/",
@@ -639,7 +641,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     contact: {
       eyebrow: "Contact & opportunités",
       heading: "Donnons vie à vos projets.",
-      email: "arobin9999@gmail.com",
+      email: contactEmail,
       emailCta: "Envoyer un e-mail",
       copyEmail: "Copier l'adresse",
       copiedEmail: "Adresse copiée !",
@@ -1057,7 +1059,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     contact: {
       eyebrow: "Contact & opportunities",
       heading: "Let's build something together.",
-      email: "arobin9999@gmail.com",
+      email: contactEmail,
       emailCta: "Send an email",
       copyEmail: "Copy address",
       copiedEmail: "Address copied!",

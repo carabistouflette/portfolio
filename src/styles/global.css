@@ -184,6 +184,7 @@
     + .reading-disclosure-body {
     interactivity: auto;
     pointer-events: auto;
+    cursor: pointer;
     user-select: auto;
   }
 

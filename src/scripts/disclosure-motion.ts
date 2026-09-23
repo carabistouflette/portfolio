@@ -84,16 +84,17 @@ onPageLoad((signal) => {
           if (expanded || !(event.target instanceof Element)) return;
           const categorySummary = event.target.closest("summary");
           const category = categorySummary?.parentElement;
-          if (
-            !(categorySummary instanceof HTMLElement) ||
-            (category !== catalogCards[0] && category !== catalogCards[1])
-          )
-            return;
           event.preventDefault();
           event.stopImmediatePropagation();
           if (details.hasAttribute("data-disclosure-animating")) return;
+          // Inert, faded cards retarget clicks to the grid; the teaser still opens.
           summary.click();
-          pendingCategory = categorySummary;
+          if (
+            categorySummary instanceof HTMLElement &&
+            (category === catalogCards[0] || category === catalogCards[1])
+          ) {
+            pendingCategory = categorySummary;
+          }
         },
         { capture: true, signal },
       );
