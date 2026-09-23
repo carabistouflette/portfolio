@@ -21,13 +21,10 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   class="section-shell content-shell"
   aria-labelledby="skills-title"
 >
-  <header class="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
+  <header>
     <h2 id="skills-title" class="section-title">
       {copy.heading}
     </h2>
-    <p class="max-w-[56ch] text-base leading-loose text-muted">
-      {copy.instruction}
-    </p>
   </header>
 
   <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-6">

@@ -173,7 +173,6 @@ export interface PortfolioContent {
   };
   journey: {
     heading: string;
-    intro: string;
     labels: Record<"education" | "experience", string>;
     axis: { id: JourneyPoint; label: string; detail?: string }[];
     entries: JourneyEntry[];
@@ -187,7 +186,6 @@ export interface PortfolioContent {
   };
   skills: {
     heading: string;
-    instruction: string;
     capabilities: {
       title: string;
       claim: string;
@@ -207,7 +205,6 @@ export interface PortfolioContent {
   contact: {
     eyebrow?: string;
     heading?: string;
-    description: string;
     email: string;
     emailCta?: string;
     copyEmail?: string;
@@ -293,7 +290,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "maestria",
           title: "Maestria",
           description:
-            "Dans le cadre de Brio, je contribue à ce runtime Rust qui relie fichiers locaux, recherche, mémoire et tâches. Mon travail porte notamment sur le moteur, l’ingestion vectorielle et l’évaluation des documents visuels.",
+            "Dans Brio, je contribue au lanceur Linux Maestria : recherche en Rust, ingestion vectorielle et évaluation de documents visuels.",
           technologies: "Rust · Tantivy · SQLite",
           url: "/projets/maestria/",
           linkLabel: "Lire le dossier",
@@ -308,8 +305,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "brio",
           title: "Brio",
-          description:
-            "Le projet d’orchestration d’agents IA dans lequel s’inscrit Maestria. J’en développe aussi le site avec Next.js.",
+          description: "Site du projet, développé avec Next.js.",
           technologies: "Next.js",
           url: destinations.brio,
           linkLabel: "Visiter Brio",
@@ -334,7 +330,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             url: "https://github.com/brio-labs/maestria",
             role: "Projet personnel",
             description:
-              "Runtime Rust qui relie fichiers locaux, recherche, mémoire et tâches. Mon terrain principal : moteur, ingestion vectorielle, évaluation.",
+              "Dépôt public du lanceur Linux : code, documentation et benchmarks.",
           },
           {
             name: "SteelMC",
@@ -382,8 +378,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Expérience & formation",
-      intro:
-        "Du développement full-stack à l’IA appliquée, en parallèle de ma formation en informatique.",
       labels: { education: "Formation", experience: "Expérience" },
       invitation: {
         title: "Vous ?",
@@ -445,9 +439,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     skills: {
-      heading: "Compétences démontrées",
-      instruction:
-        "Trois domaines structurent ce que je construis. Chaque technologie renvoie au projet où elle a servi. Le catalogue complet reste consultable ci-dessous, regroupé par usage.",
+      heading: "Compétences",
       capabilities: [
         {
           title: "Agents & accès aux données",
@@ -643,8 +635,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     contact: {
       eyebrow: "Contact & opportunités",
       heading: "Donnons vie à vos projets.",
-      description:
-        "Que ce soit pour concevoir une architecture logicielle, intégrer des modèles d'IA ou échanger autour de l'open source, ma boîte mail est ouverte.",
       email: "arobin9999@gmail.com",
       emailCta: "Envoyer un e-mail",
       copyEmail: "Copier l'adresse",
@@ -720,7 +710,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "maestria",
           title: "Maestria",
           description:
-            "As part of Brio, I contribute to this Rust runtime connecting local files, retrieval, memory and tasks. My work includes the search engine, vector ingestion and visual-document evaluation.",
+            "At Brio, I contribute to Maestria, a Linux launcher built in Rust: search, vector ingestion and visual-document evaluation.",
           technologies: "Rust · Tantivy · SQLite",
           url: "/en/projects/maestria/",
           linkLabel: "Read the case study",
@@ -735,8 +725,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "brio",
           title: "Brio",
-          description:
-            "The AI agent orchestration project that Maestria belongs to. I also build its website with Next.js.",
+          description: "Project website, built with Next.js.",
           technologies: "Next.js",
           url: destinations.brio,
           linkLabel: "Visit Brio",
@@ -761,7 +750,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             url: "https://github.com/brio-labs/maestria",
             role: "Personal project",
             description:
-              "A Rust runtime linking local files, search, memory and tasks. My main playground: engine, vector ingestion, evaluation.",
+              "Public repository for the Linux launcher: code, documentation and benchmarks.",
           },
           {
             name: "SteelMC",
@@ -808,8 +797,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Experience & education",
-      intro:
-        "From full-stack development to applied AI, alongside my computer science studies.",
       labels: { education: "Education", experience: "Experience" },
       invitation: {
         title: "You?",
@@ -873,9 +860,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     skills: {
-      heading: "Demonstrated skills",
-      instruction:
-        "Three areas structure what I build. Each technology links to the project where it was used. The full catalog remains below, grouped by purpose.",
+      heading: "Skills",
       capabilities: [
         {
           title: "Agents & data access",
@@ -1065,8 +1050,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     contact: {
       eyebrow: "Contact & opportunities",
       heading: "Let's build something together.",
-      description:
-        "Whether you want to design a software architecture, integrate AI models or discuss open source, feel free to reach out.",
       email: "arobin9999@gmail.com",
       emailCta: "Send an email",
       copyEmail: "Copy address",
