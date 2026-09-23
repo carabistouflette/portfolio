@@ -22,13 +22,10 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
   <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">
     {openSource.github.eyebrow}
   </p>
-  <h2
-    id="open-source-title"
-    class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight"
-  >
+  <h2 id="open-source-title" class="section-title max-w-[19ch]">
     {openSource.heading}
   </h2>
-  <p class="mt-6 max-w-[48ch] text-base leading-loose text-muted">
+  <p class="lead-copy mt-6 max-w-[48ch] text-muted">
     {openSource.intro}{" "}
     <a
       class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
@@ -39,13 +36,11 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       {openSource.profileLink.label}
     </a>
   </p>
-  <p class="mt-4 max-w-[52ch] text-base leading-relaxed text-muted">
-    {openSource.personal}
-  </p>
+  <p class="body-copy mt-4 max-w-[52ch] text-muted">{openSource.personal}</p>
   <ul class="mt-12 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:gap-x-16">
     {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
-        <h3 class="text-xl font-medium leading-snug">
+        <h3 class="card-title">
           <a
             class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
             href={project.url}
@@ -61,7 +56,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
         <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">
           {project.role}
         </p>
-        <p class="mt-4 max-w-[52ch] text-base leading-relaxed text-muted">
+        <p class="body-copy mt-4 max-w-[52ch] text-muted">
           {project.description}
         </p>
         {project.zenodo && (
@@ -80,7 +75,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
           </p>
         )}
         {project.publication && (
-          <p class="mt-2 max-w-[52ch] text-base leading-relaxed text-muted">
+          <p class="body-copy mt-2 max-w-[52ch] text-muted">
             {project.publication}
           </p>
         )}

@@ -31,10 +31,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
         data-motion-reveal
       >
         <p class="eyebrow text-[#9dc7df]">{contact.eyebrow}</p>
-        <h2
-          id="contact-title"
-          class="section-title mt-4 font-display text-[clamp(2.5rem,5.5vw,5rem)] leading-[1.05] tracking-tight text-paper"
-        >
+        <h2 id="contact-title" class="section-title mt-4 text-paper">
           {contact.heading}
         </h2>
         <!-- Availability Callout matching Hero and Journey DA -->
@@ -49,7 +46,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
             <span>{content.hero.availability.detail}</span>
           </p>
           {content.hero.availability.note && (
-            <p class="mt-1.5 text-sm leading-relaxed text-muted">
+            <p class="mt-1.5 body-copy text-muted">
               {content.hero.availability.note}
             </p>
           )}
@@ -178,7 +175,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 ↗
               </span>
             </div>
-            <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
+            <p class="mt-3 body-copy text-muted group-hover:text-paper/85 transition-colors">
               {contact.linkedinDescription}
             </p>
           </a>
@@ -216,7 +213,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 ↗
               </span>
             </div>
-            <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
+            <p class="mt-3 body-copy text-muted group-hover:text-paper/85 transition-colors">
               {contact.githubDescription}
             </p>
           </a>
@@ -257,7 +254,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
                 ↓
               </span>
             </div>
-            <p class="mt-3 text-xs leading-relaxed text-muted group-hover:text-paper/85 transition-colors">
+            <p class="mt-3 body-copy text-muted group-hover:text-paper/85 transition-colors">
               {contact.cvDescription}
             </p>
           </a>

@@ -18,26 +18,92 @@ onPageLoad((signal) => {
 
     const revealPanel =
       panel && details.hasAttribute("data-disclosure-reveal") ? panel : null;
-    // Older engines cannot render closed ::details-content; reveal the same panel
-    // beside the native control instead of swapping in a duplicate preview.
-    const externalPanel =
-      revealPanel && !CSS.supports("selector(::details-content)")
-        ? revealPanel
-        : null;
-    if (externalPanel) {
-      details.dataset.disclosureExternal = "";
-      details.after(externalPanel);
-    }
-    const heightTarget = externalPanel ?? details;
+    // Keep SSR's native details for no-JS; with JS, the same panel can remain
+    // visible and focusable beside its control while the rest is clipped.
     if (revealPanel) {
-      revealPanel.inert = !expanded;
+      details.dataset.disclosureExternal = "";
+      details.after(revealPanel);
+    }
+    const heightTarget = revealPanel ?? details;
+    const catalogCards = revealPanel
+      ? [
+          ...revealPanel.querySelectorAll<HTMLDetailsElement>(
+            "[data-motion-catalog]",
+          ),
+        ]
+      : [];
+    const closeButton = revealPanel?.querySelector<HTMLButtonElement>(
+      "[data-catalog-close]",
+    );
+    let pendingCategory: HTMLElement | null = null;
+
+    const syncReveal = (): void => {
+      if (!revealPanel) return;
+      revealPanel.inert = false;
+      catalogCards.forEach((card, index) => {
+        card.inert = !expanded && index >= 2;
+        const categoryPanel = card.querySelector<HTMLElement>(".skills-panel");
+        if (categoryPanel) categoryPanel.inert = !expanded;
+      });
+      if (closeButton) closeButton.inert = !expanded;
+    };
+
+    const openPendingCategory = (): void => {
+      if (!pendingCategory || !expanded || !details.open) return;
+      const categorySummary = pendingCategory;
+      pendingCategory = null;
+      const category = categorySummary.parentElement as HTMLDetailsElement;
+      if (
+        categorySummary.getAttribute("aria-expanded") !== "true" &&
+        !(
+          categorySummary.getAttribute("aria-expanded") === null &&
+          category.open
+        )
+      ) {
+        categorySummary.click();
+      }
+      categorySummary.focus({ preventScroll: true });
+    };
+
+    if (revealPanel) {
+      syncReveal();
       details.dataset.disclosureReady = "";
       details.addEventListener(
         "toggle",
         () => {
           if (animations.length) return;
           expanded = details.open;
-          revealPanel.inert = !expanded;
+          syncReveal();
+          openPendingCategory();
+        },
+        { signal },
+      );
+      revealPanel.addEventListener(
+        "click",
+        (event) => {
+          if (expanded || !(event.target instanceof Element)) return;
+          const categorySummary = event.target.closest("summary");
+          const category = categorySummary?.parentElement;
+          if (
+            !(categorySummary instanceof HTMLElement) ||
+            (category !== catalogCards[0] && category !== catalogCards[1])
+          )
+            return;
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          if (details.hasAttribute("data-disclosure-animating")) return;
+          summary.click();
+          pendingCategory = categorySummary;
+        },
+        { capture: true, signal },
+      );
+      closeButton?.addEventListener(
+        "click",
+        () => {
+          if (!expanded) return;
+          pendingCategory = null;
+          summary.focus();
+          summary.click();
         },
         { signal },
       );
@@ -50,8 +116,9 @@ onPageLoad((signal) => {
       }
       animations = [];
       details.open = expanded;
-      if (revealPanel) revealPanel.inert = !expanded;
+      syncReveal();
       delete details.dataset.disclosureAnimating;
+      openPendingCategory();
     };
 
     summary.addEventListener(

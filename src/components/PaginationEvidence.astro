@@ -10,12 +10,10 @@ const { content } = Astro.props;
   class="my-10 border-y border-rule py-7"
   aria-labelledby="pagination-heading"
 >
-  <h3 id="pagination-heading" class="text-xl font-medium tracking-tight">
+  <h3 id="pagination-heading" class="card-title">
     {content.heading}
   </h3>
-  <p class="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted">
-    {content.intro}
-  </p>
+  <p class="body-copy mt-3 max-w-[65ch] text-muted">{content.intro}</p>
   <table class="mt-6 max-w-xl text-left text-sm">
     <tbody>
       <tr class="border-b border-rule">
@@ -48,10 +46,7 @@ const { content } = Astro.props;
       </tr>
     </tbody>
   </table>
-  <p
-    id="pagination-notice"
-    class="mt-5 max-w-[75ch] text-xs leading-relaxed text-muted"
-  >
+  <p id="pagination-notice" class="body-copy mt-5 max-w-[75ch] text-muted">
     {content.notice}
   </p>
 </section>

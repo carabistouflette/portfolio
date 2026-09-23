@@ -254,10 +254,10 @@ onBeforeUnmount(() => {
       >
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0">
-            <h4 class="text-xl font-medium tracking-tight sm:text-2xl">
+            <h4 class="card-title">
               {{ group.label }}
             </h4>
-            <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-muted">
+            <p class="mt-3 max-w-[48ch] body-copy text-muted">
               {{ group.description }}
             </p>
           </div>

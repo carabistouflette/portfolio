@@ -40,16 +40,13 @@ const counterpartPath =
           </span>
         </a>
       )}
-      <h1
-        id="case-study-title"
-        class="font-display max-w-4xl text-[clamp(2.8rem,7vw,6.8rem)] leading-[0.98] tracking-[-0.045em] text-balance"
-      >
+      <h1 id="case-study-title" class="page-title max-w-4xl text-balance">
         {study.title}
       </h1>
-      <h2 class="mt-8 max-w-4xl text-[clamp(1.55rem,3.2vw,3rem)] font-medium leading-tight tracking-[-0.025em] text-balance">
+      <h2 class="subsection-title mt-8 max-w-4xl text-balance">
         {study.question}
       </h2>
-      <p class="mt-7 max-w-3xl text-lg leading-relaxed text-muted text-pretty">
+      <p class="lead-copy mt-7 max-w-3xl text-muted text-pretty">
         {study.summary}
       </p>
       <section
@@ -92,22 +89,16 @@ const counterpartPath =
       class="mt-14 grid gap-8 border-y border-rule py-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12"
     >
       <section aria-labelledby="case-context-label">
-        <h3
-          id="case-context-label"
-          class="text-xs uppercase tracking-[0.14em] text-muted"
-        >
+        <h3 id="case-context-label" class="card-title text-muted">
           {study.contextLabel}
         </h3>
-        <p class="mt-3 max-w-[58ch] text-sm leading-relaxed">{study.context}</p>
+        <p class="body-copy mt-3 max-w-[58ch]">{study.context}</p>
       </section>
       <section aria-labelledby="case-role-label">
-        <h3
-          id="case-role-label"
-          class="text-xs uppercase tracking-[0.14em] text-muted"
-        >
+        <h3 id="case-role-label" class="card-title text-muted">
           {study.roleLabel}
         </h3>
-        <p class="mt-3 max-w-[58ch] text-sm leading-relaxed">{study.role}</p>
+        <p class="body-copy mt-3 max-w-[58ch]">{study.role}</p>
       </section>
     </div>
 
@@ -123,23 +114,17 @@ const counterpartPath =
             class="grid gap-7 border-t border-rule py-9 md:grid-cols-[minmax(10rem,0.55fr)_minmax(0,1.45fr)] md:gap-12 md:py-12"
             id={`decision-${index + 1}`}
           >
-            <h3 class="text-xs uppercase tracking-[0.14em] text-muted">
-              {section.heading}
-            </h3>
+            <h3 class="card-title text-muted">{section.heading}</h3>
             <div class="max-w-3xl">
               {section.paragraphs.map((paragraph) => (
-                <p class="mb-5 text-base leading-[1.75] text-pretty last:mb-0">
-                  {paragraph}
-                </p>
+                <p class="body-copy mb-5 text-pretty last:mb-0">{paragraph}</p>
               ))}
               {section.points && (
                 <dl class="mt-8 grid gap-5 border-l border-rule pl-5 sm:grid-cols-2 sm:gap-x-8">
                   {section.points.map((point) => (
                     <div>
                       <dt class="text-sm font-medium">{point.label}</dt>
-                      <dd class="mt-1 text-sm leading-relaxed text-muted">
-                        {point.detail}
-                      </dd>
+                      <dd class="body-copy mt-1 text-muted">{point.detail}</dd>
                     </div>
                   ))}
                 </dl>
@@ -164,21 +149,18 @@ const counterpartPath =
     >
       {study.limitations && study.limitations.length > 0 && (
         <aside aria-labelledby="case-limitations-title">
-        <h2
-          id="case-limitations-title"
-          class="text-xl font-medium tracking-tight"
-        >
-          {study.limitationsLabel}
-        </h2>
-        <ul class="mt-5 m-0 grid list-none gap-4 border-l border-rule pl-5">
-          {study.limitations.map((limitation) => (
-            <li class="text-sm leading-relaxed text-muted">{limitation}</li>
-          ))}
-        </ul>
-      </aside>
+          <h2 id="case-limitations-title" class="subsection-title">
+            {study.limitationsLabel}
+          </h2>
+          <ul class="mt-5 m-0 grid list-none gap-4 border-l border-rule pl-5">
+            {study.limitations.map((limitation) => (
+              <li class="body-copy text-muted">{limitation}</li>
+            ))}
+          </ul>
+        </aside>
       )}
       <section aria-labelledby="case-sources-title">
-        <h2 id="case-sources-title" class="text-xl font-medium tracking-tight">
+        <h2 id="case-sources-title" class="subsection-title">
           {study.sourcesLabel}
         </h2>
         <ul class="mt-5 m-0 grid list-none gap-4">
@@ -200,15 +182,13 @@ const counterpartPath =
                 <span class="text-sm">{source.label}</span>
               )}
               {source.detail && (
-                <p class="mt-1 text-xs leading-relaxed text-muted">
-                  {source.detail}
-                </p>
+                <p class="body-copy mt-1 text-muted">{source.detail}</p>
               )}
             </li>
           ))}
         </ul>
         {study.sourcesNote && (
-          <p class="mt-6 max-w-[60ch] text-xs leading-relaxed text-muted">
+          <p class="body-copy mt-6 max-w-[60ch] text-muted">
             {study.sourcesNote}
           </p>
         )}

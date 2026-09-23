@@ -42,24 +42,18 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
       class="content-shell pb-24 md:pb-36"
       aria-labelledby="github-title"
     >
-      <header
-        class="grid gap-8 border-t border-rule pt-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-20"
-      >
+      <header class="grid gap-8 border-t border-rule pt-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-end lg:gap-20">
         <div data-motion-reveal>
           <p class="mb-6 font-mono text-xs uppercase tracking-[0.14em] text-[#9dc7df]">
             {copy.eyebrow}
           </p>
-          <h1
-            id="github-title"
-            class="max-w-[19ch] font-display text-[clamp(2.25rem,4.5vw,4rem)] leading-tight"
-          >
+          <h1 id="github-title" class="page-title max-w-[19ch]">
             {copy.pageTitle}
           </h1>
         </div>
         <div data-motion-reveal>
-          <p class="max-w-[48ch] text-base leading-loose text-muted">
-            {openSource.intro}
-            {" "}
+          <p class="lead-copy max-w-[48ch] text-muted">
+            {openSource.intro}{" "}
             <a
               class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
               href={openSource.profileLink.url}
@@ -79,13 +73,11 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
         />
       </div>
       <div data-motion-reveal class="mt-16 md:mt-24">
-        <h2 class="text-xl font-medium md:text-2xl">
-          {openSource.projects.heading}
-        </h2>
+        <h2 class="subsection-title">{openSource.projects.heading}</h2>
         <ul class="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {openSource.projects.entries.map((project) => (
             <li class="min-w-0 border-t border-rule pt-6">
-              <h3 class="text-lg font-medium leading-snug">
+              <h3 class="card-title">
                 <a
                   class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
                   href={project.url}
@@ -93,15 +85,15 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
                   rel="noreferrer"
                 >
                   {project.name}
-                  <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+                  <span class="ml-2 text-muted" aria-hidden="true">
+                    ↗
+                  </span>
                 </a>
               </h3>
               <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">
                 {project.role}
               </p>
-              <p class="mt-4 text-sm leading-relaxed text-muted">
-                {project.description}
-              </p>
+              <p class="body-copy mt-4 text-muted">{project.description}</p>
               {project.zenodo && (
                 <p class="mt-3 text-sm">
                   <a
@@ -111,14 +103,14 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
                     rel="noreferrer"
                   >
                     {project.zenodo.label}
-                    <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+                    <span class="ml-2 text-muted" aria-hidden="true">
+                      ↗
+                    </span>
                   </a>
                 </p>
               )}
               {project.publication && (
-                <p class="mt-2 text-sm leading-relaxed text-muted">
-                  {project.publication}
-                </p>
+                <p class="body-copy mt-2 text-muted">{project.publication}</p>
               )}
             </li>
           ))}
