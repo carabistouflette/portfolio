@@ -270,6 +270,25 @@
     isolation: isolate;
     border: 1px solid rgb(142 183 174 / 0.3);
   }
+  .project-research-graph {
+    position: absolute;
+    bottom: -14rem;
+    left: -18rem;
+    width: min(48rem, 68%);
+    height: auto;
+    color: #a8c8be;
+    opacity: 0.42;
+  }
+
+  @media (max-width: 47.999rem) {
+    .project-research-graph {
+      top: 8rem;
+      bottom: auto;
+      left: -17rem;
+      width: 31rem;
+      opacity: 0.28;
+    }
+  }
 
   .project-research::before,
   .project-research::after {
