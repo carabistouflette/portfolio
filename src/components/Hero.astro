@@ -79,6 +79,9 @@ const nameLines = content.hero.title.split(" ");
     <p class="mt-8 max-w-[30ch] text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
+    <p class="mt-3 max-w-[42ch] text-base leading-relaxed text-muted">
+      {content.hero.affiliation}
+    </p>
     <div class="hero-availability mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 lg:hidden">
       <p class="text-lg font-medium leading-snug text-paper sm:text-xl">
         <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
@@ -94,9 +97,6 @@ const nameLines = content.hero.title.split(" ");
     <p class="sr-only hidden lg:block">
       {content.hero.availability.label}. {content.hero.availability.detail}.
       {content.hero.availability.note}
-    </p>
-    <p class="hero-academic academic-line mt-5 max-w-[32ch] text-lg font-medium leading-relaxed text-muted sm:text-xl">
-      {content.hero.academic}
     </p>
     <div class="hero-actions relative z-10 mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
       <a
@@ -115,14 +115,11 @@ const nameLines = content.hero.title.split(" ");
     </div>
   </div>
   <section
-    class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:pt-[28rem] [@media(max-height:820px)]:lg:pt-48"
+    class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:mb-15 lg:self-end lg:pt-0"
     aria-label={content.hero.summaryTitle}
   >
-    <p class="max-w-[38ch] text-[clamp(1.5rem,2.4vw,2.15rem)] leading-snug tracking-tight text-pretty">
+    <p class="max-w-[42ch] text-lg leading-relaxed text-muted lg:text-[clamp(1.5rem,2.1vw,2rem)] lg:leading-snug lg:text-paper">
       {content.hero.description}
-    </p>
-    <p class="hero-personal mt-8 max-w-[40ch] text-base leading-relaxed text-muted sm:text-lg">
-      {content.openSource.personal}
     </p>
   </section>
 </section>

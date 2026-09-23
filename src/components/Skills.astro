@@ -18,7 +18,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
 
 <section
   id={content.navigation.sections.skills.id}
-  class="section-shell content-shell"
+  class="section-shell content-shell pb-12"
   aria-labelledby="skills-title"
 >
   <header>
@@ -27,7 +27,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     </h2>
   </header>
 
-  <ul class="mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
+  <ul class="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
     {copy.capabilities.map((capability) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="text-xl font-medium tracking-tight">{capability.title}</h3>
@@ -65,13 +65,29 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     ))}
   </ul>
 
-  <h3 class="mt-20 text-xl font-medium tracking-tight">
-    {copy.catalogHeading}
-  </h3>
-  <SkillsCatalog
-    client:load
-    groups={copy.groups}
-    projects={projectLinks}
-    projectLabel={copy.projectLabel}
-  />
+  {copy.groups.length > 0 && (
+    <details class="catalog-invitation mt-10 md:mt-12" data-disclosure-reveal>
+      <summary class="relative block cursor-pointer border-y border-rule/60 py-6 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4 md:py-7">
+        <div class="relative z-10 flex items-start justify-between gap-6">
+          <h3 class="max-w-[22ch] font-display text-[clamp(1.5rem,2.5vw,2.25rem)] leading-tight tracking-tight text-paper">
+            {copy.catalogHeading}
+          </h3>
+          <span
+            class="catalog-invitation-arrow shrink-0 text-3xl leading-none text-[#a8c8be]"
+            aria-hidden="true"
+          >
+            ↘
+          </span>
+        </div>
+      </summary>
+      <div class="reading-disclosure-body pb-6 pt-4">
+        <SkillsCatalog
+          client:load
+          groups={copy.groups}
+          projects={projectLinks}
+          projectLabel={copy.projectLabel}
+        />
+      </div>
+    </details>
+  )}
 </section>

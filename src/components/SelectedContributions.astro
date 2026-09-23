@@ -29,8 +29,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
     {openSource.heading}
   </h2>
   <p class="mt-6 max-w-[48ch] text-base leading-loose text-muted">
-    {openSource.intro}
-    {" "}
+    {openSource.intro}{" "}
     <a
       class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
       href={openSource.profileLink.url}
@@ -40,7 +39,10 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       {openSource.profileLink.label}
     </a>
   </p>
-  <ul class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+  <p class="mt-4 max-w-[52ch] text-base leading-relaxed text-muted">
+    {openSource.personal}
+  </p>
+  <ul class="mt-12 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:gap-x-16">
     {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="text-xl font-medium leading-snug">
@@ -51,13 +53,15 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
             rel="noreferrer"
           >
             {project.name}
-            <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+            <span class="ml-2 text-muted" aria-hidden="true">
+              ↗
+            </span>
           </a>
         </h3>
         <p class="mt-2 font-mono text-xs uppercase tracking-[0.1em] text-[#abd1ed]">
           {project.role}
         </p>
-        <p class="mt-4 text-sm leading-relaxed text-muted">
+        <p class="mt-4 max-w-[52ch] text-base leading-relaxed text-muted">
           {project.description}
         </p>
         {project.zenodo && (
@@ -69,12 +73,14 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
               rel="noreferrer"
             >
               {project.zenodo.label}
-              <span class="ml-2 text-muted" aria-hidden="true">↗</span>
+              <span class="ml-2 text-muted" aria-hidden="true">
+                ↗
+              </span>
             </a>
           </p>
         )}
         {project.publication && (
-          <p class="mt-2 text-sm leading-relaxed text-muted">
+          <p class="mt-2 max-w-[52ch] text-base leading-relaxed text-muted">
             {project.publication}
           </p>
         )}

@@ -37,38 +37,80 @@ const supplementary = content.projects.entries.filter(
   </h2>
   <article
     id="project-genomint"
-    class="grid gap-12 bg-[#e7e9e2] px-6 py-12 text-ink target:scroll-mt-6 [&_a:focus-visible]:outline-ink focus-visible:outline-ink md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16"
+    class="project-research grid gap-12 bg-[#0b191b] px-6 py-12 text-paper target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16"
     tabindex="-1"
   >
-    <div class="min-w-0">
-      <p class="font-mono text-xs leading-relaxed text-[#46545b]">
+    <div
+      class="project-research-art pointer-events-none absolute inset-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      <svg
+        class="project-research-graph"
+        viewBox="0 0 680 720"
+        focusable="false"
+      >
+        <path
+          d="M360 355 Q307 287 260 235 Q215 174 150 150
+             M260 235 Q276 158 320 110
+             M360 355 Q397 251 440 190 Q507 158 585 145
+             M440 190 Q489 230 505 300 Q578 282 645 325
+             M360 355 Q435 328 505 300
+             M360 355 Q451 383 515 445 Q570 487 600 560
+             M515 445 Q458 491 385 525 Q369 598 340 655
+             M385 525 Q293 502 225 440 Q159 483 155 565
+             M225 440 Q148 383 75 385
+             M360 355 Q293 411 225 440"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.25"
+          opacity=".48"
+        />
+        <g fill="#0b191b" stroke="currentColor" stroke-width="1.25">
+          <circle cx="360" cy="355" r="10" fill="none" opacity=".5" />
+          <circle cx="360" cy="355" r="4" />
+          <circle cx="260" cy="235" r="5" />
+          <circle cx="440" cy="190" r="5" />
+          <circle cx="505" cy="300" r="5" />
+          <circle cx="515" cy="445" r="5" />
+          <circle cx="385" cy="525" r="5" />
+          <circle cx="225" cy="440" r="5" />
+          <circle cx="150" cy="150" r="3.5" />
+          <circle cx="320" cy="110" r="3.5" />
+          <circle cx="585" cy="145" r="3.5" />
+          <circle cx="645" cy="325" r="3.5" />
+          <circle cx="600" cy="560" r="3.5" />
+          <circle cx="340" cy="655" r="3.5" />
+          <circle cx="155" cy="565" r="3.5" />
+          <circle cx="75" cy="385" r="3.5" />
+        </g>
+      </svg>
+    </div>
+    <div class="relative z-10 min-w-0">
+      <p class="inline-block border border-[#8eb7ae]/30 border-b-2 px-3 py-2 font-mono text-xs leading-relaxed text-[#a8c8be]">
         {genomint.kicker}
       </p>
-      <h3 class="mt-5 text-[clamp(2.75rem,5.5vw,5rem)] font-medium leading-none tracking-[-0.06em]">
-        <a class="text-ink" href={genomint.path}>
+      <h3 class="mt-6 text-[clamp(2.75rem,5.5vw,5rem)] font-medium leading-none tracking-[-0.06em]">
+        <a class="text-paper" href={genomint.path}>
           {genomint.title}
         </a>
       </h3>
-      <p class="mt-6 max-w-[26ch] text-[clamp(1.25rem,2vw,1.75rem)] leading-snug tracking-tight text-balance">
-        {genomint.question}
-      </p>
-      <p class="mt-8 max-w-[43ch] text-base leading-loose text-[#46545b]">
+      <p class="mt-6 max-w-[46ch] text-lg leading-relaxed text-muted">
         {genomintProject.description}
       </p>
       <a
-        class="mt-6 inline-flex min-h-11 items-center border-b border-ink text-sm font-medium text-ink"
+        class="mt-6 inline-flex min-h-11 items-center border-b border-paper/60 text-sm font-medium text-paper"
         href={genomint.path}
       >
         {genomintProject.linkLabel}
       </a>
     </div>
-    <div class="min-w-0 [&_figcaption]:text-[#46545b]">
+    <div class="relative z-10 min-w-0 border border-[#8eb7ae]/25 bg-[#071214] p-4 sm:p-6">
       <EvidenceFigure locale={locale} projectId="genomint" compact />
     </div>
   </article>
   <article
     id="project-maestria"
-    class="relative my-8 grid gap-12 border-y border-[#87b7dc]/30 bg-linear-to-br from-[#102637]/80 to-[#07121b]/40 px-6 py-12 target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16 lg:p-16"
+    class="relative my-12 grid gap-12 border-y border-[#87b7dc]/30 bg-linear-to-br from-[#102637]/80 to-[#07121b]/40 px-6 py-12 target:scroll-mt-6 md:my-16 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-16 lg:p-16"
     tabindex="-1"
   >
     <div class="min-w-0">
@@ -89,10 +131,7 @@ const supplementary = content.projects.entries.filter(
       <h3 class="font-display text-[clamp(2.75rem,5.5vw,5rem)] leading-none tracking-[-0.05em]">
         <a href={maestria.path}>{maestria.title}</a>
       </h3>
-      <p class="mt-6 max-w-[25ch] text-[clamp(1.35rem,2.2vw,1.9rem)] leading-snug tracking-tight text-balance">
-        {maestria.question}
-      </p>
-      <p class="mt-8 max-w-[43ch] text-base leading-loose text-muted">
+      <p class="mt-6 max-w-[46ch] text-lg leading-relaxed text-muted">
         {maestriaProject.description}
       </p>
       <p class="mt-5 font-mono text-xs leading-relaxed text-[#abd1ed]">

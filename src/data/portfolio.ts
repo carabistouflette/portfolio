@@ -129,9 +129,9 @@ export interface PortfolioContent {
     summaryTitle: string;
     title: string;
     headline: string;
+    affiliation: string;
     description: string;
     availability: { label: string; detail: string; note: string };
-    academic: string;
     cvCta: string;
     contactCta: string;
   };
@@ -173,6 +173,7 @@ export interface PortfolioContent {
   };
   journey: {
     heading: string;
+    detailLabel: string;
     labels: Record<"education" | "experience", string>;
     axis: { id: JourneyPoint; label: string; detail?: string }[];
     entries: JourneyEntry[];
@@ -236,7 +237,7 @@ export const destinations = {
 export const portfolio: Record<Locale, PortfolioContent> = {
   fr: {
     meta: {
-      title: "Alexis Robin — IA & systèmes logiciels",
+      title: "Alexis Robin — IA & systèmes de données",
       description:
         "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, recherche locale avec Maestria et contributions Rust à SteelMC.",
     },
@@ -257,10 +258,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       en: "EN",
     },
     hero: {
-      eyebrow: "IA & systèmes logiciels",
+      eyebrow: "IA & systèmes de données",
       summaryTitle: "Sous le nom de carabistouflette",
       title: "Alexis Robin",
-      headline: "Agents IA & systèmes de données",
+      headline: "Étudiant en M1 à Centrale Lille",
+      affiliation: "IA pour la santé · parcours MIAS",
       description:
         "Je développe des systèmes d’IA pour explorer des données et retrouver l’information utile.",
       availability: {
@@ -268,7 +270,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
         note: "Alternance possible en M2 à partir de septembre 2027.",
       },
-      academic: "Master MIAS · IA pour la santé · Centrale Lille",
       cvCta: "Télécharger le CV",
       contactCta: "Me contacter",
     },
@@ -378,6 +379,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Expérience & formation",
+      detailLabel: "Détails",
       labels: { education: "Formation", experience: "Expérience" },
       invitation: {
         title: "Vous ?",
@@ -478,7 +480,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogHeading: "Le catalogue complet",
+      catalogHeading: "Explorer le catalogue complet",
       projectLabel: "Voir dans le projet",
       groups: [
         {
@@ -656,7 +658,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
   },
   en: {
     meta: {
-      title: "Alexis Robin — AI & software systems",
+      title: "Alexis Robin — AI & data systems",
       description:
         "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, local retrieval with Maestria and Rust contributions to SteelMC.",
     },
@@ -677,10 +679,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       en: "EN",
     },
     hero: {
-      eyebrow: "AI & software systems",
+      eyebrow: "AI & data systems",
       summaryTitle: "Under the name carabistouflette",
       title: "Alexis Robin",
-      headline: "AI agents & data systems",
+      headline: "M1 student at Centrale Lille",
+      affiliation: "AI for health · MIAS track",
       description:
         "I build AI systems to explore data and find useful information.",
       availability: {
@@ -688,7 +691,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         detail: "22 March – 21 August 2027 · Montpellier or Lille",
         note: "Apprenticeship (M2) possible from September 2027.",
       },
-      academic: "MIAS master’s in AI for health · Centrale Lille",
       cvCta: "Download CV",
       contactCta: "Get in touch",
     },
@@ -769,7 +771,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
               label: "Experiment on Zenodo",
               url: "https://zenodo.org/records/22796551",
             },
-            publication: "A paper is in preparation and will be submitted soon.",
+            publication:
+              "A paper is in preparation and will be submitted soon.",
           },
           {
             name: "KolibriOS",
@@ -797,6 +800,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     journey: {
       heading: "Experience & education",
+      detailLabel: "Details",
       labels: { education: "Education", experience: "Experience" },
       invitation: {
         title: "You?",
@@ -899,7 +903,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogHeading: "The full catalog",
+      catalogHeading: "Explore the full catalog",
       projectLabel: "See in project",
       groups: [
         {
@@ -1477,7 +1481,8 @@ const maestriaFr: CaseStudy = {
     nodes: [
       {
         title: "Invoquer & taper",
-        detail: "Un raccourci, une requête : fichiers, applications, commandes.",
+        detail:
+          "Un raccourci, une requête : fichiers, applications, commandes.",
       },
       {
         title: "Chercher localement",

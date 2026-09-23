@@ -114,6 +114,168 @@
     margin-inline: auto;
     padding-inline: var(--gutter);
   }
+  .reading-disclosure {
+    border-top: 1px solid var(--rule);
+  }
+
+  .reading-disclosure > summary {
+    display: list-item;
+    min-height: 2.75rem;
+    padding-block: 0.75rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .reading-disclosure > summary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+
+  .reading-disclosure > .reading-disclosure-body {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+  }
+  .catalog-invitation > summary {
+    display: block;
+    list-style: none;
+  }
+
+  .catalog-invitation > summary::-webkit-details-marker {
+    display: none;
+  }
+  .catalog-invitation::details-content {
+    content-visibility: visible;
+  }
+
+  .catalog-invitation:not([open]) > .reading-disclosure-body {
+    position: relative;
+    max-height: 18rem;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+    interactivity: inert;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .catalog-invitation:not([open]) > .reading-disclosure-body::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4rem;
+    backdrop-filter: blur(3px);
+    content: "";
+    pointer-events: none;
+  }
+
+  .catalog-invitation[data-disclosure-animating] {
+    overflow: hidden;
+  }
+
+  @media (min-width: 64rem) {
+    .catalog-invitation:not([open]) > .reading-disclosure-body {
+      max-height: 22rem;
+    }
+  }
+  /* Without CSS inertness, keep native closed-details focus containment. */
+  @supports not (interactivity: inert) {
+    .catalog-invitation:not([open])::details-content {
+      content-visibility: hidden;
+    }
+  }
+
+  .catalog-invitation > summary::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: #8eb7ae;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .catalog-invitation > summary:is(:hover, :focus-visible)::after,
+  .catalog-invitation[open] > summary::after {
+    transform: scaleX(1);
+  }
+
+  .catalog-invitation-arrow {
+    display: inline-block;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .catalog-invitation
+    > summary:is(:hover, :focus-visible)
+    .catalog-invitation-arrow {
+    transform: translate(3px, 3px);
+  }
+
+  .catalog-invitation[open] > summary .catalog-invitation-arrow {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .catalog-invitation > summary::after,
+    .catalog-invitation-arrow {
+      transition: none;
+    }
+  }
+
+  .project-research {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid rgb(142 183 174 / 0.3);
+  }
+  .project-research-graph {
+    position: absolute;
+    bottom: -14rem;
+    left: -18rem;
+    width: min(48rem, 68%);
+    height: auto;
+    color: #a8c8be;
+    opacity: 0.42;
+  }
+
+  @media (max-width: 47.999rem) {
+    .project-research-graph {
+      top: 8rem;
+      bottom: auto;
+      left: -17rem;
+      width: 31rem;
+      opacity: 0.28;
+    }
+  }
+
+  .project-research::before,
+  .project-research::after {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-color: rgb(168 200 190 / 0.55);
+    border-style: solid;
+    border-width: 0;
+    content: "";
+    pointer-events: none;
+  }
+
+  .project-research::before {
+    top: 0.75rem;
+    left: 0.75rem;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .project-research::after {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+  }
+
   .site-header {
     box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.2);
   }
@@ -433,12 +595,6 @@
         width: 35% !important;
       }
     }
-
-    .hero-summary,
-    .hero-academic,
-    .hero-personal {
-      display: none;
-    }
   }
   @media (max-width: 47.999rem) and (prefers-reduced-motion: reduce) {
     .site-header[data-menu-ready] .header-menu,
@@ -502,6 +658,18 @@
     aspect-ratio: 640 / 785;
     container-type: inline-size;
   }
+}
+/* Keep the clipped teaser in its collapsed-card appearance when a category is open. */
+.catalog-invitation:not([open]) [data-motion-catalog][open] .skill-preview {
+  display: flex;
+}
+
+.catalog-invitation:not([open]) [data-motion-catalog][open] > .skills-panel {
+  display: none;
+}
+
+.catalog-invitation:not([open]) [data-motion-catalog][open] .disclosure-mark {
+  rotate: 0deg;
 }
 
 /* Day cells stay compact to fit the year; widen the actual click target. */

@@ -39,7 +39,10 @@ onPageLoad((signal) => {
 
         const startHeight = details.getBoundingClientRect().height;
         const wasAnimating = animations.length > 0;
-        const panelStyle = panel ? getComputedStyle(panel) : null;
+        const panelStyle =
+          panel && !details.hasAttribute("data-disclosure-reveal")
+            ? getComputedStyle(panel)
+            : null;
         const previewStyle = preview ? getComputedStyle(preview) : null;
         const startPreview =
           preview && previewStyle
@@ -78,13 +81,12 @@ onPageLoad((signal) => {
         if (preview && startPreview && endPreview) {
           animations.push(preview.animate([startPreview, endPreview], timing));
         }
-        if (panel) {
-          const panelStart =
-            wasAnimating && panelStyle
-              ? { opacity: panelStyle.opacity, filter: panelStyle.filter }
-              : expanded
-                ? { opacity: "0", filter: "blur(14px)" }
-                : { opacity: "1", filter: "blur(0)" };
+        if (panel && panelStyle) {
+          const panelStart = wasAnimating
+            ? { opacity: panelStyle.opacity, filter: panelStyle.filter }
+            : expanded
+              ? { opacity: "0", filter: "blur(14px)" }
+              : { opacity: "1", filter: "blur(0)" };
           const panelEnd = expanded
             ? { opacity: "1", filter: "blur(0)" }
             : { opacity: "0", filter: "blur(14px)" };
