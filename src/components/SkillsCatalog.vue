@@ -268,8 +268,10 @@ onBeforeUnmount(() => {
             <span class="font-mono text-xs">{{ group.items.length }}</span>
             <span
               :class="[
-                'disclosure-mark text-2xl leading-none',
-                isExpanded(index) && 'rotate-45',
+                'disclosure-mark grid size-10 place-items-center rounded-full border text-xl leading-none transition-colors motion-reduce:transition-none group-hover:border-[#9dc7df]/90 group-hover:bg-[#9dc7df]/10',
+                isExpanded(index)
+                  ? 'rotate-45 border-[#9dc7df] bg-[#9dc7df]/10'
+                  : 'border-[#9dc7df]/40',
               ]"
               >+</span
             >
