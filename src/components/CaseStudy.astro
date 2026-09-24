@@ -14,6 +14,8 @@ interface Props {
 }
 
 const { locale, projectId, study } = Astro.props;
+const screenshots = study.screenshots;
+const media = screenshots?.items ?? [study.figure];
 const homePath = locale === "fr" ? "/" : "/en/";
 const counterpartPath =
   locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
@@ -102,9 +104,31 @@ const counterpartPath =
       </section>
     </div>
 
-    <div data-motion-reveal class="mt-14 sm:mt-20">
-      <EvidenceFigure locale={locale} projectId={projectId} />
-    </div>
+    <section
+      data-motion-reveal
+      class="mt-14 sm:mt-20"
+      aria-labelledby="case-media-title"
+    >
+      <h2 id="case-media-title" class="subsection-title mb-6">
+        {study.mediaLabel}
+      </h2>
+      <div
+        class:list={[
+          "grid gap-8",
+          { "md:grid-cols-2 md:gap-x-6 md:gap-y-10": media.length > 1 },
+        ]}
+      >
+        {media.map((item) => (
+          <EvidenceFigure
+            locale={locale}
+            projectId={projectId}
+            compact={"preview" in item}
+            image={"preview" in item ? item : undefined}
+            openLabel={screenshots?.openLabel}
+          />
+        ))}
+      </div>
+    </section>
 
     <div id="case-sections" class="mt-16 sm:mt-24">
       <ol class="m-0 list-none p-0">
@@ -142,9 +166,9 @@ const counterpartPath =
       data-motion-reveal
       class:list={[
         "mt-10 border-t border-rule pt-10",
-        study.limitations?.length
+        study.limitations?.length && study.sources
           ? "grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16"
-          : "max-w-xl",
+          : "max-w-3xl",
       ]}
     >
       {study.limitations && study.limitations.length > 0 && (
@@ -159,40 +183,42 @@ const counterpartPath =
           </ul>
         </aside>
       )}
-      <section aria-labelledby="case-sources-title">
-        <h2 id="case-sources-title" class="subsection-title">
-          {study.sourcesLabel}
-        </h2>
-        <ul class="mt-5 m-0 grid list-none gap-4">
-          {study.sources.map((source) => (
-            <li class="border-b border-rule/60 pb-4 last:border-0">
-              {source.href ? (
-                <a
-                  class="text-link min-h-0 text-sm underline"
-                  href={source.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {source.label}
-                  <span class="ml-2 text-muted" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              ) : (
-                <span class="text-sm">{source.label}</span>
-              )}
-              {source.detail && (
-                <p class="body-copy mt-1 text-muted">{source.detail}</p>
-              )}
-            </li>
-          ))}
-        </ul>
-        {study.sourcesNote && (
-          <p class="body-copy mt-6 max-w-[60ch] text-muted">
-            {study.sourcesNote}
-          </p>
-        )}
-      </section>
+      {study.sources && (
+        <section aria-labelledby="case-sources-title">
+          <h2 id="case-sources-title" class="subsection-title">
+            {study.sources.label}
+          </h2>
+          <ul class="mt-5 m-0 grid list-none gap-4">
+            {study.sources.entries.map((source) => (
+              <li class="border-b border-rule/60 pb-4 last:border-0">
+                {source.href ? (
+                  <a
+                    class="text-link min-h-0 text-sm underline"
+                    href={source.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {source.label}
+                    <span class="ml-2 text-muted" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                ) : (
+                  <span class="text-sm">{source.label}</span>
+                )}
+                {source.detail && (
+                  <p class="body-copy mt-1 text-muted">{source.detail}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+      {study.sourcesNote && (
+        <p class="mt-8 max-w-[60ch] text-sm leading-relaxed text-muted">
+          {study.sourcesNote}
+        </p>
+      )}
     </div>
 
     <footer

@@ -1,14 +1,33 @@
 ---
-import { caseStudies, type CaseStudyId, type Locale } from "../data/portfolio";
+import {
+  caseStudies,
+  type CaseStudyScreenshots,
+  type CaseStudyId,
+  type Locale,
+} from "../data/portfolio";
 interface Props {
   locale: Locale;
   projectId: CaseStudyId;
   compact?: boolean;
+  image?: CaseStudyScreenshots["items"][number];
+  openLabel?: string;
 }
-const { locale, projectId, compact = false } = Astro.props;
-const figure = caseStudies[locale][projectId].figure;
+const { locale, projectId, compact = false, image, openLabel } = Astro.props;
+const figure = image
+  ? {
+      kind: "screenshot" as const,
+      title: image.title,
+      alt: image.alt,
+      src: image.src,
+      srcset: `${image.preview} 1100w, ${image.src} ${image.width}w`,
+      width: image.width,
+      height: image.height,
+      openLabel: `${openLabel} : ${image.title}`,
+      source: "",
+    }
+  : caseStudies[locale][projectId].figure;
 const labelId = `${projectId}-evidence-label`;
-const showContext = !compact || figure.kind !== "screenshot";
+const showContext = !image && (!compact || figure.kind !== "screenshot");
 const closeLabel = locale === "fr" ? "Fermer" : "Close";
 const zoomAction =
   locale === "fr" ? "Zoomer dans la capture" : "Zoom into image";
@@ -26,14 +45,23 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
   )}
   {figure.kind === "screenshot" && figure.src ? (
     <a
-      class="block cursor-zoom-in focus-visible:outline-offset-4"
+      class:list={[
+        "block cursor-zoom-in focus-visible:outline-offset-4",
+        { "group overflow-hidden border border-rule bg-paper": !!image },
+      ]}
       href={figure.src}
       aria-label={figure.openLabel ?? figure.alt}
       data-evidence-open
     >
       <img
-        class="block h-auto w-full bg-paper"
-        src={figure.src}
+        class:list={[
+          "block h-auto w-full bg-paper",
+          {
+            "transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none":
+              !!image,
+          },
+        ]}
+        src={image?.preview ?? figure.src}
         srcset={compact ? figure.srcset : undefined}
         sizes={
           compact
@@ -41,8 +69,8 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
             : undefined
         }
         alt={figure.alt}
-        width="1600"
-        height="1352"
+        width={figure.width ?? 1600}
+        height={figure.height ?? 1352}
         loading={compact ? "lazy" : "eager"}
         decoding="async"
       />
@@ -90,6 +118,14 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
       )}
     </div>
   )}
+  {image && (
+    <figcaption class="mt-3">
+      <span class="card-title">{image.title}</span>
+      <span class="mt-1 block text-sm leading-relaxed text-muted">
+        {image.caption}
+      </span>
+    </figcaption>
+  )}
   {showContext && (
     <figcaption class="mt-3 text-sm leading-relaxed text-muted">
       {!compact && figure.caption && (
@@ -135,8 +171,8 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
             class="evidence-lightbox-image"
             src={figure.src}
             alt={figure.alt}
-            width="1600"
-            height="1352"
+            width={figure.width ?? 1600}
+            height={figure.height ?? 1352}
             loading="lazy"
             decoding="async"
             draggable="false"

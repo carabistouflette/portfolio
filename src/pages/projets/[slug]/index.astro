@@ -8,7 +8,7 @@ import {
 } from "../../../data/portfolio";
 
 export function getStaticPaths() {
-  const projectIds: CaseStudyId[] = ["genomint", "maestria"];
+  const projectIds = Object.keys(caseStudies.fr) as CaseStudyId[];
   return projectIds.map((slug) => ({ params: { slug }, props: { slug } }));
 }
 

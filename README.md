@@ -9,6 +9,10 @@ pnpm install
 pnpm dev        # serveur de dev sur localhost:4321
 ```
 
+## Études de cas
+
+Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.
+
 ## Vérifications
 
 ```sh

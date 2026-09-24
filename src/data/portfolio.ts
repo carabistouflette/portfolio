@@ -79,8 +79,22 @@ export interface CaseStudyFigure {
   sourceHref?: string;
   src?: string;
   srcset?: string;
+  width?: number;
+  height?: number;
   nodes?: { title: string; detail: string }[];
   optional?: { title: string; detail: string };
+}
+export interface CaseStudyScreenshots {
+  openLabel: string;
+  items: {
+    title: string;
+    caption: string;
+    alt: string;
+    src: string;
+    preview: string;
+    width: number;
+    height: number;
+  }[];
 }
 
 export interface CaseStudy {
@@ -97,12 +111,13 @@ export interface CaseStudy {
   path: string;
   contextLabel: string;
   context: string;
+  mediaLabel: string;
   figure: CaseStudyFigure;
+  screenshots?: CaseStudyScreenshots;
   sections: CaseStudySection[];
   limitationsLabel?: string;
   limitations?: string[];
-  sourcesLabel: string;
-  sources: CaseStudySource[];
+  sources?: { label: string; entries: CaseStudySource[] };
   sourcesNote?: string;
   homeLabel: string;
   counterpartLabel: string;
@@ -285,7 +300,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "genomint",
           title: "GenomInt",
           description:
-            "Au CIRAD, j’ai relié des agents IA à un graphe de données génomiques. Mon travail : l’orchestration, les services Python et l’accès aux données.",
+            "Au CIRAD, j’ai développé l’agent IA et le backend de l’explorateur génomique : requêtes Neo4j, API et exports.",
           technologies:
             "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
           url: "/projets/genomint/",
@@ -707,7 +722,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "genomint",
           title: "GenomInt",
           description:
-            "At CIRAD, I connected AI agents to a genomic knowledge graph. My work covered orchestration, Python services and data access.",
+            "At CIRAD, I built the AI agent and the genomic graph explorer’s backend: Neo4j queries, APIs and exports.",
           technologies:
             "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
@@ -1086,179 +1101,170 @@ const genomintFr: CaseStudy = {
   question: "Interroger un graphe génomique sans écrire de Cypher.",
   kicker: "CIRAD · stage 2026 · système agentique pour graphe génomique",
   summary:
-    "Les biologistes posent une question sur Ganoderma. L’agent consulte le schéma du graphe, appelle les outils de requête et restitue des gènes et leurs annotations. Derrière ce parcours : des conversations persistées, des accès contrôlés et des exports réutilisables.",
+    "Sur Ganoderma, GenomInt combine dialogue et exploration du graphe. J’ai développé l’agent et le backend de l’explorateur : requêtes Neo4j et API.",
   atGlance: {
-    label: "Le projet en bref",
+    label: "En bref",
     entries: [
-      {
-        label: "Contexte",
-        value:
-          "Stage au CIRAD · UMR AGAP (Montpellier) · sujet officiel : un chatbot LLM qui génère des requêtes Cypher en langage naturel",
-      },
-      { label: "Période", value: "20 avril – 7 août 2026" },
-      {
-        label: "Équipe",
-        value:
-          "Encadrante : Létizia Camus-Kulandaivelu · interface web portée par Théodore de Boisseson",
-      },
+      { label: "Cadre", value: "Stage CIRAD · UMR AGAP · avril–août 2026" },
       {
         label: "Ma part",
         value:
-          "Orchestration agentique, services Python, accès aux données, sécurité, déploiement",
+          "Agent Pi · backend de l’explorateur (requêtes Neo4j et API) · sécurité et déploiement",
       },
       {
-        label: "État",
+        label: "Équipe",
         value:
-          "Stage achevé · code fermé pendant la préparation de la publication",
+          "Encadrement : Létizia Camus-Kulandaivelu · interface : Théodore de Boisseson",
       },
       {
-        label: "Valorisation",
+        label: "Suite",
         value:
-          "Publication scientifique issue du stage en préparation · co-auteur",
-      },
-      {
-        label: "Démonstration",
-        value: "Trace réelle : question → outils → réponse sourcée",
+          "Code fermé · publication scientifique en préparation (co-auteur)",
       },
     ],
   },
   understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role: "J’ai travaillé sur l’orchestration Pi, les services Python, les parcours et exports Neo4j, la sécurité et le déploiement. Théodore DE BOISSESON portait principalement l’interface web ; nous avons partagé l’intégration et les contrats d’API.",
+  role: "J’ai développé l’agent et le backend du GKG Explorer : requêtes Neo4j, API, parcours et exports. J’ai aussi travaillé sur la sécurité et le déploiement. Théodore de Boisseson a porté l’interface ; nous avons partagé les contrats d’API et l’intégration.",
   roleLabel: "Périmètre personnel",
   path: "/projets/genomint/",
   contextLabel: "Contexte et périmètre",
   context:
-    "Le cas d’usage porte sur la pathogénie de Ganoderma et sur un graphe de connaissances Neo4j réunissant génomes, pangènes, transcrits et annotations. Les chercheurs gardent une question biologique ; le système doit rendre le vocabulaire du graphe et la complexité des requêtes progressivement accessibles.",
+    "Le graphe Neo4j relie génomes, pangènes, transcrits et annotations pour étudier la pathogénie de Ganoderma. L’enjeu : rendre ces données interrogeables par les biologistes.",
   figure: {
     kind: "screenshot",
-    title: "Une question, trois appels d’outil, une réponse sourcée",
-    alt: "Capture d’une trace GenomInt montrant la question sur les gènes du core genome de G. boninense, puis READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J et la réponse avec des identifiants de gènes et de pangènes.",
-    caption:
-      "Trace réelle reproduite sur l’environnement de développement le 31 juillet 2026 : la question déclenche READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J ; la requête est limitée à 100 résultats et la conversation est persistée.",
-    source: "Rapport de stage · annexe B · observation du 31 juillet 2026.",
-    src: "/images/genomint-evidence.webp",
+    title: "Explorer le graphe génomique",
+    alt: "GKG Explorer : filtres de chromosome, réseau de nœuds et table de gènes.",
+    source: "Capture de l’interface GenomInt.",
+    src: "/images/genomint-explorer.webp",
     srcset:
-      "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
+      "/images/genomint-explorer-1100.webp 1100w, /images/genomint-explorer.webp 2877w",
+    width: 2877,
+    height: 1743,
     openLabel: "Agrandir la capture",
   },
+  mediaLabel: "L’interface en images",
+  screenshots: {
+    openLabel: "Voir la capture en taille réelle",
+    items: [
+      {
+        title: "Accueil",
+        caption:
+          "Les trois accès au projet : dialogue, exploration et requête directe.",
+        alt: "Accueil GenomInt vert, avec présentation des accès Chat, GKG Explorer et Graph Query.",
+        src: "/images/genomint-home.webp",
+        preview: "/images/genomint-home-1100.webp",
+        width: 2877,
+        height: 1742,
+      },
+      {
+        title: "Explorer le graphe",
+        caption: "Filtres génomiques, réseau de nœuds et données associées.",
+        alt: "GKG Explorer : filtres de chromosome à gauche, graphe de nœuds au centre et table de gènes à droite.",
+        src: "/images/genomint-explorer.webp",
+        preview: "/images/genomint-explorer-1100.webp",
+        width: 2877,
+        height: 1743,
+      },
+      {
+        title: "Suivre l’agent",
+        caption:
+          "Question biologique, appels d’outils et requête Neo4j visibles.",
+        alt: "Chat GenomInt affichant une question sur le core genome de G. boninense et les appels READ_SKILL, GET_GRAPH_SCHEMA et QUERY_NEO4J.",
+        src: "/images/genomint-chat.webp",
+        preview: "/images/genomint-chat-1100.webp",
+        width: 2877,
+        height: 1739,
+      },
+      {
+        title: "Administrer les accès",
+        caption:
+          "Rôles, capacités et statuts ; comptes masqués sur la capture.",
+        alt: "Administration GenomInt : rôles et capacités, statuts des comptes et actions ; identités masquées.",
+        src: "/images/genomint-admin.webp",
+        preview: "/images/genomint-admin-1100.webp",
+        width: 2877,
+        height: 1745,
+      },
+    ],
+  },
   pagination: {
-    heading: "Un calcul de pagination, pas un benchmark",
-    intro:
-      "Pour les 15 615 segments du cas de régression décrit au §5.2.1, la pagination passe arithmétiquement de 16 pages de 1 000 à 2 pages de 10 000.",
+    heading: "Pagination : moins de pages, pas un benchmark",
+    intro: "Pour 15 615 segments, pages de 1 000 → 10 000.",
     beforeValue: "16",
     beforeLabel: "Avant · 1 000 / page",
     afterValue: "2",
     afterLabel: "Après · 10 000 / page",
     unit: "pages",
     notice:
-      "Illustration du nombre d’allers-retours (ceil(S / taille de page)), pas une mesure de temps, de mémoire ou d’accélération.",
+      "14 requêtes de page en moins ; aucun gain de temps ou de mémoire mesuré.",
   },
   sections: [
     {
-      heading: "01 · Séparer le dialogue de l’exécution",
+      heading: "01 · Séparer dialogue et exécution",
       paragraphs: [
-        "Le premier prototype mélangeait la boucle agentique et l’API. La frontière retenue confie à core-ai les sessions, l’identité, la persistance, le cycle de vie et le flux SSE ; Pi exécute la boucle et ses outils, tandis que back-gkg reste le service métier du graphe.",
-        "Le pont JSONL-RPC sérialise des requêtes corrélées par identifiant, maintient un lecteur unique pour démultiplexer réponses et événements, et signale les délais ou l’arrêt du processus. Une conversation PostgreSQL doit être créée avant de considérer la session comme valide : si cette persistance échoue, Pi est arrêté au lieu de laisser vivre une session introuvable.",
+        "core-ai gère identité, sessions PostgreSQL et flux SSE ; Pi exécute l’agent et ses outils ; back-gkg sert les données du graphe.",
+        "Le pont JSONL-RPC corrèle les requêtes et relaie les événements. Si la conversation ne peut pas être persistée, Pi est arrêté : aucune session orpheline.",
       ],
       points: [
-        {
-          label: "Choix",
-          detail:
-            "Découpler les responsabilités sans prétendre isoler totalement l’agent : Pi peut tourner comme sous-processus local ou dans un conteneur.",
-        },
         {
           label: "Compromis",
           detail:
-            "Le mode local retenu sur le VPS simplifie le déploiement, mais offre moins d’isolation que le mode conteneur ; une reconnexion sur un autre réplica ne reprend pas automatiquement un Pi en cours.",
+            "Sur le VPS, Pi tourne en sous-processus : déploiement plus simple, isolation moindre et pas de reprise automatique entre réplicas.",
         },
       ],
     },
     {
-      heading: "02 · Réduire le périmètre avant de produire",
+      heading: "02 · Servir l’explorateur et les exports",
       paragraphs: [
-        "Les exports et les parcours GKG ne devaient pas préparer un chromosome entier pour une sélection étroite. Les filtres restent côté serveur, la pagination intervient avant l’enrichissement, les séquences sont résolues par lots et les états volumineux sont externalisés dans SQLite ou JSONL avant la construction progressive de l’archive.",
-        "Pour les exports biologiques, les chemins suivent la hiérarchie exacte demandée (par exemple gène → ARNm → exon → CDS → UTR). Les marches FASTA respectent l’orientation avant la découpe des coordonnées ; les pages de segments et les lots de résolution sont bornés par construction.",
+        "Pour le GKG Explorer, j’ai développé les requêtes et les API qui alimentent les filtres, le graphe et les résultats. Les filtres restent côté serveur ; la pagination précède l’enrichissement pour éviter de préparer un chromosome entier.",
+        "Pour les exports, les séquences sont résolues par lots, les segments FASTA respectent leur orientation et les états volumineux passent par SQLite ou JSONL avant la construction de l’archive.",
       ],
       points: [
-        {
-          label: "Effet calculable",
-          detail:
-            "15 615 segments : 16 pages de 1 000 deviennent 2 pages de 10 000, soit 14 requêtes de page en moins et 87,5 % de requêtes en moins — pas 87,5 % de temps en moins.",
-        },
-        {
-          label: "Garde-fou",
-          detail:
-            "La taille des lignes, les tampons du pilote Neo4j et les fichiers ZIP ne sont pas tous bornés en octets ; le pic RSS et la tenue en charge restent à mesurer.",
-        },
-      ],
-    },
-    {
-      heading: "03 · Faire de Cypher une chaîne de contrôles",
-      paragraphs: [
-        "Une expression régulière seule ne suffit pas face aux commentaires, homoglyphes, littéraux et sous-requêtes. Le validateur normalise et tokenise la requête, inspecte les clauses et procédures autorisées, refuse les écritures et vérifie récursivement les sous-requêtes et chaînes susceptibles de dissimuler du Cypher.",
-        "Après cette barrière, QueryService impose une exécution en lecture seule et un délai ; le client Neo4j refuse les appels non read-only et ouvre une session READ_ACCESS. La route ajoute encore capacité, permission ou scope de service et limitation de débit. Ces couches réduisent le risque applicatif, mais ne prouvent pas à elles seules que le compte Neo4j est configuré avec des privilèges minimaux.",
-      ],
-      points: [
-        {
-          label: "Défense",
-          detail:
-            "Validation applicative → service de lecture → session Neo4j orientée lecture → droits de la base.",
-        },
         {
           label: "Limite",
           detail:
-            "Les tests ciblent les contournements connus ; fuzzing adversarial, test d’intrusion et validation de la configuration de privilèges restent hors preuve.",
+            "Taille des lignes, tampons Neo4j et ZIP non bornés en octets : pic mémoire et tenue en charge à mesurer.",
         },
       ],
     },
     {
-      heading: "04 · Rendre la livraison rejouable",
+      heading: "03 · Encadrer Cypher",
       paragraphs: [
-        "Le chemin de livraison assemble des images Podman, un registre OCI compatible avec l’exécuteur, des charts Helm et K3s. Une incompatibilité de format et de compression avec le registre GitLab a conduit à un registre miroir local sur les VPS : une image construite n’est pas automatiquement une image consommable par le cluster.",
-        "Le déploiement utilise helm upgrade --install avec --atomic, --wait et un plafond de quinze minutes, puis vérifie les déploiements, les pods, les services et plusieurs routes protégées. Cette procédure donne une livraison reproductible et observable, pas une promesse de disponibilité sous charge.",
+        "Le validateur normalise et tokenise Cypher, refuse les écritures et inspecte les sous-requêtes. QueryService ajoute lecture seule et délai ; le client ouvre une session Neo4j READ_ACCESS.",
+        "La route impose permissions et limitation de débit. Ces contrôles applicatifs ne prouvent pas que le compte Neo4j dispose des privilèges minimaux.",
       ],
       points: [
         {
-          label: "Preuve",
+          label: "Hors preuve",
           detail:
-            "Le rapport documente le chemin CI/CD, les contrôles post-déploiement et un parcours agentique observé sur l’environnement de développement.",
+            "Fuzzing adversarial, test d’intrusion et audit des privilèges Neo4j.",
         },
+      ],
+    },
+    {
+      heading: "04 · Déployer et vérifier",
+      paragraphs: [
+        "Images Podman, registre OCI compatible, Helm et K3s. Un miroir local a contourné une incompatibilité de format avec le registre GitLab.",
+        "helm upgrade --install --atomic --wait, puis vérification des pods, services et routes protégées : une procédure reproductible, pas une garantie de disponibilité sous charge.",
+      ],
+      points: [
         {
-          label: "Limite",
+          label: "À établir",
           detail:
-            "La continuité d’un flux Pi entre réplicas, le comportement sous charge et une validation biologique de bout en bout restent à établir.",
+            "Reprise des flux entre réplicas, comportement sous charge et validation biologique.",
         },
       ],
     },
   ],
-  limitationsLabel: "Ce que cette preuve ne dit pas",
+  limitationsLabel: "Ce que montrent les captures",
   limitations: [
-    "La capture montre un parcours nominal et des résultats rendus ; elle ne constitue ni un benchmark de latence, ni une preuve de qualité biologique des résultats.",
-    "Les contrôles Cypher sont une défense en profondeur applicative, pas un test d’intrusion ni une garantie de privilèges minimaux côté Neo4j.",
-    "Le rapport établit des bornes de parcours, de pagination et de lots ; la mémoire maximale, la charge et la reprise transparente d’un flux interrompu restent ouvertes.",
-  ],
-  sourcesLabel: "Sources de la lecture",
-  sources: [
-    {
-      label: "Rapport de stage · §4.1–4.4 · architecture et périmètre",
-      detail: "Architecture du système et répartition des contributions.",
-    },
-    {
-      label: "Rapport de stage · §5.1.3–5.1.7 · core-ai, Pi et persistance",
-      detail: "Contrats JSONL-RPC, cycle de vie et scénario observé.",
-    },
-    {
-      label: "Rapport de stage · §5.2.1–5.2.4 · exports et coûts structurels",
-      detail: "Pagination, parcours sélectionnés et limites des gains.",
-    },
-    {
-      label: "Rapport de stage · §5.3 et §5.4 · sécurité et livraison",
-      detail: "Contrôles Cypher, Helm, K3s et vérifications post-déploiement.",
-    },
+    "Des écrans de l’interface et une requête en cours, pas un benchmark ni une validation biologique.",
+    "Les contrôles Cypher ne remplacent pas un audit des privilèges Neo4j.",
+    "Mémoire maximale et reprise d’un flux interrompu non mesurées.",
   ],
   sourcesNote:
-    "Le rapport de stage n’est pas public (sa diffusion relève de l’autorisation du CIRAD) et l’attestation de stage contient des données personnelles qui ne sont pas republiées. Le code reste fermé pendant la préparation de la publication scientifique, qui créditera cette contribution ; les sections citées du rapport indiquent en attendant où chaque preuve est documentée.",
+    "Rapport de stage non public : diffusion soumise à l’accord du CIRAD.",
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
   languageLabel: "Changer de langue",
@@ -1269,179 +1275,168 @@ const genomintEn: CaseStudy = {
   question: "Query a genomic graph without writing Cypher.",
   kicker: "CIRAD · 2026 internship · agentic genomics graph workbench",
   summary:
-    "Biologists ask a question about Ganoderma. The agent inspects the graph schema, calls query tools and returns genes and annotations. Behind that interaction: persistent conversations, controlled access and reusable biological exports.",
+    "For Ganoderma, GenomInt combines dialogue with graph exploration. I built the agent and the explorer’s backend: Neo4j queries and APIs.",
   atGlance: {
-    label: "The project at a glance",
+    label: "At a glance",
     entries: [
       {
-        label: "Context",
-        value:
-          "Internship at CIRAD · UMR AGAP (Montpellier) · official topic: an LLM chatbot generating Cypher queries from natural language",
+        label: "Setting",
+        value: "CIRAD internship · UMR AGAP · April–August 2026",
       },
-      { label: "Period", value: "20 April – 7 August 2026" },
+      {
+        label: "My work",
+        value:
+          "Pi agent · graph explorer backend (Neo4j queries and APIs) · security and deployment",
+      },
       {
         label: "Team",
         value:
-          "Supervisor: Létizia Camus-Kulandaivelu · web interface built by Théodore de Boisseson",
+          "Supervisor: Létizia Camus-Kulandaivelu · interface: Théodore de Boisseson",
       },
       {
-        label: "My part",
-        value:
-          "Agent orchestration, Python services, data access, security, deployment",
-      },
-      {
-        label: "Status",
-        value:
-          "Internship completed · code closed while the research publication is in preparation",
-      },
-      {
-        label: "Output",
-        value:
-          "Research publication from this internship in preparation · co-author",
-      },
-      {
-        label: "Demonstration",
-        value: "Real trace: question → tools → sourced answer",
+        label: "Next",
+        value: "Closed code · research paper in preparation (co-author)",
       },
     ],
   },
   understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role: "I worked on Pi orchestration, Python services, Neo4j traversals and exports, security and deployment. Théodore DE BOISSESON primarily developed the web interface; we shared integration and API contracts.",
+  role: "I built the agent and the GKG Explorer backend: Neo4j queries, APIs, traversals and exports. I also worked on security and deployment. Théodore de Boisseson led the interface; we shared API contracts and integration.",
   roleLabel: "Personal scope",
   path: "/en/projects/genomint/",
   contextLabel: "Context and scope",
   context:
-    "The use case concerns Ganoderma pathogenicity and a Neo4j knowledge graph combining genomes, pangenes, transcripts and annotations. Researchers bring a biological question; the system must make graph vocabulary and query complexity progressively accessible.",
+    "The Neo4j graph connects genomes, pangenes, transcripts and annotations to study Ganoderma pathogenicity. The goal: let biologists query this data directly.",
   figure: {
     kind: "screenshot",
-    title: "One question, three tool calls, one traceable answer",
-    alt: "GenomInt trace showing a question about genes in the core genome of G. boninense, followed by READ_SKILL, GET_GRAPH_SCHEMA, QUERY_NEO4J and an answer with gene and pangene identifiers.",
-    caption:
-      "Real trace replayed on the development environment on 31 July 2026: the question triggers READ_SKILL → GET_GRAPH_SCHEMA → QUERY_NEO4J; the query is limited to 100 results and the conversation is persisted.",
-    source: "Internship report · Appendix B · observed on 31 July 2026.",
-    src: "/images/genomint-evidence.webp",
+    title: "Explore the genomic graph",
+    alt: "GKG Explorer with chromosome filters, a node network and a gene table.",
+    source: "GenomInt interface screenshot.",
+    src: "/images/genomint-explorer.webp",
     srcset:
-      "/images/genomint-evidence-800.webp 800w, /images/genomint-evidence.webp 1600w",
+      "/images/genomint-explorer-1100.webp 1100w, /images/genomint-explorer.webp 2877w",
+    width: 2877,
+    height: 1743,
     openLabel: "View full-size capture",
   },
+  mediaLabel: "The interface",
+  screenshots: {
+    openLabel: "View full-size screenshot",
+    items: [
+      {
+        title: "Home",
+        caption: "Three ways in: chat, graph exploration and direct queries.",
+        alt: "Green GenomInt home screen presenting Chat, GKG Explorer and Graph Query.",
+        src: "/images/genomint-home.webp",
+        preview: "/images/genomint-home-1100.webp",
+        width: 2877,
+        height: 1742,
+      },
+      {
+        title: "Explore the graph",
+        caption: "Genomic filters, node network and linked data.",
+        alt: "GKG Explorer with chromosome filters on the left, a node graph in the center and a gene table on the right.",
+        src: "/images/genomint-explorer.webp",
+        preview: "/images/genomint-explorer-1100.webp",
+        width: 2877,
+        height: 1743,
+      },
+      {
+        title: "Follow the agent",
+        caption: "Biological question, tool calls and Neo4j query in view.",
+        alt: "GenomInt chat showing a question about the G. boninense core genome and READ_SKILL, GET_GRAPH_SCHEMA and QUERY_NEO4J calls.",
+        src: "/images/genomint-chat.webp",
+        preview: "/images/genomint-chat-1100.webp",
+        width: 2877,
+        height: 1739,
+      },
+      {
+        title: "Manage access",
+        caption: "Roles, capabilities and statuses; account details redacted.",
+        alt: "GenomInt administration view showing roles, capabilities, account statuses and actions, with identities redacted.",
+        src: "/images/genomint-admin.webp",
+        preview: "/images/genomint-admin-1100.webp",
+        width: 2877,
+        height: 1745,
+      },
+    ],
+  },
   pagination: {
-    heading: "A pagination calculation, not a benchmark",
-    intro:
-      "For the 15,615 segments in the regression case described in §5.2.1, pagination arithmetically moves from 16 pages of 1,000 to 2 pages of 10,000.",
+    heading: "Pagination: fewer pages, not a benchmark",
+    intro: "For 15,615 segments, page size 1,000 → 10,000.",
     beforeValue: "16",
     beforeLabel: "Before · 1,000 / page",
     afterValue: "2",
     afterLabel: "After · 10,000 / page",
     unit: "pages",
-    notice:
-      "Illustrates the number of page requests (ceil(S / page size)), not time, memory or speed-up measurement.",
+    notice: "14 fewer page requests; no measured time or memory gain.",
   },
   sections: [
     {
       heading: "01 · Separate dialogue from execution",
       paragraphs: [
-        "The first prototype mixed the agent loop and the API. The resulting boundary gives core-ai sessions, identity, persistence, lifecycle and SSE streaming; Pi runs the loop and its tools, while back-gkg remains the graph’s domain service.",
-        "The JSONL-RPC bridge serializes requests correlated by ID, keeps one reader to demultiplex responses and events, and reports timeouts or process exit. A PostgreSQL conversation must exist before a session is considered valid: if persistence fails, Pi is terminated rather than leaving an untraceable session alive.",
+        "core-ai handles identity, PostgreSQL sessions and SSE streaming; Pi runs the agent and its tools; back-gkg serves graph data.",
+        "The JSONL-RPC bridge correlates requests and forwards events. If the conversation cannot be persisted, Pi stops: no orphan session.",
       ],
       points: [
-        {
-          label: "Decision",
-          detail:
-            "Decouple responsibilities without claiming total isolation: Pi can run as a local subprocess or in a container.",
-        },
         {
           label: "Trade-off",
           detail:
-            "The VPS uses local mode for simpler deployment, but with less isolation than the container mode; a replica switch does not automatically resume an in-flight Pi.",
+            "On the VPS, Pi runs as a subprocess: simpler deployment, less isolation and no automatic resumption across replicas.",
         },
       ],
     },
     {
-      heading: "02 · Reduce scope before producing output",
+      heading: "02 · Serve the explorer and exports",
       paragraphs: [
-        "Exports and GKG traversals should not prepare a whole chromosome for a narrow selection. Filters stay server-side, pagination happens before enrichment, sequences resolve in batches, and large state is externalized to SQLite or JSONL before the archive is built progressively.",
-        "For biological exports, paths follow the exact requested hierarchy (for example gene → mRNA → exon → CDS → UTR). FASTA walks orient segments before slicing coordinates; segment pages and resolution batches are bounded by construction.",
+        "For GKG Explorer, I built the queries and APIs behind the filters, graph and results. Filters stay server-side; pagination precedes enrichment so narrow selections do not prepare an entire chromosome.",
+        "For exports, sequences resolve in batches, FASTA segments retain their orientation and large state moves to SQLite or JSONL before the archive is assembled.",
       ],
       points: [
-        {
-          label: "Calculable effect",
-          detail:
-            "15,615 segments: 16 pages of 1,000 become 2 pages of 10,000, 14 fewer page requests and 87.5% fewer requests — not 87.5% less time.",
-        },
-        {
-          label: "Guardrail",
-          detail:
-            "Row size, Neo4j driver buffers and ZIP output files are not all bounded in bytes; peak RSS and load behavior remain unmeasured.",
-        },
-      ],
-    },
-    {
-      heading: "03 · Make Cypher a chain of controls",
-      paragraphs: [
-        "A single regular expression cannot safely handle comments, homoglyphs, literals and subqueries. The validator normalizes and tokenizes the query, checks clauses and approved procedures, rejects writes, and recursively checks subqueries and strings that could hide Cypher.",
-        "After that barrier, QueryService enforces read-only execution and a timeout; the Neo4j client rejects non-read-only calls and opens a READ_ACCESS session. The route adds capability, user permission or service scope, and rate limiting. These layers reduce application risk, but do not on their own prove least-privilege Neo4j credentials.",
-      ],
-      points: [
-        {
-          label: "Defense",
-          detail:
-            "Application validation → read service → read-oriented Neo4j session → database privileges.",
-        },
         {
           label: "Limit",
           detail:
-            "Tests target known bypass classes; adversarial fuzzing, penetration testing and privilege configuration review remain outside the evidence.",
+            "Row size, Neo4j buffers and ZIP files are not all byte-bounded: peak memory and load behavior remain unmeasured.",
         },
       ],
     },
     {
-      heading: "04 · Make delivery reproducible",
+      heading: "03 · Constrain Cypher",
       paragraphs: [
-        "The delivery path combines Podman images, an OCI registry compatible with the runtime, Helm charts and K3s. An image-format and compression mismatch with the GitLab registry led to a local mirror on the VPS: a built image is not automatically an image the cluster can consume.",
-        "Deployment uses helm upgrade --install with --atomic, --wait and a fifteen-minute ceiling, then checks deployments, pods, services and protected routes. This makes delivery reproducible and observable, not a promise of availability under load.",
+        "The validator normalizes and tokenizes Cypher, rejects writes and inspects subqueries. QueryService adds read-only execution and a timeout; the client opens a Neo4j READ_ACCESS session.",
+        "The route enforces permissions and rate limits. These application controls do not prove least-privilege Neo4j credentials.",
       ],
       points: [
         {
-          label: "Evidence",
+          label: "Not established",
           detail:
-            "The report documents the CI/CD path, post-deployment checks and an agentic scenario observed in the development environment.",
+            "Adversarial fuzzing, penetration testing and a Neo4j privilege audit.",
         },
+      ],
+    },
+    {
+      heading: "04 · Deploy and verify",
+      paragraphs: [
+        "Podman images, a compatible OCI registry, Helm and K3s. A local mirror worked around an image-format mismatch with the GitLab registry.",
+        "helm upgrade --install --atomic --wait, followed by checks of pods, services and protected routes: a repeatable procedure, not a guarantee under load.",
+      ],
+      points: [
         {
-          label: "Limit",
+          label: "Still open",
           detail:
-            "Continuity of an in-flight Pi stream across replicas, load behavior and end-to-end biological validation remain open.",
+            "Cross-replica stream resumption, load behavior and biological validation.",
         },
       ],
     },
   ],
-  limitationsLabel: "What this evidence does not say",
+  limitationsLabel: "What the screenshots show",
   limitations: [
-    "The capture shows a nominal path and rendered results; it is neither a latency benchmark nor evidence of biological result quality.",
-    "Cypher controls are application-layer defense in depth, not a penetration test or a guarantee of least-privilege Neo4j credentials.",
-    "The report establishes traversal, pagination and batch bounds; maximum memory, load behavior and transparent recovery of an interrupted stream remain open.",
-  ],
-  sourcesLabel: "Sources for this reading",
-  sources: [
-    {
-      label: "Internship report · §§4.1–4.4 · architecture and scope",
-      detail: "System architecture and division of contributions.",
-    },
-    {
-      label: "Internship report · §§5.1.3–5.1.7 · core-ai, Pi and persistence",
-      detail: "JSONL-RPC contracts, lifecycle and observed scenario.",
-    },
-    {
-      label: "Internship report · §§5.2.1–5.2.4 · exports and structural cost",
-      detail: "Pagination, selected traversals and limits of the gains.",
-    },
-    {
-      label: "Internship report · §§5.3 and 5.4 · security and delivery",
-      detail: "Cypher controls, Helm, K3s and post-deployment checks.",
-    },
+    "Interface views and an in-progress query, not a benchmark or biological validation.",
+    "Cypher controls do not replace a Neo4j privilege audit.",
+    "Peak memory and recovery from an interrupted stream remain unmeasured.",
   ],
   sourcesNote:
-    "The internship report is not public (its release is subject to CIRAD authorization) and the internship certificate contains personal data that is not republished. The code stays closed while the research publication is in preparation; it will credit this contribution. Until then, the cited report sections show where each piece of evidence is documented.",
+    "Internship report not public: release subject to CIRAD approval.",
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
   languageLabel: "Change language",
@@ -1502,6 +1497,7 @@ const maestriaFr: CaseStudy = {
       },
     ],
   },
+  mediaLabel: "Le lanceur en pratique",
   sections: [
     {
       heading: "01 · Un lanceur, d’abord",
@@ -1540,34 +1536,36 @@ const maestriaFr: CaseStudy = {
       ],
     },
   ],
-  sourcesLabel: "Projet, code et docs",
-  sources: [
-    {
-      label: "Brio · orchestration d’agents",
-      href: destinations.brio,
-      detail: "Le projet dans lequel s’inscrit Maestria.",
-    },
-    {
-      label: "Dépôt Maestria",
-      href: "https://github.com/brio-labs/maestria",
-      detail: "README, code et historique publics.",
-    },
-    {
-      label: "Journal de développement",
-      href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
-      detail: "Un log roulant, sans releases : main est le build courant.",
-    },
-    {
-      label: "Recherche & benchmarks",
-      href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
-      detail: "Protocoles d’évaluation et profils de modèles locaux.",
-    },
-    {
-      label: "Architecture",
-      href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
-      detail: "Daemon, gouvernance, journal d’événements.",
-    },
-  ],
+  sources: {
+    label: "Projet, code et docs",
+    entries: [
+      {
+        label: "Brio · orchestration d’agents",
+        href: destinations.brio,
+        detail: "Le projet dans lequel s’inscrit Maestria.",
+      },
+      {
+        label: "Dépôt Maestria",
+        href: "https://github.com/brio-labs/maestria",
+        detail: "README, code et historique publics.",
+      },
+      {
+        label: "Journal de développement",
+        href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
+        detail: "Un log roulant, sans releases : main est le build courant.",
+      },
+      {
+        label: "Recherche & benchmarks",
+        href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
+        detail: "Protocoles d’évaluation et profils de modèles locaux.",
+      },
+      {
+        label: "Architecture",
+        href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
+        detail: "Daemon, gouvernance, journal d’événements.",
+      },
+    ],
+  },
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
   languageLabel: "Changer de langue",
@@ -1626,6 +1624,7 @@ const maestriaEn: CaseStudy = {
       },
     ],
   },
+  mediaLabel: "The launcher in practice",
   sections: [
     {
       heading: "01 · A launcher first",
@@ -1664,34 +1663,36 @@ const maestriaEn: CaseStudy = {
       ],
     },
   ],
-  sourcesLabel: "Project, code and docs",
-  sources: [
-    {
-      label: "Brio · agent orchestration",
-      href: destinations.brio,
-      detail: "The project Maestria belongs to.",
-    },
-    {
-      label: "Maestria repository",
-      href: "https://github.com/brio-labs/maestria",
-      detail: "Public README, code and history.",
-    },
-    {
-      label: "Development journal",
-      href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
-      detail: "A rolling log, no releases: main is the current build.",
-    },
-    {
-      label: "Research & benchmarks",
-      href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
-      detail: "Evaluation protocols and local model profiles.",
-    },
-    {
-      label: "Architecture",
-      href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
-      detail: "Daemon, governance, event journal.",
-    },
-  ],
+  sources: {
+    label: "Project, code and docs",
+    entries: [
+      {
+        label: "Brio · agent orchestration",
+        href: destinations.brio,
+        detail: "The project Maestria belongs to.",
+      },
+      {
+        label: "Maestria repository",
+        href: "https://github.com/brio-labs/maestria",
+        detail: "Public README, code and history.",
+      },
+      {
+        label: "Development journal",
+        href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
+        detail: "A rolling log, no releases: main is the current build.",
+      },
+      {
+        label: "Research & benchmarks",
+        href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
+        detail: "Evaluation protocols and local model profiles.",
+      },
+      {
+        label: "Architecture",
+        href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
+        detail: "Daemon, governance, event journal.",
+      },
+    ],
+  },
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
   languageLabel: "Change language",
