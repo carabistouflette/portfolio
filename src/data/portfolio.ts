@@ -193,8 +193,6 @@ export interface PortfolioContent {
       claim: string;
       technologies: { name: string; projectId?: ProjectId }[];
     }[];
-    catalogMoreLabel: string;
-    catalogCloseLabel: string;
     projectLabel: string;
     groups: SkillGroup[];
   };
@@ -484,8 +482,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogMoreLabel: "Voir plus",
-      catalogCloseLabel: "Refermer",
       projectLabel: "Voir dans le projet",
       groups: [
         {
@@ -908,8 +904,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           ],
         },
       ],
-      catalogMoreLabel: "See more",
-      catalogCloseLabel: "Close",
       projectLabel: "See in project",
       groups: [
         {

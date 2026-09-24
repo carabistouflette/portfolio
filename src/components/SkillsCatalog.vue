@@ -266,13 +266,9 @@ onBeforeUnmount(() => {
             aria-hidden="true"
           >
             <span class="font-mono text-xs">{{ group.items.length }}</span>
-            <span
-              :class="[
-                'disclosure-mark text-2xl leading-none',
-                isExpanded(index) && 'rotate-45',
-              ]"
-              >+</span
-            >
+            <span class="disclosure-mark text-2xl leading-none">{{
+              isExpanded(index) ? "−" : "+"
+            }}</span>
           </span>
         </div>
         <div
@@ -291,11 +287,6 @@ onBeforeUnmount(() => {
               class="skills-icon-anchor inline-flex shrink-0"
               ><ToolIcon :name="skill.name" /></span
             >{{ skill.name }}</span
-          >
-          <span
-            v-if="group.items.length > 3"
-            class="font-mono text-xs text-muted"
-            >+{{ group.items.length - 3 }}</span
           >
         </div>
       </summary>
