@@ -316,6 +316,37 @@
     border-bottom-width: 1px;
   }
 
+  .project-launcher {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid rgb(135 183 220 / 0.26);
+    background: #0a1624;
+  }
+
+  .project-launcher-files {
+    position: absolute;
+    top: -3rem;
+    right: -7rem;
+    width: 42rem;
+    height: auto;
+    color: #9dc2dc;
+  }
+
+  @media (max-width: 47.999rem) {
+    .project-launcher-files {
+      top: auto;
+      bottom: -5rem;
+      right: -9rem;
+      width: 25rem;
+      opacity: 0.55;
+    }
+  }
+
+  .github-calendar-scroll:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+
   .site-header {
     box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.2);
   }

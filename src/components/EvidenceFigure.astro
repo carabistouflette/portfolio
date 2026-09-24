@@ -95,7 +95,16 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
       {!compact && figure.caption && (
         <span class="block">{figure.caption}</span>
       )}
-      <span class="mt-2 block">{figure.source}</span>
+      {figure.sourceHref ? (
+        <a
+          class="mt-2 inline-flex min-h-11 items-center text-inherit underline"
+          href={figure.sourceHref}
+        >
+          {figure.source}
+        </a>
+      ) : (
+        <span class="mt-2 block">{figure.source}</span>
+      )}
       {figure.src && figure.openLabel && (
         <a
           class="mt-1 inline-flex min-h-11 items-center text-inherit underline"

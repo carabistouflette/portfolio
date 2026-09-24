@@ -76,6 +76,7 @@ export interface CaseStudyFigure {
   openLabel?: string;
   caption?: string;
   source: string;
+  sourceHref?: string;
   src?: string;
   srcset?: string;
   nodes?: { title: string; detail: string }[];
@@ -1483,6 +1484,7 @@ const maestriaFr: CaseStudy = {
     title: "La boucle du lanceur",
     alt: "Trois étapes : invoquer le lanceur et taper une requête, chercher localement, exécuter le résultat choisi.",
     source: "github.com/brio-labs/maestria",
+    sourceHref: "https://github.com/brio-labs/maestria",
     nodes: [
       {
         title: "Invoquer & taper",
@@ -1607,6 +1609,7 @@ const maestriaEn: CaseStudy = {
     title: "The launcher loop",
     alt: "Three steps: invoke the launcher and type a query, search locally, execute the chosen result.",
     source: "github.com/brio-labs/maestria",
+    sourceHref: "https://github.com/brio-labs/maestria",
     nodes: [
       {
         title: "Invoke & type",
