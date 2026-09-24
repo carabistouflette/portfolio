@@ -29,36 +29,52 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
 
   <ul class="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
     {copy.capabilities.map((capability) => (
-      <li class="min-w-0 border-t border-rule pt-6">
-        <h3 class="card-title">{capability.title}</h3>
-        <p class="body-copy mt-3 max-w-[40ch] text-muted">{capability.claim}</p>
-        <ul class="mt-5 flex flex-wrap gap-2">
-          {capability.technologies.map((technology) => {
-            const project = technology.projectId
-              ? projects.get(technology.projectId)
-              : undefined;
-            return (
-              <li>
-                {project ? (
-                  <a
-                    class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
-                    href={project.url || `#project-${project.id}`}
-                  >
-                    <span class="sr-only">{copy.projectLabel} </span>
-                    {technology.name}
-                    <span class="ml-2 text-[#9dc7df]" aria-hidden="true">
-                      ↗
+      <li class="capability-toggle group min-w-0 border-t border-rule pt-6">
+        <details>
+          <summary class="cursor-pointer list-none rounded-sm focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <h3 class="card-title">{capability.title}</h3>
+                <p class="body-copy mt-3 max-w-[40ch] text-muted">
+                  {capability.claim}
+                </p>
+              </div>
+              <span
+                class="disclosure-mark mt-1 grid size-10 shrink-0 place-items-center rounded-full border border-[#9dc7df]/40 text-xl leading-none text-[#9dc7df] transition-colors group-hover:border-[#9dc7df]/90 group-hover:bg-[#9dc7df]/10 motion-reduce:transition-none"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </div>
+          </summary>
+          <ul class="mt-5 flex flex-wrap gap-2">
+            {capability.technologies.map((technology) => {
+              const project = technology.projectId
+                ? projects.get(technology.projectId)
+                : undefined;
+              return (
+                <li>
+                  {project ? (
+                    <a
+                      class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
+                      href={project.url || `#project-${project.id}`}
+                    >
+                      <span class="sr-only">{copy.projectLabel} </span>
+                      {technology.name}
+                      <span class="ml-2 text-[#9dc7df]" aria-hidden="true">
+                        ↗
+                      </span>
+                    </a>
+                  ) : (
+                    <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90">
+                      {technology.name}
                     </span>
-                  </a>
-                ) : (
-                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90">
-                    {technology.name}
-                  </span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </details>
       </li>
     ))}
   </ul>

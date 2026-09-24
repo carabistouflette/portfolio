@@ -347,6 +347,12 @@
     outline-offset: 4px;
   }
 
+  .capability-toggle details[open] .disclosure-mark {
+    rotate: 45deg;
+    border-color: rgb(157 199 223);
+    background: rgb(157 199 223 / 0.1);
+  }
+
   .site-header {
     box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.2);
   }
