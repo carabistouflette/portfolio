@@ -108,10 +108,10 @@ const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCo
   </header>
 
   <div
-    class:list={[
-      "mt-6 min-w-0 pb-3",
-      preview ? "overflow-x-clip" : "overflow-x-auto",
-    ]}
+    class="github-calendar-scroll mt-6 min-w-0 overflow-x-auto pb-3"
+    tabindex="0"
+    role="region"
+    aria-label={copy.heading}
   >
     <div class="min-w-[52rem]">
       <div class="grid gap-x-1" aria-hidden="true" style={gridTemplate}>
