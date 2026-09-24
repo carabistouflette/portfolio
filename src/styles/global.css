@@ -136,6 +136,136 @@
     padding-top: 1rem;
     padding-bottom: 1.5rem;
   }
+  .catalog-invitation > summary {
+    display: block;
+    list-style: none;
+  }
+
+  .catalog-invitation > summary::-webkit-details-marker {
+    display: none;
+  }
+  .catalog-invitation::details-content {
+    content-visibility: visible;
+  }
+  .catalog-teaser-plus {
+    display: grid;
+  }
+  .catalog-invitation[open] .catalog-teaser-plus,
+  .catalog-invitation[data-disclosure-external][open]
+    + .reading-disclosure-body
+    .catalog-teaser-plus {
+    display: none;
+  }
+  [data-catalog-close-row] {
+    display: none;
+  }
+
+  .catalog-invitation[data-disclosure-ready]
+    + .reading-disclosure-body
+    [data-catalog-close-row] {
+    display: flex;
+    justify-content: center;
+  }
+
+  .catalog-invitation:not([open]) > .reading-disclosure-body,
+  .catalog-invitation[data-disclosure-external]:not([open])
+    + .reading-disclosure-body {
+    position: relative;
+    max-height: 18rem;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+    interactivity: inert;
+    pointer-events: none;
+    user-select: none;
+  }
+  .catalog-invitation[data-disclosure-ready]:not([open])
+    > .reading-disclosure-body,
+  .catalog-invitation[data-disclosure-ready][data-disclosure-external]:not(
+      [open]
+    )
+    + .reading-disclosure-body {
+    interactivity: auto;
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: auto;
+  }
+
+  .catalog-invitation:not([open]) > .reading-disclosure-body::after,
+  .catalog-invitation[data-disclosure-external]:not([open])
+    + .reading-disclosure-body::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4rem;
+    backdrop-filter: blur(3px);
+    content: "";
+    pointer-events: none;
+  }
+
+  .catalog-invitation[data-disclosure-animating] {
+    overflow: hidden;
+  }
+  .catalog-invitation[data-disclosure-external][data-disclosure-animating]
+    + .reading-disclosure-body {
+    overflow: hidden;
+  }
+
+  @media (min-width: 64rem) {
+    .catalog-invitation:not([open]) > .reading-disclosure-body,
+    .catalog-invitation[data-disclosure-external]:not([open])
+      + .reading-disclosure-body {
+      max-height: 22rem;
+    }
+  }
+  /* When CSS inertness is unavailable, wait for the JS inert attribute. */
+  @supports not (interactivity: inert) {
+    .catalog-invitation:not([open]):not(
+        [data-disclosure-ready]
+      )::details-content {
+      content-visibility: hidden;
+    }
+  }
+
+  .catalog-invitation > summary::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    background: #8eb7ae;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .catalog-invitation > summary:is(:hover, :focus-visible)::after,
+  .catalog-invitation[open] > summary::after {
+    transform: scaleX(1);
+  }
+
+  .catalog-invitation-arrow {
+    display: inline-block;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .catalog-invitation
+    > summary:is(:hover, :focus-visible)
+    .catalog-invitation-arrow {
+    transform: translate(3px, 3px);
+  }
+
+  .catalog-invitation[open] > summary .catalog-invitation-arrow {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .catalog-invitation > summary::after,
+    .catalog-invitation-arrow {
+      transition: none;
+    }
+  }
 
   .project-research {
     position: relative;
@@ -645,7 +775,32 @@
     container-type: inline-size;
   }
 }
-/* Runtime classes emitted by github-calendar.ts. */
+/* Keep the clipped teaser in its collapsed-card appearance when a category is open. */
+.catalog-invitation:not([open]) [data-motion-catalog][open] .skill-preview,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  .skill-preview {
+  display: flex;
+}
+
+.catalog-invitation:not([open]) [data-motion-catalog][open] > .skills-panel,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  > .skills-panel {
+  display: none;
+}
+
+.catalog-invitation:not([open]) [data-motion-catalog][open] .disclosure-mark,
+.catalog-invitation[data-disclosure-external]:not([open])
+  + .reading-disclosure-body
+  [data-motion-catalog][open]
+  .disclosure-mark {
+  rotate: 0deg;
+}
+
+/* Day cells stay compact to fit the year; widen the actual click target. */
 .github-calendar-day {
   position: relative;
 }
@@ -901,6 +1056,11 @@ html[data-page-navigation]
 details[data-disclosure-animating] {
   overflow: clip;
 }
+
+details[data-disclosure-animating] .skill-preview {
+  display: flex;
+  overflow: clip;
+}
 .skills-panel-motion {
   display: grid;
   grid-template-rows: 0fr;
@@ -960,6 +1120,10 @@ details[data-disclosure-animating] {
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+
+  .disclosure-mark {
+    transition: rotate 220ms ease;
   }
 
   .hero-copy > * {

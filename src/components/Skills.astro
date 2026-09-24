@@ -64,13 +64,59 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   </ul>
 
   {copy.groups.length > 0 && (
-    <div class="mt-6 md:mt-8">
-      <SkillsCatalog
-        client:load
-        groups={copy.groups}
-        projects={projectLinks}
-        projectLabel={copy.projectLabel}
-      />
-    </div>
+    <details class="catalog-invitation mt-6 md:mt-8" data-disclosure-reveal>
+      <summary
+        id="skills-catalog-summary"
+        aria-controls="skills-catalog-body"
+        class="relative block cursor-pointer border-t border-rule/60 py-3 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+      >
+        <span class="relative z-10 flex items-center justify-between gap-6">
+          <span class="font-mono text-sm uppercase tracking-[0.12em] text-[#a8c8be]">
+            {copy.catalogMoreLabel}
+            <span class="sr-only"> — {copy.heading}</span>
+          </span>
+          <span
+            class="catalog-invitation-arrow shrink-0 text-xl leading-none text-[#a8c8be]"
+            aria-hidden="true"
+          >
+            ↘
+          </span>
+        </span>
+      </summary>
+      <div
+        id="skills-catalog-body"
+        class="reading-disclosure-body pb-6"
+        role="region"
+        aria-labelledby="skills-catalog-summary"
+      >
+        <SkillsCatalog
+          client:load
+          groups={copy.groups}
+          projects={projectLinks}
+          projectLabel={copy.projectLabel}
+        />
+        <div
+          data-catalog-close-row
+          class="mt-6 justify-center border-t border-rule/50 pt-4"
+        >
+          <button
+            type="button"
+            data-catalog-close
+            class="grid size-10 place-items-center rounded-full border border-rule/60 text-2xl leading-none text-muted hover:border-[#9dc7df] hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+            aria-label={copy.catalogCloseLabel}
+          >
+            <span class="catalog-minus" aria-hidden="true">
+              −
+            </span>
+          </button>
+        </div>
+        <span
+          class="catalog-teaser-plus pointer-events-none absolute bottom-4 left-1/2 z-10 size-10 -translate-x-1/2 place-items-center rounded-full border border-[#9dc7df]/50 bg-[#07121b]/80 text-2xl leading-none text-[#9dc7df]"
+          aria-hidden="true"
+        >
+          +
+        </span>
+      </div>
+    </details>
   )}
 </section>
