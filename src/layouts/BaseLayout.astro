@@ -20,15 +20,15 @@ const {
   alternatePaths = { fr: "/", en: "/en/" },
   meta = content.meta,
 } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, "https://alexisr.work").toString();
-const frenchUrl = new URL(alternatePaths.fr, "https://alexisr.work").toString();
+const canonicalUrl = new URL(canonicalPath, "https://alexisrob.in").toString();
+const frenchUrl = new URL(alternatePaths.fr, "https://alexisrob.in").toString();
 const englishUrl = new URL(
   alternatePaths.en,
-  "https://alexisr.work",
+  "https://alexisrob.in",
 ).toString();
 const socialImage = new URL(
   "/images/og-card.webp",
-  "https://alexisr.work",
+  "https://alexisrob.in",
 ).toString();
 const socialLocale = locale === "fr" ? "fr_FR" : "en_US";
 const homePath = locale === "fr" ? "/" : "/en/";
