@@ -169,11 +169,9 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         >
           <img
             class="evidence-lightbox-image"
-            src={figure.src}
             alt={figure.alt}
             width={figure.width ?? 1600}
             height={figure.height ?? 1352}
-            loading="lazy"
             decoding="async"
             draggable="false"
           />
@@ -292,6 +290,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
               return;
             event.preventDefault();
             opener = link;
+            if (!image.hasAttribute("src")) image.src = link.href;
             dialog.showModal();
           },
           { signal },
