@@ -115,10 +115,7 @@ export interface CaseStudy {
   figure: CaseStudyFigure;
   screenshots?: CaseStudyScreenshots;
   sections: CaseStudySection[];
-  limitationsLabel?: string;
-  limitations?: string[];
   sources?: { label: string; entries: CaseStudySource[] };
-  sourcesNote?: string;
   homeLabel: string;
   counterpartLabel: string;
   languageLabel: string;
@@ -1201,16 +1198,17 @@ const genomintFr: CaseStudy = {
   },
   sections: [
     {
-      heading: "01 · Séparer dialogue et exécution",
+      heading: "01 · Choisir la stratégie de retrieval",
       paragraphs: [
-        "core-ai gère identité, sessions PostgreSQL et flux SSE ; Pi exécute l’agent et ses outils ; back-gkg sert les données du graphe.",
-        "Le pont JSONL-RPC corrèle les requêtes et relaie les événements. Si la conversation ne peut pas être persistée, Pi est arrêté : aucune session orpheline.",
+        "Pour le retrieval, j’ai comparé un RAG classique, où un index figé fournit un contexte unique avant la génération, et un RAG complètement agentique : le modèle décide lui-même des outils à appeler, itère et vérifie. Sur un graphe pangénomique, la comparaison a tranché : les réponses vivent dans le schéma et les traversées Cypher, pas dans des passages de texte. L’agent pilote donc GET_GRAPH_SCHEMA, READ_SKILL et QUERY_NEO4J au fil de la question.",
+        "Ce pilotage agentique est accompagné d’un petit système de RAG adapté aux données en graphe pangénomique : l’index vectoriel natif de Neo4j, utilisé en recherche hybride. Les descriptions de pangènes et les annotations sont plongées dans la base ; la similarité vectorielle retrouve les nœuds qu’une requête littérale aurait manqués, puis une à deux traversées les rattachent aux génomes, transcrits et annotations voisins.",
+        "La répartition reste stricte : le vecteur suggère, Cypher prouve. Les faits de séquence, comme la présence d’un pangène ou l’appartenance au core genome, sortent du graphe, jamais des paramètres du modèle.",
       ],
       points: [
         {
           label: "Compromis",
           detail:
-            "Sur le VPS, Pi tourne en sous-processus : déploiement plus simple, isolation moindre et pas de reprise automatique entre réplicas.",
+            "Le retrieval agentique coûte plus de tours d’outils et de tokens qu’un contexte pré-calculé ; en échange, chaque réponse reste traçable jusqu’aux nœuds du graphe.",
         },
       ],
     },
@@ -1257,14 +1255,6 @@ const genomintFr: CaseStudy = {
       ],
     },
   ],
-  limitationsLabel: "Ce que montrent les captures",
-  limitations: [
-    "Des écrans de l’interface et une requête en cours, pas un benchmark ni une validation biologique.",
-    "Les contrôles Cypher ne remplacent pas un audit des privilèges Neo4j.",
-    "Mémoire maximale et reprise d’un flux interrompu non mesurées.",
-  ],
-  sourcesNote:
-    "Rapport de stage non public : diffusion soumise à l’accord du CIRAD.",
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
   languageLabel: "Changer de langue",
@@ -1373,16 +1363,17 @@ const genomintEn: CaseStudy = {
   },
   sections: [
     {
-      heading: "01 · Separate dialogue from execution",
+      heading: "01 · Choose the retrieval strategy",
       paragraphs: [
-        "core-ai handles identity, PostgreSQL sessions and SSE streaming; Pi runs the agent and its tools; back-gkg serves graph data.",
-        "The JSONL-RPC bridge correlates requests and forwards events. If the conversation cannot be persisted, Pi stops: no orphan session.",
+        "For retrieval, I compared a classic RAG pipeline, where a frozen index supplies one context before generation, with a fully agentic RAG: the model chooses its own tool calls, iterates and verifies. On a pangenomic graph, the comparison was decisive. The answers live in the schema and in Cypher traversals, not in text passages, so the agent drives GET_GRAPH_SCHEMA, READ_SKILL and QUERY_NEO4J as the question unfolds.",
+        "That agentic steering is paired with a small RAG system suited to pangenomic graph data: Neo4j’s native vector index, used for hybrid search. Pangene descriptions and annotations are embedded in the database; vector similarity surfaces nodes a literal query would have missed, then one or two traversals tie them back to neighbouring genomes, transcripts and annotations.",
+        "The division of labor stays strict: the vector suggests, Cypher proves. Sequence facts, such as pangene presence or core-genome membership, come from the graph, never from the model’s parameters.",
       ],
       points: [
         {
           label: "Trade-off",
           detail:
-            "On the VPS, Pi runs as a subprocess: simpler deployment, less isolation and no automatic resumption across replicas.",
+            "Agentic retrieval spends more tool calls and tokens than a precomputed context; in exchange, every answer remains traceable to the graph nodes behind it.",
         },
       ],
     },
@@ -1429,14 +1420,6 @@ const genomintEn: CaseStudy = {
       ],
     },
   ],
-  limitationsLabel: "What the screenshots show",
-  limitations: [
-    "Interface views and an in-progress query, not a benchmark or biological validation.",
-    "Cypher controls do not replace a Neo4j privilege audit.",
-    "Peak memory and recovery from an interrupted stream remain unmeasured.",
-  ],
-  sourcesNote:
-    "Internship report not public: release subject to CIRAD approval.",
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
   languageLabel: "Change language",

@@ -162,28 +162,11 @@ const counterpartPath =
       </ol>
     </div>
 
-    <div
-      data-motion-reveal
-      class:list={[
-        "mt-10 border-t border-rule pt-10",
-        study.limitations?.length && study.sources
-          ? "grid gap-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-16"
-          : "max-w-3xl",
-      ]}
-    >
-      {study.limitations && study.limitations.length > 0 && (
-        <aside aria-labelledby="case-limitations-title">
-          <h2 id="case-limitations-title" class="subsection-title">
-            {study.limitationsLabel}
-          </h2>
-          <ul class="mt-5 m-0 grid list-none gap-4 border-l border-rule pl-5">
-            {study.limitations.map((limitation) => (
-              <li class="body-copy text-muted">{limitation}</li>
-            ))}
-          </ul>
-        </aside>
-      )}
-      {study.sources && (
+    {study.sources && (
+      <div
+        data-motion-reveal
+        class="mt-10 max-w-3xl border-t border-rule pt-10"
+      >
         <section aria-labelledby="case-sources-title">
           <h2 id="case-sources-title" class="subsection-title">
             {study.sources.label}
@@ -213,13 +196,8 @@ const counterpartPath =
             ))}
           </ul>
         </section>
-      )}
-      {study.sourcesNote && (
-        <p class="mt-8 max-w-[60ch] text-sm leading-relaxed text-muted">
-          {study.sourcesNote}
-        </p>
-      )}
-    </div>
+      </div>
+    )}
 
     <footer
       data-motion-reveal
