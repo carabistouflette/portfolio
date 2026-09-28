@@ -39,7 +39,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
   aria-labelledby={showContext ? labelId : undefined}
 >
   {showContext && (
-    <p id={labelId} class="mb-4 text-xs leading-relaxed">
+    <p id={labelId} class="meta-line mb-4">
       {figure.title}
     </p>
   )}
@@ -109,7 +109,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         ))}
       </ol>
       {figure.optional && (
-        <p class="mt-8 border-t border-[#87b7dc]/20 pt-5 text-xs leading-relaxed text-muted">
+        <p class="meta-line mt-8 border-t border-[#87b7dc]/20 pt-5">
           <strong class="font-medium text-[#abd1ed]">
             {figure.optional.title}.
           </strong>{" "}

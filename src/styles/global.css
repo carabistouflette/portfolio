@@ -767,10 +767,6 @@
     font-size: clamp(1.5rem, 2.5vw, 2.25rem);
   }
 
-  .hero-summary-size {
-    font-size: clamp(1.125rem, 0.966rem + 0.654vw, 1.875rem);
-  }
-
   .contact-email {
     font-size: clamp(1.25rem, 2.8vw, 2.2rem);
   }
@@ -816,6 +812,26 @@
   .body-copy {
     font-size: 1rem;
     line-height: 1.7;
+  }
+
+  .hero-lead {
+    max-width: 42ch;
+    font-size: clamp(1.125rem, 0.966rem + 0.654vw, 1.875rem);
+    line-height: 1.42;
+    text-wrap: pretty;
+    color: var(--color-muted);
+  }
+
+  .meta-line {
+    font-size: 0.75rem;
+    line-height: 1.625;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-lead {
+      color: var(--color-paper);
+    }
   }
 
   .hero-cat {

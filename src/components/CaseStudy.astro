@@ -30,7 +30,7 @@ const counterpartPath =
         </span>
         {study.homeLabel}
       </a>
-      <p class="eyebrow mt-12 mb-4 text-xs">{study.kicker}</p>
+      <p class="eyebrow mt-12 mb-4">{study.kicker}</p>
       {study.relatedProject && (
         <a
           class="text-link mb-6 text-sm text-[#abd1ed] underline underline-offset-4"
@@ -55,13 +55,13 @@ const counterpartPath =
         class="mt-10 max-w-3xl border border-rule p-5 sm:p-6"
         aria-label={study.atGlance.label}
       >
-        <p class="text-xs uppercase tracking-[0.14em] text-muted">
+        <p class="eyebrow">
           {study.atGlance.label}
         </p>
         <dl class="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {study.atGlance.entries.map((entry) => (
             <div class="min-w-0">
-              <dt class="text-xs uppercase tracking-[0.08em] text-muted">
+              <dt class="eyebrow">
                 {entry.label}
               </dt>
               <dd class="mt-1 text-sm leading-relaxed">{entry.value}</dd>
