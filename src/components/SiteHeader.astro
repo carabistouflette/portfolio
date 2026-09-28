@@ -17,7 +17,6 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
   transition:animate="none"
 >
   <div class="header-progress" aria-hidden="true">
-    <span class="header-progress-fill"></span>
     <span class="header-progress-dot"></span>
   </div>
   <div class="header-inner content-shell">
@@ -106,48 +105,72 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 
   onPageLoad((signal) => {
     const header = document.querySelector<HTMLElement>(".site-header");
-    const fill = header?.querySelector<HTMLElement>(
-      ".header-progress-fill",
+    const track = header?.querySelector<HTMLElement>(".header-progress");
+    const dot = header?.querySelector<HTMLElement>(
+      ".header-progress-dot",
     );
     const sections = Array.from(
       document.querySelectorAll<HTMLElement>("#main > section, #contact"),
     );
-    if (!header || !fill || !sections.length) return;
+    if (!header || !track || !dot || !sections.length) return;
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
+    const total = sections.length;
 
-    // Progress through the section currently scrolled: 0 at its top,
-    // 1 when its bottom reaches the viewport top.
-    const computeTarget = () => {
+    // One graduation per section, stacked bottom (first) to top (last).
+    const ticks: HTMLElement[] = [];
+    for (let i = 0; i < total; i += 1) {
+      const tick = document.createElement("span");
+      tick.className = "header-progress-tick";
+      tick.style.bottom = `calc(${((i / total) * 100).toFixed(3)}% + 1px)`;
+      tick.style.height = `calc(${(100 / total).toFixed(3)}% - 2px)`;
+      track.appendChild(tick);
+      ticks.push(tick);
+    }
+
+    // Cursor position in "section units": k + progress inside section k.
+    const computePosition = () => {
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
-      let top = 0;
+      let index = 0;
       for (let i = sections.length - 1; i >= 0; i -= 1) {
-        const sectionTop = sections[i].getBoundingClientRect().top + scrollY;
+        const sectionTop =
+          sections[i].getBoundingClientRect().top + scrollY;
         if (sectionTop <= scrollY + vh * 0.5) {
-          top = sectionTop;
-          const height = sections[i].getBoundingClientRect().height;
-          return Math.min(Math.max((scrollY - top) / Math.max(height - vh, 1), 0), 1);
+          index = i;
+          break;
         }
       }
-      return 0;
+      const rect = sections[index].getBoundingClientRect();
+      const fraction = Math.min(
+        Math.max((scrollY - (rect.top + scrollY)) / Math.max(rect.height - vh, 1), 0),
+        1,
+      );
+      return index + fraction;
     };
 
     let current = 0;
     let velocity = 0;
     let frame = 0;
     let last = 0;
+    let activeIndex = -1;
 
     const paint = (value: number) => {
-      const clamped = Math.min(Math.max(value, 0), 1);
-      fill.style.transform = `scaleY(${clamped.toFixed(4)})`;
-      header.style.setProperty("--progress", clamped.toFixed(4));
+      header.style.setProperty("--progress", (value / total).toFixed(4));
+      const index = Math.min(Math.round(value), total - 1);
+      if (index !== activeIndex) {
+        activeIndex = index;
+        ticks.forEach((tick, i) => {
+          if (i === index) tick.setAttribute("data-active", "");
+          else tick.removeAttribute("data-active");
+        });
+      }
     };
 
     const jump = () => {
-      current = computeTarget();
+      current = computePosition();
       velocity = 0;
       paint(current);
     };
@@ -155,7 +178,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
     const step = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
-      const target = computeTarget();
+      const target = computePosition();
       velocity += (190 * (target - current) - 24 * velocity) * dt;
       current += velocity * dt;
       paint(current);
