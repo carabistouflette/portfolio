@@ -1796,6 +1796,8 @@
   function loadImage(src) {
     return new Promise((resolve, reject) => {
       const image = new Image();
+      image.decoding = "async";
+      if ("fetchPriority" in image) image.fetchPriority = "low";
       image.onload = () => resolve(image);
       image.onerror = () =>
         reject(new Error("A butterfly texture variant could not be loaded."));
@@ -1851,5 +1853,13 @@
       console.error(error);
     }
   }
-  void init();
+  // Texture downloads start only once the page is idle, so the ~1.1 MB of
+  // wing textures never compete with LCP assets (hero image, font, CSS).
+  const startWhenIdle = () => {
+    if (typeof requestIdleCallback === "function")
+      requestIdleCallback(() => void init(), { timeout: 2500 });
+    else setTimeout(() => void init(), 1200);
+  };
+  if (document.readyState === "complete") startWhenIdle();
+  else addEventListener("load", startWhenIdle, { once: true });
 })();
