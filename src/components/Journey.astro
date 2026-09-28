@@ -48,9 +48,15 @@ const projectForEntry = (entry: JourneyEntry) =>
   <p class="eyebrow mb-5 text-[#9dc7df] lg:hidden">
     {content.journey.labels.education}
   </p>
-  <div class="relative" style={`--steps: ${axis.length - 1}`}>
+  <div class="relative" data-journey-band style={`--steps: ${axis.length - 1}`}>
     <JourneyAxis axis={axis} yearGroups={yearGroups} />
-    <div class="journey-grid relative grid gap-8 lg:gap-x-0 lg:gap-y-12 lg:pt-14">
+    <p
+      class="journey-pill sticky top-[4.25rem] z-10 mb-4 flex w-fit items-center rounded-full border border-rule bg-[#050505]/80 px-3 py-1 text-xs tabular-nums text-[#abd1ed] backdrop-blur-sm max-lg:block lg:hidden"
+      data-journey-pill
+    >
+      {entries.find((entry) => entry.kind === "education")?.period}
+    </p>
+    <div class="journey-grid relative grid gap-8 max-lg:before:absolute max-lg:before:inset-y-0 max-lg:before:left-0 max-lg:before:w-px max-lg:before:bg-rule/50 max-lg:before:content-[''] lg:gap-x-0 lg:gap-y-12 lg:pt-14">
       {entries
         .filter((entry) => entry.kind === "education")
         .map((entry) => {
@@ -59,14 +65,16 @@ const projectForEntry = (entry: JourneyEntry) =>
           const end = entry.end ? positions[entry.end] : start + 1;
           return (
             <article
-              class="journey-entry relative min-w-0 border-l-2 border-[#a5b9c4] bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 px-5 py-5 lg:border-t-2 lg:border-l-0"
+              class="journey-entry relative min-w-0 bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 px-5 py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-7 max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#a5b9c4] max-lg:before:content-[''] lg:border-t-2"
               style={`--start: ${start}; --end: ${end}`}
+              data-journey-entry
+              data-period={entry.period}
             >
               {entry.logos && (
                 <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
                   {entry.logos.map((src) => (
                     <img
-                      class="h-10 w-auto max-w-full object-contain object-left sm:h-14"
+                      class="h-8 w-auto max-w-full object-contain object-left sm:h-14"
                       src={src}
                       alt=""
                       loading="lazy"
@@ -120,10 +128,16 @@ const projectForEntry = (entry: JourneyEntry) =>
     <p class="eyebrow mb-5 text-[#9dc7df] lg:hidden">
       {content.journey.labels.experience}
     </p>
-    <div class="relative" style={`--steps: ${axis.length - 1}`}>
+    <div class="relative" data-journey-band style={`--steps: ${axis.length - 1}`}>
       <JourneyAxis axis={axis} yearGroups={yearGroups} />
+      <p
+        class="journey-pill sticky top-[4.25rem] z-10 mb-4 flex w-fit items-center rounded-full border border-rule bg-[#050505]/80 px-3 py-1 text-xs tabular-nums text-[#abd1ed] backdrop-blur-sm max-lg:block lg:hidden"
+        data-journey-pill
+      >
+        {entries.find((entry) => entry.kind !== "education")?.period}
+      </p>
       <div
-        class="journey-grid relative grid gap-8 lg:gap-x-0 lg:pt-14"
+        class="journey-grid relative grid gap-8 max-lg:before:absolute max-lg:before:inset-y-0 max-lg:before:left-0 max-lg:before:w-px max-lg:before:bg-rule/50 max-lg:before:content-[''] lg:gap-x-0 lg:pt-14"
       >
         {entries
           .filter((entry) => entry.kind !== "education")
@@ -133,14 +147,16 @@ const projectForEntry = (entry: JourneyEntry) =>
             const end = entry.end ? positions[entry.end] : start + 1;
             return (
               <article
-                class="journey-entry relative min-w-0 self-start border-l-2 border-[#8fc6ee] px-5 py-5 lg:border-t-2 lg:border-l-0"
+                class="journey-entry relative min-w-0 self-start px-5 py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-7 max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#8fc6ee] max-lg:before:content-[''] lg:border-t-2"
                 style={`--start: ${start}; --end: ${end}`}
+                data-journey-entry
+                data-period={entry.period}
               >
                 {entry.logos && (
                   <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
                     {entry.logos.map((src) => (
                       <img
-                        class="h-10 w-auto max-w-full object-contain object-left sm:h-14"
+                        class="h-8 w-auto max-w-full object-contain object-left sm:h-14"
                         src={src}
                         alt=""
                         loading="lazy"
@@ -210,6 +226,32 @@ const projectForEntry = (entry: JourneyEntry) =>
     </div>
   </div>
 </section>
+
+<script>
+  const bands = document.querySelectorAll("[data-journey-band]");
+  if (bands.length) {
+    const active = new Map();
+    const io = new IntersectionObserver(
+      (changes) => {
+        for (const change of changes) {
+          const band = change.target.closest("[data-journey-band]");
+          if (!band) continue;
+          if (change.isIntersecting) active.set(band, change.target);
+          else if (active.get(band) === change.target) active.delete(band);
+        }
+        for (const [band, card] of active) {
+          const pill = band.querySelector("[data-journey-pill]");
+          const period = card instanceof HTMLElement ? card.dataset.period : undefined;
+          if (pill && period && pill.textContent !== period) {
+            pill.textContent = period;
+          }
+        }
+      },
+      { rootMargin: "-45% 0px -45% 0px" },
+    );
+    document.querySelectorAll("[data-journey-entry]").forEach((el) => io.observe(el));
+  }
+</script>
 
 <style>
   .journey-grid {
