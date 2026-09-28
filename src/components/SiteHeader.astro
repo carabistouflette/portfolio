@@ -18,6 +18,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 >
   <div class="header-progress" aria-hidden="true">
     <span class="header-progress-fill"></span>
+    <span class="header-progress-dot"></span>
   </div>
   <div class="header-inner content-shell">
     <a
@@ -140,7 +141,9 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
     let last = 0;
 
     const paint = (value: number) => {
-      fill.style.transform = `scaleY(${Math.min(Math.max(value, 0), 1).toFixed(4)})`;
+      const clamped = Math.min(Math.max(value, 0), 1);
+      fill.style.transform = `scaleY(${clamped.toFixed(4)})`;
+      header.style.setProperty("--progress", clamped.toFixed(4));
     };
 
     const jump = () => {
