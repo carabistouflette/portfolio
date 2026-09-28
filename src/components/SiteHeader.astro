@@ -131,7 +131,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       const switchLine = vh * 0.5;
       const headerOffset = header.offsetHeight;
       let index = 0;
-      let bestTop = Number.POSITIVE_INFINITY;
+      let bestTop = Number.NEGATIVE_INFINITY;
       links.forEach((link, i) => {
         const section = document.getElementById(
           link.getAttribute("href")?.slice(1) ?? "",
