@@ -18,7 +18,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
 
 <section
   id={content.navigation.sections.skills.id}
-  class="section-shell content-shell pb-12"
+  class="section-shell content-shell"
   aria-labelledby="skills-title"
 >
   <header>
@@ -41,7 +41,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
               <li>
                 {project ? (
                   <a
-                    class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
+                    class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
                     href={project.url || `#project-${project.id}`}
                   >
                     <span class="sr-only">{copy.projectLabel} </span>
@@ -51,7 +51,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
                     </span>
                   </a>
                 ) : (
-                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 font-mono text-xs text-paper/90">
+                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 text-xs text-paper/90">
                     {technology.name}
                   </span>
                 )}
@@ -71,7 +71,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
         class="relative block cursor-pointer border-t border-rule/60 py-3 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
       >
         <span class="relative z-10 flex items-center justify-between gap-6">
-          <span class="font-mono text-sm uppercase tracking-[0.12em] text-[#a8c8be]">
+          <span class="text-sm uppercase tracking-[0.12em] text-[#a8c8be]">
             {copy.catalogMoreLabel}
             <span class="sr-only"> — {copy.heading}</span>
           </span>

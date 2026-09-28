@@ -39,7 +39,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
   aria-labelledby={showContext ? labelId : undefined}
 >
   {showContext && (
-    <p id={labelId} class="mb-4 font-mono text-xs leading-relaxed">
+    <p id={labelId} class="mb-4 text-xs leading-relaxed">
       {figure.title}
     </p>
   )}
@@ -86,7 +86,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         {(figure.nodes ?? []).map((node, index) => (
           <li class="relative flex gap-4">
             <span
-              class="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#87b7dc]/40 bg-[#102637] font-mono text-xs text-[#abd1ed]"
+              class="flex size-9 shrink-0 items-center justify-center rounded-full border border-[#87b7dc]/40 bg-[#102637] text-xs text-[#abd1ed]"
               aria-hidden="true"
             >
               {String(index + 1).padStart(2, "0")}

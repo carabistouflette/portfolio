@@ -36,7 +36,7 @@ const robinGlyphs = [
 ---
 
 <section
-  class="hero content-shell relative isolate grid min-h-[calc(100vh-3.75rem)] min-h-[calc(100svh-3.75rem)] min-h-[calc(100dvh-3.75rem)] gap-14 pb-16 pt-8 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-start md:gap-x-12 md:gap-y-8 md:pb-16 md:pt-10 lg:items-end xl:gap-x-16"
+  class="hero content-shell relative isolate grid min-h-[calc(100vh-3.75rem)] min-h-[calc(100svh-3.75rem)] min-h-[calc(100dvh-3.75rem)] gap-14 pb-16 pt-8 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-start md:gap-x-12 md:gap-y-8 md:pb-16 md:pt-10 lg:items-end xl:gap-x-16 min-[100rem]:gap-x-[min(8rem,calc(4rem+(100vw-100rem)*0.2))]"
   aria-labelledby="hero-title"
 >
   <div
@@ -85,12 +85,12 @@ const robinGlyphs = [
       </div>
     </div>
   </div>
-  <div class="hero-copy relative z-10 min-w-0">
+  <div class="hero-copy @container relative z-10 min-w-0">
     <p class="eyebrow mb-0 max-w-[24ch]">{content.hero.eyebrow}</p>
     <h1
       id="hero-title"
       aria-label={content.hero.title}
-      class="mt-2 font-display text-[clamp(5.25rem,18vw,17rem)] leading-[0.82] tracking-[-0.065em]"
+      class="hero-name-size mt-2 font-display leading-[0.82] tracking-[-0.065em]"
     >
       {nameLines.map((line, index) =>
         index === 0 ? (
@@ -123,31 +123,38 @@ const robinGlyphs = [
         ),
       )}
     </h1>
-    <p class="mt-8 max-w-[30ch] text-[clamp(1.5rem,2.5vw,2.25rem)] font-medium leading-snug tracking-tight text-balance">
+    <p class="hero-headline-size mt-8 max-w-[30ch] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
     <p class="mt-3 max-w-[42ch] body-copy text-muted">
       {content.hero.affiliation}
     </p>
-    <div class="hero-availability mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 lg:hidden">
-      <p class="text-lg font-medium leading-snug text-paper sm:text-xl">
-        <span class="text-[#abd1ed]">{content.hero.availability.label}</span>
-        <span class="text-rule/80 mx-2" aria-hidden="true">
-          ·
+    <details class="hero-availability group mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 transition-colors hover:border-paper open:border-paper lg:hidden">
+      <summary class="flex cursor-pointer items-start justify-between gap-4 rounded-xl focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
+        <span class="min-w-0 text-lg font-medium leading-snug text-paper sm:text-xl">
+          <span class="block text-[#abd1ed]">{content.hero.availability.label}</span>
+          {content.hero.availability.detail.split("·").map((part) => (
+            <span class="block">{part.trim()}</span>
+          ))}
         </span>
-        <span>{content.hero.availability.detail}</span>
-      </p>
-      <p class="hero-availability-note mt-1.5 body-copy text-muted">
+        <span
+          aria-hidden="true"
+          class="disclosure-mark mt-1 shrink-0 text-2xl leading-none text-[#9dc7df] transition-transform group-open:rotate-45"
+        >
+          +
+        </span>
+      </summary>
+      <p class="hero-availability-note mt-3 body-copy text-muted">
         {content.hero.availability.note}
       </p>
-    </div>
+    </details>
     <p class="sr-only hidden lg:block">
       {content.hero.availability.label}. {content.hero.availability.detail}.
       {content.hero.availability.note}
     </p>
     <div class="hero-actions relative z-10 mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
       <a
-        class="inline-flex min-h-12 items-center border border-rule px-5 font-mono text-sm uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper"
+        class="inline-flex min-h-12 items-center border border-rule px-5 text-sm uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper"
         href={destinations.cv}
         download
       >
@@ -162,12 +169,20 @@ const robinGlyphs = [
     </div>
   </div>
   <section
-    class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:mb-15 lg:self-end lg:pt-0"
+    class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:self-end lg:pt-0"
     aria-label={content.hero.summaryTitle}
   >
-    <p class="max-w-[42ch] text-[clamp(1.25rem,2vw,2rem)] leading-[1.42] text-pretty text-muted lg:text-paper">
-      {content.hero.description}
-    </p>
+    <div class="ml-auto max-w-xl lg:rounded-[1.75rem_1.25rem_1.9rem_1.5rem] lg:border lg:border-[#8fc6ee]/60 lg:bg-linear-to-r lg:from-[#102637]/60 lg:to-transparent lg:px-8 lg:py-6">
+      <span
+        aria-hidden="true"
+        class="mb-3 block select-none font-display text-5xl leading-none text-[#8fc6ee]/70 lg:hidden"
+      >
+        «
+      </span>
+      <p class="hero-summary-size max-w-[42ch] leading-[1.42] text-pretty text-muted lg:text-paper">
+        {content.hero.description}
+      </p>
+    </div>
   </section>
 
   <script>

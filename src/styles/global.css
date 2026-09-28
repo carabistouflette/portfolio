@@ -99,6 +99,13 @@
     }
   }
 
+  /* Widen gradually from 1600px; capped so ultrawide never goes full-bleed. */
+  @media (min-width: 100rem) {
+    :root {
+      --shell-width: min(88rem + (100vw - 100rem) * 0.6, 122rem);
+    }
+  }
+
   /* Stronger text/border contrast for users who request it. */
   @media (prefers-contrast: more) {
     :root {
@@ -752,6 +759,50 @@
     letter-spacing: -0.04em;
   }
 
+  .hero-name-size {
+    font-size: min(clamp(5.25rem, 18vw, 17rem), 32.5cqi);
+  }
+
+  .hero-headline-size {
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  }
+
+  .hero-summary-size {
+    font-size: clamp(1.25rem, 2vw, 2rem);
+  }
+
+  .contact-email {
+    font-size: clamp(1.25rem, 2.8vw, 2.2rem);
+  }
+
+  /* Keep type growing on large displays: continuous at 1600px, capped at 2560px. */
+  @media (min-width: 100rem) {
+    .hero-name-size {
+      font-size: min(clamp(17rem, 17rem + (100vw - 100rem) * 0.07, 21.25rem), 32.5cqi);
+    }
+    .hero-headline-size {
+      font-size: clamp(2.25rem, 2.25rem + (100vw - 100rem) * 0.008, 2.75rem);
+    }
+    .hero-summary-size {
+      font-size: clamp(2rem, 2rem + (100vw - 100rem) * 0.008, 2.5rem);
+    }
+    .contact-email {
+      font-size: clamp(2.2rem, 2.2rem + (100vw - 100rem) * 0.006, 2.6rem);
+    }
+    .page-title {
+      font-size: clamp(5rem, 5rem + (100vw - 100rem) * 0.017, 6rem);
+    }
+    .section-title {
+      font-size: clamp(3.5rem, 3.5rem + (100vw - 100rem) * 0.015, 4.375rem);
+    }
+    .subsection-title {
+      font-size: clamp(2.25rem, 2.25rem + (100vw - 100rem) * 0.008, 2.75rem);
+    }
+    .feature-title {
+      font-size: clamp(3rem, 3rem + (100vw - 100rem) * 0.0125, 3.75rem);
+    }
+  }
+
   .card-title {
     font-size: 1.25rem;
     font-weight: 500;
@@ -933,7 +984,6 @@ a.github-calendar-day::after {
 }
 
 .hero-cat-bubble-label {
-  font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 0.8em;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -1165,13 +1215,15 @@ details[data-disclosure-animating] .skill-preview {
       text-decoration-color 160ms ease;
   }
 
-  #projects article {
+  #projects .project-research,
+  #projects .project-launcher {
     transition:
       translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 200ms ease;
   }
 
-  #projects article:focus-within {
+  #projects .project-research:focus-within,
+  #projects .project-launcher:focus-within {
     box-shadow: 0 0 0 1px rgb(157 199 223 / 0.35);
   }
 
@@ -1195,7 +1247,8 @@ details[data-disclosure-animating] .skill-preview {
   }
 
   @media (hover: hover) and (pointer: fine) {
-    #projects article:hover {
+    #projects .project-research:hover,
+    #projects .project-launcher:hover {
       translate: 0 -3px;
       box-shadow: 0 0 0 1px rgb(157 199 223 / 0.35);
     }
