@@ -16,9 +16,6 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
   transition:name="site-header"
   transition:animate="none"
 >
-  <div class="header-progress" aria-hidden="true">
-    <span class="header-progress-dot"></span>
-  </div>
   <div class="header-inner content-shell">
     <a
       class="header-signature"
@@ -61,6 +58,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
         aria-label={content.navigation.primaryLabel}
         tabindex="0"
       >
+        <span class="header-nav-underline" aria-hidden="true"></span>
         <ul class="header-sections">
           {Object.values(content.navigation.sections).map((section) => (
             <li>
@@ -104,112 +102,82 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
   import { onPageLoad } from "../scripts/page-lifecycle";
 
   onPageLoad((signal) => {
-    const header = document.querySelector<HTMLElement>(".site-header");
-    const track = header?.querySelector<HTMLElement>(".header-progress");
-    const dot = header?.querySelector<HTMLElement>(
-      ".header-progress-dot",
+    const navEl = document.querySelector<HTMLElement>(".primary-nav");
+    const header = navEl?.closest<HTMLElement>(".site-header");
+    const underline = navEl?.querySelector<HTMLElement>(
+      ".header-nav-underline",
     );
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("#main > section, #contact"),
+    const links = Array.from(
+      navEl?.querySelectorAll<HTMLAnchorElement>("[data-nav-link]") ?? [],
     );
-    if (!header || !track || !dot || !sections.length) return;
+    if (!header || !navEl || !underline || !links.length) return;
+    // onPageLoad fires twice on first load (load + astro:page-load):
+    // bind the loop to the element once per navigation only.
+    if (underline.dataset.bound) return;
+    underline.dataset.bound = "1";
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
-    const total = sections.length;
+    const localRect = (el: HTMLElement) => {
+      const a = el.getBoundingClientRect();
+      const b = navEl.getBoundingClientRect();
+      return {
+        left: a.left - b.left,
+        width: a.width,
+        bottom: a.bottom - b.top,
+      };
+    };
 
-    // One graduation per section, stacked bottom (first) to top (last).
-    const ticks: HTMLElement[] = [];
-    for (let i = 0; i < total; i += 1) {
-      const tick = document.createElement("span");
-      tick.className = "header-progress-tick";
-      tick.style.bottom = `calc(${((i / total) * 100).toFixed(3)}% + 1px)`;
-      tick.style.height = `calc(${(100 / total).toFixed(3)}% - 2px)`;
-      track.appendChild(tick);
-      ticks.push(tick);
-    }
-
-    // Cursor = reading bookmark: it climbs a segment while the section's
-    // title travels from the switch line (75% of the viewport) to the top
-    // (under the header), stays pinned at the segment top while you read
-    // deeper, and hops to the next segment when its title crosses the line.
-    const computePosition = () => {
+    const apply = () => {
       const vh = window.innerHeight;
-      const switchLine = vh * 0.75;
+      const switchLine = vh * 0.5;
       const headerOffset = header.offsetHeight;
       let index = 0;
       let bestTop = -Infinity;
-      for (let i = 0; i < sections.length; i += 1) {
-        const t = sections[i].getBoundingClientRect().top;
+      links.forEach((link, i) => {
+        const section = document.getElementById(
+          link.getAttribute("href")?.slice(1) ?? "",
+        );
+        if (!section) return;
+        const t = section.getBoundingClientRect().top;
         if (t <= switchLine && t > bestTop) {
           bestTop = t;
           index = i;
         }
-      }
+      });
+      const found = bestTop > -Infinity;
+      underline.style.opacity = found ? "1" : "0";
+      if (!found) return;
+      const a = localRect(links[index]);
+      underline.style.top = `${a.bottom.toFixed(2)}px`;
       const fraction = Math.min(
-        Math.max((switchLine - bestTop) / Math.max(switchLine - headerOffset, 1), 0),
+        Math.max(
+          (switchLine - bestTop) / Math.max(switchLine - headerOffset, 1),
+          0,
+        ),
         1,
       );
-      return index + fraction;
+      let width = a.width - 8;
+      const next = links[index + 1];
+      if (next) {
+        const nr = localRect(next);
+        const gap = nr.left + nr.width - (a.left + a.width);
+        if (gap > 0) width += fraction * gap * 0.85;
+      }
+      underline.style.transform = `translateX(${(a.left + 4).toFixed(2)}px)`;
+      underline.style.width = `${Math.max(width, 0).toFixed(2)}px`;
     };
 
-    let current = 0;
-    let velocity = 0;
     let frame = 0;
-    let last = 0;
-    let activeIndex = -1;
-
-    const paint = (value: number) => {
-      header.style.setProperty("--progress", (value / total).toFixed(4));
-      const index = Math.min(Math.round(value), total - 1);
-      if (index !== activeIndex) {
-        activeIndex = index;
-        ticks.forEach((tick, i) => {
-          if (i === index) tick.setAttribute("data-active", "");
-          else tick.removeAttribute("data-active");
-        });
-      }
-    };
-
-    const jump = () => {
-      current = computePosition();
-      velocity = 0;
-      paint(current);
-    };
-
-    const step = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
-      const target = computePosition();
-      velocity += (190 * (target - current) - 18 * velocity) * dt;
-      current += velocity * dt;
-      paint(current);
-      if (Math.abs(target - current) > 0.0008 || Math.abs(velocity) > 0.002) {
-        frame = requestAnimationFrame(step);
-      } else {
-        current = target;
-        velocity = 0;
-        paint(current);
-        frame = 0;
-      }
-    };
-
     const kick = () => {
-      if (reducedMotion.matches) {
-        if (frame) cancelAnimationFrame(frame);
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
         frame = 0;
-        jump();
-        return;
-      }
-      if (!frame) {
-        last = performance.now();
-        frame = requestAnimationFrame(step);
-      }
+        apply();
+      });
     };
 
     window.addEventListener("scroll", kick, { passive: true, signal });
     window.addEventListener("resize", kick, { passive: true, signal });
+    window.addEventListener("load", kick, { signal });
     signal.addEventListener(
       "abort",
       () => {
@@ -217,7 +185,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       },
       { once: true },
     );
-    jump();
+    apply();
   });
 
   onPageLoad((signal) => {
