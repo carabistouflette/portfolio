@@ -1,4 +1,3 @@
-<script setup lang="ts">
 import {
   siPython,
   siRust,
@@ -55,12 +54,16 @@ import {
   type SimpleIcon,
 } from "simple-icons";
 
-const props = withDefaults(
-  defineProps<{ name: string; className?: string }>(),
-  {
-    className: "h-6 w-6 shrink-0",
-  },
-);
+export interface ToolIconData {
+  /** Simple-icons glyph rendered through the page sprite (`use` reference). */
+  spriteId?: string;
+  /** Static webp asset under /tool-icons/. */
+  image?: string;
+  /** Inline stroked fallback path for tools without brand icons. */
+  glyph?: string;
+  /** Resolved CSS color for brand icons. */
+  color: string;
+}
 
 const brands: Record<string, SimpleIcon> = {
   Python: siPython,
@@ -137,55 +140,50 @@ const images: Record<string, string> = {
   Altair: "altair",
 };
 
-const icon = brands[props.name];
-const glyph = glyphs[props.name];
-const image = images[props.name];
-if (!icon && !glyph && !image)
-  throw new Error(`Missing toolbox icon: ${props.name}`);
+/** All brand icons referenced by `names`, deduplicated by slug. */
+export const brandIconsFor = (names: string[]): SimpleIcon[] => {
+  const bySlug = new Map<string, SimpleIcon>();
+  for (const name of names) {
+    const icon = brands[name];
+    if (icon) bySlug.set(icon.slug, icon);
+  }
+  return [...bySlug.values()];
+};
 
-const color = (() => {
-  if (!icon) return "#9dc7df";
-  const channels = [0, 2, 4].map(
-    (offset) => parseInt(icon.hex.slice(offset, offset + 2), 16) / 255,
-  );
-  const linear = channels.map((channel) =>
-    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
-  );
-  const luminance =
-    0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
-  return icon.hex === "000000"
-    ? "#eaf4fa"
-    : luminance < 0.12
-      ? `color-mix(in srgb, #${icon.hex} 55%, #eaf4fa)`
-      : `#${icon.hex}`;
-})();
-</script>
+/** Every brand icon in the toolbox, deduplicated by slug. */
+export const allBrandIcons: SimpleIcon[] = [
+  ...new Map(Object.values(brands).map((icon) => [icon.slug, icon])).values(),
+];
 
-<template>
-  <img
-    v-if="image"
-    :src="`/tool-icons/${image}.webp`"
-    alt=""
-    width="24"
-    height="24"
-    :class="`${props.className} object-contain`"
-    aria-hidden="true"
-    data-tool-icon
-  />
-  <svg
-    v-else
-    :class="props.className"
-    :style="{ color }"
-    viewBox="0 0 24 24"
-    :fill="icon ? 'currentColor' : 'none'"
-    :stroke="icon ? undefined : 'currentColor'"
-    :stroke-width="icon ? undefined : 1.5"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    aria-hidden="true"
-    focusable="false"
-    data-tool-icon
-  >
-    <path :d="icon ? icon.path : glyph" />
-  </svg>
-</template>
+export const resolveToolIcon = (name: string): ToolIconData => {
+  const icon = brands[name];
+  const glyph = glyphs[name];
+  const image = images[name];
+  if (!icon && !glyph && !image)
+    throw new Error(`Missing toolbox icon: ${name}`);
+
+  let color = "#9dc7df";
+  if (icon) {
+    const channels = [0, 2, 4].map(
+      (offset) => parseInt(icon.hex.slice(offset, offset + 2), 16) / 255,
+    );
+    const linear = channels.map((channel) =>
+      channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+    );
+    const luminance =
+      0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+    color =
+      icon.hex === "000000"
+        ? "#eaf4fa"
+        : luminance < 0.12
+          ? `color-mix(in srgb, #${icon.hex} 55%, #eaf4fa)`
+          : `#${icon.hex}`;
+  }
+
+  return {
+    spriteId: icon ? `tool-si-${icon.slug}` : undefined,
+    image,
+    glyph,
+    color,
+  };
+};

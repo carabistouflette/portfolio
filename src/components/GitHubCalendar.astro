@@ -140,21 +140,6 @@ const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCo
                 <DayTag
                   class:list={[
                     "github-calendar-day",
-                    "grid",
-                    "min-h-5",
-                    "min-w-5",
-                    "place-items-center",
-                    "rounded-sm",
-                    "text-[0.6rem]",
-                    "text-ink",
-                    "transition-colors",
-                    "motion-reduce:transition-none",
-                    "hover:ring-2",
-                    "hover:ring-paper",
-                    "focus-visible:z-1",
-                    "focus-visible:outline-2",
-                    "focus-visible:outline-paper",
-                    "focus-visible:outline-offset-3",
                     levelClasses[cell.day.level],
                   ]}
                   {...(preview
@@ -187,3 +172,37 @@ const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCo
     <span>{copy.moreLabel}</span>
   </div>
 </section>
+
+<style is:global>
+  /* Day cells repeat ~370× per page; styles live here, markup keeps only the level class. */
+  .github-calendar-day {
+    display: grid;
+    min-height: 1.25rem;
+    min-width: 1.25rem;
+    place-items: center;
+    border-radius: 0.125rem;
+    font-size: 0.6rem;
+    color: var(--color-ink);
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .github-calendar-day:hover {
+    box-shadow: 0 0 0 2px var(--color-paper);
+  }
+
+  .github-calendar-day:focus-visible {
+    z-index: 1;
+    outline: 2px solid var(--color-paper);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .github-calendar-day {
+      transition: none;
+    }
+  }
+</style>

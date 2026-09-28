@@ -1,6 +1,6 @@
 ---
 import type { PortfolioContent } from "../data/portfolio";
-import SkillsCatalog from "./SkillsCatalog.vue";
+import SkillsCatalog from "./SkillsCatalog.astro";
 interface Props {
   content: PortfolioContent;
 }
@@ -90,7 +90,6 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
         aria-labelledby="skills-catalog-summary"
       >
         <SkillsCatalog
-          client:load
           groups={copy.groups}
           projects={projectLinks}
           projectLabel={copy.projectLabel}
