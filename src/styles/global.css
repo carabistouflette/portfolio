@@ -35,7 +35,7 @@
     --rule: var(--color-rule);
     --shell-width: 88rem;
     --gutter: 1.5rem;
-    --section-space: clamp(4rem, 8vw, 8rem);
+    --section-space: clamp(4.5rem, 10vw, 11rem);
     --background-field: radial-gradient(
       ellipse at 49% 46%,
       #081724 0%,
@@ -721,7 +721,7 @@
   }
 
   .section-heading {
-    padding-bottom: 1.5rem;
+    padding-bottom: 2rem;
     text-align: left;
   }
 
