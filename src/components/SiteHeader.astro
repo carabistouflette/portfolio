@@ -58,7 +58,6 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
         aria-label={content.navigation.primaryLabel}
         tabindex="0"
       >
-        <span class="header-nav-underline" aria-hidden="true"></span>
         <ul class="header-sections">
           {Object.values(content.navigation.sections).map((section) => (
             <li>
@@ -100,96 +99,6 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 </header>
 <script>
   import { onPageLoad } from "../scripts/page-lifecycle";
-
-  let headerUnderlineCleanup: (() => void) | undefined;
-
-  onPageLoad((signal) => {
-    const navEl = document.querySelector<HTMLElement>(".primary-nav");
-    const header = navEl?.closest<HTMLElement>(".site-header");
-    const underline = navEl?.querySelector<HTMLElement>(
-      ".header-nav-underline",
-    );
-    const links = Array.from(
-      navEl?.querySelectorAll<HTMLAnchorElement>("[data-nav-link]") ?? [],
-    );
-    if (!header || !navEl || !underline || !links.length) return;
-    // onPageLoad fires twice on first load (load + astro:page-load):
-    // bind the loop to the element once per navigation only.
-    headerUnderlineCleanup?.();
-    const localRect = (el: HTMLElement) => {
-      const a = el.getBoundingClientRect();
-      const b = navEl.getBoundingClientRect();
-      return {
-        left: a.left - b.left,
-        width: a.width,
-        bottom: a.bottom - b.top,
-      };
-    };
-
-    const apply = () => {
-      const vh = window.innerHeight;
-      const switchLine = vh * 0.5;
-      const headerOffset = header.offsetHeight;
-      let index = 0;
-      let bestTop = Number.NEGATIVE_INFINITY;
-      links.forEach((link, i) => {
-        const section = document.getElementById(
-          link.getAttribute("href")?.slice(1) ?? "",
-        );
-        if (!section) return;
-        const t = section.getBoundingClientRect().top;
-        if (t <= switchLine && t > bestTop) {
-          bestTop = t;
-          index = i;
-        }
-      });
-      const fraction =
-        bestTop === Number.POSITIVE_INFINITY
-          ? 0
-          : Math.min(
-              Math.max(
-                (switchLine - bestTop) / Math.max(switchLine - headerOffset, 1),
-                0,
-              ),
-              1,
-            );
-      const a = localRect(links[index]);
-      underline.style.top = `${a.bottom.toFixed(2)}px`;
-      underline.style.opacity = "1";
-      let width = a.width - 8;
-      const next = links[index + 1];
-      if (next) {
-        const nr = localRect(next);
-        const gap = nr.left + nr.width - (a.left + a.width);
-        if (gap > 0) width += fraction * gap * 0.85;
-      }
-      underline.style.transform = `translateX(${(a.left + 4).toFixed(2)}px)`;
-      underline.style.width = `${Math.max(width, 0).toFixed(2)}px`;
-    };
-
-    let frame = 0;
-    const kick = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        apply();
-      });
-    };
-
-    window.addEventListener("scroll", kick, { passive: true, signal });
-    window.addEventListener("resize", kick, { passive: true, signal });
-    window.addEventListener("load", kick, { signal });
-    headerUnderlineCleanup = () => {
-      if (frame) cancelAnimationFrame(frame);
-      frame = 0;
-    };
-    signal.addEventListener(
-      "abort",
-      headerUnderlineCleanup,
-      { once: true },
-    );
-    apply();
-  });
 
   onPageLoad((signal) => {
     const header = document.querySelector<HTMLElement>(".site-header");
