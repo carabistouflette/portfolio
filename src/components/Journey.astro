@@ -59,17 +59,21 @@ const projectForEntry = (entry: JourneyEntry) =>
           const end = entry.end ? positions[entry.end] : start + 1;
           return (
             <article
-              class="journey-entry relative min-w-0 bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 px-5 py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-7 max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#a5b9c4] max-lg:before:content-[''] lg:border-t-2"
+              class="journey-entry relative min-w-0 max-lg:pl-4 lg:bg-linear-to-b lg:from-[#24353f]/75 lg:to-[#14212b]/40 lg:px-5 lg:py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-[7px] max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#a5b9c4] max-lg:before:content-[''] lg:border-t-2"
               style={`--start: ${start}; --end: ${end}`}
             >
-              <p class="mb-4 text-base font-medium tabular-nums text-[#a5b9c4] sm:text-lg">
+              <p class="mb-3 text-base font-medium tabular-nums text-[#a5b9c4] sm:text-lg">
                 {entry.period}
               </p>
+              <h3 class="card-title [overflow-wrap:anywhere]">
+                {entry.title}
+              </h3>
+              <p class="body-copy mt-2">{entry.subtitle}</p>
               {entry.logos && (
-                <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
                   {entry.logos.map((src) => (
                     <img
-                      class="h-8 w-auto max-w-full object-contain object-left sm:h-14"
+                      class="h-7 w-auto max-w-full object-contain object-left opacity-90 sm:h-14"
                       src={src}
                       alt=""
                       loading="lazy"
@@ -77,10 +81,6 @@ const projectForEntry = (entry: JourneyEntry) =>
                   ))}
                 </div>
               )}
-              <h3 class="card-title [overflow-wrap:anywhere]">
-                {entry.title}
-              </h3>
-              <p class="body-copy mt-2">{entry.subtitle}</p>
               {entry.detail && (
                 <details class="reading-disclosure mt-4">
                   <summary>
@@ -133,17 +133,21 @@ const projectForEntry = (entry: JourneyEntry) =>
             const end = entry.end ? positions[entry.end] : start + 1;
             return (
               <article
-                class="journey-entry relative min-w-0 self-start px-5 py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-7 max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#8fc6ee] max-lg:before:content-[''] lg:border-t-2"
+                class="journey-entry relative min-w-0 self-start max-lg:pl-4 max-lg:pr-0 lg:px-5 lg:py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-[7px] max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#8fc6ee] max-lg:before:content-[''] lg:border-t-2"
                 style={`--start: ${start}; --end: ${end}`}
               >
-                <p class="mb-4 text-base font-medium tabular-nums text-[#8fc6ee] sm:text-lg">
+                <p class="mb-3 text-base font-medium tabular-nums text-[#8fc6ee] sm:text-lg">
                   {entry.period}
                 </p>
+                <h3 class="card-title text-[#abd1ed] [overflow-wrap:anywhere]">
+                  {entry.title}
+                </h3>
+                <p class="body-copy mt-2">{entry.subtitle}</p>
                 {entry.logos && (
-                  <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
                     {entry.logos.map((src) => (
                       <img
-                        class="h-8 w-auto max-w-full object-contain object-left sm:h-14"
+                        class="h-7 w-auto max-w-full object-contain object-left opacity-90 sm:h-14"
                         src={src}
                         alt=""
                         loading="lazy"
@@ -151,10 +155,6 @@ const projectForEntry = (entry: JourneyEntry) =>
                     ))}
                   </div>
                 )}
-                <h3 class="card-title text-[#abd1ed] [overflow-wrap:anywhere]">
-                  {entry.title}
-                </h3>
-                <p class="body-copy mt-2">{entry.subtitle}</p>
                 {entry.detail && (
                   <details class="reading-disclosure mt-4">
                     <summary>
