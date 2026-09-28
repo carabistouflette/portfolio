@@ -31,7 +31,7 @@ const { axis, yearGroups } = Astro.props;
     <>
       <span
         class="journey-year absolute -top-1 whitespace-nowrap text-sm text-muted"
-        style={`left: ${((group.start + group.end) / 2 / (axis.length - 1)) * 100}%; transform: translateX(${group.start === 0 ? "0" : group.end === axis.length - 1 ? "-100%" : "-50%"})`}
+        style={`left: ${(group.start / (axis.length - 1)) * 100}%; transform: translateX(${group.start === 0 ? "0" : "-50%"})`}
       >
         {group.label}
       </span>
