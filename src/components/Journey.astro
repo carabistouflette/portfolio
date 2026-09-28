@@ -1,5 +1,6 @@
 ---
 import type { JourneyEntry, PortfolioContent } from "../data/portfolio";
+import JourneyAxis from "./JourneyAxis.astro";
 
 interface Props {
   content: PortfolioContent;
@@ -45,136 +46,167 @@ const projectForEntry = (entry: JourneyEntry) =>
     </p>
   </div>
   <div class="relative" style={`--steps: ${axis.length - 1}`}>
-    <div
-      class="pointer-events-none absolute inset-0 hidden lg:block"
-      aria-hidden="true"
-    >
-      {axis.map((marker, index) => (
-        <div
-          class="absolute inset-y-0 border-l border-rule/35"
-          style={`left: ${(index / (axis.length - 1)) * 100}%`}
-        >
-          {marker.detail && (
-            <span class="absolute top-7 -translate-x-1/2 whitespace-nowrap text-[0.65rem] text-[#abd1ed]">
-              {marker.detail}
-            </span>
-          )}
-        </div>
-      ))}
-      {yearGroups.map((group) => (
-        <>
-          <span
-            class="journey-year absolute -top-1 whitespace-nowrap text-sm text-muted"
-            style={`left: ${((group.start + group.end) / 2 / (axis.length - 1)) * 100}%; transform: translateX(${group.start === 0 ? "0" : group.end === axis.length - 1 ? "-100%" : "-50%"})`}
-          >
-            {group.label}
-          </span>
-          {group.end > group.start && (
-            <span
-              class="absolute top-5 border-t border-rule"
-              style={`left: ${(group.start / (axis.length - 1)) * 100}%; width: ${((group.end - group.start) / (axis.length - 1)) * 100}%`}
-            ></span>
-          )}
-        </>
-      ))}
-    </div>
+    <JourneyAxis axis={axis} yearGroups={yearGroups} />
     <div class="journey-grid relative grid gap-8 lg:gap-x-0 lg:gap-y-12 lg:pt-14">
-      <p class="col-span-2 col-start-1 row-start-2 hidden pt-6 font-display text-2xl text-muted lg:block">
+      {entries
+        .filter((entry) => entry.kind === "education")
+        .map((entry) => {
+          const project = projectForEntry(entry);
+          const start = positions[entry.start];
+          const end = entry.end ? positions[entry.end] : start + 1;
+          return (
+            <article
+              class="journey-entry relative min-w-0 border-l-2 border-[#a5b9c4] bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 px-5 py-5 lg:border-t-2 lg:border-l-0"
+              style={`--start: ${start}; --end: ${end}`}
+            >
+              {entry.logos && (
+                <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                  {entry.logos.map((src) => (
+                    <img
+                      class="h-12 w-auto max-w-full object-contain object-left sm:h-14"
+                      src={src}
+                      alt=""
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              )}
+              <p class="eyebrow mb-2 text-[#abd1ed] lg:hidden">
+                {content.journey.labels[entry.kind]}
+              </p>
+              <p class="mb-3 text-sm leading-relaxed text-muted tabular-nums">
+                {entry.period}
+              </p>
+              <h3 class="card-title [overflow-wrap:anywhere]">
+                {entry.title}
+              </h3>
+              <p class="body-copy mt-2">{entry.subtitle}</p>
+              {entry.detail && (
+                <details class="reading-disclosure mt-4">
+                  <summary>
+                    {content.journey.detailLabel}
+                    <span class="sr-only"> — {entry.title}</span>
+                  </summary>
+                  <div class="reading-disclosure-body">
+                    <p class="body-copy max-w-[46ch] text-muted">
+                      {entry.detail}
+                    </p>
+                  </div>
+                </details>
+              )}
+              {project?.url && project.linkLabel && (
+                <a
+                  class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed"
+                  href={project.url}
+                >
+                  {project.linkLabel}
+                  <span class="ml-2" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              )}
+            </article>
+          );
+        })}
+    </div>
+  </div>
+
+  <div class="mt-14 border-t border-rule pt-8 lg:mt-20">
+    <div class="mb-7 hidden lg:block">
+      <p class="font-display text-2xl text-muted">
         {content.journey.labels.experience}
       </p>
-      {entries.map((entry) => {
-        const project = projectForEntry(entry);
-        const education = entry.kind === "education";
-        const start = positions[entry.start];
-        const end = entry.end ? positions[entry.end] : start + 1;
-        return (
-          <article
-            class:list={[
-              "journey-entry relative min-w-0 px-5 py-5",
-              education
-                ? "border-l-2 border-[#a5b9c4] bg-linear-to-b from-[#24353f]/75 to-[#14212b]/40 lg:border-t-2 lg:border-l-0"
-                : "self-start border-l-2 border-[#8fc6ee] lg:border-t-2 lg:border-l-0",
-            ]}
-            style={`--start: ${start}; --end: ${end}; --desktop-lane: ${education ? 1 : 2}`}
-          >
-            {entry.logos && (
-              <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
-                {entry.logos.map((src) => (
-                  <img
-                    class="h-12 w-auto max-w-full object-contain object-left sm:h-14"
-                    src={src}
-                    alt=""
-                    loading="lazy"
-                  />
-                ))}
-              </div>
-            )}
-            <p class="eyebrow mb-2 text-[#abd1ed] lg:hidden">
-              {content.journey.labels[entry.kind]}
-            </p>
-            <p class="mb-3 text-sm leading-relaxed text-muted tabular-nums">
-              {entry.period}
-            </p>
-            <h3
-              class:list={[
-                "card-title [overflow-wrap:anywhere]",
-                education ? "" : "text-[#abd1ed]",
-              ]}
-            >
-              {entry.title}
-            </h3>
-            <p class="body-copy mt-2">{entry.subtitle}</p>
-            {entry.detail && (
-              <details class="reading-disclosure mt-4">
-                <summary>
-                  {content.journey.detailLabel}
-                  <span class="sr-only"> — {entry.title}</span>
-                </summary>
-                <div class="reading-disclosure-body">
-                  <p class="body-copy max-w-[46ch] text-muted">
-                    {entry.detail}
-                  </p>
-                </div>
-              </details>
-            )}
-            {project?.url && project.linkLabel && (
-              <a
-                class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed"
-                href={project.url}
-              >
-                {project.linkLabel}
-                <span class="ml-2" aria-hidden="true">
-                  ↗
-                </span>
-              </a>
-            )}
-          </article>
-        );
-      })}
-      <section
-        class="journey-entry min-w-0 border border-dashed border-[#8fc6ee]/60 bg-[#102637]/40 px-5 py-5"
-        style={`--start: ${positions[invitation.start]}; --end: ${positions[invitation.end]}; --desktop-lane: 2`}
-        aria-labelledby="journey-invitation-title"
+    </div>
+    <div class="relative" style={`--steps: ${axis.length - 1}`}>
+      <JourneyAxis axis={axis} yearGroups={yearGroups} />
+      <div
+        class="journey-grid relative grid gap-8 lg:gap-x-0 lg:pt-14"
       >
-        <h3
-          id="journey-invitation-title"
-          class="subsection-title text-[#abd1ed]"
+        {entries
+          .filter((entry) => entry.kind !== "education")
+          .map((entry) => {
+            const project = projectForEntry(entry);
+            const start = positions[entry.start];
+            const end = entry.end ? positions[entry.end] : start + 1;
+            return (
+              <article
+                class="journey-entry relative min-w-0 self-start border-l-2 border-[#8fc6ee] px-5 py-5 lg:border-t-2 lg:border-l-0"
+                style={`--start: ${start}; --end: ${end}`}
+              >
+                {entry.logos && (
+                  <div class="mb-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                    {entry.logos.map((src) => (
+                      <img
+                        class="h-12 w-auto max-w-full object-contain object-left sm:h-14"
+                        src={src}
+                        alt=""
+                        loading="lazy"
+                      />
+                    ))}
+                  </div>
+                )}
+                <p class="eyebrow mb-2 text-[#abd1ed] lg:hidden">
+                  {content.journey.labels[entry.kind]}
+                </p>
+                <p class="mb-3 text-sm leading-relaxed text-muted tabular-nums">
+                  {entry.period}
+                </p>
+                <h3 class="card-title text-[#abd1ed] [overflow-wrap:anywhere]">
+                  {entry.title}
+                </h3>
+                <p class="body-copy mt-2">{entry.subtitle}</p>
+                {entry.detail && (
+                  <details class="reading-disclosure mt-4">
+                    <summary>
+                      {content.journey.detailLabel}
+                      <span class="sr-only"> — {entry.title}</span>
+                    </summary>
+                    <div class="reading-disclosure-body">
+                      <p class="body-copy max-w-[46ch] text-muted">
+                        {entry.detail}
+                      </p>
+                    </div>
+                  </details>
+                )}
+                {project?.url && project.linkLabel && (
+                  <a
+                    class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed"
+                    href={project.url}
+                  >
+                    {project.linkLabel}
+                    <span class="ml-2" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                )}
+              </article>
+            );
+          })}
+        <section
+          class="journey-entry min-w-0 border border-dashed border-[#8fc6ee]/60 bg-[#102637]/40 px-5 py-5"
+          style={`--start: ${positions[invitation.start]}; --end: ${positions[invitation.end]}`}
+          aria-labelledby="journey-invitation-title"
         >
-          {invitation.title}
-        </h3>
-        <p class="body-copy mt-3 max-w-[32ch] text-muted">
-          {invitation.description}
-        </p>
-        <a
-          class="text-link mt-4 max-w-full border-b border-paper/50 text-xs leading-relaxed sm:text-sm"
-          href={`#${content.navigation.sections.contact.id}`}
-        >
-          {invitation.linkLabel}
-          <span class="ml-2 shrink-0" aria-hidden="true">
-            ↗
-          </span>
-        </a>
-      </section>
+          <h3
+            id="journey-invitation-title"
+            class="subsection-title text-[#abd1ed]"
+          >
+            {invitation.title}
+          </h3>
+          <p class="body-copy mt-3 max-w-[32ch] text-muted">
+            {invitation.description}
+          </p>
+          <a
+            class="text-link mt-4 max-w-full border-b border-paper/50 text-xs leading-relaxed sm:text-sm"
+            href={`#${content.navigation.sections.contact.id}`}
+          >
+            {invitation.linkLabel}
+            <span class="ml-2 shrink-0" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        </section>
+      </div>
     </div>
   </div>
 </section>
@@ -193,12 +225,11 @@ const projectForEntry = (entry: JourneyEntry) =>
   @media (min-width: 64rem) {
     .journey-grid {
       grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
-      grid-template-rows: auto auto;
     }
 
     .journey-entry {
       grid-column: var(--start) / var(--end);
-      grid-row: var(--desktop-lane);
+      grid-row: 1;
     }
   }
 </style>
