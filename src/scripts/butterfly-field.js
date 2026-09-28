@@ -213,6 +213,14 @@
   const manual = params.get("manual") === "1";
   const fixedDT = 1 / 60;
   const maxSubsteps = 4;
+  // Adaptive quality: software WebGL / weak iGPUs cannot hold the frame budget.
+  // One-way degradation ladder: full → lower resolution → fewer butterflies →
+  // frozen frame. Stage 3 is sticky until reseed()/setOptions() states new intent.
+  const adapt = { stage: 0, seen: 0, samples: [], windowMs: 0 };
+  const ADAPT_WARMUP = 12; // Ignore startup (JIT, texture upload) frames.
+  const ADAPT_WINDOW = 18; // Sustained-mean window, in frames.
+  const ADAPT_DEGRADE_MS = 42; // < ~24 fps sustained → drop one stage.
+  const ADAPT_FREEZE_MS = 95; // < ~10 fps sustained after both drops → freeze.
   const stats = {
     frames: 0,
     physicsTotal: 0,
@@ -1433,6 +1441,69 @@
     if (cfg.count > 0) return clamp(Math.round(cfg.count), 1, 28);
     return clamp(Math.round((width * height) / 175000), width < 700 ? 4 : 6, 9);
   }
+  function adaptReset() {
+    adapt.stage = 0;
+    adapt.seen = 0;
+    adapt.samples.length = 0;
+    adapt.windowMs = 0;
+  }
+  function adaptApply() {
+    const is2d = renderer && renderer.kind === "canvas2d";
+    if (adapt.stage === 0 && !is2d) {
+      // GL path: cut pixels first (monotone min(): never raise a user-lowered value).
+      adapt.stage = 1;
+      cfg.maxPixelRatio = Math.min(
+        cfg.maxPixelRatio,
+        Math.max(0.75, cfg.maxPixelRatio * 0.6),
+      );
+      cfg.maxRenderPixels = Math.min(
+        cfg.maxRenderPixels,
+        Math.max(600000, Math.round(cfg.maxRenderPixels * 0.35)),
+      );
+      resize();
+    } else if (adapt.stage <= 1) {
+      // GL after resolution cut; canvas2d is already DPR-pinned so it starts here.
+      adapt.stage = 2;
+      const n = Math.max(3, Math.round(countForViewport() / 2));
+      if (n < birds.length) birds.length = n;
+      while (birds.length < n) birds.push(new Butterfly(birds.length, n));
+      if (renderer) renderer.draw(time);
+    } else {
+      adapt.stage = 3;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      lastTimestamp = 0;
+      if (renderer) renderer.draw(time); // Leave one settled, static frame.
+    }
+    adapt.seen = 0;
+    adapt.samples.length = 0;
+    adapt.windowMs = 0;
+  }
+  function adaptSample(intervalMs) {
+    if (adapt.stage >= 3) return;
+    adapt.seen++;
+    if (adapt.seen <= ADAPT_WARMUP) return;
+    const samples = adapt.samples;
+    samples.push(intervalMs);
+    adapt.windowMs += intervalMs;
+    if (samples.length > ADAPT_WINDOW) {
+      adapt.windowMs -= samples.shift();
+    }
+    // Decide on 18 frames OR ~2s of evidence (min 6 frames): at 4 fps a pure
+    // frame-count window would stretch decisions into half-minute waits.
+    if (
+      samples.length < 6 ||
+      (samples.length < ADAPT_WINDOW && adapt.windowMs < 2000)
+    )
+      return;
+    const mean = adapt.windowMs / samples.length;
+    const budget = adapt.stage >= 2 ? ADAPT_FREEZE_MS : ADAPT_DEGRADE_MS;
+    if (mean > budget) adaptApply();
+    else {
+      samples.length = 0;
+      adapt.windowMs = 0;
+    }
+  }
   function reset() {
     time = 0;
     accumulator = 0;
@@ -1537,7 +1608,8 @@
       document.hidden ||
       !ready ||
       isReduced() ||
-      manual
+      manual ||
+      adapt.stage >= 3 // Sticky freeze: loop stays dead until explicit reseed.
     )
       return;
     if (motionScale <= 0) {
@@ -1550,7 +1622,9 @@
     if (lastTimestamp) {
       stats.frameIntervals += rawDT * 1000;
       stats.intervalCount++;
+      adaptSample(rawDT * 1000);
     }
+    if (adapt.stage >= 3) return; // Frozen mid-loop by adaptation; frame already drawn.
     if (rawDT > fixedDT * maxSubsteps) stats.discardedCatchups++;
     lastTimestamp = timestamp;
     accumulator += Math.min(rawDT, fixedDT * maxSubsteps) * motionScale;
@@ -1571,7 +1645,8 @@
     stats.physicsTotal += cpu;
     stats.physicsMax = Math.max(stats.physicsMax, cpu);
     stats.submitTotal += performance.now() - afterPhysics;
-    raf = requestAnimationFrame(renderFrame);
+    // adaptApply() may re-enter play() via resize() mid-frame; never double-chain.
+    if (!raf) raf = requestAnimationFrame(renderFrame);
   }
   function play() {
     paused = false;
@@ -1652,6 +1727,7 @@
     ready: false,
     reseed(seed = cfg.seed + 173) {
       cfg.seed = finite(seed, cfg.seed) >>> 0;
+      adaptReset(); // Explicit intent: let the machine re-prove itself.
       reset();
       if (renderer) renderer.draw(time);
     },
@@ -1659,6 +1735,7 @@
       if (!options || typeof options !== "object") return { ...cfg };
       const before = { ...cfg };
       applyOptions(options);
+      adaptReset(); // Explicit intent: let the machine re-prove itself.
       const rebuild = [
         "seed",
         "count",
@@ -1701,6 +1778,7 @@
         width,
         height,
         paused,
+        adaptiveStage: adapt.stage,
         renderer: renderer ? renderer.kind : "static",
         reducedMotion: isReduced(),
         config: { ...cfg },
