@@ -462,9 +462,8 @@
 
   .header-nav-underline {
     position: absolute;
-    height: 2px;
+    height: 1px;
     background: #9dc7df;
-    box-shadow: 0 0 8px rgb(157 199 223 / 0.9);
     opacity: 0;
     pointer-events: none;
     will-change: transform, width;
