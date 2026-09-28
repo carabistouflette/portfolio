@@ -768,7 +768,7 @@
   }
 
   .hero-summary-size {
-    font-size: clamp(1.25rem, 2vw, 2rem);
+    font-size: clamp(1.125rem, 0.966rem + 0.654vw, 1.875rem);
   }
 
   .contact-email {
@@ -782,9 +782,6 @@
     }
     .hero-headline-size {
       font-size: clamp(2.25rem, 2.25rem + (100vw - 100rem) * 0.008, 2.75rem);
-    }
-    .hero-summary-size {
-      font-size: clamp(2rem, 2rem + (100vw - 100rem) * 0.008, 2.5rem);
     }
     .contact-email {
       font-size: clamp(2.2rem, 2.2rem + (100vw - 100rem) * 0.006, 2.6rem);
