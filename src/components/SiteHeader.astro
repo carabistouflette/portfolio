@@ -130,22 +130,25 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       ticks.push(tick);
     }
 
-    // Cursor position in "section units": k + progress inside section k.
+    // Cursor = reading bookmark: it climbs a segment while the section's
+    // title travels from the switch line (75% of the viewport) to the top
+    // (under the header), stays pinned at the segment top while you read
+    // deeper, and hops to the next segment when its title crosses the line.
     const computePosition = () => {
-      const scrollY = window.scrollY;
       const vh = window.innerHeight;
+      const switchLine = vh * 0.75;
+      const headerOffset = header.offsetHeight;
       let index = 0;
-      for (let i = sections.length - 1; i >= 0; i -= 1) {
-        const sectionTop =
-          sections[i].getBoundingClientRect().top + scrollY;
-        if (sectionTop <= scrollY + vh * 0.5) {
+      let bestTop = -Infinity;
+      for (let i = 0; i < sections.length; i += 1) {
+        const t = sections[i].getBoundingClientRect().top;
+        if (t <= switchLine && t > bestTop) {
+          bestTop = t;
           index = i;
-          break;
         }
       }
-      const rect = sections[index].getBoundingClientRect();
       const fraction = Math.min(
-        Math.max((scrollY - (rect.top + scrollY)) / Math.max(rect.height - vh, 1), 0),
+        Math.max((switchLine - bestTop) / Math.max(switchLine - headerOffset, 1), 0),
         1,
       );
       return index + fraction;
@@ -179,7 +182,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const target = computePosition();
-      velocity += (190 * (target - current) - 24 * velocity) * dt;
+      velocity += (190 * (target - current) - 18 * velocity) * dt;
       current += velocity * dt;
       paint(current);
       if (Math.abs(target - current) > 0.0008 || Math.abs(velocity) > 0.002) {
