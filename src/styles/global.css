@@ -116,6 +116,24 @@
 }
 
 @layer components {
+  .header-progress {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    width: 3px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .header-progress-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to top, #8fc6ee, #edf2f5);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    will-change: transform;
+  }
+
   .content-shell {
     width: min(100%, var(--shell-width));
     margin-inline: auto;

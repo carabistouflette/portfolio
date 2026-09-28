@@ -16,6 +16,9 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
   transition:name="site-header"
   transition:animate="none"
 >
+  <div class="header-progress" aria-hidden="true">
+    <span class="header-progress-fill"></span>
+  </div>
   <div class="header-inner content-shell">
     <a
       class="header-signature"
@@ -99,6 +102,94 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 </header>
 <script>
   import { onPageLoad } from "../scripts/page-lifecycle";
+
+  onPageLoad((signal) => {
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const fill = header?.querySelector<HTMLElement>(
+      ".header-progress-fill",
+    );
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("#main > section, #contact"),
+    );
+    if (!header || !fill || !sections.length) return;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+
+    // Progress through the section currently scrolled: 0 at its top,
+    // 1 when its bottom reaches the viewport top.
+    const computeTarget = () => {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      let top = 0;
+      for (let i = sections.length - 1; i >= 0; i -= 1) {
+        const sectionTop = sections[i].getBoundingClientRect().top + scrollY;
+        if (sectionTop <= scrollY + vh * 0.5) {
+          top = sectionTop;
+          const height = sections[i].getBoundingClientRect().height;
+          return Math.min(Math.max((scrollY - top) / Math.max(height - vh, 1), 0), 1);
+        }
+      }
+      return 0;
+    };
+
+    let current = 0;
+    let velocity = 0;
+    let frame = 0;
+    let last = 0;
+
+    const paint = (value: number) => {
+      fill.style.transform = `scaleY(${Math.min(Math.max(value, 0), 1).toFixed(4)})`;
+    };
+
+    const jump = () => {
+      current = computeTarget();
+      velocity = 0;
+      paint(current);
+    };
+
+    const step = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      const target = computeTarget();
+      velocity += (190 * (target - current) - 24 * velocity) * dt;
+      current += velocity * dt;
+      paint(current);
+      if (Math.abs(target - current) > 0.0008 || Math.abs(velocity) > 0.002) {
+        frame = requestAnimationFrame(step);
+      } else {
+        current = target;
+        velocity = 0;
+        paint(current);
+        frame = 0;
+      }
+    };
+
+    const kick = () => {
+      if (reducedMotion.matches) {
+        if (frame) cancelAnimationFrame(frame);
+        frame = 0;
+        jump();
+        return;
+      }
+      if (!frame) {
+        last = performance.now();
+        frame = requestAnimationFrame(step);
+      }
+    };
+
+    window.addEventListener("scroll", kick, { passive: true, signal });
+    window.addEventListener("resize", kick, { passive: true, signal });
+    signal.addEventListener(
+      "abort",
+      () => {
+        if (frame) cancelAnimationFrame(frame);
+      },
+      { once: true },
+    );
+    jump();
+  });
 
   onPageLoad((signal) => {
     const header = document.querySelector<HTMLElement>(".site-header");
