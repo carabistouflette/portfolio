@@ -101,6 +101,8 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
 <script>
   import { onPageLoad } from "../scripts/page-lifecycle";
 
+  let headerUnderlineCleanup: (() => void) | undefined;
+
   onPageLoad((signal) => {
     const navEl = document.querySelector<HTMLElement>(".primary-nav");
     const header = navEl?.closest<HTMLElement>(".site-header");
@@ -113,9 +115,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
     if (!header || !navEl || !underline || !links.length) return;
     // onPageLoad fires twice on first load (load + astro:page-load):
     // bind the loop to the element once per navigation only.
-    if (underline.dataset.bound) return;
-    underline.dataset.bound = "1";
-
+    headerUnderlineCleanup?.();
     const localRect = (el: HTMLElement) => {
       const a = el.getBoundingClientRect();
       const b = navEl.getBoundingClientRect();
@@ -131,7 +131,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       const switchLine = vh * 0.5;
       const headerOffset = header.offsetHeight;
       let index = 0;
-      let bestTop = -Infinity;
+      let bestTop = Number.POSITIVE_INFINITY;
       links.forEach((link, i) => {
         const section = document.getElementById(
           link.getAttribute("href")?.slice(1) ?? "",
@@ -143,18 +143,19 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
           index = i;
         }
       });
-      const found = bestTop > -Infinity;
-      underline.style.opacity = found ? "1" : "0";
-      if (!found) return;
+      const fraction =
+        bestTop === Number.POSITIVE_INFINITY
+          ? 0
+          : Math.min(
+              Math.max(
+                (switchLine - bestTop) / Math.max(switchLine - headerOffset, 1),
+                0,
+              ),
+              1,
+            );
       const a = localRect(links[index]);
       underline.style.top = `${a.bottom.toFixed(2)}px`;
-      const fraction = Math.min(
-        Math.max(
-          (switchLine - bestTop) / Math.max(switchLine - headerOffset, 1),
-          0,
-        ),
-        1,
-      );
+      underline.style.opacity = "1";
       let width = a.width - 8;
       const next = links[index + 1];
       if (next) {
@@ -178,11 +179,13 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
     window.addEventListener("scroll", kick, { passive: true, signal });
     window.addEventListener("resize", kick, { passive: true, signal });
     window.addEventListener("load", kick, { signal });
+    headerUnderlineCleanup = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+    };
     signal.addEventListener(
       "abort",
-      () => {
-        if (frame) cancelAnimationFrame(frame);
-      },
+      headerUnderlineCleanup,
       { once: true },
     );
     apply();
