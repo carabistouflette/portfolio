@@ -39,7 +39,13 @@ export interface SkillGroup {
 }
 
 export type SectionId =
-  "projects" | "open-source" | "journey" | "skills" | "contact";
+  | "accueil"
+  | "projects"
+  | "open-source"
+  | "journey"
+  | "skills"
+  | "personal"
+  | "contact";
 
 export interface NavigationSection {
   id: SectionId;
@@ -261,10 +267,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     navigation: {
       primaryLabel: "Navigation principale",
       sections: {
+        accueil: { id: "accueil", label: "Accueil" },
         projects: { id: "projects", label: "Projets" },
         skills: { id: "skills", label: "Compétences" },
         journey: { id: "journey", label: "Parcours" },
         "open-source": { id: "open-source", label: "GitHub" },
+        personal: { id: "personal", label: "À propos" },
         contact: { id: "contact", label: "Contact" },
       },
     },
@@ -683,10 +691,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     navigation: {
       primaryLabel: "Primary navigation",
       sections: {
+        accueil: { id: "accueil", label: "Home" },
         projects: { id: "projects", label: "Projects" },
         skills: { id: "skills", label: "Skills" },
         journey: { id: "journey", label: "Journey" },
         "open-source": { id: "open-source", label: "GitHub" },
+        personal: { id: "personal", label: "About" },
         contact: { id: "contact", label: "Contact" },
       },
     },
