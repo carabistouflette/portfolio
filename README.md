@@ -17,6 +17,8 @@ Le voile de la visionneuse conserve `blur(16px) saturate(70%)`, mais son animati
 
 Le moteur Canvas 2D compose chaque papillon à sa résolution native, puis applique le flou gaussien d’origine après la déformation des ailes, dans une petite surface transparente bordée et réutilisée. Le résultat est dessiné sans filtre sur le canvas plein écran : ni réduction de résolution des poses ni textures préfloutées. Le moteur WebGL, accessible avec `/?renderer=webgl`, conserve son filtre d’origine. Le fond animé est suspendu pendant l’ouverture du menu plein écran ou de la visionneuse, puis reprend si les états de lecture, de visibilité et de qualité adaptative le permettent. Les options `butterflyBlur`, `butterflyDepthBlur` et `butterflyMotionBlur` restent réglables via `window.butterflyField.setOptions()`. Les animations respectent `prefers-reduced-motion`.
 
+Le grain du moteur Canvas 2D est mis en cache à sa fréquence d’origine de 16 Hz, puis mélangé en `screen` au-dessus des papillons. Le cache est invalidé au redimensionnement et libéré à la destruction du moteur ; les flous, les poses et le budget de pixels restent inchangés.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.

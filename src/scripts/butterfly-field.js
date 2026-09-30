@@ -1150,6 +1150,9 @@
       this.back = document.createElement("canvas");
       this.grain = document.createElement("canvas");
       this.grain.width = this.grain.height = 192;
+      this.grainFrame = document.createElement("canvas");
+      this.grainContext = this.grainFrame.getContext("2d");
+      this.grainTick = -1;
       const gc = this.grain.getContext("2d"),
         data = gc.createImageData(192, 192),
         r = new Random(91331);
@@ -1161,13 +1164,16 @@
         data.data[i + 3] = 255;
       }
       gc.putImageData(data, 0, 0);
-      this.pattern = this.ctx.createPattern(this.grain, "repeat");
+      this.pattern = this.grainContext.createPattern(this.grain, "repeat");
     }
     resize() {
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       this.back.width = canvas.width;
       this.back.height = canvas.height;
+      this.grainFrame.width = canvas.width;
+      this.grainFrame.height = canvas.height;
+      this.grainTick = -1;
       const ctx = this.back.getContext("2d");
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = "#010204";
@@ -1452,13 +1458,31 @@
           );
         }
       }
-      ctx.globalCompositeOperation = "screen";
-      ctx.globalAlpha = cfg.grain * 0.07;
-      ctx.fillStyle = this.pattern;
-      const dx = (Math.floor(t * 16) * 37) % 192,
-        dy = (Math.floor(t * 16) * 73) % 192;
-      ctx.translate(-dx, -dy);
-      ctx.fillRect(0, 0, width + 192, height + 192);
+      if (cfg.grain > 0) {
+        // The tile only moves at 16 Hz. Rasterize its viewport-sized repetition
+        // once per phase, then blend the cached native bitmap over the wings.
+        const tick = Math.floor(t * 16);
+        if (tick !== this.grainTick) {
+          const dx = (tick * 37) % 192,
+            dy = (tick * 73) % 192;
+          const grainCtx = this.grainContext;
+          grainCtx.setTransform(1, 0, 0, 1, 0, 0);
+          grainCtx.clearRect(
+            0,
+            0,
+            this.grainFrame.width,
+            this.grainFrame.height,
+          );
+          grainCtx.setTransform(dpr, 0, 0, dpr, -dx * dpr, -dy * dpr);
+          grainCtx.fillStyle = this.pattern;
+          grainCtx.fillRect(0, 0, width + 192, height + 192);
+          this.grainTick = tick;
+        }
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.globalCompositeOperation = "screen";
+        ctx.globalAlpha = cfg.grain * 0.07;
+        ctx.drawImage(this.grainFrame, 0, 0);
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
@@ -1480,6 +1504,8 @@
         this.blurLayer.height =
         this.back.width =
         this.back.height =
+        this.grainFrame.width =
+        this.grainFrame.height =
           1;
       for (const set of this.textures)
         for (const name of TEXTURE_PARTS)
