@@ -181,9 +181,9 @@ onPageLoad((signal) => {
             ? { opacity: panelStyle.opacity, filter: panelStyle.filter }
             : expanded
               ? { opacity: "0", filter: "blur(14px)" }
-              : { opacity: "1", filter: "blur(0)" };
+              : { opacity: "1", filter: "none" };
           const panelEnd = expanded
-            ? { opacity: "1", filter: "blur(0)" }
+            ? { opacity: "1", filter: "none" }
             : { opacity: "0", filter: "blur(14px)" };
           animations.push(panel.animate([panelStart, panelEnd], timing));
         }

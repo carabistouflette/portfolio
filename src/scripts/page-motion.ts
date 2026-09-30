@@ -19,21 +19,18 @@ onPageLoad((signal) => {
       HTMLElement,
       {
         opacity: string;
-        filter: string;
         transform: string;
         willChange: string;
       }
     >();
 
-    const holdBlurredStart = (target: HTMLElement): void => {
+    const holdRevealStart = (target: HTMLElement): void => {
       pendingStyles.set(target, {
         opacity: target.style.opacity,
-        filter: target.style.filter,
         transform: target.style.transform,
         willChange: target.style.willChange,
       });
       target.style.opacity = "0";
-      target.style.filter = "blur(14px)";
       target.style.transform = "translateY(14px)";
     };
 
@@ -41,7 +38,6 @@ onPageLoad((signal) => {
       const styles = pendingStyles.get(target);
       if (!styles) return;
       target.style.opacity = styles.opacity;
-      target.style.filter = styles.filter;
       target.style.transform = styles.transform;
       target.style.willChange = styles.willChange;
       pendingStyles.delete(target);
@@ -80,7 +76,7 @@ onPageLoad((signal) => {
                 transform: "translateY(14px)",
                 filter: "blur(14px)",
               },
-              { opacity: 1, transform: "translateY(0)", filter: "blur(0)" },
+              { opacity: 1, transform: "translateY(0)", filter: "none" },
             ],
             {
               duration: 680,
@@ -89,7 +85,8 @@ onPageLoad((signal) => {
             },
           );
           active.set(target, animation);
-          animation.onfinish = animation.oncancel = () => {
+          animation.onfinish = () => stopAnimation(target);
+          animation.oncancel = () => {
             active.delete(target);
             restoreInlineStyles(target);
           };
@@ -109,7 +106,7 @@ onPageLoad((signal) => {
     );
 
     for (const target of targets) {
-      holdBlurredStart(target);
+      holdRevealStart(target);
       observer.observe(target);
     }
 

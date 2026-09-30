@@ -185,6 +185,18 @@
     pointer-events: none;
     user-select: none;
   }
+  .catalog-invitation:not([open]) > .reading-disclosure-body::after,
+  .catalog-invitation[data-disclosure-external]:not([open])
+    + .reading-disclosure-body::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 4rem;
+    content: "";
+    pointer-events: none;
+    backdrop-filter: blur(3px);
+  }
   .catalog-invitation[data-disclosure-ready]:not([open])
     > .reading-disclosure-body,
   .catalog-invitation[data-disclosure-ready][data-disclosure-external]:not(
@@ -195,19 +207,6 @@
     pointer-events: auto;
     cursor: pointer;
     user-select: auto;
-  }
-
-  .catalog-invitation:not([open]) > .reading-disclosure-body::after,
-  .catalog-invitation[data-disclosure-external]:not([open])
-    + .reading-disclosure-body::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 4rem;
-    backdrop-filter: blur(3px);
-    content: "";
-    pointer-events: none;
   }
 
   .catalog-invitation[data-disclosure-animating] {
@@ -533,6 +532,7 @@
       overscroll-behavior: contain;
       padding: clamp(2rem, 10vh, 5rem) var(--gutter) 2rem;
       border-top: 1px solid rgb(77 102 117 / 0.45);
+      backdrop-filter: blur(24px) saturate(110%);
       background:
         radial-gradient(
           circle at 84% 8%,
@@ -545,13 +545,11 @@
           rgb(2 8 15 / 0.98) 46%,
           rgb(1 2 4 / 0.99)
         );
-      -webkit-backdrop-filter: blur(24px) saturate(110%);
-      backdrop-filter: blur(24px) saturate(110%);
       box-shadow: 0 1.5rem 2rem rgb(0 0 0 / 0.45);
       opacity: 0;
       visibility: hidden;
-      filter: blur(10px);
       transform: translateY(-0.5rem);
+      filter: blur(10px);
       pointer-events: none;
       transition:
         opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -563,8 +561,8 @@
     .site-header[data-menu-open] .header-menu {
       opacity: 1;
       visibility: visible;
-      filter: blur(0);
       transform: translateY(0);
+      filter: none;
       pointer-events: auto;
       transition-delay: 0s;
     }
@@ -576,8 +574,8 @@
 
     .site-header[data-menu-ready] .header-section-link {
       opacity: 0;
-      filter: blur(6px);
       transform: translateY(0.6rem);
+      filter: blur(6px);
       transition:
         color 160ms ease,
         opacity 220ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -587,8 +585,8 @@
 
     .site-header[data-menu-open] .header-section-link {
       opacity: 1;
-      filter: blur(0);
       transform: translateY(0);
+      filter: none;
     }
 
     .site-header[data-menu-open]
@@ -684,8 +682,8 @@
 
     .site-header[data-menu-ready] .header-menu,
     .site-header[data-menu-ready] .header-section-link {
-      filter: none;
       transform: none;
+      filter: none;
     }
   }
 
@@ -904,7 +902,7 @@ a.github-calendar-day::after {
   }
   to {
     opacity: 1;
-    filter: blur(0);
+    filter: none;
   }
 }
 .hero-cat-eye {
@@ -1142,14 +1140,14 @@ details[data-disclosure-animating] .skill-preview {
 .skills-panel-motion.skills-panel-open {
   grid-template-rows: 1fr;
   opacity: 1;
-  filter: blur(0);
+  filter: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skills-panel-motion,
   .skills-panel-motion.skills-panel-open {
-    transition: none;
     filter: none;
+    transition: none;
   }
   .header-section-link::after {
     transition: none;

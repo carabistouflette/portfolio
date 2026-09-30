@@ -31,6 +31,9 @@
       body: "/butterflies/softC_body.webp",
     },
   ];
+  const TEXTURE_PARTS = ["forewing", "hindwing", "body"];
+  const MAX_CANVAS_BLUR_RADIUS = 6 * 1.15;
+  const CANVAS_BLUR_PADDING = Math.ceil(MAX_CANVAS_BLUR_RADIUS * 3 + 1);
   const DEFAULTS = Object.freeze({
     seed: 49177,
     count: 0, // 0: responsive; desktop 7–9, phone 4.
@@ -198,11 +201,13 @@
     raf = 0,
     lastTimestamp = 0,
     paused = false,
+    overlaySuspended = false,
     destroyed = false;
   let ready = false,
     lost = false,
     renderer = null,
-    images = null;
+    images = null,
+    overlayObserver = null;
   let cameraY = window.scrollY;
   // scrollY at which the hero fully exits the viewport; 0 = page without a hero.
   let heroStopY = 0;
@@ -818,11 +823,12 @@
         high: this.mesh([-275, -365, 160, 8], 16, 12),
         body: this.mesh([-190, -155, 218, 136], 10, 6),
       };
-      this.textures = images.map((set) => ({
-        forewing: this.texture(set.forewing),
-        hindwing: this.texture(set.hindwing),
-        body: this.texture(set.body),
-      }));
+      this.textures = images.map((set) => {
+        const uploaded = {};
+        for (const name of TEXTURE_PARTS)
+          uploaded[name] = this.texture(set[name]);
+        return uploaded;
+      });
       this.scene = g.createTexture();
       this.resources.push(["Texture", this.scene]);
       g.bindTexture(g.TEXTURE_2D, this.scene);
@@ -1005,15 +1011,16 @@
         cfg.butterflyBlur +
           (1 - b.depth) * cfg.butterflyDepthBlur +
           Math.abs(b.angularVelocity) * cfg.butterflyMotionBlur * 0.018,
-        0.0,
-        6.0,
+        0,
+        6,
       );
       g.uniform1f(p.u_blur, blur);
-      const textureSet =
+      const textures =
         this.textures[(b.variantIndex ?? 0) % this.textures.length] ||
         this.textures[0];
-      const tex = textureSet[name];
+      const tex = textures[name];
       if (this.currentTex !== tex) {
+        g.activeTexture(g.TEXTURE0);
         g.bindTexture(g.TEXTURE_2D, tex);
         this.currentTex = tex;
       }
@@ -1089,6 +1096,7 @@
       g.bindFramebuffer(g.FRAMEBUFFER, null);
       const q = this.post;
       g.useProgram(q.p);
+      g.activeTexture(g.TEXTURE0);
       g.bindTexture(g.TEXTURE_2D, this.scene);
       g.uniform1i(q.u_scene, 0);
       g.uniform2f(q.u_pixels, 1 / canvas.width, 1 / canvas.height);
@@ -1123,23 +1131,23 @@
       }
       if (!this.ctx)
         throw new Error("No canvas rendering context is available.");
+      this.textures = images.map((set) => {
+        const variant = {};
+        for (const name of TEXTURE_PARTS) {
+          const texture = document.createElement("canvas");
+          texture.width = texture.height = 512;
+          const ctx = texture.getContext("2d");
+          ctx.filter = `brightness(${cfg.exposure})`;
+          ctx.drawImage(set[name], 0, 0);
+          variant[name] = texture;
+        }
+        return variant;
+      });
       this.layer = document.createElement("canvas");
       this.lc = this.layer.getContext("2d");
+      this.blurLayer = document.createElement("canvas");
+      this.bc = this.blurLayer.getContext("2d");
       this.back = document.createElement("canvas");
-      this.textures = images.map((set) => {
-        const out = {};
-        for (const name of ["forewing", "hindwing", "body"]) {
-          const image = set[name],
-            tex = document.createElement("canvas");
-          tex.width = 512;
-          tex.height = 512;
-          const tc = tex.getContext("2d");
-          tc.filter = `brightness(${cfg.exposure})`;
-          tc.drawImage(image, 0, 0);
-          out[name] = tex;
-        }
-        return out;
-      });
       this.grain = document.createElement("canvas");
       this.grain.width = this.grain.height = 192;
       const gc = this.grain.getContext("2d"),
@@ -1248,10 +1256,10 @@
       };
     }
     part(b, name, side, part, angle, opacity, t, origin) {
-      const textureSet =
+      const textures =
         this.textures[(b.variantIndex ?? 0) % this.textures.length] ||
         this.textures[0];
-      const tex = textureSet[name];
+      const tex = textures[name];
       const rect =
         name === "body" ? [-190, -155, 218, 136] : [-275, -365, 160, 8];
       const count = part > 0.5 ? 24 : 4;
@@ -1268,8 +1276,8 @@
         const v0 = row / count,
           v1 = (row + 1) / count,
           vm = (v0 + v1) / 2;
-        const sy = v0 * 512,
-          sh = (v1 - v0) * 512;
+        const sy = v0 * tex.height,
+          sh = (v1 - v0) * tex.height;
         const p0 = this.project(
           { x: middleX, y: mix(rect[1], rect[3], v0) },
           b,
@@ -1302,13 +1310,13 @@
           angle,
           t + b.seed,
         );
-        const A = (right.x - left.x) / 512,
-          B = (right.y - left.y) / 512,
+        const A = (right.x - left.x) / tex.width,
+          B = (right.y - left.y) / tex.width,
           C = (p1.x - p0.x) / sh,
           D = (p1.y - p0.y) / sh;
         if (Math.abs(A * D - B * C) < 0.000003) continue;
-        const E = p0.x - A * 256 - C * sy,
-          F = p0.y - B * 256 - D * sy;
+        const E = p0.x - (A * tex.width) / 2 - C * sy,
+          F = p0.y - (B * tex.width) / 2 - D * sy;
         context.setTransform(
           A * dpr,
           B * dpr,
@@ -1320,16 +1328,16 @@
         // A half source pixel of overlap closes subpixel rasterization cracks.
         const overlap = 0.5,
           top = Math.max(0, sy - overlap),
-          bottom = Math.min(512, sy + sh + overlap);
+          bottom = Math.min(tex.height, sy + sh + overlap);
         context.drawImage(
           tex,
           0,
           top,
-          512,
+          tex.width,
           bottom - top,
           0,
           top,
-          512,
+          tex.width,
           bottom - top,
         );
       }
@@ -1347,8 +1355,15 @@
       const logicalSize = Math.ceil(maxSpan * 3.8),
         size = Math.ceil(logicalSize * dpr),
         origin = logicalSize / 2;
-      if (this.layer.width !== size) {
+      if (this.layer.width !== size || this.layer.height !== size) {
         this.layer.width = this.layer.height = size;
+      }
+      const blurLayerSize = size + CANVAS_BLUR_PADDING * 2 + 2;
+      if (
+        this.blurLayer.width !== blurLayerSize ||
+        this.blurLayer.height !== blurLayerSize
+      ) {
+        this.blurLayer.width = this.blurLayer.height = blurLayerSize;
       }
       for (const bird of drawOrder()) {
         const b = bird.pose(alpha);
@@ -1395,17 +1410,48 @@
           0,
           6,
         );
+        const blurRadius = (blur * 1.15).toFixed(2);
         ctx.globalAlpha = 1;
-        ctx.filter = `blur(${(blur * 1.15).toFixed(2)}px)`;
-        ctx.drawImage(
-          this.layer,
-          b.x - origin,
-          b.y - origin,
-          logicalSize,
-          logicalSize,
-        );
+        if (blurRadius === "0.00") {
+          ctx.drawImage(
+            this.layer,
+            b.x - origin,
+            b.y - origin,
+            logicalSize,
+            logicalSize,
+          );
+        } else {
+          const blurCtx = this.bc;
+          const nativeX = (b.x - origin) * dpr,
+            nativeY = (b.y - origin) * dpr,
+            floorX = Math.floor(nativeX),
+            floorY = Math.floor(nativeY),
+            fractionX = nativeX - floorX,
+            fractionY = nativeY - floorY,
+            padding = CANVAS_BLUR_PADDING;
+          blurCtx.setTransform(1, 0, 0, 1, 0, 0);
+          blurCtx.globalAlpha = 1;
+          blurCtx.globalCompositeOperation = "source-over";
+          blurCtx.filter = "none";
+          blurCtx.clearRect(0, 0, this.blurLayer.width, this.blurLayer.height);
+          blurCtx.filter = `blur(${blurRadius}px)`;
+          blurCtx.drawImage(
+            this.layer,
+            padding + fractionX,
+            padding + fractionY,
+            logicalSize * dpr,
+            logicalSize * dpr,
+          );
+          blurCtx.filter = "none";
+          ctx.drawImage(
+            this.blurLayer,
+            (floorX - padding) / dpr,
+            (floorY - padding) / dpr,
+            this.blurLayer.width / dpr,
+            this.blurLayer.height / dpr,
+          );
+        }
       }
-      ctx.filter = "none";
       ctx.globalCompositeOperation = "screen";
       ctx.globalAlpha = cfg.grain * 0.07;
       ctx.fillStyle = this.pattern;
@@ -1418,21 +1464,26 @@
       ctx.globalAlpha = 1;
     }
     refreshTextures() {
-      for (let i = 0; i < this.textures.length; i++)
-        for (const name of ["forewing", "hindwing", "body"]) {
-          const tex = this.textures[i][name],
-            ctx = tex.getContext("2d");
+      for (let variant = 0; variant < this.textures.length; variant++)
+        for (const name of TEXTURE_PARTS) {
+          const texture = this.textures[variant][name];
+          const ctx = texture.getContext("2d");
           ctx.clearRect(0, 0, 512, 512);
           ctx.filter = `brightness(${cfg.exposure})`;
-          ctx.drawImage(images[i][name], 0, 0);
+          ctx.drawImage(images[variant][name], 0, 0);
         }
     }
     destroy() {
       this.layer.width =
         this.layer.height =
+        this.blurLayer.width =
+        this.blurLayer.height =
         this.back.width =
         this.back.height =
           1;
+      for (const set of this.textures)
+        for (const name of TEXTURE_PARTS)
+          set[name].width = set[name].height = 1;
     }
   }
 
@@ -1536,6 +1587,35 @@
     if (heroStopY <= 0) return 0;
     return 1 - smoother(clamp(window.scrollY / heroStopY, 0, 1));
   }
+  function updateOverlaySuspension() {
+    const suspended = !!document.querySelector(
+      ".site-header[data-menu-open], [data-evidence-dialog][open]",
+    );
+    if (suspended === overlaySuspended) return;
+    overlaySuspended = suspended;
+    if (suspended) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+      lastTimestamp = 0;
+    } else updateMotion();
+  }
+  function observeOverlaySuspension() {
+    overlayObserver = new MutationObserver((mutations) => {
+      const relevant = mutations.some(({ target, attributeName }) =>
+        attributeName === "data-menu-open"
+          ? target.matches(".site-header")
+          : attributeName === "open" &&
+            target.matches("[data-evidence-dialog]"),
+      );
+      if (relevant) updateOverlaySuspension();
+    });
+    overlayObserver.observe(document.documentElement, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["data-menu-open", "open"],
+    });
+    updateOverlaySuspension();
+  }
   function updateMotion() {
     motionScale = targetMotionScale();
     if (
@@ -1545,7 +1625,8 @@
       document.hidden ||
       paused ||
       manual ||
-      isReduced()
+      isReduced() ||
+      overlaySuspended
     )
       return;
     if (motionScale <= 0) {
@@ -1607,6 +1688,7 @@
       paused ||
       document.hidden ||
       !ready ||
+      overlaySuspended ||
       isReduced() ||
       manual ||
       adapt.stage >= 3 // Sticky freeze: loop stays dead until explicit reseed.
@@ -1659,6 +1741,8 @@
       !lost &&
       !document.hidden &&
       !isReduced() &&
+      !overlaySuspended &&
+      adapt.stage < 3 &&
       !manual
     )
       raf = requestAnimationFrame(renderFrame);
@@ -1680,7 +1764,7 @@
     if (isReduced()) {
       cancelAnimationFrame(raf);
       raf = 0;
-      if (renderer) renderer.draw(time);
+      if (renderer && !overlaySuspended) renderer.draw(time);
     } else if (!paused) updateMotion();
   }
   function drawFallback() {
@@ -1830,6 +1914,10 @@
     destroy() {
       pause();
       destroyed = true;
+      if (overlayObserver) {
+        overlayObserver.disconnect();
+        overlayObserver = null;
+      }
       removeEventListener("resize", resize);
       removeEventListener("scroll", scrollChange);
       document.removeEventListener("astro:page-load", onPageSwap);
@@ -1850,6 +1938,7 @@
       !destroyed &&
       !lost &&
       !document.hidden &&
+      !overlaySuspended &&
       (paused || isReduced() || manual)
     )
       renderer.draw(time);
@@ -1885,6 +1974,7 @@
   // Astro SPA navigations keep the transition:persist canvas; re-measure the hero and re-evaluate motion.
   const onPageSwap = () => {
     measureHero();
+    updateOverlaySuspension();
     updateMotion();
   };
   async function init() {
@@ -1918,6 +2008,7 @@
       document.addEventListener("visibilitychange", visibilityChange);
       reducedQuery.addEventListener("change", motionChange);
       document.addEventListener("astro:page-load", onPageSwap);
+      observeOverlaySuspension();
       if (renderer) {
         renderer.draw(time);
         measureHero();
