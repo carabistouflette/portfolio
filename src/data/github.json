@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-02T12:38:33.567Z",
+  "updatedAt": "2026-10-02T18:26:19.143Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 2,
+        "title": "Run bounded exploratory MAUDE GraphSAGE duration diagnostic",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/2",
+        "createdAt": "2026-10-02T17:21:46Z",
+        "updatedAt": "2026-10-02T17:21:46Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 1,
+        "title": "Consolidate retained RC1 verification and prepare MAUDE diagnostic",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/1",
+        "createdAt": "2026-10-02T15:05:10Z",
+        "updatedAt": "2026-10-02T15:05:10Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 516,
@@ -14,28 +36,6 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "carabistouflette/MedDataTrace",
-        "number": 5,
-        "title": "chore: enforce Python quality gates",
-        "url": "https://github.com/carabistouflette/MedDataTrace/pull/5",
-        "createdAt": "2026-09-13T14:24:11Z",
-        "updatedAt": "2026-09-13T14:36:21Z",
-        "mergedAt": "2026-09-13T14:36:19Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/MedDataTrace",
-        "number": 4,
-        "title": "feat: add artifact-grounded DM-H01 reference generation",
-        "url": "https://github.com/carabistouflette/MedDataTrace/pull/4",
-        "createdAt": "2026-09-13T13:53:31Z",
-        "updatedAt": "2026-09-13T13:58:54Z",
-        "mergedAt": "2026-09-13T13:58:51Z",
-        "state": "merged",
-        "relationship": "personal"
       }
     ],
     "external": [
@@ -75,6 +75,28 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 2,
+        "title": "Run bounded exploratory MAUDE GraphSAGE duration diagnostic",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/2",
+        "createdAt": "2026-10-02T17:21:46Z",
+        "updatedAt": "2026-10-02T17:21:46Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 1,
+        "title": "Consolidate retained RC1 verification and prepare MAUDE diagnostic",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/1",
+        "createdAt": "2026-10-02T15:05:10Z",
+        "updatedAt": "2026-10-02T15:05:10Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
@@ -84,33 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 547,
-        "title": "feat: vanilla framing parity, read-path hardening, and malformed packet kicks",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/547",
-        "createdAt": "2026-08-28T23:26:40Z",
-        "updatedAt": "2026-09-13T21:32:09Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 548,
-        "title": "feat: pre-play lifecycle timeouts, config keepalive, and favicon caching",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/548",
-        "createdAt": "2026-08-28T23:26:43Z",
-        "updatedAt": "2026-09-13T13:21:03Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
       }
     ]
   },
   "counts": {
-    "open": 38,
+    "open": 40,
     "merged": 489
   },
   "featured": [
@@ -1999,8 +1999,8 @@
       },
       {
         "date": "2026-10-02",
-        "count": 0,
-        "level": 0
+        "count": 2,
+        "level": 1
       }
     ]
   }
