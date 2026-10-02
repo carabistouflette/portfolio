@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-01T23:54:20.630Z",
+  "updatedAt": "2026-10-02T05:40:40.404Z",
   "pullRequests": {
     "recent": [
       {
@@ -10,7 +10,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-01T22:13:01Z",
+        "updatedAt": "2026-10-02T02:24:58Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -45,7 +45,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-01T22:13:01Z",
+        "updatedAt": "2026-10-02T02:24:58Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -80,7 +80,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-01T22:13:01Z",
+        "updatedAt": "2026-10-02T02:24:58Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-09-28",
-    "to": "2026-10-01",
+    "to": "2026-10-02",
     "days": [
       {
         "date": "2025-09-28",
@@ -1994,6 +1994,11 @@
       },
       {
         "date": "2026-10-01",
+        "count": 0,
+        "level": 0
+      },
+      {
+        "date": "2026-10-02",
         "count": 0,
         "level": 0
       }
