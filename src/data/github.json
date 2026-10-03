@@ -1,16 +1,16 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-03T13:24:59.843Z",
+  "updatedAt": "2026-10-03T17:57:58.302Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 4,
-        "title": "Prepare bilingual manuscript RC2 from verified C/D1 evidence",
+        "title": "docs(manuscript): RC2.2 targeted editorial close-out",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/4",
         "createdAt": "2026-10-02T23:05:43Z",
-        "updatedAt": "2026-10-02T23:55:34Z",
+        "updatedAt": "2026-10-03T16:43:14Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -45,7 +45,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-03T05:02:01Z",
+        "updatedAt": "2026-10-03T14:29:05Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -75,26 +75,26 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 4,
+        "title": "docs(manuscript): RC2.2 targeted editorial close-out",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/4",
+        "createdAt": "2026-10-02T23:05:43Z",
+        "updatedAt": "2026-10-03T16:43:14Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-03T05:02:01Z",
+        "updatedAt": "2026-10-03T14:29:05Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 4,
-        "title": "Prepare bilingual manuscript RC2 from verified C/D1 evidence",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/4",
-        "createdAt": "2026-10-02T23:05:43Z",
-        "updatedAt": "2026-10-02T23:55:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       },
       {
         "repository": "carabistouflette/HealthGraphBench",
