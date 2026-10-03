@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-03T17:57:58.302Z",
+  "updatedAt": "2026-10-03T21:18:28.578Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 5,
+        "title": "Scientific Q2 cycle: locked comparisons, prospective gate and raw reuse",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
+        "createdAt": "2026-10-03T21:04:45Z",
+        "updatedAt": "2026-10-03T21:09:43Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 4,
@@ -22,17 +33,6 @@
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/3",
         "createdAt": "2026-10-02T20:51:01Z",
         "updatedAt": "2026-10-02T21:34:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 2,
-        "title": "Run bounded exploratory MAUDE GraphSAGE duration diagnostic",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/2",
-        "createdAt": "2026-10-02T17:21:46Z",
-        "updatedAt": "2026-10-02T18:29:26Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -76,6 +76,17 @@
     "open": [
       {
         "repository": "carabistouflette/HealthGraphBench",
+        "number": 5,
+        "title": "Scientific Q2 cycle: locked comparisons, prospective gate and raw reuse",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
+        "createdAt": "2026-10-03T21:04:45Z",
+        "updatedAt": "2026-10-03T21:09:43Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/HealthGraphBench",
         "number": 4,
         "title": "docs(manuscript): RC2.2 targeted editorial close-out",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/4",
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 3,
-        "title": "D1: fixed-duration MAUDE aggregation ablation after verified C",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/3",
-        "createdAt": "2026-10-02T20:51:01Z",
-        "updatedAt": "2026-10-02T21:34:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 42,
+    "open": 43,
     "merged": 489
   },
   "featured": [
@@ -2004,7 +2004,7 @@
       },
       {
         "date": "2026-10-03",
-        "count": 1,
+        "count": 2,
         "level": 1
       }
     ]
