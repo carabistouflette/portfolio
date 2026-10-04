@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-04T00:40:00.707Z",
+  "updatedAt": "2026-10-04T06:50:39.620Z",
   "pullRequests": {
     "recent": [
       {
@@ -45,7 +45,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-03T14:29:05Z",
+        "updatedAt": "2026-10-04T03:06:15Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-10-04T03:06:15Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "organization"
+      },
+      {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 5,
         "title": "Scientific Q2 cycle: locked comparisons, prospective gate and raw reuse",
@@ -95,17 +106,6 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 516,
-        "title": "feat(launcher): introduce Sillage resident Linux launcher",
-        "url": "https://github.com/brio-labs/maestria/pull/516",
-        "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-03T14:29:05Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "organization"
       }
     ]
   },
