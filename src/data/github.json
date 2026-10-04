@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-04T06:50:39.620Z",
+  "updatedAt": "2026-10-04T13:13:01.201Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 6,
+        "title": "RC3: integrate completed Q2 evidence into verified bilingual manuscript",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
+        "createdAt": "2026-10-04T12:34:31Z",
+        "updatedAt": "2026-10-04T12:34:31Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 5,
@@ -25,17 +36,6 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 3,
-        "title": "D1: fixed-duration MAUDE aggregation ablation after verified C",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/3",
-        "createdAt": "2026-10-02T20:51:01Z",
-        "updatedAt": "2026-10-02T21:34:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ],
     "external": [
@@ -45,7 +45,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-04T03:06:15Z",
+        "updatedAt": "2026-10-04T11:42:47Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -75,12 +75,23 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 6,
+        "title": "RC3: integrate completed Q2 evidence into verified bilingual manuscript",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
+        "createdAt": "2026-10-04T12:34:31Z",
+        "updatedAt": "2026-10-04T12:34:31Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-04T03:06:15Z",
+        "updatedAt": "2026-10-04T11:42:47Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 4,
-        "title": "docs(manuscript): RC2.2 targeted editorial close-out",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/4",
-        "createdAt": "2026-10-02T23:05:43Z",
-        "updatedAt": "2026-10-03T16:43:14Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 43,
+    "open": 44,
     "merged": 489
   },
   "featured": [
@@ -1974,8 +1974,8 @@
       },
       {
         "date": "2026-10-04",
-        "count": 0,
-        "level": 0
+        "count": 1,
+        "level": 1
       }
     ]
   }
