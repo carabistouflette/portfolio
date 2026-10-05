@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-04T21:28:18.107Z",
+  "updatedAt": "2026-10-05T00:57:11.270Z",
   "pullRequests": {
     "recent": [
       {
@@ -10,7 +10,7 @@
         "title": "RC3.1: targeted relational-information experiments",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
         "createdAt": "2026-10-04T20:12:59Z",
-        "updatedAt": "2026-10-04T20:12:59Z",
+        "updatedAt": "2026-10-05T00:13:37Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -18,10 +18,10 @@
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 6,
-        "title": "RC3: integrate completed Q2 evidence into verified bilingual manuscript",
+        "title": "RC3: integrate completed comparisons into verified bilingual manuscript",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
         "createdAt": "2026-10-04T12:34:31Z",
-        "updatedAt": "2026-10-04T12:34:31Z",
+        "updatedAt": "2026-10-05T00:05:08Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -29,10 +29,10 @@
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 5,
-        "title": "Scientific Q2 cycle: locked comparisons, prospective gate and raw reuse",
+        "title": "Scientific comparisons: locked selection, prospective gate and raw reuse",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
         "createdAt": "2026-10-03T21:04:45Z",
-        "updatedAt": "2026-10-03T22:48:19Z",
+        "updatedAt": "2026-10-05T00:08:55Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -80,29 +80,29 @@
         "title": "RC3.1: targeted relational-information experiments",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
         "createdAt": "2026-10-04T20:12:59Z",
-        "updatedAt": "2026-10-04T20:12:59Z",
+        "updatedAt": "2026-10-05T00:13:37Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
       },
       {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 548,
-        "title": "feat: pre-play lifecycle timeouts, config keepalive, and favicon caching",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/548",
-        "createdAt": "2026-08-28T23:26:43Z",
-        "updatedAt": "2026-10-04T18:52:48Z",
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 5,
+        "title": "Scientific comparisons: locked selection, prospective gate and raw reuse",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
+        "createdAt": "2026-10-03T21:04:45Z",
+        "updatedAt": "2026-10-05T00:08:55Z",
         "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
+        "state": "draft",
+        "relationship": "personal"
       },
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 6,
-        "title": "RC3: integrate completed Q2 evidence into verified bilingual manuscript",
+        "title": "RC3: integrate completed comparisons into verified bilingual manuscript",
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
         "createdAt": "2026-10-04T12:34:31Z",
-        "updatedAt": "2026-10-04T12:34:31Z",
+        "updatedAt": "2026-10-05T00:05:08Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-10-05",
-    "to": "2026-10-04",
+    "to": "2026-10-05",
     "days": [
       {
         "date": "2025-10-05",
@@ -1976,6 +1976,11 @@
         "date": "2026-10-04",
         "count": 2,
         "level": 1
+      },
+      {
+        "date": "2026-10-05",
+        "count": 0,
+        "level": 0
       }
     ]
   }
