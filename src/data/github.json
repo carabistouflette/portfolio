@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-05T07:05:16.183Z",
+  "updatedAt": "2026-10-05T16:02:49.130Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 560,
+        "title": "feat(search): reviewed external provider grant lifecycle",
+        "url": "https://github.com/brio-labs/maestria/pull/560",
+        "createdAt": "2026-10-05T14:54:29Z",
+        "updatedAt": "2026-10-05T14:56:05Z",
+        "mergedAt": "2026-10-05T14:56:02Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 546,
+        "title": "feat(sillage): integrate verified daily-driver workflows",
+        "url": "https://github.com/brio-labs/maestria/pull/546",
+        "createdAt": "2026-10-05T12:15:31Z",
+        "updatedAt": "2026-10-05T12:23:14Z",
+        "mergedAt": "2026-10-05T12:23:12Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 7,
@@ -11,28 +33,6 @@
         "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
         "createdAt": "2026-10-04T20:12:59Z",
         "updatedAt": "2026-10-05T00:13:37Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 6,
-        "title": "RC3: integrate completed comparisons into verified bilingual manuscript",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
-        "createdAt": "2026-10-04T12:34:31Z",
-        "updatedAt": "2026-10-05T00:05:08Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 5,
-        "title": "Scientific comparisons: locked selection, prospective gate and raw reuse",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
-        "createdAt": "2026-10-03T21:04:45Z",
-        "updatedAt": "2026-10-05T00:08:55Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -41,39 +41,50 @@
     "external": [
       {
         "repository": "brio-labs/maestria",
+        "number": 560,
+        "title": "feat(search): reviewed external provider grant lifecycle",
+        "url": "https://github.com/brio-labs/maestria/pull/560",
+        "createdAt": "2026-10-05T14:54:29Z",
+        "updatedAt": "2026-10-05T14:56:05Z",
+        "mergedAt": "2026-10-05T14:56:02Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 546,
+        "title": "feat(sillage): integrate verified daily-driver workflows",
+        "url": "https://github.com/brio-labs/maestria/pull/546",
+        "createdAt": "2026-10-05T12:15:31Z",
+        "updatedAt": "2026-10-05T12:23:14Z",
+        "mergedAt": "2026-10-05T12:23:12Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-04T11:42:47Z",
+        "updatedAt": "2026-10-05T14:56:05Z",
         "mergedAt": null,
         "state": "draft",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 515,
-        "title": "fix(benchmark): share trusted resource telemetry",
-        "url": "https://github.com/brio-labs/maestria/pull/515",
-        "createdAt": "2026-09-12T15:55:30Z",
-        "updatedAt": "2026-09-12T15:55:30Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 514,
-        "title": "perf(benchmark): improve visual latency and exit telemetry",
-        "url": "https://github.com/brio-labs/maestria/pull/514",
-        "createdAt": "2026-09-11T23:39:34Z",
-        "updatedAt": "2026-09-12T12:50:01Z",
-        "mergedAt": "2026-09-12T12:49:59Z",
-        "state": "merged",
         "relationship": "organization"
       }
     ],
     "open": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-10-05T14:56:05Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "organization"
+      },
       {
         "repository": "carabistouflette/HealthGraphBench",
         "number": 7,
@@ -95,23 +106,12 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 6,
-        "title": "RC3: integrate completed comparisons into verified bilingual manuscript",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/6",
-        "createdAt": "2026-10-04T12:34:31Z",
-        "updatedAt": "2026-10-05T00:05:08Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
     "open": 45,
-    "merged": 489
+    "merged": 491
   },
   "featured": [
     {
@@ -1979,8 +1979,8 @@
       },
       {
         "date": "2026-10-05",
-        "count": 0,
-        "level": 0
+        "count": 15,
+        "level": 1
       }
     ]
   }
