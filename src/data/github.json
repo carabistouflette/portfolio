@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-07T16:31:23.080Z",
+  "updatedAt": "2026-10-07T22:00:10.380Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 580,
+        "title": "docs(research): register historical material access and permission boundaries",
+        "url": "https://github.com/brio-labs/maestria/pull/580",
+        "createdAt": "2026-10-07T21:50:18Z",
+        "updatedAt": "2026-10-07T21:50:43Z",
+        "mergedAt": "2026-10-07T21:50:41Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 579,
+        "title": "feat(evidence): derive read-only v2 references and claims (#576)",
+        "url": "https://github.com/brio-labs/maestria/pull/579",
+        "createdAt": "2026-10-07T19:49:43Z",
+        "updatedAt": "2026-10-07T19:52:46Z",
+        "mergedAt": "2026-10-07T19:52:44Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 561,
@@ -12,28 +34,6 @@
         "createdAt": "2026-10-06T20:16:47Z",
         "updatedAt": "2026-10-06T21:21:06Z",
         "mergedAt": "2026-10-06T20:17:39Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 560,
-        "title": "feat(search): reviewed external provider grant lifecycle",
-        "url": "https://github.com/brio-labs/maestria/pull/560",
-        "createdAt": "2026-10-05T14:54:29Z",
-        "updatedAt": "2026-10-05T14:56:05Z",
-        "mergedAt": "2026-10-05T14:56:02Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 546,
-        "title": "feat(sillage): integrate verified daily-driver workflows",
-        "url": "https://github.com/brio-labs/maestria/pull/546",
-        "createdAt": "2026-10-05T12:15:31Z",
-        "updatedAt": "2026-10-05T12:23:14Z",
-        "mergedAt": "2026-10-05T12:23:12Z",
         "state": "merged",
         "relationship": "organization"
       }
@@ -41,34 +41,34 @@
     "external": [
       {
         "repository": "brio-labs/maestria",
+        "number": 580,
+        "title": "docs(research): register historical material access and permission boundaries",
+        "url": "https://github.com/brio-labs/maestria/pull/580",
+        "createdAt": "2026-10-07T21:50:18Z",
+        "updatedAt": "2026-10-07T21:50:43Z",
+        "mergedAt": "2026-10-07T21:50:41Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 579,
+        "title": "feat(evidence): derive read-only v2 references and claims (#576)",
+        "url": "https://github.com/brio-labs/maestria/pull/579",
+        "createdAt": "2026-10-07T19:49:43Z",
+        "updatedAt": "2026-10-07T19:52:46Z",
+        "mergedAt": "2026-10-07T19:52:44Z",
+        "state": "merged",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
         "number": 561,
         "title": "feat(extensions): host-owned scoped HTTP credentials and Secret Service vault binding",
         "url": "https://github.com/brio-labs/maestria/pull/561",
         "createdAt": "2026-10-06T20:16:47Z",
         "updatedAt": "2026-10-06T21:21:06Z",
         "mergedAt": "2026-10-06T20:17:39Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 560,
-        "title": "feat(search): reviewed external provider grant lifecycle",
-        "url": "https://github.com/brio-labs/maestria/pull/560",
-        "createdAt": "2026-10-05T14:54:29Z",
-        "updatedAt": "2026-10-05T14:56:05Z",
-        "mergedAt": "2026-10-05T14:56:02Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 546,
-        "title": "feat(sillage): integrate verified daily-driver workflows",
-        "url": "https://github.com/brio-labs/maestria/pull/546",
-        "createdAt": "2026-10-05T12:15:31Z",
-        "updatedAt": "2026-10-05T12:23:14Z",
-        "mergedAt": "2026-10-05T12:23:12Z",
         "state": "merged",
         "relationship": "organization"
       }
@@ -80,7 +80,7 @@
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
         "url": "https://github.com/brio-labs/maestria/pull/516",
         "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-06T20:17:42Z",
+        "updatedAt": "2026-10-07T21:50:42Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 45,
-    "merged": 492
+    "merged": 494
   },
   "featured": [
     {
@@ -1989,8 +1989,8 @@
       },
       {
         "date": "2026-10-07",
-        "count": 0,
-        "level": 0
+        "count": 19,
+        "level": 1
       }
     ]
   }
