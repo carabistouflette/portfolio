@@ -1247,16 +1247,16 @@
           tail * tail * (1.6 * Math.sin(t * 2.7) + b.angularVelocity * 0.055) +
           antenna * antenna * 1.6 * Math.sin(t * 3.7);
       }
-      const cx = x * Math.cos(b.yaw) + z * Math.sin(b.yaw),
-        cz = -x * Math.sin(b.yaw) + z * Math.cos(b.yaw);
-      const cy = y * Math.cos(b.elevation) - cz * Math.sin(b.elevation),
-        depth = y * Math.sin(b.elevation) + cz * Math.cos(b.elevation);
+      const cx = x * b.cosYaw + z * b.sinYaw,
+        cz = -x * b.sinYaw + z * b.cosYaw;
+      const cy = y * b.cosElevation - cz * b.sinElevation,
+        depth = y * b.sinElevation + cz * b.cosElevation;
       const k = (b.scale * 1400) / (1400 - depth),
         qx = cx * k,
         qy = cy * k;
       return {
-        x: (qx * Math.cos(b.pitch) - qy * Math.sin(b.pitch)) * b.direction,
-        y: -(qx * Math.sin(b.pitch) + qy * Math.cos(b.pitch)),
+        x: (qx * b.cosPitch - qy * b.sinPitch) * b.direction,
+        y: -(qx * b.sinPitch + qy * b.cosPitch),
         u: v.u,
         v: v.v,
       };
@@ -1278,20 +1278,23 @@
       // Continuous 3D strip projection. Cropped raster strips avoid thousands of
       // CPU clipping operations; every strip still follows the hinged/flexible wing.
       const middleX = (rect[0] + rect[2]) / 2;
+      let previousEnd;
       for (let row = 0; row < count; row++) {
         const v0 = row / count,
           v1 = (row + 1) / count,
           vm = (v0 + v1) / 2;
         const sy = v0 * tex.height,
           sh = (v1 - v0) * tex.height;
-        const p0 = this.project(
-          { x: middleX, y: mix(rect[1], rect[3], v0) },
-          b,
-          side,
-          part,
-          angle,
-          t + b.seed,
-        );
+        const p0 =
+          previousEnd ||
+          this.project(
+            { x: middleX, y: mix(rect[1], rect[3], v0) },
+            b,
+            side,
+            part,
+            angle,
+            t + b.seed,
+          );
         const p1 = this.project(
           { x: middleX, y: mix(rect[1], rect[3], v1) },
           b,
@@ -1300,6 +1303,7 @@
           angle,
           t + b.seed,
         );
+        previousEnd = p1;
         const left = this.project(
           { x: rect[0], y: mix(rect[1], rect[3], vm) },
           b,
@@ -1374,6 +1378,12 @@
       for (const bird of drawOrder()) {
         const b = bird.pose(alpha);
         if (b.x < -b.span * 2.7 || b.x > width + b.span * 2.7) continue;
+        b.cosYaw = Math.cos(b.yaw);
+        b.sinYaw = Math.sin(b.yaw);
+        b.cosElevation = Math.cos(b.elevation);
+        b.sinElevation = Math.sin(b.elevation);
+        b.cosPitch = Math.cos(b.pitch);
+        b.sinPitch = Math.sin(b.pitch);
         this.lc.setTransform(1, 0, 0, 1, 0, 0);
         this.lc.clearRect(0, 0, size, size);
         const rear = b.angle - 0.018;

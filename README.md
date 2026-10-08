@@ -19,6 +19,8 @@ Le moteur Canvas 2D compose chaque papillon à sa résolution native, puis appli
 
 Le grain du moteur Canvas 2D est mis en cache à sa fréquence d’origine de 16 Hz, puis mélangé en `screen` au-dessus des papillons. Le cache est invalidé au redimensionnement et libéré à la destruction du moteur ; les flous, les poses et le budget de pixels restent inchangés.
 
+Les projections Canvas réutilisent les six valeurs trigonométriques de rotation d’une pose et le point partagé entre deux bandes d’aile adjacentes. Les 24 bandes par aile, les textures, les trajectoires, les flous et la résolution de rendu restent inchangés.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.
