@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-07T22:00:10.380Z",
+  "updatedAt": "2026-10-08T01:57:26.221Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 581,
+        "title": "fix(ci): cover convention checks on Sillage integration PRs",
+        "url": "https://github.com/brio-labs/maestria/pull/581",
+        "createdAt": "2026-10-07T22:19:07Z",
+        "updatedAt": "2026-10-07T22:21:11Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 580,
@@ -23,17 +34,6 @@
         "createdAt": "2026-10-07T19:49:43Z",
         "updatedAt": "2026-10-07T19:52:46Z",
         "mergedAt": "2026-10-07T19:52:44Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 561,
-        "title": "feat(extensions): host-owned scoped HTTP credentials and Secret Service vault binding",
-        "url": "https://github.com/brio-labs/maestria/pull/561",
-        "createdAt": "2026-10-06T20:16:47Z",
-        "updatedAt": "2026-10-06T21:21:06Z",
-        "mergedAt": "2026-10-06T20:17:39Z",
         "state": "merged",
         "relationship": "organization"
       }
@@ -41,6 +41,17 @@
     "external": [
       {
         "repository": "brio-labs/maestria",
+        "number": 581,
+        "title": "fix(ci): cover convention checks on Sillage integration PRs",
+        "url": "https://github.com/brio-labs/maestria/pull/581",
+        "createdAt": "2026-10-07T22:19:07Z",
+        "updatedAt": "2026-10-07T22:21:11Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
         "number": 580,
         "title": "docs(research): register historical material access and permission boundaries",
         "url": "https://github.com/brio-labs/maestria/pull/580",
@@ -60,20 +71,20 @@
         "mergedAt": "2026-10-07T19:52:44Z",
         "state": "merged",
         "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 561,
-        "title": "feat(extensions): host-owned scoped HTTP credentials and Secret Service vault binding",
-        "url": "https://github.com/brio-labs/maestria/pull/561",
-        "createdAt": "2026-10-06T20:16:47Z",
-        "updatedAt": "2026-10-06T21:21:06Z",
-        "mergedAt": "2026-10-06T20:17:39Z",
-        "state": "merged",
-        "relationship": "organization"
       }
     ],
     "open": [
+      {
+        "repository": "brio-labs/maestria",
+        "number": 581,
+        "title": "fix(ci): cover convention checks on Sillage integration PRs",
+        "url": "https://github.com/brio-labs/maestria/pull/581",
+        "createdAt": "2026-10-07T22:19:07Z",
+        "updatedAt": "2026-10-07T22:21:11Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 516,
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 5,
-        "title": "Scientific comparisons: locked selection, prospective gate and raw reuse",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/5",
-        "createdAt": "2026-10-03T21:04:45Z",
-        "updatedAt": "2026-10-05T00:08:55Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 45,
+    "open": 46,
     "merged": 494
   },
   "featured": [
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-10-05",
-    "to": "2026-10-07",
+    "to": "2026-10-08",
     "days": [
       {
         "date": "2025-10-05",
@@ -1990,6 +1990,11 @@
       {
         "date": "2026-10-07",
         "count": 19,
+        "level": 1
+      },
+      {
+        "date": "2026-10-08",
+        "count": 1,
         "level": 1
       }
     ]
