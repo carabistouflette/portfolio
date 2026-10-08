@@ -16,6 +16,7 @@ interface CatalogItem {
   expanded: boolean;
   closing: boolean;
   closeTimer?: number;
+  flightFrame?: number;
   flight?: Flight;
 }
 
@@ -35,10 +36,15 @@ const syncItem = (item: CatalogItem): void => {
 };
 
 const clearFlight = (item: CatalogItem): void => {
-  if (!item.flight) return;
-  for (const animation of item.flight.animations) animation.cancel();
-  for (const clone of item.flight.clones) clone.remove();
-  item.flight = undefined;
+  if (item.flightFrame !== undefined) {
+    cancelAnimationFrame(item.flightFrame);
+    item.flightFrame = undefined;
+  }
+  if (item.flight) {
+    for (const animation of item.flight.animations) animation.cancel();
+    for (const clone of item.flight.clones) clone.remove();
+    item.flight = undefined;
+  }
   item.details.classList.remove("skills-icons-moving");
 };
 
@@ -54,8 +60,15 @@ const playIconFlight = (
   sources: HTMLElement[],
   sourceRects: DOMRect[],
   targetSelector: string,
+  signal: AbortSignal,
+  reducedMotion: MediaQueryList,
 ): void => {
-  requestAnimationFrame(() => {
+  item.flightFrame = requestAnimationFrame(() => {
+    item.flightFrame = undefined;
+    if (signal.aborted || reducedMotion.matches) {
+      clearFlight(item);
+      return;
+    }
     const targets = [
       ...item.details.querySelectorAll<HTMLElement>(targetSelector),
     ].slice(0, sources.length);
@@ -63,12 +76,13 @@ const playIconFlight = (
       clearFlight(item);
       return;
     }
+    const targetRects = targets.map((target) => target.getBoundingClientRect());
 
     const clones: HTMLElement[] = [];
     const animations: Animation[] = [];
     for (const [iconIndex, source] of sources.entries()) {
       const sourceRect = sourceRects[iconIndex];
-      const targetRect = targets[iconIndex].getBoundingClientRect();
+      const targetRect = targetRects[iconIndex];
       const clone = source.cloneNode(true) as HTMLElement;
       clone.removeAttribute("data-preview-icon");
       clone.removeAttribute("data-panel-icon");
@@ -112,6 +126,7 @@ const playIconFlight = (
 
 const setupCatalog = (root: HTMLElement, signal: AbortSignal): void => {
   const items: CatalogItem[] = [];
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   for (const details of root.querySelectorAll<HTMLDetailsElement>(
     "details[data-motion-catalog]",
   )) {
@@ -142,7 +157,7 @@ const setupCatalog = (root: HTMLElement, signal: AbortSignal): void => {
         clearFlight(item);
         clearCloseTimer(item);
 
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (reducedMotion.matches) {
           item.expanded = !item.expanded;
           item.closing = false;
           syncItem(item);
@@ -174,7 +189,14 @@ const setupCatalog = (root: HTMLElement, signal: AbortSignal): void => {
         item.closing = !opening;
         syncItem(item);
 
-        playIconFlight(item, sources, sourceRects, targetSelector);
+        playIconFlight(
+          item,
+          sources,
+          sourceRects,
+          targetSelector,
+          signal,
+          reducedMotion,
+        );
 
         if (!opening) {
           item.closeTimer = window.setTimeout(() => {
@@ -183,6 +205,18 @@ const setupCatalog = (root: HTMLElement, signal: AbortSignal): void => {
             syncItem(item);
           }, CLOSE_DURATION);
         }
+      },
+      { signal },
+    );
+
+    reducedMotion.addEventListener(
+      "change",
+      () => {
+        if (!reducedMotion.matches) return;
+        clearCloseTimer(item);
+        clearFlight(item);
+        item.closing = false;
+        syncItem(item);
       },
       { signal },
     );

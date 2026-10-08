@@ -25,6 +25,8 @@ Les redimensionnements identiques ne réallouent ni ne redessinent les surfaces.
 
 En WebGL, la perte de contexte suspend la boucle et libère les références aux ressources GPU. La restauration reconstruit les textures, les maillages et la cible de rendu, même sans changement de dimensions, puis reprend uniquement si les états de lecture l’autorisent. Le moteur Canvas reste le rendu par défaut.
 
+Les vols d’icônes du catalogue annulent aussi leur démarrage différé lors d’un nouveau clic, d’une navigation ou du passage au mouvement réduit ; durée et trajectoires restent identiques. La photo conserve son parallax de ±56 px et son échelle de 1,14 : les mesures de scroll sont suspendues loin de l’image et les écritures identiques sont évitées. Resize, changements de mise en page et grands sauts de scroll actualisent sa géométrie.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.
