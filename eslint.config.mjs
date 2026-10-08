@@ -8,7 +8,7 @@ export default [
   {
     ignores: [
       "dist/**",
-      ".astro/**",
+      "**/.astro/**",
       ".wrangler/**",
       "node_modules/**",
       "public/**",

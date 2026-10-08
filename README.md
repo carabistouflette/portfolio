@@ -43,6 +43,8 @@ pnpm lint       # eslint
 pnpm format     # prettier --check
 ```
 
+Les caches `.astro` générés sont exclus du lint, à la racine comme dans les sous-dossiers de `src/`.
+
 ## Build et déploiement
 
 ```sh
