@@ -22,6 +22,16 @@ const maestriaProject = content.projects.entries.find(
 const supplementary = content.projects.entries.filter(
   (project) => project.id !== "genomint" && project.id !== "maestria",
 );
+// Match the shell/gutter rules in global.css and the wrappers below.
+// Desktop: (shell - gutters - article border/padding - grid gap) × 6/11,
+// then subtract the evidence wrapper's border and padding.
+const evidenceSizes = [
+  "(min-width: 100rem) calc((min(calc(60vw + 28rem), 122rem) - 19.125rem) * 6 / 11 - 3.125rem)",
+  "(min-width: 64rem) calc((min(100vw, 88rem) - 19.125rem) * 6 / 11 - 3.125rem)",
+  "(min-width: 48rem) calc(100vw - 15.25rem)",
+  "(min-width: 40rem) calc(100vw - 9.25rem)",
+  "calc(100vw - 8.25rem)",
+].join(", ");
 ---
 
 <section
@@ -99,7 +109,12 @@ const supplementary = content.projects.entries.filter(
       </a>
     </div>
     <div class="relative z-10 min-w-0 border border-[#8eb7ae]/25 bg-[#071214] p-4 sm:p-6">
-      <EvidenceFigure locale={locale} projectId="genomint" compact />
+      <EvidenceFigure
+        locale={locale}
+        projectId="genomint"
+        sizes={evidenceSizes}
+        compact
+      />
     </div>
   </article>
   <article
@@ -287,9 +302,7 @@ const supplementary = content.projects.entries.filter(
         >
           <h4 class="card-title">{project.title}</h4>
           <p class="body-copy mt-4 text-muted">{project.description}</p>
-          <p class="meta-line mt-3">
-            {project.technologies}
-          </p>
+          <p class="meta-line mt-3">{project.technologies}</p>
           {project.url && (
             <a class="text-link mt-2 text-sm underline" href={project.url}>
               {project.linkLabel}

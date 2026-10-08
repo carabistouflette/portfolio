@@ -16,6 +16,17 @@ interface Props {
 const { locale, projectId, study } = Astro.props;
 const screenshots = study.screenshots;
 const media = screenshots?.items ?? [study.figure];
+// Match global.css's capped shell and gutters, plus this gallery's 1.5rem
+// column gap and each image link's 2px border. Reserve the full hover scale
+// (1.02) in every source selection, including browsers without sizes="auto".
+const gallerySlot = (shell: string, gutters: string, columns: number) =>
+  `calc(((${shell} - ${gutters}${columns === 2 ? " - 1.5rem" : ""}) / ${columns} - 2px) * 1.02)`;
+const galleryColumns = media.length > 1 ? 2 : 1;
+const evidenceSizes = [
+  `(min-width: 100rem) ${gallerySlot("min(calc(60vw + 28rem), 122rem)", "6rem", galleryColumns)}`,
+  `(min-width: 48rem) ${gallerySlot("min(100vw, 88rem)", "6rem", galleryColumns)}`,
+  gallerySlot("100vw", "3rem", 1),
+].join(", ");
 const homePath = locale === "fr" ? "/" : "/en/";
 const counterpartPath =
   locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
@@ -55,15 +66,11 @@ const counterpartPath =
         class="mt-10 max-w-3xl border border-rule p-5 sm:p-6"
         aria-label={study.atGlance.label}
       >
-        <p class="eyebrow">
-          {study.atGlance.label}
-        </p>
+        <p class="eyebrow">{study.atGlance.label}</p>
         <dl class="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {study.atGlance.entries.map((entry) => (
             <div class="min-w-0">
-              <dt class="eyebrow">
-                {entry.label}
-              </dt>
+              <dt class="eyebrow">{entry.label}</dt>
               <dd class="mt-1 text-sm leading-relaxed">{entry.value}</dd>
             </div>
           ))}
@@ -122,6 +129,7 @@ const counterpartPath =
           <EvidenceFigure
             locale={locale}
             projectId={projectId}
+            sizes={evidenceSizes}
             compact={"preview" in item}
             image={"preview" in item ? item : undefined}
             openLabel={screenshots?.openLabel}

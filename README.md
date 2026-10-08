@@ -27,6 +27,10 @@ En WebGL, la perte de contexte suspend la boucle et libère les références aux
 
 Les vols d’icônes du catalogue annulent aussi leur démarrage différé lors d’un nouveau clic, d’une navigation ou du passage au mouvement réduit ; durée et trajectoires restent identiques. La photo conserve son parallax de ±56 px et son échelle de 1,14 : les mesures de scroll sont suspendues loin de l’image et les écritures identiques sont évitées. Resize, changements de mise en page et grands sauts de scroll actualisent sa géométrie.
 
+Les variantes `softA` et `softC` partagent leur corps identique : une seule image décodée et une seule texture préparée par moteur. Le rafraîchissement de l’exposition et la destruction traitent chaque texture une seule fois ; les quatre variantes d’ailes restent distinctes.
+
+Les attributs `sizes` du chat, des captures et de la photo suivent leurs emplacements CSS réels, y compris les gutters, les colonnes, les plafonds du shell et les échelles de hover/parallax. Les candidats `srcset` et les styles restent inchangés ; la visionneuse charge toujours les captures originales.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.

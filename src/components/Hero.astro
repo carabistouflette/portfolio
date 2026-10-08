@@ -6,6 +6,18 @@ interface Props {
 }
 const { content } = Astro.props;
 const nameLines = content.hero.title.split(" ");
+// The absolute cat uses the shell's padding-box width, not the content width.
+// Match global.css: 88rem shell, widening above 100rem up to 122rem;
+// mobile overrides and the short-desktop 22% override take precedence.
+const catSizes = [
+  "(min-width: 100rem) and (max-height: 820px) min(calc(13.2vw + 6.16rem), 26.84rem)",
+  "(min-width: 64rem) and (max-height: 820px) min(22vw, 19.36rem)",
+  "(min-width: 100rem) min(calc(16.8vw + 7.84rem), 34.16rem)",
+  "(min-width: 64rem) min(28vw, 24.64rem)",
+  "(min-width: 48rem) 30vw",
+  "(max-width: 24rem) 35vw",
+  "38vw",
+].join(", ");
 // Same glyph outlines as the former RobinTrace.vue; `M`-separated subpaths
 // become individual stroked paths so each letter draws via `robin-stroke`.
 const robinGlyphs = [
@@ -54,7 +66,7 @@ const robinGlyphs = [
       <img
         src="/images/hero-cat-640.webp"
         srcset="/images/hero-cat-640.webp 640w, /images/hero-cat.webp 981w"
-        sizes="(min-width: 64rem) 28vw, (min-width: 48rem) 30vw, 55vw"
+        sizes={catSizes}
         alt=""
         width="640"
         height="785"
@@ -127,13 +139,13 @@ const robinGlyphs = [
     <p class="hero-headline-size mt-8 max-w-[30ch] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
-    <p class="hero-lead mt-3">
-      {content.hero.affiliation}
-    </p>
+    <p class="hero-lead mt-3">{content.hero.affiliation}</p>
     <details class="hero-availability group mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 transition-colors hover:border-paper open:border-paper lg:hidden">
       <summary class="flex cursor-pointer items-start justify-between gap-4 rounded-xl focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
         <span class="min-w-0 text-lg font-medium leading-snug text-paper sm:text-xl">
-          <span class="block text-[#abd1ed]">{content.hero.availability.label}</span>
+          <span class="block text-[#abd1ed]">
+            {content.hero.availability.label}
+          </span>
           {content.hero.availability.detail.split("·").map((part) => (
             <span class="block">{part.trim()}</span>
           ))}
@@ -180,9 +192,7 @@ const robinGlyphs = [
       >
         «
       </span>
-      <p class="hero-lead">
-        {content.hero.description}
-      </p>
+      <p class="hero-lead">{content.hero.description}</p>
     </div>
   </section>
 

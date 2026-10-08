@@ -8,11 +8,19 @@ import {
 interface Props {
   locale: Locale;
   projectId: CaseStudyId;
+  sizes: string;
   compact?: boolean;
   image?: CaseStudyScreenshots["items"][number];
   openLabel?: string;
 }
-const { locale, projectId, compact = false, image, openLabel } = Astro.props;
+const {
+  locale,
+  projectId,
+  sizes,
+  compact = false,
+  image,
+  openLabel,
+} = Astro.props;
 const figure = image
   ? {
       kind: "screenshot" as const,
@@ -63,11 +71,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         ]}
         src={image?.preview ?? figure.src}
         srcset={compact ? figure.srcset : undefined}
-        sizes={
-          compact
-            ? "(min-width: 64rem) 42vw, (min-width: 48rem) 50vw, 100vw"
-            : undefined
-        }
+        sizes={compact ? sizes : undefined}
         alt={figure.alt}
         width={figure.width ?? 1600}
         height={figure.height ?? 1352}

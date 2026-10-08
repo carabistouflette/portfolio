@@ -28,7 +28,7 @@
     {
       forewing: "/butterflies/softC_forewing.webp",
       hindwing: "/butterflies/softC_hindwing.webp",
-      body: "/butterflies/softC_body.webp",
+      body: "/butterflies/softA_body.webp",
     },
   ];
   const TEXTURE_PARTS = ["forewing", "hindwing", "body"];
@@ -823,10 +823,18 @@
         high: this.mesh([-275, -365, 160, 8], 16, 12),
         body: this.mesh([-190, -155, 218, 136], 10, 6),
       };
+      const uploadedTextures = new Map();
       this.textures = images.map((set) => {
         const uploaded = {};
-        for (const name of TEXTURE_PARTS)
-          uploaded[name] = this.texture(set[name]);
+        for (const name of TEXTURE_PARTS) {
+          const image = set[name];
+          let texture = uploadedTextures.get(image);
+          if (!texture) {
+            texture = this.texture(image);
+            uploadedTextures.set(image, texture);
+          }
+          uploaded[name] = texture;
+        }
         return uploaded;
       });
       this.scene = g.createTexture();
@@ -1123,7 +1131,7 @@
   class CanvasRenderer {
     constructor() {
       this.kind = "canvas2d";
-      this.resources = [];
+      this.textureSources = new Map();
       this.ctx = canvas.getContext("2d", { alpha: false });
       if (!this.ctx) {
         const replacement = canvas.cloneNode();
@@ -1136,11 +1144,16 @@
       this.textures = images.map((set) => {
         const variant = {};
         for (const name of TEXTURE_PARTS) {
-          const texture = document.createElement("canvas");
-          texture.width = texture.height = 512;
-          const ctx = texture.getContext("2d");
-          ctx.filter = `brightness(${cfg.exposure})`;
-          ctx.drawImage(set[name], 0, 0);
+          const image = set[name];
+          let texture = this.textureSources.get(image);
+          if (!texture) {
+            texture = document.createElement("canvas");
+            texture.width = texture.height = 512;
+            const ctx = texture.getContext("2d");
+            ctx.filter = `brightness(${cfg.exposure})`;
+            ctx.drawImage(image, 0, 0);
+            this.textureSources.set(image, texture);
+          }
           variant[name] = texture;
         }
         return variant;
@@ -1519,14 +1532,12 @@
       ctx.globalAlpha = 1;
     }
     refreshTextures() {
-      for (let variant = 0; variant < this.textures.length; variant++)
-        for (const name of TEXTURE_PARTS) {
-          const texture = this.textures[variant][name];
-          const ctx = texture.getContext("2d");
-          ctx.clearRect(0, 0, 512, 512);
-          ctx.filter = `brightness(${cfg.exposure})`;
-          ctx.drawImage(images[variant][name], 0, 0);
-        }
+      for (const [image, texture] of this.textureSources) {
+        const ctx = texture.getContext("2d");
+        ctx.clearRect(0, 0, 512, 512);
+        ctx.filter = `brightness(${cfg.exposure})`;
+        ctx.drawImage(image, 0, 0);
+      }
     }
     destroy() {
       this.layer.width =
@@ -1538,9 +1549,9 @@
         this.grainFrame.width =
         this.grainFrame.height =
           1;
-      for (const set of this.textures)
-        for (const name of TEXTURE_PARTS)
-          set[name].width = set[name].height = 1;
+      for (const texture of this.textureSources.values())
+        texture.width = texture.height = 1;
+      this.textureSources.clear();
     }
   }
 
@@ -2075,13 +2086,15 @@
     try {
       canvas = document.getElementById("butterfly-field");
       if (!canvas) throw new Error("Butterfly canvas is unavailable.");
+      const pendingImages = new Map();
       images = await Promise.all(
         ASSET_SETS.map(async (set) => {
           const entries = await Promise.all(
-            Object.entries(set).map(async ([name, url]) => [
-              name,
-              await loadImage(url),
-            ]),
+            Object.entries(set).map(async ([name, url]) => {
+              if (!pendingImages.has(url))
+                pendingImages.set(url, loadImage(url));
+              return [name, await pendingImages.get(url)];
+            }),
           );
           return Object.fromEntries(entries);
         }),

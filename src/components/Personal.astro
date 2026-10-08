@@ -4,6 +4,14 @@ interface Props {
   content: PortfolioContent["personal"];
 }
 const { content } = Astro.props;
+// Match the shell/gutters in global.css, the grid gaps below, and the photo
+// border. Reserve the full 1.14 parallax scale rather than only the layout box.
+const photoSizes = [
+  "(min-width: 100rem) calc(((min(calc(60vw + 28rem), 122rem) - 12rem) / 2 - 2px) * 1.14)",
+  "(min-width: 64rem) calc(((min(100vw, 88rem) - 12rem) / 2 - 2px) * 1.14)",
+  "(min-width: 48rem) calc(((100vw - 9rem) / 2 - 2px) * 1.14)",
+  "calc((100vw - 3rem - 2px) * 1.14)",
+].join(", ");
 ---
 
 <section
@@ -19,7 +27,7 @@ const { content } = Astro.props;
       <img
         src="/images/forest-stream-1180.webp"
         srcset="/images/forest-stream-590.webp 590w, /images/forest-stream-1180.webp 1180w"
-        sizes="(min-width: 1440px) 640px, (min-width: 768px) 44vw, calc(100vw - 48px)"
+        sizes={photoSizes}
         width="1180"
         height="1568"
         alt={content.photoAlt}
