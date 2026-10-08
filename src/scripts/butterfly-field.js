@@ -940,6 +940,7 @@
       return t;
     }
     resize() {
+      if (lost || destroyed) return;
       const g = this.gl;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
@@ -1041,6 +1042,7 @@
       g.drawElements(g.TRIANGLES, m.count, g.UNSIGNED_SHORT, 0);
     }
     draw(t, alpha = 1) {
+      if (lost || destroyed) return;
       const g = this.gl;
       this.vertexCount = 0;
       this.drawCalls = 2;
@@ -2038,14 +2040,17 @@
     lost = true;
     cancelAnimationFrame(raf);
     raf = 0;
+    lastTimestamp = 0;
+    if (renderer) renderer.destroy();
   }
   function contextRestored() {
-    lost = false;
+    if (destroyed) return;
     try {
       renderer = new Renderer();
-      resize();
-      if (!paused) updateMotion();
+      lost = false;
+      resize(true);
     } catch (e) {
+      lost = true;
       console.error(e);
     }
   }
@@ -2088,6 +2093,10 @@
       } catch (error) {
         console.info("Using the Canvas 2D wing-rig renderer:", error.message);
         renderer = new CanvasRenderer();
+      }
+      if (renderer.kind === "webgl") {
+        canvas.addEventListener("webglcontextlost", contextLost);
+        canvas.addEventListener("webglcontextrestored", contextRestored);
       }
       resize();
       ready = true;

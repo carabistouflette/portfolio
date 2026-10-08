@@ -23,6 +23,8 @@ Les projections Canvas réutilisent les six valeurs trigonométriques de rotatio
 
 Les redimensionnements identiques ne réallouent ni ne redessinent les surfaces. Les changements réels remettent à l’échelle les positions, les destinations et les limites de vol ; le cache de fond est invalidé aussi lors d’un changement de `gradient`. Le nombre réduit par la qualité adaptative reste cohérent après resize et ne dépasse jamais le nombre demandé. Après un gel adaptatif, `reseed()` reprend la lecture seulement si les états de pause, de visibilité et de mouvement l’autorisent ; le scroll continue à reprojeter la pose gelée.
 
+En WebGL, la perte de contexte suspend la boucle et libère les références aux ressources GPU. La restauration reconstruit les textures, les maillages et la cible de rendu, même sans changement de dimensions, puis reprend uniquement si les états de lecture l’autorisent. Le moteur Canvas reste le rendu par défaut.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.
