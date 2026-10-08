@@ -21,6 +21,8 @@ Le grain du moteur Canvas 2D est mis en cache à sa fréquence d’origine de 16
 
 Les projections Canvas réutilisent les six valeurs trigonométriques de rotation d’une pose et le point partagé entre deux bandes d’aile adjacentes. Les 24 bandes par aile, les textures, les trajectoires, les flous et la résolution de rendu restent inchangés.
 
+Les redimensionnements identiques ne réallouent ni ne redessinent les surfaces. Les changements réels remettent à l’échelle les positions, les destinations et les limites de vol ; le cache de fond est invalidé aussi lors d’un changement de `gradient`. Le nombre réduit par la qualité adaptative reste cohérent après resize et ne dépasse jamais le nombre demandé. Après un gel adaptatif, `reseed()` reprend la lecture seulement si les états de pause, de visibilité et de mouvement l’autorisent ; le scroll continue à reprojeter la pose gelée.
+
 ## Études de cas
 
 Les pages projets françaises et anglaises partagent `CaseStudy.astro` et `EvidenceFigure.astro` : le bloc média affiche une galerie de captures ou un diagramme selon les données de `src/data/portfolio.ts`. Ajouter un identifiant à `CaseStudyId` et ses données dans les deux langues de `caseStudies` crée ses deux routes. Les quatre captures GenomInt sont dans `public/images/genomint-*.webp`, avec aperçus `-1100.webp` et ouverture en visionneuse (zoom et déplacement). La capture d’administration masque les identités des comptes : conserver cette anonymisation lors de tout remplacement.

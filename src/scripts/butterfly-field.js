@@ -1153,6 +1153,10 @@
       this.grainFrame = document.createElement("canvas");
       this.grainContext = this.grainFrame.getContext("2d");
       this.grainTick = -1;
+      this.viewportWidth = 0;
+      this.viewportHeight = 0;
+      this.pixelRatio = 0;
+      this.backgroundGradient = null;
       const gc = this.grain.getContext("2d"),
         data = gc.createImageData(192, 192),
         r = new Random(91331);
@@ -1167,13 +1171,27 @@
       this.pattern = this.grainContext.createPattern(this.grain, "repeat");
     }
     resize() {
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      this.back.width = canvas.width;
-      this.back.height = canvas.height;
-      this.grainFrame.width = canvas.width;
-      this.grainFrame.height = canvas.height;
-      this.grainTick = -1;
+      const renderWidth = Math.round(width * dpr),
+        renderHeight = Math.round(height * dpr);
+      const viewportChanged =
+        this.viewportWidth !== width ||
+        this.viewportHeight !== height ||
+        this.pixelRatio !== dpr;
+      if (viewportChanged) {
+        if (canvas.width !== renderWidth) canvas.width = renderWidth;
+        if (canvas.height !== renderHeight) canvas.height = renderHeight;
+        if (this.back.width !== renderWidth) this.back.width = renderWidth;
+        if (this.back.height !== renderHeight) this.back.height = renderHeight;
+        if (this.grainFrame.width !== renderWidth)
+          this.grainFrame.width = renderWidth;
+        if (this.grainFrame.height !== renderHeight)
+          this.grainFrame.height = renderHeight;
+        this.viewportWidth = width;
+        this.viewportHeight = height;
+        this.pixelRatio = dpr;
+        this.grainTick = -1;
+      }
+      if (!viewportChanged && this.backgroundGradient === cfg.gradient) return;
       const ctx = this.back.getContext("2d");
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = "#010204";
@@ -1195,6 +1213,7 @@
       ctx.fillStyle = g;
       ctx.fillRect(-2, -2, 4, 4);
       ctx.restore();
+      this.backgroundGradient = cfg.gradient;
     }
     project(v, b, side, part, angle, t) {
       let x = v.x,
@@ -1528,6 +1547,12 @@
     if (cfg.count > 0) return clamp(Math.round(cfg.count), 1, 28);
     return clamp(Math.round((width * height) / 175000), width < 700 ? 4 : 6, 9);
   }
+  function countForQuality() {
+    const count = countForViewport();
+    return adapt.stage >= 2
+      ? Math.min(count, Math.max(3, Math.round(count / 2)))
+      : count;
+  }
   function adaptReset() {
     adapt.stage = 0;
     adapt.seen = 0;
@@ -1551,9 +1576,8 @@
     } else if (adapt.stage <= 1) {
       // GL after resolution cut; canvas2d is already DPR-pinned so it starts here.
       adapt.stage = 2;
-      const n = Math.max(3, Math.round(countForViewport() / 2));
+      const n = Math.min(birds.length, countForQuality());
       if (n < birds.length) birds.length = n;
-      while (birds.length < n) birds.push(new Butterfly(birds.length, n));
       if (renderer) renderer.draw(time);
     } else {
       adapt.stage = 3;
@@ -1594,7 +1618,7 @@
   function reset() {
     time = 0;
     accumulator = 0;
-    const n = countForViewport();
+    const n = countForQuality();
     birds = Array.from({ length: n }, (_, i) => new Butterfly(i, n));
     // Bring motion and wing activation into a settled state without moving across the field.
     for (let j = 0; j < 18; j++)
@@ -1652,7 +1676,7 @@
     });
     updateOverlaySuspension();
   }
-  function updateMotion() {
+  function updateMotion(redraw = true) {
     motionScale = targetMotionScale();
     if (
       destroyed ||
@@ -1665,43 +1689,67 @@
       overlaySuspended
     )
       return;
-    if (motionScale <= 0) {
+    if (motionScale <= 0 || adapt.stage >= 3) {
       if (raf) {
         cancelAnimationFrame(raf);
         raf = 0;
         lastTimestamp = 0;
       }
-      if (renderer) renderer.draw(time); // Re-projects the camera wrap onto the frozen pose.
+      if (redraw !== false && renderer) renderer.draw(time);
     } else if (!raf) {
       play();
     }
   }
-  function resize() {
+  function resize(force = false) {
     if (destroyed) return;
     const oldW = width,
       oldH = height;
-    width = Math.max(1, innerWidth);
-    height = Math.max(1, innerHeight);
-    dpr = Math.min(
+    const nextWidth = Math.max(1, innerWidth),
+      nextHeight = Math.max(1, innerHeight);
+    let nextDpr = Math.min(
       devicePixelRatio || 1,
       cfg.maxPixelRatio,
-      Math.sqrt(cfg.maxRenderPixels / (width * height)),
+      Math.sqrt(cfg.maxRenderPixels / (nextWidth * nextHeight)),
     );
-    if (renderer && renderer.kind === "canvas2d") dpr = Math.min(dpr, 1);
+    if (renderer && renderer.kind === "canvas2d")
+      nextDpr = Math.min(nextDpr, 1);
+    if (
+      ready &&
+      force !== true &&
+      nextWidth === width &&
+      nextHeight === height &&
+      nextDpr === dpr
+    )
+      return;
+    width = nextWidth;
+    height = nextHeight;
+    dpr = nextDpr;
     if (!birds.length) reset();
     else {
-      for (const b of birds) {
-        b.x *= width / oldW;
-        b.y *= height / oldH;
-        b.homeY *= height / oldH;
-        const scaleRatio =
-          clamp(width / 850, 0.7, 1) / clamp(oldW / 850, 0.7, 1);
-        b.span *= scaleRatio;
-        b.scale = b.span / 326;
-        b.baseSpeed *= scaleRatio;
-        b.capturePrevious();
+      if (width !== oldW || height !== oldH) {
+        const xRatio = width / oldW,
+          yRatio = height / oldH,
+          scaleRatio = clamp(width / 850, 0.7, 1) / clamp(oldW / 850, 0.7, 1);
+        for (const b of birds) {
+          b.x *= xRatio;
+          b.y *= yRatio;
+          b.cruiseY *= yRatio;
+          b.targetX *= xRatio;
+          b.targetY *= yRatio;
+          b.span = solo ? height * 0.34 : b.span * scaleRatio;
+          b.scale = b.span / 326;
+          b.baseSpeed *= scaleRatio;
+          b.flightCeiling = Math.min(height * 0.18, b.span + 42);
+          b.flightFloor = Math.max(
+            b.flightCeiling + 60,
+            height - b.flightCeiling,
+          );
+          b.cruiseY = clamp(b.cruiseY, b.flightCeiling, b.flightFloor);
+          b.targetY = clamp(b.targetY, b.flightCeiling, b.flightFloor);
+          b.capturePrevious();
+        }
       }
-      const n = countForViewport();
+      const n = countForQuality();
       if (n < birds.length) birds.length = n;
       while (birds.length < n) birds.push(new Butterfly(birds.length, n));
     }
@@ -1710,7 +1758,7 @@
       renderer.draw(time);
     } else if (images) drawFallback();
     measureHero();
-    updateMotion();
+    updateMotion(false);
   }
   function step(dt) {
     time += dt;
@@ -1796,12 +1844,13 @@
       lastTimestamp = 0;
     } else if (!paused) updateMotion();
   }
-  function motionChange() {
+  function motionChange(redraw = true) {
     if (isReduced()) {
       cancelAnimationFrame(raf);
       raf = 0;
-      if (renderer && !overlaySuspended) renderer.draw(time);
-    } else if (!paused) updateMotion();
+      if (redraw !== false && renderer && !overlaySuspended)
+        renderer.draw(time);
+    } else if (!paused) updateMotion(redraw);
   }
   function drawFallback() {
     // A static raster composition, never a broken/slideshow imitation of the rig.
@@ -1850,10 +1899,12 @@
       adaptReset(); // Explicit intent: let the machine re-prove itself.
       reset();
       if (renderer) renderer.draw(time);
+      updateMotion(false);
     },
     setOptions(options = {}) {
       if (!options || typeof options !== "object") return { ...cfg };
       const before = { ...cfg };
+      const resetPopulation = adapt.stage >= 2;
       applyOptions(options);
       adaptReset(); // Explicit intent: let the machine re-prove itself.
       const rebuild = [
@@ -1864,7 +1915,7 @@
         "minWingSpan",
         "maxWingSpan",
       ].some((k) => before[k] !== cfg[k]);
-      if (rebuild) reset();
+      if (rebuild || resetPopulation) reset();
       if (
         renderer &&
         renderer.kind === "canvas2d" &&
@@ -1874,11 +1925,13 @@
       if (
         before.maxPixelRatio !== cfg.maxPixelRatio ||
         before.maxRenderPixels !== cfg.maxRenderPixels ||
-        rebuild
+        before.gradient !== cfg.gradient ||
+        rebuild ||
+        resetPopulation
       )
-        resize();
+        resize(true);
       else if (renderer) renderer.draw(time);
-      motionChange();
+      motionChange(false);
       return { ...cfg };
     },
     // Deterministic capture/testing helper. Calling it pauses real-time playback.
