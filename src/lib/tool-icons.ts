@@ -129,6 +129,7 @@ const brands: Record<string, SimpleIcon> = {
 const glyphs: Record<string, string> = {
   Nmap: "M12 3a9 9 0 1 0 9 9M12 7a5 5 0 1 0 5 5M12 12l9-9M12 3v9h9",
   gRPC: "M3 3h6v6H3zM15 15h6v6h-6zM6 9v9h9M9 6h9v9",
+  Tantivy: "M15.5 15.5 21 21M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14",
 };
 
 const images: Record<string, string> = {

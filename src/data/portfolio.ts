@@ -1,7 +1,7 @@
 export type Locale = "fr" | "en";
 
 export type ProjectId = "genomint" | "maestria" | "encrypted-voting" | "brio";
-export type CaseStudyId = "genomint" | "maestria";
+export type CaseStudyId = "genomint" | "maestria" | "encrypted-voting";
 
 export interface Project {
   id: ProjectId;
@@ -111,8 +111,8 @@ export interface CaseStudy {
   atGlance: { label: string; entries: { label: string; value: string }[] };
   understandLabel: string;
   technicalLabel: string;
-  role: string;
-  roleLabel: string;
+  role?: string;
+  roleLabel?: string;
   relatedProject?: { label: string; href: string };
   path: string;
   contextLabel: string;
@@ -298,7 +298,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       contactCta: "Me contacter",
     },
     projects: {
-      heading: "Deux projets, deux terrains.",
+      heading: "Mes projets",
       otherHeading: "Travaux complémentaires",
       entries: [
         {
@@ -324,8 +324,10 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "encrypted-voting",
           title: "Vote chiffré",
           description:
-            "Projet universitaire autour d’une question : comment vérifier les bulletins et compter les voix sans révéler les choix individuels ? Chiffrement El Gamal et preuves à connaissance zéro.",
+            "Vote vérifiable sans révéler les choix : chiffrement El Gamal et preuves à connaissance zéro.",
           technologies: "Java · Spring · El Gamal",
+          url: "/projets/encrypted-voting/",
+          linkLabel: "Lire le dossier",
         },
         {
           id: "brio",
@@ -722,7 +724,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       contactCta: "Get in touch",
     },
     projects: {
-      heading: "Two projects, two different worlds.",
+      heading: "My projects",
       otherHeading: "Supplementary work",
       entries: [
         {
@@ -748,8 +750,10 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "encrypted-voting",
           title: "Encrypted voting",
           description:
-            "An academic project exploring how to verify ballots and count votes without revealing individual choices, using El Gamal encryption and zero-knowledge proofs.",
+            "Verifiable voting without revealing individual choices: El Gamal encryption and zero-knowledge proofs.",
           technologies: "Java · Spring · El Gamal",
+          url: "/en/projects/encrypted-voting/",
+          linkLabel: "Read the case study",
         },
         {
           id: "brio",
@@ -1690,8 +1694,170 @@ const maestriaEn: CaseStudy = {
   counterpartLabel: "Lire en français",
   languageLabel: "Change language",
 };
+const encryptedVotingFr: CaseStudy = {
+  title: "Vote chiffré",
+  question: "Comment vérifier un vote sans révéler les choix individuels ?",
+  kicker: "Projet universitaire · Java · Spring",
+  summary:
+    "Un projet universitaire de vote chiffré en Java et Spring, avec le chiffrement El Gamal et des preuves à connaissance zéro. Le sujet : vérifier les bulletins et décompter les suffrages sans révéler les choix.",
+  atGlance: {
+    label: "En bref",
+    entries: [
+      { label: "Cadre", value: "Projet universitaire" },
+      { label: "Technologies", value: "Java · Spring" },
+      { label: "Chiffrement", value: "El Gamal" },
+      { label: "Preuves", value: "Preuves à connaissance zéro" },
+    ],
+  },
+  understandLabel: "Comprendre le sujet",
+  technicalLabel: "Voir les repères conceptuels",
+  path: "/projets/encrypted-voting/",
+  contextLabel: "Contexte du projet",
+  context:
+    "Un projet universitaire développé avec Java et Spring, autour de deux exigences : préserver les choix individuels et permettre la vérification des bulletins et du décompte.",
+  mediaLabel: "Un schéma pédagogique",
+  figure: {
+    kind: "diagram",
+    title: "Trois repères autour du vote chiffré",
+    alt: "Repères conceptuels distincts : chiffrement El Gamal, preuves à connaissance zéro et décompte sans révéler les choix.",
+    caption:
+      "Ces repères sont juxtaposés à titre pédagogique ; leur disposition ne décrit pas le déroulé d’un vote.",
+    source:
+      "Schéma conceptuel, sans représentation de l’architecture ou du protocole implémenté.",
+    nodes: [
+      {
+        title: "Confidentialité des choix",
+        detail:
+          "Le chiffrement El Gamal est au cœur du sujet de confidentialité des choix.",
+      },
+      {
+        title: "Vérification des bulletins",
+        detail:
+          "Une preuve à connaissance zéro permet de démontrer une propriété sans révéler le secret utilisé.",
+      },
+      {
+        title: "Décompte",
+        detail:
+          "Compter les suffrages sans rendre publics les choix individuels.",
+      },
+    ],
+    optional: {
+      title: "Portée",
+      detail:
+        "Ce schéma n’est ni une preuve de sécurité ni une description du protocole de l’implémentation.",
+    },
+  },
+  sections: [
+    {
+      heading: "01 · Chiffrer sans exposer les choix",
+      paragraphs: [
+        "Le chiffrement protège le contenu d’un bulletin. Le projet étudie El Gamal pour aborder la confidentialité des choix dans un système de vote.",
+      ],
+    },
+    {
+      heading: "02 · Vérifier les bulletins",
+      paragraphs: [
+        "La vérification ne doit pas obliger à révéler le vote. Les preuves à connaissance zéro permettent d’étudier cette séparation entre une propriété à vérifier et les informations qui doivent rester privées.",
+      ],
+    },
+    {
+      heading: "03 · Décompter sans révéler les choix",
+      paragraphs: [
+        "Le décompte s’intéresse au résultat collectif, plutôt qu’à la publication de chaque choix. Le sujet du projet associe ce résultat à la vérification des bulletins, sans exposer les votes individuels.",
+      ],
+    },
+  ],
+  homeLabel: "Retour au portfolio",
+  counterpartLabel: "Read in English",
+  languageLabel: "Changer de langue",
+};
+
+const encryptedVotingEn: CaseStudy = {
+  title: "Encrypted voting",
+  question: "How can a vote be verified without revealing individual choices?",
+  kicker: "University project · Java · Spring",
+  summary:
+    "A university project on encrypted voting, built with Java and Spring, using El Gamal encryption and zero-knowledge proofs. Its subject: verifying ballots and tallying votes without revealing individual choices.",
+  atGlance: {
+    label: "At a glance",
+    entries: [
+      { label: "Setting", value: "University project" },
+      { label: "Technologies", value: "Java · Spring" },
+      { label: "Encryption", value: "El Gamal" },
+      { label: "Proofs", value: "Zero-knowledge proofs" },
+    ],
+  },
+  understandLabel: "Understand the subject",
+  technicalLabel: "Explore the conceptual map",
+  path: "/en/projects/encrypted-voting/",
+  contextLabel: "Project context",
+  context:
+    "A university project built with Java and Spring, around two requirements: keeping individual choices private and allowing ballots and the tally to be verified.",
+  mediaLabel: "A teaching diagram",
+  figure: {
+    kind: "diagram",
+    title: "Three concepts in encrypted voting",
+    alt: "Distinct conceptual points: El Gamal encryption, zero-knowledge proofs, and tallying without revealing choices.",
+    caption:
+      "These concepts are juxtaposed for teaching; their layout does not describe the steps of a vote.",
+    source:
+      "Conceptual diagram, not a representation of the implementation architecture or protocol.",
+    nodes: [
+      {
+        title: "Keeping choices private",
+        detail:
+          "El Gamal encryption is central to the topic of keeping individual choices private.",
+      },
+      {
+        title: "Verifying ballots",
+        detail:
+          "A zero-knowledge proof demonstrates a property without revealing the secret used.",
+      },
+      {
+        title: "Tallying",
+        detail: "Counting votes without making individual choices public.",
+      },
+    ],
+    optional: {
+      title: "Scope",
+      detail:
+        "This diagram is neither a security proof nor a description of the implementation protocol.",
+    },
+  },
+  sections: [
+    {
+      heading: "01 · Encrypting without exposing choices",
+      paragraphs: [
+        "Encryption protects a ballot’s contents. The project studies El Gamal to explore the confidentiality of individual choices in a voting system.",
+      ],
+    },
+    {
+      heading: "02 · Verifying ballots",
+      paragraphs: [
+        "Verification should not require revealing a vote. Zero-knowledge proofs allow exploration of the distinction between a property to verify and the information that must remain private.",
+      ],
+    },
+    {
+      heading: "03 · Tallying without revealing choices",
+      paragraphs: [
+        "Tallying concerns the collective result rather than publishing every choice. The project’s subject combines that result with ballot verification without exposing individual votes.",
+      ],
+    },
+  ],
+  homeLabel: "Back to portfolio",
+  counterpartLabel: "Lire en français",
+  languageLabel: "Change language",
+};
 
 export const caseStudies: Record<Locale, Record<CaseStudyId, CaseStudy>> = {
-  fr: { genomint: genomintFr, maestria: maestriaFr },
-  en: { genomint: genomintEn, maestria: maestriaEn },
+  fr: {
+    genomint: genomintFr,
+    maestria: maestriaFr,
+    "encrypted-voting": encryptedVotingFr,
+  },
+  en: {
+    genomint: genomintEn,
+    maestria: maestriaEn,
+    "encrypted-voting": encryptedVotingEn,
+  },
 };

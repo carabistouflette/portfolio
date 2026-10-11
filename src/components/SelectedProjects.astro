@@ -1,315 +1,1066 @@
 ---
 import {
-  caseStudies,
   type Locale,
   type PortfolioContent,
+  type ProjectId,
 } from "../data/portfolio";
-import EvidenceFigure from "./EvidenceFigure.astro";
+import ToolIcon from "./ToolIcon.astro";
 
 interface Props {
   content: PortfolioContent;
   locale: Locale;
 }
 const { content, locale } = Astro.props;
-const genomint = caseStudies[locale].genomint;
-const maestria = caseStudies[locale].maestria;
-const genomintProject = content.projects.entries.find(
-  (project) => project.id === "genomint",
-)!;
-const maestriaProject = content.projects.entries.find(
-  (project) => project.id === "maestria",
-)!;
-const supplementary = content.projects.entries.filter(
-  (project) => project.id !== "genomint" && project.id !== "maestria",
-);
-// Match the shell/gutter rules in global.css and the wrappers below.
-// Desktop: (shell - gutters - article border/padding - grid gap) × 6/11,
-// then subtract the evidence wrapper's border and padding.
-const evidenceSizes = [
-  "(min-width: 100rem) calc((min(calc(60vw + 28rem), 122rem) - 19.125rem) * 6 / 11 - 3.125rem)",
-  "(min-width: 64rem) calc((min(100vw, 88rem) - 19.125rem) * 6 / 11 - 3.125rem)",
-  "(min-width: 48rem) calc(100vw - 15.25rem)",
-  "(min-width: 40rem) calc(100vw - 9.25rem)",
-  "calc(100vw - 8.25rem)",
-].join(", ");
+const fr = locale === "fr";
+const descriptions = fr
+  ? {
+      genomint: "Explorer la pangénomie.",
+      maestria: "Recherche documentaire locale.",
+      "encrypted-voting": "Vérifier sans révéler les votes.",
+      brio: "Le site du projet Brio.",
+    }
+  : {
+      genomint: "Explore pangenomics.",
+      maestria: "Local document retrieval.",
+      "encrypted-voting": "Verify without revealing votes.",
+      brio: "The Brio project website.",
+    };
+const projectTools: Record<ProjectId, string[]> = {
+  genomint: ["Python", "FastAPI", "Neo4j", "PostgreSQL", "Docker", "Linux"],
+  maestria: ["Rust", "Tantivy", "SQLite"],
+  "encrypted-voting": ["Java", "Spring Boot"],
+  brio: ["Next.js"],
+};
+const projectConcepts: Record<ProjectId, string[]> = fr
+  ? {
+      genomint: ["Pangénomie", "Graphes", "Agent IA"],
+      maestria: ["Retrieval", "RAG", "Ingestion vectorielle"],
+      "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
+      brio: ["Développement web"],
+    }
+  : {
+      genomint: ["Pangenomics", "Graphs", "AI agent"],
+      maestria: ["Retrieval", "RAG", "Vector ingestion"],
+      "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
+      brio: ["Web development"],
+    };
+// Stylized category network based on the GenomInt explorer, not live metrics.
+const nodes: [number, number, number, string, string][] = [
+  [245, 75, 9, "phylotree", "#df6aab"],
+  [330, 105, 10, "organism", "#69a8df"],
+  [115, 155, 23, "ontologies", "#89979d"],
+  [305, 170, 36, "pangene", "#e8b34e"],
+  [400, 160, 20, "consensus", "#df6aab"],
+  [245, 205, 28, "gene family", "#df6aab"],
+  [65, 235, 36, "polypeptide", "#4cc48b"],
+  [170, 255, 24, "ncRNA", "#4cc48b"],
+  [355, 245, 24, "synteny block", "#df6aab"],
+  [470, 220, 26, "TE clique", "#e8b34e"],
+  [295, 280, 10, "analysis", "#89979d"],
+  [400, 290, 10, "assembly", "#69a8df"],
+  [30, 345, 33, "dbxref", "#89979d"],
+  [140, 350, 34, "mRNA", "#4cc48b"],
+  [255, 365, 33, "gene", "#4cc48b"],
+  [355, 360, 43, "variant", "#e8b34e"],
+  [450, 335, 30, "TE copy", "#89979d"],
+  [70, 420, 11, "RNAseq sample", "#ae81dc"],
+  [130, 460, 32, "UTR", "#4cc48b"],
+  [295, 445, 21, "source file", "#89979d"],
+  [415, 430, 14, "sequence", "#69a8df"],
+  [215, 555, 37, "CDS", "#4cc48b"],
+  [300, 535, 22, "genomic island", "#df9152"],
+  [420, 540, 45, "sequence segment", "#e8b34e"],
+  [90, 570, 9, "RNAseq dataset", "#ae81dc"],
+  [420, 680, 40, "SNP allele", "#e8b34e"],
+];
+const edges = [
+  [0, 1],
+  [0, 5],
+  [1, 3],
+  [1, 4],
+  [2, 6],
+  [2, 13],
+  [2, 14],
+  [3, 5],
+  [3, 8],
+  [3, 10],
+  [3, 15],
+  [4, 8],
+  [4, 9],
+  [5, 7],
+  [5, 8],
+  [5, 14],
+  [6, 7],
+  [6, 12],
+  [6, 13],
+  [7, 13],
+  [7, 14],
+  [8, 10],
+  [8, 11],
+  [8, 14],
+  [9, 15],
+  [9, 16],
+  [10, 14],
+  [10, 15],
+  [11, 16],
+  [11, 20],
+  [12, 13],
+  [13, 14],
+  [13, 18],
+  [13, 21],
+  [14, 15],
+  [14, 18],
+  [14, 19],
+  [14, 21],
+  [15, 16],
+  [15, 19],
+  [15, 20],
+  [15, 23],
+  [16, 20],
+  [17, 18],
+  [17, 24],
+  [18, 21],
+  [19, 22],
+  [19, 23],
+  [20, 23],
+  [21, 22],
+  [22, 23],
+  [23, 25],
+];
+const bookTitles = fr
+  ? [
+      "Atlas",
+      "Mémoires",
+      "Corpus",
+      "Les idées",
+      "Archives",
+      "Systèmes",
+      "Notes",
+      "Langages",
+      "Recherche",
+      "Documents",
+      "Index",
+      "Savoirs",
+    ]
+  : [
+      "Atlas",
+      "Memoirs",
+      "Corpus",
+      "Ideas",
+      "Archives",
+      "Systems",
+      "Notes",
+      "Languages",
+      "Research",
+      "Documents",
+      "Index",
+      "Knowledge",
+    ];
 ---
 
 <section
   id="projects"
-  class="content-shell section-shell"
+  class="content-shell section-shell projects-section"
   aria-labelledby="projects-title"
 >
-  <h2 id="projects-title" class="section-title mb-14 md:mb-20">
+  <h2 id="projects-title" class="section-title">
     {content.projects.heading}
   </h2>
-  <article
-    id="project-genomint"
-    class="project-research grid gap-12 bg-[#0b191b] px-6 py-12 text-paper target:scroll-mt-6 md:p-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:items-center lg:gap-20 lg:p-16"
-    tabindex="-1"
-  >
-    <div
-      class="project-research-art pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      <svg
-        class="project-research-graph"
-        viewBox="0 0 680 720"
-        focusable="false"
-      >
-        <path
-          d="M360 355 Q307 287 260 235 Q215 174 150 150
-             M260 235 Q276 158 320 110
-             M360 355 Q397 251 440 190 Q507 158 585 145
-             M440 190 Q489 230 505 300 Q578 282 645 325
-             M360 355 Q435 328 505 300
-             M360 355 Q451 383 515 445 Q570 487 600 560
-             M515 445 Q458 491 385 525 Q369 598 340 655
-             M385 525 Q293 502 225 440 Q159 483 155 565
-             M225 440 Q148 383 75 385
-             M360 355 Q293 411 225 440"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.25"
-          opacity=".48"
-        />
-        <g fill="#0b191b" stroke="currentColor" stroke-width="1.25">
-          <circle cx="360" cy="355" r="10" fill="none" opacity=".5" />
-          <circle cx="360" cy="355" r="4" />
-          <circle cx="260" cy="235" r="5" />
-          <circle cx="440" cy="190" r="5" />
-          <circle cx="505" cy="300" r="5" />
-          <circle cx="515" cy="445" r="5" />
-          <circle cx="385" cy="525" r="5" />
-          <circle cx="225" cy="440" r="5" />
-          <circle cx="150" cy="150" r="3.5" />
-          <circle cx="320" cy="110" r="3.5" />
-          <circle cx="585" cy="145" r="3.5" />
-          <circle cx="645" cy="325" r="3.5" />
-          <circle cx="600" cy="560" r="3.5" />
-          <circle cx="340" cy="655" r="3.5" />
-          <circle cx="155" cy="565" r="3.5" />
-          <circle cx="75" cy="385" r="3.5" />
-        </g>
-      </svg>
-    </div>
-    <div class="relative z-10 min-w-0">
-      <h3 class="feature-title">
-        <a class="text-paper" href={genomint.path}>
-          {genomint.title}
-        </a>
-      </h3>
-      <p class="lead-copy mt-6 max-w-[46ch] text-muted">
-        {genomintProject.description}
-      </p>
-      <a
-        class="mt-6 inline-flex min-h-11 items-center border-b border-paper/60 text-sm font-medium text-paper"
-        href={genomint.path}
-      >
-        {genomintProject.linkLabel}
-      </a>
-    </div>
-    <div class="relative z-10 min-w-0 border border-[#8eb7ae]/25 bg-[#071214] p-4 sm:p-6">
-      <EvidenceFigure
-        locale={locale}
-        projectId="genomint"
-        sizes={evidenceSizes}
-        compact
-      />
-    </div>
-  </article>
-  <article
-    id="project-maestria"
-    class="project-launcher my-12 px-6 py-12 target:scroll-mt-6 md:my-16 md:p-12 lg:p-16"
-    tabindex="-1"
-  >
-    <div
-      class="project-launcher-art pointer-events-none absolute inset-0 overflow-hidden"
-      aria-hidden="true"
-    >
-      <svg
-        class="project-launcher-files"
-        viewBox="0 0 640 640"
-        focusable="false"
-      >
-        <defs>
-          <g id="mst-doc">
-            <path
-              d="M0 0 H44 L56 12 V84 H0 Z"
-              fill="#0a1624"
-              stroke="currentColor"
-              stroke-width="1.25"
-            />
-            <path
-              d="M44 0 V12 H56"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.25"
-            />
-            <path
-              d="M9 26 H47 M9 36 H47 M9 46 H33"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              opacity=".6"
-            />
-          </g>
-          <g id="mst-doc-scan">
-            <path
-              d="M0 0 H44 L56 12 V84 H0 Z"
-              fill="#0a1624"
-              stroke="currentColor"
-              stroke-width="1.25"
-            />
-            <path
-              d="M44 0 V12 H56"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.25"
-            />
-            <rect
-              x="9"
-              y="22"
-              width="38"
-              height="30"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              opacity=".6"
-            />
-            <path
-              d="M9 62 H47 M9 70 H39"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-              opacity=".6"
-            />
-          </g>
-        </defs>
-        <use href="#mst-doc" x="96" y="0" opacity=".14" />
-        <use href="#mst-doc-scan" x="192" y="0" opacity=".1" />
-        <use href="#mst-doc" x="288" y="0" opacity=".17" />
-        <use href="#mst-doc" x="384" y="0" opacity=".11" />
-        <use href="#mst-doc-scan" x="480" y="0" opacity=".15" />
-        <use href="#mst-doc" x="0" y="108" opacity=".12" />
-        <use href="#mst-doc" x="96" y="108" opacity=".17" />
-        <use href="#mst-doc" x="192" y="108" opacity=".1" />
-        <use href="#mst-doc" x="288" y="108" opacity=".13" />
-        <use href="#mst-doc-scan" x="384" y="108" opacity=".16" />
-        <use href="#mst-doc" x="480" y="108" opacity=".12" />
-        <use href="#mst-doc" x="0" y="216" opacity=".16" />
-        <use href="#mst-doc-scan" x="96" y="216" opacity=".11" />
-        <use href="#mst-doc" x="192" y="216" opacity=".14" />
-        <use href="#mst-doc" x="384" y="216" opacity=".17" />
-        <use href="#mst-doc-scan" x="480" y="216" opacity=".12" />
-        <use href="#mst-doc" x="96" y="324" opacity=".12" />
-        <use href="#mst-doc" x="192" y="324" opacity=".17" />
-        <use href="#mst-doc-scan" x="288" y="324" opacity=".1" />
-        <use href="#mst-doc" x="384" y="324" opacity=".15" />
-        <use href="#mst-doc" x="480" y="324" opacity=".11" />
-        <use href="#mst-doc" x="192" y="432" opacity=".14" />
-        <use href="#mst-doc" x="288" y="432" opacity=".1" />
-        <use href="#mst-doc-scan" x="384" y="432" opacity=".16" />
-        <use href="#mst-doc" x="480" y="432" opacity=".12" />
-        <g transform="translate(288 216) scale(1.5)">
-          <path
-            d="M0 0 H44 L56 12 V84 H0 Z"
-            fill="#0a1624"
-            stroke="#abd1ed"
-            stroke-width="1.25"
-          />
-          <path
-            d="M44 0 V12 H56"
-            fill="none"
-            stroke="#abd1ed"
-            stroke-width="1.25"
-          />
-          <path
-            d="M9 26 H47 M9 46 H33"
-            fill="none"
-            stroke="#abd1ed"
-            stroke-width="1"
-            opacity=".75"
-          />
-          <rect
-            x="9"
-            y="34"
-            width="38"
-            height="7"
-            fill="#abd1ed"
-            opacity=".45"
-          />
-        </g>
-        <circle
-          cx="380"
-          cy="204"
-          r="7"
-          fill="none"
-          stroke="#abd1ed"
-          stroke-width="1.25"
-          opacity=".7"
-        />
-        <circle cx="380" cy="204" r="2" fill="#abd1ed" opacity=".8" />
-      </svg>
-    </div>
-    <div class="relative z-10 min-w-0">
-      {maestria.relatedProject && (
-        <a
-          class="text-link eyebrow mb-7 text-[#abd1ed] underline decoration-[#abd1ed]/40 underline-offset-4"
-          href={maestria.relatedProject.href}
-        >
-          {maestria.relatedProject.label}
-          <span class="ml-2" aria-hidden="true">
-            ↗
-          </span>
-        </a>
-      )}
-      <h3 class="feature-title">
-        <a href={maestria.path}>{maestria.title}</a>
-      </h3>
-      <p class="lead-copy mt-6 max-w-[42ch] text-muted">
-        {maestriaProject.description}
-      </p>
-      <p class="meta-line mt-5 text-[#abd1ed]">
-        {maestriaProject.technologies}
-      </p>
-      <div class="mt-6 flex flex-wrap items-center gap-x-8 gap-y-3">
-        <a class="text-link border-b border-paper text-sm" href={maestria.path}>
-          {maestriaProject.linkLabel}
-          <span class="ml-3" aria-hidden="true">
-            →
-          </span>
-        </a>
-        <a
-          class="text-link text-xs text-[#abd1ed]"
-          href={maestria.figure.sourceHref}
-        >
-          {maestria.figure.source}
-          <span class="ml-1.5" aria-hidden="true">
-            ↗
-          </span>
-        </a>
-      </div>
-    </div>
-  </article>
-  <div class="grid gap-10 pt-8 lg:grid-cols-[1fr_3fr] lg:gap-16">
-    <h3 class="card-title text-muted">{content.projects.otherHeading}</h3>
-    <div class="grid gap-12 sm:grid-cols-2 lg:gap-20">
-      {supplementary.map((project) => (
+  <div class="projects-grid">
+    {content.projects.entries.map((project) => {
+      const Surface = project.url ? "a" : "div";
+      return (
         <article
           id={`project-${project.id}`}
-          class="min-w-0 target:scroll-mt-8"
+          class:list={["project-tile", `tile-${project.id}`]}
           tabindex="-1"
         >
-          <h4 class="card-title">{project.title}</h4>
-          <p class="body-copy mt-4 text-muted">{project.description}</p>
-          <p class="meta-line mt-3">{project.technologies}</p>
-          {project.url && (
-            <a class="text-link mt-2 text-sm underline" href={project.url}>
-              {project.linkLabel}
-            </a>
-          )}
+          <Surface
+            class="tile-surface"
+            href={project.url}
+            aria-label={project.url ? project.title : undefined}
+            aria-describedby={`project-${project.id}-description project-${project.id}-tools project-${project.id}-concepts`}
+          >
+            <span class="tile-mark" aria-hidden="true">
+              {project.url ? "↗" : "◇"}
+            </span>
+            {project.id === "genomint" && (
+              <div class="tile-art graph-art" aria-hidden="true">
+                <svg
+                  data-project-graph
+                  viewBox="0 0 510 720"
+                  preserveAspectRatio="xMidYMid slice"
+                  focusable="false"
+                >
+                  <defs>
+                    <mask
+                      id="project-graph-links"
+                      maskUnits="userSpaceOnUse"
+                      x="0"
+                      y="0"
+                      width="510"
+                      height="720"
+                    >
+                      <rect width="510" height="720" fill="white" />
+                      {nodes.map(([x, y, radius]) => (
+                        <circle cx={x} cy={y} r={radius + 4} fill="black" />
+                      ))}
+                    </mask>
+                  </defs>
+                  <g class="graph-edges" mask="url(#project-graph-links)">
+                    {edges.map(([a, b]) => (
+                      <line
+                        x1={nodes[a][0]}
+                        y1={nodes[a][1]}
+                        x2={nodes[b][0]}
+                        y2={nodes[b][1]}
+                        stroke={nodes[a][4]}
+                        vector-effect="non-scaling-stroke"
+                      />
+                    ))}
+                  </g>
+                  {nodes.map(([x, y, radius, label, color]) => (
+                    <g
+                      class="graph-node"
+                      data-x={x}
+                      data-y={y}
+                      style={`--node-color: ${color}`}
+                    >
+                      <circle class="node-halo" cx={x} cy={y} r={radius + 9} />
+                      <circle class="node-core" cx={x} cy={y} r={radius} />
+                      <text
+                        class="node-label"
+                        x={x}
+                        y={y + radius + 15}
+                        text-anchor="middle"
+                      >
+                        {label}
+                      </text>
+                    </g>
+                  ))}
+                </svg>
+              </div>
+            )}
+            {project.id === "maestria" && (
+              <div class="tile-art library-art" aria-hidden="true">
+                {[0, 1, 2, 3].map((row) => (
+                  <div class="bookshelf">
+                    {Array.from({ length: 12 }, (_, column) => {
+                      const i = row * 12 + column;
+                      return (
+                        <span
+                          class:list={[
+                            "library-book",
+                            `binding-${(column * 5 + row * 2 + Math.floor(column / 3)) % 6}`,
+                          ]}
+                          style={`--book-height: ${72 + ((i * 13) % 27)}%; --book-width: ${7 + ((i * 7) % 9)}`}
+                        >
+                          <span class="book-volume">
+                            <span class="book-spine">
+                              <span class="book-title">
+                                {
+                                  bookTitles[
+                                    (column + row * 3) % bookTitles.length
+                                  ]
+                                }
+                              </span>
+                              <span class="book-imprint">
+                                {fr ? "études" : "essays"}
+                              </span>
+                            </span>
+                            <span class="book-cover">
+                              <span class="cover-series">
+                                {fr
+                                  ? "Bibliothèque des idées"
+                                  : "Library of ideas"}
+                              </span>
+                              <span class="cover-title">
+                                {
+                                  bookTitles[
+                                    (column + row * 3) % bookTitles.length
+                                  ]
+                                }
+                              </span>
+                              <span class="cover-rule"></span>
+                            </span>
+                            <span class="book-pages"></span>
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
+            )}
+            {project.id === "encrypted-voting" && (
+              <div class="ballot-art" aria-hidden="true">
+                <span class="ballot-paper">✓</span>
+                <span class="ballot-slot"></span>
+                <span class="ballot-proof">∑ / ≠</span>
+              </div>
+            )}
+            {project.id === "brio" && (
+              <div class="brio-art" aria-hidden="true">
+                <span class="brio-window">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <span>
+                    brio<span class="brio-dot">.</span>
+                  </span>
+                </span>
+              </div>
+            )}
+            <div class="tile-copy">
+              <h3>{project.title}</h3>
+              <ul id={`project-${project.id}-tools`} class="tile-tools">
+                {projectTools[project.id].map((name) => (
+                  <li title={name}>
+                    <span class="sr-only">{name}</span>
+                    <ToolIcon name={name} />
+                  </li>
+                ))}
+              </ul>
+              <p
+                id={`project-${project.id}-description`}
+                class="tile-description"
+              >
+                {descriptions[project.id]}
+              </p>
+              <p id={`project-${project.id}-concepts`} class="tile-concepts">
+                {projectConcepts[project.id].join(" · ")}
+              </p>
+            </div>
+          </Surface>
         </article>
-      ))}
-    </div>
+      );
+    })}
   </div>
 </section>
+
+<script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
+
+  onPageLoad((signal) => {
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    const activeBooks = new Map<HTMLElement, Animation | null>();
+    const rest = "rotateY(-4deg)";
+    const lifted = "translateZ(calc(var(--book-depth) + 16px)) rotateY(-4deg)";
+    const extracted =
+      "translateZ(calc(var(--book-depth) + 16px)) rotateX(-8deg) rotateY(-27deg)";
+    const stop = (book: HTMLElement) => {
+      const animation = activeBooks.get(book);
+      if (animation) {
+        animation.onfinish = null;
+        animation.cancel();
+      }
+    };
+    const release = (book: HTMLElement) => {
+      stop(book);
+      activeBooks.delete(book);
+      book.style.removeProperty("transform");
+      book.removeAttribute("data-book-active");
+    };
+    const releaseAll = () => {
+      for (const book of activeBooks.keys()) release(book);
+    };
+    for (const book of document.querySelectorAll<HTMLElement>(
+      ".library-book",
+    )) {
+      book.addEventListener(
+        "pointerenter",
+        (event) => {
+          if (event.pointerType === "touch" || reduced.matches) return;
+          const start = activeBooks.has(book)
+            ? getComputedStyle(book).transform
+            : rest;
+          stop(book);
+          book.setAttribute("data-book-active", "");
+          book.style.transform = extracted;
+          // One transform owns both phases; no nested compositor animations.
+          const animation = book.animate(
+            [
+              { transform: start, easing: "ease" },
+              {
+                transform: lifted,
+                offset: 0.45,
+                easing: "cubic-bezier(.2,.7,.25,1)",
+              },
+              { transform: extracted },
+            ],
+            { duration: 400, fill: "both" },
+          );
+          activeBooks.set(book, animation);
+          animation.onfinish = () => {
+            if (activeBooks.get(book) !== animation) return;
+            animation.onfinish = null;
+            animation.cancel();
+            activeBooks.set(book, null);
+          };
+        },
+        { signal },
+      );
+      book.addEventListener(
+        "pointerleave",
+        () => {
+          if (!activeBooks.has(book)) return;
+          const start = getComputedStyle(book).transform;
+          const depth = new DOMMatrixReadOnly(start).m43;
+          stop(book);
+          book.style.transform = rest;
+          // Interrupted extraction returns from its current depth, not the end.
+          const animation = book.animate(
+            [
+              { transform: start, easing: "cubic-bezier(.2,.7,.25,1)" },
+              {
+                transform: `translateZ(${depth}px) ${rest}`,
+                offset: 0.55,
+                easing: "ease",
+              },
+              { transform: rest },
+            ],
+            { duration: 400, fill: "both" },
+          );
+          activeBooks.set(book, animation);
+          animation.onfinish = () => {
+            if (activeBooks.get(book) === animation) release(book);
+          };
+        },
+        { signal },
+      );
+    }
+    reduced.addEventListener("change", releaseAll, { signal });
+    signal.addEventListener("abort", releaseAll, { once: true });
+    const graph = document.querySelector<SVGSVGElement>("[data-project-graph]");
+    const card = graph?.closest<HTMLElement>(".project-tile");
+    if (!graph || !card) return;
+    const nodes = Array.from(
+      graph.querySelectorAll<SVGGElement>(".graph-node"),
+    );
+    const positions = nodes.map((node) => [
+      Number(node.dataset.x),
+      Number(node.dataset.y),
+    ]);
+    const near = new Uint8Array(nodes.length);
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    const reset = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      for (let i = 0; i < nodes.length; i++) {
+        if (!near[i]) continue;
+        near[i] = 0;
+        nodes[i].classList.remove("is-near");
+      }
+    };
+    const update = () => {
+      frame = 0;
+      const matrix = graph.getScreenCTM();
+      if (!matrix) return;
+      // The graph and its entrance use 2D affine transforms. Apply the
+      // inverse directly instead of allocating an inverse matrix and point.
+      const determinant = matrix.a * matrix.d - matrix.b * matrix.c;
+      if (!determinant) return;
+      const inverse = 1 / determinant;
+      const clientX = x - matrix.e;
+      const clientY = y - matrix.f;
+      const graphX = (matrix.d * clientX - matrix.c * clientY) * inverse;
+      const graphY = (matrix.a * clientY - matrix.b * clientX) * inverse;
+      for (let i = 0; i < nodes.length; i++) {
+        const dx = positions[i][0] - graphX;
+        const dy = positions[i][1] - graphY;
+        const value = dx * dx + dy * dy < 85 * 85 ? 1 : 0;
+        if (value === near[i]) continue;
+        near[i] = value;
+        nodes[i].classList.toggle("is-near", value === 1);
+      }
+    };
+    card.addEventListener(
+      "pointermove",
+      (event) => {
+        if (event.pointerType === "touch" || reduced.matches) return;
+        x = event.clientX;
+        y = event.clientY;
+        if (frame) return;
+        frame = requestAnimationFrame(update);
+      },
+      { passive: true, signal },
+    );
+    card.addEventListener("pointerleave", reset, { signal });
+    reduced.addEventListener("change", reset, { signal });
+    signal.addEventListener("abort", reset, { once: true });
+  });
+</script>
+
+<style>
+  .projects-section {
+    padding-block: 2rem;
+  }
+  .projects-section h2 {
+    margin-bottom: 1.5rem;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    height: clamp(32rem, calc(100svh - 12rem), 42rem);
+  }
+  .project-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    --tile-padding: clamp(1.15rem, 2vw, 2rem);
+    border: 1px solid var(--tile-border);
+    background: var(--tile-bg);
+    color: #f1eee5;
+    border-radius: 0.35rem;
+    scroll-margin-top: 6rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .tile-surface {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    padding: var(--tile-padding);
+    color: inherit;
+    text-decoration: none;
+  }
+  .tile-genomint {
+    --tile-bg: #0c2222;
+    --tile-border: #345451;
+    --tile-accent: #b0ded0;
+    grid-row: span 2;
+  }
+  .tile-maestria {
+    --tile-bg: #182330;
+    --tile-border: #435367;
+    --tile-accent: #bdd1ec;
+    grid-row: span 2;
+  }
+  .tile-encrypted-voting {
+    --tile-bg: #29231e;
+    --tile-border: #605043;
+    --tile-accent: #dbc09c;
+  }
+  .tile-brio {
+    --tile-bg: #272331;
+    --tile-border: #554760;
+    --tile-accent: #d1bfdf;
+  }
+  .tile-mark {
+    position: absolute;
+    top: var(--tile-padding);
+    right: var(--tile-padding);
+    z-index: 2;
+    color: var(--tile-accent);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+  .tile-art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .tile-genomint::before,
+  .tile-maestria::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(5 15 17 / 0.85),
+      transparent 22%,
+      transparent 38%,
+      rgb(5 15 17 / 0.75) 64%,
+      #091718 100%
+    );
+  }
+  .tile-maestria::before {
+    background: linear-gradient(
+      180deg,
+      rgb(18 17 16 / 0.8),
+      transparent 18%,
+      transparent 35%,
+      rgb(18 17 16 / 0.82) 66%,
+      #121110 100%
+    );
+  }
+  .graph-art {
+    background-color: #102523;
+    background-image: radial-gradient(#a9c8ba24 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .graph-art svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .graph-edges {
+    stroke-width: 1;
+    stroke-linecap: round;
+    opacity: 0.65;
+  }
+  .node-core {
+    fill: var(--node-color);
+    fill-opacity: 0.7;
+    stroke: var(--node-color);
+    stroke-width: 1;
+  }
+  .node-halo {
+    fill: var(--node-color);
+    opacity: 0;
+  }
+  .graph-node.is-near .node-core {
+    fill-opacity: 1;
+    stroke: #e9f8ed;
+    stroke-width: 2;
+  }
+  .graph-node.is-near .node-halo {
+    opacity: 0.2;
+  }
+  .node-label {
+    fill: #d5e3d8;
+    font-size: 10px;
+    letter-spacing: 0.025em;
+  }
+  .library-art {
+    display: flex;
+    flex-direction: column;
+    inset: -1.5rem -1.75rem;
+    padding: 0 1rem;
+    background: #241f1a;
+    border-inline: 12px solid #514333;
+    box-shadow: inset 0 0 0 3px #1b1713;
+  }
+  .bookshelf {
+    position: relative;
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 1rem 0.2rem 0;
+    border-bottom: 7px solid #756957;
+    box-shadow: 0 3px 0 #171411;
+    perspective: 850px;
+    perspective-origin: 50% 35%;
+  }
+  .library-book {
+    --book-depth: clamp(3.5rem, 7vw, 6rem);
+    position: relative;
+    flex: var(--book-width) 1 0;
+    min-width: 0;
+    height: var(--book-height);
+    color: var(--book-ink, #e6e1d5);
+    z-index: 0;
+    transform-origin: 50% 100%;
+  }
+  .book-volume {
+    position: absolute;
+    inset: 0;
+    transform-origin: 50% 100%;
+  }
+  .library-book[data-book-active],
+  .library-book[data-book-active] .book-volume {
+    transform-style: preserve-3d;
+  }
+  .library-book[data-book-active] {
+    transform: rotateY(-4deg);
+    will-change: transform;
+    z-index: 2;
+  }
+  .library-book[data-book-active] .book-cover {
+    display: flex;
+  }
+  .library-book[data-book-active] .book-pages {
+    display: block;
+  }
+  .library-book[data-book-active] .book-spine {
+    backface-visibility: hidden;
+  }
+  .book-spine::before {
+    content: "";
+    position: absolute;
+    inset: 2px 3px auto;
+    height: 2px;
+    background: #ddd4bf;
+    border-radius: 2px 2px 0 0;
+  }
+  .book-spine {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.9rem 0.1rem 0.6rem;
+    background-color: var(--binding);
+    background-image: linear-gradient(
+      90deg,
+      #00000015,
+      transparent 15%,
+      #ffffff09 38%,
+      transparent 75%,
+      #00000020
+    );
+    border-radius: 3px 2px 2px 3px;
+    border-left: 1px solid #ffffff18;
+    border-right: 1px solid #00000025;
+    box-shadow: 1px 0 2px #00000040;
+    backface-visibility: visible;
+  }
+  .book-cover {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: var(--book-depth);
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    padding: 0.8rem;
+    background: var(--binding);
+    border: 1px solid #00000030;
+    border-radius: 0 3px 3px 0;
+    transform-origin: 0 50%;
+    transform: rotateY(90deg);
+    backface-visibility: hidden;
+    pointer-events: none;
+  }
+  .cover-series {
+    font-size: 0.4rem;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+  .cover-title {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    line-height: 1.2;
+  }
+  .cover-rule {
+    width: 35%;
+    border-top: 1px solid currentColor;
+    margin-top: 0.7rem;
+    opacity: 0.5;
+  }
+  .book-pages {
+    display: none;
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    width: calc(100% - 4px);
+    height: calc(var(--book-depth) - 3px);
+    background: repeating-linear-gradient(
+      90deg,
+      #d4cbb8 0 1px,
+      #e5dfce 1px 2px
+    );
+    border: 1px solid #a99f8b;
+    transform-origin: 50% 0;
+    transform: rotateX(90deg) translateY(-100%);
+    backface-visibility: hidden;
+    pointer-events: none;
+  }
+  .book-imprint {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.4rem;
+    font-style: italic;
+    opacity: 0.65;
+  }
+  .library-book:nth-child(3n) .book-title {
+    font-style: italic;
+  }
+  .binding-0 {
+    --binding: #5e6c62;
+  }
+  .binding-1 {
+    --binding: #82786b;
+  }
+  .binding-2 {
+    --binding: #b3a791;
+    --book-ink: #413c33;
+  }
+  .binding-3 {
+    --binding: #7c655e;
+  }
+  .binding-4 {
+    --binding: #596572;
+  }
+  .binding-5 {
+    --binding: #96907e;
+    --book-ink: #34372f;
+  }
+  .book-title {
+    writing-mode: vertical-rl;
+    font-family: var(--font-display);
+    font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+    letter-spacing: 0.01em;
+    opacity: 0.85;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .tile-copy {
+    margin-top: auto;
+    position: relative;
+    z-index: 2;
+  }
+  .tile-genomint .tile-copy::before,
+  .tile-maestria .tile-copy::before {
+    content: "";
+    position: absolute;
+    inset: -2rem -2rem -2rem;
+    z-index: -1;
+    background: linear-gradient(180deg, transparent, rgb(7 23 22 / 0.94) 2rem);
+    pointer-events: none;
+  }
+  .tile-maestria .tile-copy::before {
+    background: linear-gradient(180deg, transparent, rgb(18 17 16 / 0.94) 2rem);
+  }
+  .tile-genomint .tile-copy,
+  .tile-maestria .tile-copy {
+    pointer-events: none;
+  }
+  .tile-copy h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+  .tile-description {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin-top: 0.8rem;
+    color: #d0d2cd;
+  }
+  .tile-concepts {
+    margin-top: 0.8rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--tile-border);
+    color: var(--tile-accent);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+  .tile-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+    margin-block: 0.8rem;
+    color: var(--tile-accent);
+  }
+  .tile-tools li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    pointer-events: auto;
+  }
+  .tile-tools li > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  .tile-encrypted-voting h3,
+  .tile-brio h3 {
+    font-size: 1.5rem;
+  }
+  .tile-encrypted-voting .tile-description,
+  .tile-brio .tile-description {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin-top: 0.5rem;
+  }
+  .ballot-art {
+    position: absolute;
+    right: 1.5rem;
+    top: 3.1rem;
+    width: 4rem;
+    height: 2.5rem;
+    color: var(--tile-accent);
+  }
+  .ballot-paper {
+    display: block;
+    width: 1.5rem;
+    height: 1.8rem;
+    border: 1px solid currentColor;
+    text-align: center;
+    transform: rotate(-12deg);
+    margin-left: 1rem;
+  }
+  .ballot-slot {
+    display: block;
+    width: 3.5rem;
+    border-bottom: 2px solid currentColor;
+  }
+  .ballot-proof {
+    position: absolute;
+    right: 0;
+    top: 0.3rem;
+    font-size: 0.6rem;
+    opacity: 0.65;
+  }
+  .brio-art {
+    position: absolute;
+    top: 3rem;
+    right: 1.5rem;
+  }
+  .brio-window {
+    display: block;
+    width: 4.4rem;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid #78638a;
+    border-radius: 0.2rem;
+  }
+  .brio-window i {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    background: #a790ba;
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: top;
+  }
+  .brio-window > span {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .brio-dot {
+    color: #d1bfdf;
+  }
+  .project-tile:focus-within {
+    outline: 2px solid var(--tile-accent);
+    outline-offset: 3px;
+  }
+  .tile-surface:focus-visible {
+    outline: 2px solid var(--tile-accent);
+    outline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .library-book[data-book-active]:hover .book-cover {
+      box-shadow:
+        1px 0 0 #00000088,
+        6px 4px 10px #00000055;
+    }
+    .node-core,
+    .node-halo {
+      transition:
+        fill 140ms ease,
+        opacity 140ms ease,
+        stroke-width 140ms ease;
+    }
+  }
+  @media (max-width: 63.999rem) {
+    .projects-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: minmax(min-content, 2fr) minmax(min-content, 1fr);
+      height: auto;
+      min-height: max(36rem, calc(100svh - 11rem));
+    }
+    .tile-genomint,
+    .tile-maestria {
+      grid-row: auto;
+    }
+    .tile-description {
+      font-size: 0.78rem;
+    }
+    .tile-encrypted-voting,
+    .tile-brio {
+      min-height: 12rem;
+    }
+    .tile-genomint,
+    .tile-maestria {
+      min-height: 25rem;
+    }
+  }
+  @media (max-width: 39.999rem) {
+    .projects-section {
+      padding-block: 1.5rem;
+    }
+    .projects-section h2 {
+      margin-bottom: 1rem;
+    }
+    .projects-grid {
+      gap: 0.6rem;
+      grid-template-rows: repeat(3, minmax(min-content, 1fr));
+      height: auto;
+      min-height: max(40rem, calc(100svh - 11rem));
+    }
+    .tile-genomint,
+    .tile-maestria {
+      grid-column: span 2;
+      min-height: 0;
+    }
+    .tile-encrypted-voting,
+    .tile-brio {
+      min-height: 0;
+    }
+    .project-tile {
+      --tile-padding: 0.75rem;
+    }
+    .library-art {
+      inset-inline: -1rem;
+      padding-inline: 0.3rem;
+      border-inline-width: 5px;
+    }
+    .bookshelf {
+      gap: 2px;
+      padding-top: 0.5rem;
+      border-bottom-width: 6px;
+    }
+    .book-spine {
+      padding-block: 0.5rem;
+    }
+    .book-imprint {
+      font-size: 0.3rem;
+    }
+    .library-book {
+      --book-depth: 3.5rem;
+    }
+    .book-title {
+      font-size: 0.55rem;
+    }
+    .tile-copy h3 {
+      font-size: 1.6rem;
+    }
+    .tile-tools {
+      gap: 0.45rem;
+      margin-block: 0.65rem;
+    }
+    .tile-tools li {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .tile-description {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      margin-top: 0.5rem;
+    }
+    .tile-encrypted-voting h3,
+    .tile-brio h3 {
+      font-size: 1.25rem;
+    }
+    .tile-encrypted-voting .tile-description,
+    .tile-brio .tile-description {
+      font-size: 0.8125rem;
+    }
+    .ballot-art,
+    .brio-art {
+      display: none;
+    }
+  }
+</style>

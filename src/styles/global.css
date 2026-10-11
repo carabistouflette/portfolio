@@ -273,83 +273,6 @@
     }
   }
 
-  .project-research {
-    position: relative;
-    isolation: isolate;
-    border: 1px solid rgb(142 183 174 / 0.3);
-  }
-  .project-research-graph {
-    position: absolute;
-    bottom: -14rem;
-    left: -18rem;
-    width: min(48rem, 68%);
-    height: auto;
-    color: #a8c8be;
-    opacity: 0.42;
-  }
-
-  @media (max-width: 47.999rem) {
-    .project-research-graph {
-      top: 8rem;
-      bottom: auto;
-      left: -17rem;
-      width: 31rem;
-      opacity: 0.28;
-    }
-  }
-
-  .project-research::before,
-  .project-research::after {
-    position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-color: rgb(168 200 190 / 0.55);
-    border-style: solid;
-    border-width: 0;
-    content: "";
-    pointer-events: none;
-  }
-
-  .project-research::before {
-    top: 0.75rem;
-    left: 0.75rem;
-    border-top-width: 1px;
-    border-left-width: 1px;
-  }
-
-  .project-research::after {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-  }
-
-  .project-launcher {
-    position: relative;
-    isolation: isolate;
-    border: 1px solid rgb(135 183 220 / 0.26);
-    background: #0a1624;
-  }
-
-  .project-launcher-files {
-    position: absolute;
-    top: -3rem;
-    right: -7rem;
-    width: 42rem;
-    height: auto;
-    color: #9dc2dc;
-  }
-
-  @media (max-width: 47.999rem) {
-    .project-launcher-files {
-      top: auto;
-      bottom: -5rem;
-      right: -9rem;
-      width: 25rem;
-      opacity: 0.55;
-    }
-  }
-
   .github-calendar-scroll:focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 4px;
@@ -772,7 +695,10 @@
   /* Keep type growing on large displays: continuous at 1600px, capped at 2560px. */
   @media (min-width: 100rem) {
     .hero-name-size {
-      font-size: min(clamp(17rem, 17rem + (100vw - 100rem) * 0.07, 21.25rem), 32.5cqi);
+      font-size: min(
+        clamp(17rem, 17rem + (100vw - 100rem) * 0.07, 21.25rem),
+        32.5cqi
+      );
     }
     .hero-headline-size {
       font-size: clamp(2.25rem, 2.25rem + (100vw - 100rem) * 0.008, 2.75rem);
@@ -1226,18 +1152,6 @@ details[data-disclosure-animating] .skill-preview {
       text-decoration-color 160ms ease;
   }
 
-  #projects .project-research,
-  #projects .project-launcher {
-    transition:
-      translate 200ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 200ms ease;
-  }
-
-  #projects .project-research:focus-within,
-  #projects .project-launcher:focus-within {
-    box-shadow: 0 0 0 1px rgb(157 199 223 / 0.35);
-  }
-
   .hero-actions > :is(a, button) {
     transition:
       color 160ms ease,
@@ -1255,14 +1169,6 @@ details[data-disclosure-animating] .skill-preview {
 
   .text-link:is(:hover, :focus-visible) > span[aria-hidden="true"] {
     translate: 2px 0;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    #projects .project-research:hover,
-    #projects .project-launcher:hover {
-      translate: 0 -3px;
-      box-shadow: 0 0 0 1px rgb(157 199 223 / 0.35);
-    }
   }
 }
 @media (forced-colors: active) {
