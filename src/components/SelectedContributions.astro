@@ -19,24 +19,32 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
   class="content-shell section-shell"
   aria-labelledby="open-source-title"
 >
-  <p class="eyebrow mb-6 text-[#9dc7df]">
-    {openSource.github.eyebrow}
-  </p>
   <h2 id="open-source-title" class="section-title max-w-[19ch]">
     {openSource.heading}
   </h2>
-  <p class="lead-copy mt-6 max-w-[48ch] text-muted">
-    {openSource.intro}{" "}
-    <a
-      class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
-      href={openSource.profileLink.url}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {openSource.profileLink.label}
-    </a>
-  </p>
-  <p class="body-copy mt-4 max-w-[52ch] text-muted">{openSource.personal}</p>
+  <a
+    class="mt-6 inline-flex max-w-full items-center gap-4 rounded-xl border border-rule/60 px-4 py-3 hover:border-[#9dc7df] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+    href={openSource.profileLink.url}
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img
+      src={`https://github.com/${snapshot.login}.png?size=96`}
+      width="48"
+      height="48"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      class="size-12 shrink-0 rounded-full object-cover"
+    />
+    <div class="min-w-0">
+      <p class="text-base font-medium">{openSource.profileLink.bannerLabel}</p>
+      <p class="mt-1 break-all text-sm text-muted">@{snapshot.login}</p>
+    </div>
+    <span class="ml-2 shrink-0 text-[#9dc7df]" aria-hidden="true">
+      ↗
+    </span>
+  </a>
   <ul class="mt-12 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:gap-x-16">
     {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
@@ -53,9 +61,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
             </span>
           </a>
         </h3>
-        <p class="eyebrow mt-2 text-[#abd1ed]">
-          {project.role}
-        </p>
+        <p class="eyebrow mt-2 text-[#abd1ed]">{project.role}</p>
         <p class="body-copy mt-4 max-w-[52ch] text-muted">
           {project.description}
         </p>

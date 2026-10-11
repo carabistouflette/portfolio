@@ -26,7 +26,17 @@ const descriptions = fr
       brio: "The Brio project website.",
     };
 const projectTools: Record<ProjectId, string[]> = {
-  genomint: ["Python", "FastAPI", "Neo4j", "PostgreSQL", "Docker", "Linux"],
+  genomint: [
+    "Python",
+    "FastAPI",
+    "Pi",
+    "LangChain",
+    "Haystack",
+    "Neo4j",
+    "PostgreSQL",
+    "Docker",
+    "Linux",
+  ],
   maestria: ["Rust", "Tantivy", "SQLite"],
   "encrypted-voting": ["Java", "Spring Boot"],
   brio: ["Next.js"],
@@ -494,9 +504,6 @@ const bookTitles = fr
 </script>
 
 <style>
-  .projects-section {
-    padding-block: 2rem;
-  }
   .projects-section h2 {
     margin-bottom: 1.5rem;
   }
@@ -988,9 +995,6 @@ const bookTitles = fr
     }
   }
   @media (max-width: 39.999rem) {
-    .projects-section {
-      padding-block: 1.5rem;
-    }
     .projects-section h2 {
       margin-bottom: 1rem;
     }
@@ -998,7 +1002,7 @@ const bookTitles = fr
       gap: 0.6rem;
       grid-template-rows: repeat(3, minmax(min-content, 1fr));
       height: auto;
-      min-height: max(40rem, calc(100svh - 11rem));
+      min-height: max(40rem, calc(100svh - 9.5rem - var(--section-space)));
     }
     .tile-genomint,
     .tile-maestria {

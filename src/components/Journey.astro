@@ -1,6 +1,5 @@
 ---
 import type { JourneyEntry, PortfolioContent } from "../data/portfolio";
-import JourneyAxis from "./JourneyAxis.astro";
 
 interface Props {
   content: PortfolioContent;
@@ -16,17 +15,24 @@ const positions = Object.fromEntries(
 const entries = content.journey.entries.toSorted(
   (a, b) => positions[a.start] - positions[b.start],
 );
-const yearGroups: { label: string; start: number; end: number }[] = [];
-axis.forEach((marker, index) => {
-  const previous = yearGroups.at(-1);
-  if (previous?.label === marker.label) previous.end = index;
-  else yearGroups.push({ label: marker.label, start: index, end: index });
-});
 
 const projectForEntry = (entry: JourneyEntry) =>
   entry.projectId
     ? content.projects.entries.find((project) => project.id === entry.projectId)
     : undefined;
+
+const tracks = [
+  {
+    kind: "education",
+    label: content.journey.labels.education,
+    entries: entries.filter((entry) => entry.kind === "education"),
+  },
+  {
+    kind: "experience",
+    label: content.journey.labels.experience,
+    entries: entries.filter((entry) => entry.kind !== "education"),
+  },
+];
 ---
 
 <section
@@ -34,192 +40,155 @@ const projectForEntry = (entry: JourneyEntry) =>
   class="section-shell content-shell"
   aria-labelledby="journey-title"
 >
-  <header class="mb-12 border-t border-rule pt-12 md:mb-20">
+  <header class="mb-8 md:mb-10">
     <h2 id="journey-title" class="section-title text-balance">
       {content.journey.heading}
     </h2>
   </header>
 
-  <div class="mb-7 hidden lg:block">
-    <p class="font-display text-2xl text-muted">
-      {content.journey.labels.education}
-    </p>
-  </div>
-  <p class="eyebrow mb-5 text-[#9dc7df] lg:hidden">
-    {content.journey.labels.education}
-  </p>
-  <div class="relative" style={`--steps: ${axis.length - 1}`}>
-    <JourneyAxis axis={axis} yearGroups={yearGroups} />
-    <div class="journey-grid relative grid gap-8 max-lg:before:absolute max-lg:before:inset-y-0 max-lg:before:left-0 max-lg:before:w-px max-lg:before:bg-rule/50 max-lg:before:content-[''] lg:gap-x-0 lg:gap-y-12 lg:pt-14">
-      {entries
-        .filter((entry) => entry.kind === "education")
-        .map((entry) => {
-          const project = projectForEntry(entry);
-          const start = positions[entry.start];
-          const end = entry.end ? positions[entry.end] : start + 1;
-          return (
-            <article
-              class="journey-entry relative min-w-0 max-lg:pl-4 lg:bg-linear-to-b lg:from-[#24353f]/75 lg:to-[#14212b]/40 lg:px-5 lg:py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-[7px] max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#a5b9c4] max-lg:before:content-[''] lg:border-t-2"
-              style={`--start: ${start}; --end: ${end}`}
+  <div class="grid gap-6 md:gap-8">
+    {tracks.map((track) => {
+      const first = track.entries[0];
+      if (!first) return null;
+      const offset = positions[first.start] - 1;
+      const trackAxis = axis.slice(offset);
+      const steps = trackAxis.length - 1;
+      return (
+        <section
+          aria-labelledby={`journey-${track.kind}-title`}
+          style={`--journey-accent: ${track.kind === "education" ? "#a5b9c4" : "#8fc6ee"}; --steps: ${steps}`}
+        >
+          <h3
+            id={`journey-${track.kind}-title`}
+            class="mb-3 font-display text-2xl text-paper"
+          >
+            {track.label}
+          </h3>
+          <div class="relative lg:pt-10">
+            <div
+              class="journey-axis pointer-events-none absolute inset-0 hidden lg:block"
+              aria-hidden="true"
             >
-              <p class="mb-3 text-base font-medium tabular-nums text-[#a5b9c4] sm:text-lg">
-                {entry.period}
-              </p>
-              <h3 class="card-title [overflow-wrap:anywhere]">
-                {entry.title}
-              </h3>
-              <p class="body-copy mt-2">{entry.subtitle}</p>
-              {entry.logos && (
-                <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-                  {entry.logos.map((src) => (
-                    <img
-                      class="h-7 w-auto max-w-full object-contain object-left opacity-90 sm:h-14"
-                      src={src}
-                      alt=""
-                      loading="lazy"
-                    />
-                  ))}
-                </div>
-              )}
-              {entry.detail && (
-                <details class="reading-disclosure mt-4">
-                  <summary>
-                    {content.journey.detailLabel}
-                    <span class="sr-only"> — {entry.title}</span>
-                  </summary>
-                  <div class="reading-disclosure-body">
-                    <p class="body-copy max-w-[46ch] text-muted">
-                      {entry.detail}
-                    </p>
-                  </div>
-                </details>
-              )}
-              {project?.url && project.linkLabel && (
-                <a
-                  class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed"
-                  href={project.url}
+              {trackAxis.map((marker, index) => (
+                <div
+                  class="absolute inset-y-0 border-l border-rule/25"
+                  style={`left: ${(index / steps) * 100}%`}
                 >
-                  {project.linkLabel}
-                  <span class="ml-2" aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              )}
-            </article>
-          );
-        })}
-    </div>
-  </div>
-
-  <div class="mt-16 border-t border-rule pt-10 lg:mt-24">
-    <div class="mb-7 hidden lg:block">
-      <p class="font-display text-2xl text-muted">
-        {content.journey.labels.experience}
-      </p>
-    </div>
-    <p class="eyebrow mb-5 text-[#9dc7df] lg:hidden">
-      {content.journey.labels.experience}
-    </p>
-    <div class="relative" style={`--steps: ${axis.length - 1}`}>
-      <JourneyAxis axis={axis} yearGroups={yearGroups} />
-      <div
-        class="journey-grid relative grid gap-8 max-lg:before:absolute max-lg:before:inset-y-0 max-lg:before:left-0 max-lg:before:w-px max-lg:before:bg-rule/50 max-lg:before:content-[''] lg:gap-x-0 lg:pt-14"
-      >
-        {entries
-          .filter((entry) => entry.kind !== "education")
-          .map((entry) => {
-            const project = projectForEntry(entry);
-            const start = positions[entry.start];
-            const end = entry.end ? positions[entry.end] : start + 1;
-            return (
-              <article
-                class="journey-entry relative min-w-0 self-start max-lg:pl-4 max-lg:pr-0 lg:px-5 lg:py-5 max-lg:before:absolute max-lg:before:left-[-5px] max-lg:before:top-[7px] max-lg:before:size-2.5 max-lg:before:rounded-full max-lg:before:bg-[#8fc6ee] max-lg:before:content-[''] lg:border-t-2"
-                style={`--start: ${start}; --end: ${end}`}
-              >
-                <p class="mb-3 text-base font-medium tabular-nums text-[#8fc6ee] sm:text-lg">
-                  {entry.period}
-                </p>
-                <h3 class="card-title text-[#abd1ed] [overflow-wrap:anywhere]">
-                  {entry.title}
-                </h3>
-                <p class="body-copy mt-2">{entry.subtitle}</p>
-                {entry.logos && (
-                  <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-                    {entry.logos.map((src) => (
-                      <img
-                        class="h-7 w-auto max-w-full object-contain object-left opacity-90 sm:h-14"
-                        src={src}
-                        alt=""
-                        loading="lazy"
-                      />
-                    ))}
-                  </div>
-                )}
-                {entry.detail && (
-                  <details class="reading-disclosure mt-4">
-                    <summary>
-                      {content.journey.detailLabel}
-                      <span class="sr-only"> — {entry.title}</span>
-                    </summary>
-                    <div class="reading-disclosure-body">
-                      <p class="body-copy max-w-[46ch] text-muted">
-                        {entry.detail}
-                      </p>
-                    </div>
-                  </details>
-                )}
-                {project?.url && project.linkLabel && (
-                  <a
-                    class="text-link mt-3 max-w-full border-b border-paper/50 text-xs leading-relaxed"
-                    href={project.url}
+                  {(index === 0 ||
+                    marker.label !== trackAxis[index - 1].label) && (
+                    <span
+                      class="absolute top-0 whitespace-nowrap text-sm text-muted"
+                      style={`transform: translateX(${index === 0 ? "0" : "-50%"})`}
+                    >
+                      {marker.label}
+                    </span>
+                  )}
+                  {marker.detail && (
+                    <span class="absolute top-5 -translate-x-1/2 whitespace-nowrap text-[0.65rem] text-muted">
+                      {marker.detail}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div class="journey-grid grid gap-4 lg:gap-0">
+              {track.entries.map((entry) => {
+                const project = projectForEntry(entry);
+                const start = positions[entry.start] - offset;
+                const end = entry.end
+                  ? positions[entry.end] - offset
+                  : start + 1;
+                return (
+                  <article
+                    class="journey-entry min-w-0 border-0 px-4 py-3 max-lg:border-l max-lg:border-rule/40 lg:bg-[#102637]/20"
+                    style={`--start: ${start}; --end: ${end}`}
                   >
-                    {project.linkLabel}
-                    <span class="ml-2" aria-hidden="true">
+                    <p class="mb-2 text-base font-medium tabular-nums text-[var(--journey-accent)]">
+                      {entry.period}
+                    </p>
+                    <h4 class="card-title [overflow-wrap:anywhere]">
+                      {project?.url && project.linkLabel ? (
+                        <a
+                          class="hover:underline underline-offset-4"
+                          href={project.url}
+                          aria-label={`${project.linkLabel} — ${entry.title}`}
+                        >
+                          {entry.title}
+                          <span class="ml-1 text-muted" aria-hidden="true">
+                            ↗
+                          </span>
+                        </a>
+                      ) : (
+                        entry.title
+                      )}
+                    </h4>
+                    <p class="body-copy mt-1 text-muted">{entry.subtitle}</p>
+                    {entry.logos && (
+                      <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+                        {entry.logos.map((src) => (
+                          <img
+                            class="h-7 w-auto max-w-full object-contain object-left sm:h-14"
+                            src={src}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        ))}
+                      </div>
+                    )}
+                    {entry.detail && (
+                      <details class="reading-disclosure mt-2 border-0">
+                        <summary>
+                          {content.journey.detailLabel}
+                          <span class="sr-only"> — {entry.title}</span>
+                        </summary>
+                        <div class="reading-disclosure-body">
+                          <p class="body-copy max-w-[46ch] text-muted">
+                            {entry.detail}
+                          </p>
+                        </div>
+                      </details>
+                    )}
+                  </article>
+                );
+              })}
+              {track.kind === "experience" && (
+                <aside
+                  class="journey-entry min-w-0 px-4 py-3"
+                  style={`--start: ${positions[invitation.start] - offset}; --end: ${positions[invitation.end] - offset}`}
+                  aria-labelledby="journey-invitation-title"
+                >
+                  <h4
+                    id="journey-invitation-title"
+                    class="card-title text-[#abd1ed]"
+                  >
+                    {invitation.title}
+                  </h4>
+                  <p class="body-copy mt-2 text-muted">
+                    {invitation.description}
+                  </p>
+                  <a
+                    class="text-link mt-2 w-fit text-sm text-[#abd1ed] hover:underline underline-offset-4"
+                    href={`#${content.navigation.sections.contact.id}`}
+                  >
+                    {invitation.linkLabel}
+                    <span class="ml-2 shrink-0" aria-hidden="true">
                       ↗
                     </span>
                   </a>
-                )}
-              </article>
-            );
-          })}
-        <section
-          class="journey-entry min-w-0 border border-dashed border-[#8fc6ee]/60 bg-[#102637]/40 px-5 py-5"
-          style={`--start: ${positions[invitation.start]}; --end: ${positions[invitation.end]}`}
-          aria-labelledby="journey-invitation-title"
-        >
-          <h3
-            id="journey-invitation-title"
-            class="subsection-title text-[#abd1ed]"
-          >
-            {invitation.title}
-          </h3>
-          <p class="body-copy mt-3 max-w-[32ch] text-muted">
-            {invitation.description}
-          </p>
-          <a
-            class="text-link mt-4 max-w-full border-b border-paper/50 text-xs leading-relaxed sm:text-sm"
-            href={`#${content.navigation.sections.contact.id}`}
-          >
-            {invitation.linkLabel}
-            <span class="ml-2 shrink-0" aria-hidden="true">
-              ↗
-            </span>
-          </a>
+                </aside>
+              )}
+            </div>
+          </div>
         </section>
-      </div>
-    </div>
+      );
+    })}
   </div>
 </section>
 
 <style>
   .journey-grid {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: none;
-  }
-
-  .journey-entry {
-    grid-column: auto;
-    grid-row: auto;
   }
 
   @media (min-width: 64rem) {

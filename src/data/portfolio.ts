@@ -162,8 +162,7 @@ export interface PortfolioContent {
   openSource: {
     heading: string;
     intro: string;
-    profileLink: { label: string; url: string };
-    personal: string;
+    profileLink: { label: string; bannerLabel: string; url: string };
     projects: {
       heading: string;
       entries: {
@@ -206,11 +205,6 @@ export interface PortfolioContent {
   };
   skills: {
     heading: string;
-    capabilities: {
-      title: string;
-      claim: string;
-      technologies: { name: string; projectId?: ProjectId }[];
-    }[];
     catalogMoreLabel: string;
     catalogCloseLabel: string;
     projectLabel: string;
@@ -218,13 +212,11 @@ export interface PortfolioContent {
   };
   personal: {
     heading: string;
-    eyebrow: string;
     intro: string;
     photoAlt: string;
     interests: { title: string; description: string }[];
   };
   contact: {
-    eyebrow?: string;
     heading?: string;
     email: string;
     emailCta?: string;
@@ -307,7 +299,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "Au CIRAD, j’ai développé l’agent IA et le backend de l’explorateur génomique : requêtes Neo4j, API et exports.",
           technologies:
-            "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
+            "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/projets/genomint/",
           linkLabel: "Lire le dossier",
         },
@@ -345,10 +337,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur",
       profileLink: {
         label: "mon profil GitHub.",
+        bannerLabel: "Mon profil GitHub",
         url: "https://github.com/carabistouflette",
       },
-      personal:
-        "J’aime le logiciel libre, les sujets de recherche et trifouiller sur Linux.",
       projects: {
         heading: "Projets & communautés",
         entries: [
@@ -468,44 +459,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     skills: {
       heading: "Compétences",
-      capabilities: [
-        {
-          title: "Agents & accès aux données",
-          claim:
-            "Construire le parcours d’une question en langage naturel jusqu’aux données, avec des contrôles explicites à chaque appel d’outil.",
-          technologies: [
-            { name: "Python", projectId: "genomint" },
-            { name: "FastAPI", projectId: "genomint" },
-            { name: "Neo4j", projectId: "genomint" },
-            { name: "PostgreSQL", projectId: "genomint" },
-            { name: "Docker", projectId: "genomint" },
-            { name: "Linux", projectId: "genomint" },
-          ],
-        },
-        {
-          title: "Recherche & évaluation",
-          claim:
-            "Retrouver l’information pertinente (BM25, vectoriel, hybride), comparer les approches et documenter ce que les mesures ne prouvent pas.",
-          technologies: [
-            { name: "Rust", projectId: "maestria" },
-            { name: "SQLite", projectId: "maestria" },
-            { name: "SigLIP", projectId: "maestria" },
-            { name: "RapidOCR", projectId: "maestria" },
-          ],
-        },
-        {
-          title: "Ingénierie & déploiement",
-          claim:
-            "Organiser les services, borner les coûts, automatiser la livraison et expliquer les compromis d’exploitation.",
-          technologies: [
-            { name: "Podman", projectId: "genomint" },
-            { name: "Helm", projectId: "genomint" },
-            { name: "K3s", projectId: "genomint" },
-            { name: "GitLab CI/CD", projectId: "genomint" },
-            { name: "GitHub Actions", projectId: "genomint" },
-          ],
-        },
-      ],
       catalogMoreLabel: "Voir plus",
       catalogCloseLabel: "Refermer",
       projectLabel: "Voir dans le projet",
@@ -565,8 +518,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "TRL", projectIds: [] },
             { name: "bitsandbytes", projectIds: [] },
             { name: "Safetensors", projectIds: [] },
-            { name: "LangChain", projectIds: [] },
-            { name: "Haystack", projectIds: [] },
+            { name: "Pi", projectIds: ["genomint"] },
+            { name: "LangChain", projectIds: ["genomint"] },
+            { name: "Haystack", projectIds: ["genomint"] },
             { name: "vLLM", projectIds: [] },
           ],
         },
@@ -643,7 +597,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     personal: {
       heading: "Et loin du clavier ?",
-      eyebrow: "Un autre rythme",
       intro:
         "Je suis originaire de Montpellier. Loin du code, je fais de la randonnée en montagne et de la photographie. J’aime aussi le VTT et les voyages.",
       photoAlt:
@@ -662,7 +615,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      eyebrow: "Contact & opportunités",
       heading: "Donnons vie à vos projets.",
       email: contactEmail,
       emailCta: "Envoyer un e-mail",
@@ -733,7 +685,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "At CIRAD, I built the AI agent and the genomic graph explorer’s backend: Neo4j queries, APIs and exports.",
           technologies:
-            "Python · FastAPI · PostgreSQL · Neo4j · Docker · Linux",
+            "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
           linkLabel: "Read the case study",
         },
@@ -771,10 +723,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on",
       profileLink: {
         label: "my GitHub profile.",
+        bannerLabel: "My GitHub profile",
         url: "https://github.com/carabistouflette",
       },
-      personal:
-        "I enjoy open source, research topics and tinkering with Linux.",
       projects: {
         heading: "Projects & communities",
         entries: [
@@ -896,44 +847,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     skills: {
       heading: "Skills",
-      capabilities: [
-        {
-          title: "Agents & data access",
-          claim:
-            "Build the path from a natural-language question to the data, with explicit controls on every tool call.",
-          technologies: [
-            { name: "Python", projectId: "genomint" },
-            { name: "FastAPI", projectId: "genomint" },
-            { name: "Neo4j", projectId: "genomint" },
-            { name: "PostgreSQL", projectId: "genomint" },
-            { name: "Docker", projectId: "genomint" },
-            { name: "Linux", projectId: "genomint" },
-          ],
-        },
-        {
-          title: "Retrieval & evaluation",
-          claim:
-            "Retrieve the relevant information (BM25, vector, hybrid), compare approaches and document what measurements do not prove.",
-          technologies: [
-            { name: "Rust", projectId: "maestria" },
-            { name: "SQLite", projectId: "maestria" },
-            { name: "SigLIP", projectId: "maestria" },
-            { name: "RapidOCR", projectId: "maestria" },
-          ],
-        },
-        {
-          title: "Engineering & deployment",
-          claim:
-            "Organize services, bound costs, automate delivery and explain operational trade-offs.",
-          technologies: [
-            { name: "Podman", projectId: "genomint" },
-            { name: "Helm", projectId: "genomint" },
-            { name: "K3s", projectId: "genomint" },
-            { name: "GitLab CI/CD", projectId: "genomint" },
-            { name: "GitHub Actions", projectId: "genomint" },
-          ],
-        },
-      ],
       catalogMoreLabel: "See more",
       catalogCloseLabel: "Close",
       projectLabel: "See in project",
@@ -990,8 +903,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "TRL", projectIds: [] },
             { name: "bitsandbytes", projectIds: [] },
             { name: "Safetensors", projectIds: [] },
-            { name: "LangChain", projectIds: [] },
-            { name: "Haystack", projectIds: [] },
+            { name: "Pi", projectIds: ["genomint"] },
+            { name: "LangChain", projectIds: ["genomint"] },
+            { name: "Haystack", projectIds: ["genomint"] },
             { name: "vLLM", projectIds: [] },
           ],
         },
@@ -1065,7 +979,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     personal: {
       heading: "Away from the keyboard?",
-      eyebrow: "A different pace",
       intro:
         "I’m from Montpellier. Away from code, I hike in the mountains and take photographs. I also enjoy mountain biking and travelling.",
       photoAlt:
@@ -1084,7 +997,6 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      eyebrow: "Contact & opportunities",
       heading: "Let's build something together.",
       email: contactEmail,
       emailCta: "Send an email",

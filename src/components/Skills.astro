@@ -6,9 +6,6 @@ interface Props {
 }
 const { content } = Astro.props;
 const copy = content.skills;
-const projects = new Map(
-  content.projects.entries.map((project) => [project.id, project]),
-);
 const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   id,
   title,
@@ -27,44 +24,8 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     </h2>
   </header>
 
-  <ul class="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-12">
-    {copy.capabilities.map((capability) => (
-      <li class="min-w-0 border-t border-rule pt-6">
-        <h3 class="card-title">{capability.title}</h3>
-        <p class="body-copy mt-3 max-w-[40ch] text-muted">{capability.claim}</p>
-        <ul class="mt-5 flex flex-wrap gap-2">
-          {capability.technologies.map((technology) => {
-            const project = technology.projectId
-              ? projects.get(technology.projectId)
-              : undefined;
-            return (
-              <li>
-                {project ? (
-                  <a
-                    class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 text-xs text-paper/90 hover:border-[#9dc7df] hover:text-paper"
-                    href={project.url || `#project-${project.id}`}
-                  >
-                    <span class="sr-only">{copy.projectLabel} </span>
-                    {technology.name}
-                    <span class="ml-2 text-[#9dc7df]" aria-hidden="true">
-                      ↗
-                    </span>
-                  </a>
-                ) : (
-                  <span class="inline-flex min-h-9 items-center rounded-full border border-rule/60 px-3 text-xs text-paper/90">
-                    {technology.name}
-                  </span>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </li>
-    ))}
-  </ul>
-
   {copy.groups.length > 0 && (
-    <details class="catalog-invitation mt-6 md:mt-8" data-disclosure-reveal>
+    <details class="catalog-invitation mt-12" data-disclosure-reveal>
       <summary
         id="skills-catalog-summary"
         aria-controls="skills-catalog-body"

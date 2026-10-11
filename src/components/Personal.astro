@@ -19,7 +19,7 @@ const photoSizes = [
   class="section-shell content-shell"
   aria-labelledby="personal-title"
 >
-  <div class="grid items-center gap-12 border-t border-rule/60 pt-12 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-24 lg:pt-20">
+  <div class="grid items-center gap-12 border-t border-rule/60 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12 lg:gap-24">
     <figure
       data-parallax-photo
       class="personal-photo m-0 min-w-0 overflow-hidden rounded-sm border border-rule/40 bg-ink"
@@ -38,8 +38,7 @@ const photoSizes = [
     </figure>
     <div class="min-w-0">
       <header>
-        <p class="eyebrow text-[#9dc7df]">{content.eyebrow}</p>
-        <h2 id="personal-title" class="mt-6 max-w-[14ch] section-title">
+        <h2 id="personal-title" class="max-w-[14ch] section-title">
           {content.heading}
         </h2>
         <p class="mt-8 max-w-[40ch] lead-copy text-paper/90">{content.intro}</p>
