@@ -1162,6 +1162,8 @@
       this.lc = this.layer.getContext("2d");
       this.blurLayer = document.createElement("canvas");
       this.bc = this.blurLayer.getContext("2d");
+      this.minX = this.minY = Infinity;
+      this.maxX = this.maxY = -Infinity;
       this.back = document.createElement("canvas");
       this.grain = document.createElement("canvas");
       this.grain.width = this.grain.height = 192;
@@ -1373,6 +1375,29 @@
         const overlap = 0.5,
           top = Math.max(0, sy - overlap),
           bottom = Math.min(tex.height, sy + sh + overlap);
+        // Bound the actual affine strip rectangle, including its overlap.
+        const x = (E + C * top + origin) * dpr,
+          y = (F + D * top + origin) * dpr,
+          acrossX = A * tex.width * dpr,
+          acrossY = B * tex.width * dpr,
+          downX = C * (bottom - top) * dpr,
+          downY = D * (bottom - top) * dpr;
+        this.minX = Math.min(
+          this.minX,
+          x + Math.min(0, acrossX) + Math.min(0, downX),
+        );
+        this.minY = Math.min(
+          this.minY,
+          y + Math.min(0, acrossY) + Math.min(0, downY),
+        );
+        this.maxX = Math.max(
+          this.maxX,
+          x + Math.max(0, acrossX) + Math.max(0, downX),
+        );
+        this.maxY = Math.max(
+          this.maxY,
+          y + Math.max(0, acrossY) + Math.max(0, downY),
+        );
         context.drawImage(
           tex,
           0,
@@ -1420,6 +1445,8 @@
         b.sinPitch = Math.sin(b.pitch);
         this.lc.setTransform(1, 0, 0, 1, 0, 0);
         this.lc.clearRect(0, 0, size, size);
+        this.minX = this.minY = Infinity;
+        this.maxX = this.maxY = -Infinity;
         const rear = b.angle - 0.018;
         this.part(
           b,
@@ -1478,12 +1505,43 @@
             floorY = Math.floor(nativeY),
             fractionX = nativeX - floorX,
             fractionY = nativeY - floorY,
-            padding = CANVAS_BLUR_PADDING;
+            padding = CANVAS_BLUR_PADDING,
+            scale = (logicalSize * dpr) / size,
+            // Include raster/sampling support and the existing Gaussian border.
+            left = Math.max(
+              0,
+              Math.floor(Math.max(0, this.minX - 2) * scale + fractionX),
+            ),
+            top = Math.max(
+              0,
+              Math.floor(Math.max(0, this.minY - 2) * scale + fractionY),
+            ),
+            right = Math.min(
+              blurLayerSize,
+              Math.ceil(
+                Math.min(size, this.maxX + 2) * scale + fractionX + padding * 2,
+              ),
+            ),
+            bottom = Math.min(
+              blurLayerSize,
+              Math.ceil(
+                Math.min(size, this.maxY + 2) * scale + fractionY + padding * 2,
+              ),
+            ),
+            cropWidth = right - left,
+            cropHeight = bottom - top;
+          if (cropWidth <= 0 || cropHeight <= 0) continue;
           blurCtx.setTransform(1, 0, 0, 1, 0, 0);
           blurCtx.globalAlpha = 1;
           blurCtx.globalCompositeOperation = "source-over";
           blurCtx.filter = "none";
           blurCtx.clearRect(0, 0, this.blurLayer.width, this.blurLayer.height);
+          // Keep the original source mapping and fractional placement. Clipping
+          // limits filter work without resampling a cropped source differently.
+          blurCtx.save();
+          blurCtx.beginPath();
+          blurCtx.rect(left, top, cropWidth, cropHeight);
+          blurCtx.clip();
           blurCtx.filter = `blur(${blurRadius}px)`;
           blurCtx.drawImage(
             this.layer,
@@ -1492,13 +1550,17 @@
             logicalSize * dpr,
             logicalSize * dpr,
           );
-          blurCtx.filter = "none";
+          blurCtx.restore();
           ctx.drawImage(
             this.blurLayer,
-            (floorX - padding) / dpr,
-            (floorY - padding) / dpr,
-            this.blurLayer.width / dpr,
-            this.blurLayer.height / dpr,
+            left,
+            top,
+            cropWidth,
+            cropHeight,
+            (floorX - padding + left) / dpr,
+            (floorY - padding + top) / dpr,
+            cropWidth / dpr,
+            cropHeight / dpr,
           );
         }
       }
