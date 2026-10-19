@@ -23,6 +23,8 @@ Les projections Canvas réutilisent les six valeurs trigonométriques de rotatio
 
 Les passes de flou Canvas sont limitées aux bornes natives des bandes projetées, avec leur recouvrement et la marge gaussienne d’origine. Seul ce rectangle est recomposé sur le fond ; la transformation de l’image source et ses fractions de pixel restent inchangées. Les tampons sont réutilisés sans lecture de pixels par frame. Le rayon du flou, le grain, les poses, le nombre de papillons et la cadence d’animation ne sont pas réduits.
 
+Le moteur Canvas 2D ignore aussi les papillons entièrement hors du viewport vertical avant de projeter leurs bandes et de les flouter. La borne inclut toute la surface de pose et la marge gaussienne : les papillons partiellement visibles restent dessinés, et le scroll inverse retrouve la même pose. La simulation, le nombre de papillons et le rendu visible ne changent pas.
+
 Les redimensionnements identiques ne réallouent ni ne redessinent les surfaces. Les changements réels remettent à l’échelle les positions, les destinations et les limites de vol ; le cache de fond est invalidé aussi lors d’un changement de `gradient`. Le nombre réduit par la qualité adaptative reste cohérent après resize et ne dépasse jamais le nombre demandé. Après un gel adaptatif, `reseed()` reprend la lecture seulement si les états de pause, de visibilité et de mouvement l’autorisent ; le scroll continue à reprojeter la pose gelée.
 
 En WebGL, la perte de contexte suspend la boucle et libère les références aux ressources GPU. La restauration reconstruit les textures, les maillages et la cible de rendu, même sans changement de dimensions, puis reprend uniquement si les états de lecture l’autorisent. Le moteur Canvas reste le rendu par défaut.

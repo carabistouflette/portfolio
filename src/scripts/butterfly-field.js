@@ -1423,7 +1423,8 @@
       for (const b of birds) maxSpan = Math.max(maxSpan, b.span);
       const logicalSize = Math.ceil(maxSpan * 3.8),
         size = Math.ceil(logicalSize * dpr),
-        origin = logicalSize / 2;
+        origin = logicalSize / 2,
+        verticalExtent = origin + (CANVAS_BLUR_PADDING + 2) / dpr;
       if (this.layer.width !== size || this.layer.height !== size) {
         this.layer.width = this.layer.height = size;
       }
@@ -1437,6 +1438,9 @@
       for (const bird of drawOrder()) {
         const b = bird.pose(alpha);
         if (b.x < -b.span * 2.7 || b.x > width + b.span * 2.7) continue;
+        // The pose canvas and Gaussian border cannot contribute outside this
+        // vertical footprint. Scroll recycling can leave entire birds offscreen.
+        if (b.y + verticalExtent < 0 || b.y - verticalExtent > height) continue;
         b.cosYaw = Math.cos(b.yaw);
         b.sinYaw = Math.sin(b.yaw);
         b.cosElevation = Math.cos(b.elevation);
