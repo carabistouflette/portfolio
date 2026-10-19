@@ -1,7 +1,7 @@
 export type Locale = "fr" | "en";
 
-export type ProjectId = "genomint" | "maestria" | "encrypted-voting" | "brio";
-export type CaseStudyId = "genomint" | "maestria" | "encrypted-voting";
+export type ProjectId = "genomint" | "sillage" | "encrypted-voting" | "brio";
+export type CaseStudyId = "genomint" | "sillage" | "encrypted-voting";
 
 export interface Project {
   id: ProjectId;
@@ -253,7 +253,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — IA & systèmes de données",
       description:
-        "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, recherche locale avec Maestria et contributions Rust à SteelMC.",
+        "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, lanceur Linux et recherche documentaire avec Sillage, contributions Rust à SteelMC.",
     },
     skipLink: "Aller au contenu principal",
     navigation: {
@@ -304,12 +304,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Lire le dossier",
         },
         {
-          id: "maestria",
-          title: "Maestria",
+          id: "sillage",
+          title: "Sillage",
           description:
-            "Dans Brio, je contribue au lanceur Linux Maestria : recherche en Rust, ingestion vectorielle et évaluation de documents visuels.",
-          technologies: "Rust · Tantivy · SQLite",
-          url: "/projets/maestria/",
+            "Dans Brio, je contribue à Sillage : un lanceur Linux natif et un moteur de recherche dans les documents, utilisable séparément.",
+          technologies: "Rust · Slint · Tantivy · SQLite",
+          url: "/projets/sillage/",
           linkLabel: "Lire le dossier",
         },
         {
@@ -344,11 +344,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         heading: "Projets & communautés",
         entries: [
           {
-            name: "Maestria",
-            url: "https://github.com/brio-labs/maestria",
+            name: "Sillage",
+            url: "https://github.com/brio-labs/maestria/tree/dev/sillage",
             role: "Projet personnel",
             description:
-              "Dépôt public du lanceur Linux : code, documentation et benchmarks.",
+              "Lanceur Linux natif et moteur de recherche documentaire séparé. Code et documentation sur dev/sillage.",
           },
           {
             name: "SteelMC",
@@ -469,7 +469,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Écrire la logique, des scripts aux applications et aux systèmes.",
           items: [
             { name: "Python", projectIds: ["genomint"] },
-            { name: "Rust", projectIds: ["maestria"] },
+            { name: "Rust", projectIds: ["sillage"] },
             { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting"] },
             { name: "C", projectIds: [] },
@@ -557,7 +557,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "PostgreSQL", projectIds: ["genomint"] },
             { name: "MySQL", projectIds: [] },
             { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["maestria"] },
+            { name: "SQLite", projectIds: ["sillage"] },
             { name: "MongoDB", projectIds: [] },
             { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
@@ -639,7 +639,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — AI & data systems",
       description:
-        "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, local retrieval with Maestria and Rust contributions to SteelMC.",
+        "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, Linux launcher and document search with Sillage, Rust contributions to SteelMC.",
     },
     skipLink: "Skip to main content",
     navigation: {
@@ -690,12 +690,12 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Read the case study",
         },
         {
-          id: "maestria",
-          title: "Maestria",
+          id: "sillage",
+          title: "Sillage",
           description:
-            "At Brio, I contribute to Maestria, a Linux launcher built in Rust: search, vector ingestion and visual-document evaluation.",
-          technologies: "Rust · Tantivy · SQLite",
-          url: "/en/projects/maestria/",
+            "At Brio, I contribute to Sillage: a native Linux launcher and a document search engine that can run separately.",
+          technologies: "Rust · Slint · Tantivy · SQLite",
+          url: "/en/projects/sillage/",
           linkLabel: "Read the case study",
         },
         {
@@ -730,11 +730,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         heading: "Projects & communities",
         entries: [
           {
-            name: "Maestria",
-            url: "https://github.com/brio-labs/maestria",
+            name: "Sillage",
+            url: "https://github.com/brio-labs/maestria/tree/dev/sillage",
             role: "Personal project",
             description:
-              "Public repository for the Linux launcher: code, documentation and benchmarks.",
+              "Native Linux launcher and separate document search engine. Code and documentation on dev/sillage.",
           },
           {
             name: "SteelMC",
@@ -857,7 +857,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Write the logic, from scripts to applications and systems.",
           items: [
             { name: "Python", projectIds: ["genomint"] },
-            { name: "Rust", projectIds: ["maestria"] },
+            { name: "Rust", projectIds: ["sillage"] },
             { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting"] },
             { name: "C", projectIds: [] },
@@ -941,7 +941,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "PostgreSQL", projectIds: ["genomint"] },
             { name: "MySQL", projectIds: [] },
             { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["maestria"] },
+            { name: "SQLite", projectIds: ["sillage"] },
             { name: "MongoDB", projectIds: [] },
             { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
@@ -1351,127 +1351,124 @@ const genomintEn: CaseStudy = {
   languageLabel: "Change language",
 };
 
-const maestriaFr: CaseStudy = {
-  title: "Maestria",
-  question: "Un lanceur Linux, ancré dans vos fichiers.",
-  kicker: "Rust · lanceur Linux · open source",
+const sillageFr: CaseStudy = {
+  title: "Sillage",
+  question:
+    "Lancer une application ou retrouver un passage dans ses documents.",
+  kicker: "Projet Brio · Rust · Linux · open source",
   summary:
-    "Maestria est un lanceur Linux open source qui ouvre, calcule, exécute et, surtout, cherche vraiment dans vos fichiers : recherche lexicale et sémantique en local, avec les preuves attachées. Dans le cadre de Brio, je contribue au moteur de recherche, à l’ingestion vectorielle et à l’évaluation des documents visuels.",
+    "Sillage réunit un lanceur natif Slint et un moteur de recherche documentaire installable séparément. Le lanceur ouvre des applications et, après autorisation d’un dossier, retrouve des extraits de fichiers Markdown, DOCX et PDF avec leur ligne ou leur page.",
   atGlance: {
     label: "Le projet en bref",
     entries: [
-      { label: "Contexte", value: "Projet Brio · open source · Linux-first" },
-      { label: "Depuis", value: "2026" },
+      { label: "Contexte", value: "Projet Brio · anciennement Maestria" },
       {
         label: "Ma part",
         value:
-          "Moteur de recherche, ingestion vectorielle, évaluation des documents visuels",
+          "Moteur de recherche · ingestion vectorielle · évaluation des documents visuels",
       },
-      { label: "Socle", value: "Rust · Tantivy · SQLite · ONNX Runtime" },
-      { label: "État", value: "Lanceur natif en service · Studio retiré" },
+      { label: "Socle", value: "Rust · Slint · Tantivy · SQLite" },
+      {
+        label: "État",
+        value:
+          "Version de développement sur dev/sillage · aucune release publiée",
+      },
     ],
   },
   understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role: "Je travaille sur le moteur de recherche, l’ingestion vectorielle et l’évaluation des documents visuels. La recherche est le cœur du produit : c’est elle qui décide si le lanceur est bon.",
+  role: "Je contribue au moteur de recherche, au traitement des documents pour l’indexation vectorielle et aux essais d’OCR et de recherche dans les documents visuels.",
   roleLabel: "Mon travail",
   relatedProject: {
     label: "Dans le cadre du projet Brio",
     href: destinations.brio,
   },
-  path: "/projets/maestria/",
-  contextLabel: "La place de Maestria dans Brio",
+  path: "/projets/sillage/",
+  contextLabel: "De Maestria à Sillage",
   context:
-    "Brio explore l’orchestration d’agents IA ; Maestria en est le volet local. Le projet a démarré par le socle de recherche : indexation, retrieval, preuves, et une interface web pour l’interroger. Cette interface a disparu : le lanceur natif l’a remplacée. Le daemon garde l’autorité sur les sources et les preuves ; les workflows avancés (tâches, mémoire) vivent au-dessus du socle.",
+    "Le travail sur dev/sillage sépare deux usages : lancer des applications au clavier et rechercher dans le contenu de documents. Le moteur peut servir d’autres clients sans installer le lanceur. La CLI, le daemon et Studio restent présents ; l’interface principale du lanceur est désormais native, en Slint.",
   figure: {
     kind: "diagram",
-    title: "La boucle du lanceur",
-    alt: "Trois étapes : invoquer le lanceur et taper une requête, chercher localement, exécuter le résultat choisi.",
-    source: "github.com/brio-labs/maestria",
-    sourceHref: "https://github.com/brio-labs/maestria",
+    title: "Activer la recherche documentaire",
+    alt: "Choisir et autoriser un dossier, indexer ses documents, puis consulter un extrait avec son fichier et sa ligne ou sa page.",
+    source: "README · branche dev/sillage",
+    sourceHref:
+      "https://github.com/brio-labs/maestria/blob/dev/sillage/README.md",
     nodes: [
       {
-        title: "Invoquer & taper",
+        title: "Choisir un dossier",
         detail:
-          "Un raccourci, une requête : fichiers, applications, commandes.",
+          "Installer le composant de recherche, puis autoriser le dossier dans les préférences.",
       },
       {
-        title: "Chercher localement",
+        title: "Indexer et chercher",
         detail:
-          "Recherche lexicale et vectorielle sur les fichiers indexés, extraits reliés à leur source.",
+          "Suivre l’indexation, puis rechercher dans le texte sans charger de modèle.",
       },
       {
-        title: "Exécuter",
-        detail: "Ouvrir, copier, lancer, un résultat à la fois.",
+        title: "Consulter la source",
+        detail:
+          "Lire l’extrait et sa position ; ouvrir le fichier ou copier après vérification de l’accès.",
       },
     ],
   },
-  mediaLabel: "Le lanceur en pratique",
+  mediaLabel: "Du dossier autorisé à l’extrait",
   sections: [
     {
-      heading: "01 · Un lanceur, d’abord",
+      heading: "01 · Un lanceur utilisable sans recherche documentaire",
       paragraphs: [
-        "Le produit tient dans une boucle : un raccourci, une requête, un choix, une action exécutée. Le lanceur ouvre des applications, expose les commandes enregistrées, fait de l’arithmétique et cherche dans les noms, les chemins et le contenu des fichiers. Les extensions ajoutent leurs commandes et leurs résultats à la même liste. « Commande » veut dire action enregistrée, jamais l’évaluation du shell de ce qu’on tape.",
-        "L’interface web qui servait à interroger le moteur a disparu : le lanceur l’a rendue inutile. Ce qui reste, c’est la partie difficile. Retrouver le bon passage dans vos fichiers, localement, sans rien envoyer à personne.",
+        "Au premier démarrage, le lanceur cherche les applications installées. Il expose aussi des commandes enregistrées et un calculateur. Le texte saisi n’est pas exécuté comme une commande shell.",
+        "Fermer la fenêtre masque le lanceur sans arrêter le processus. L’interface Slint utilise un rendu logiciel, sans embarquer Node ni WebKitGTK. La recherche d’applications reste disponible lorsque la recherche documentaire est désactivée ou indisponible.",
       ],
     },
     {
-      heading: "02 · Une recherche qui rend ses preuves",
+      heading: "02 · Un moteur installable sans le lanceur",
       paragraphs: [
-        "Tout part de racines de lecture approuvées : l’instance n’indexe que ce qu’on lui concède. Chaque extrait reste relié à sa preuve : fichier et position ; page et région pour un PDF scanné.",
-        "La voie lexicale (Tantivy) et la voie sémantique dense travaillent côte à côte. La CLI sait chercher, expliquer une recherche, ouvrir la preuve d’un résultat et rejouer son exécution. Le daemon encadre le tout : profils read-only ou trusted-workspace, reprise après interruption, journal d’événements durable. Sans OCR ou sans embeddings visuels, la capacité se déclare indisponible : le texte n’est jamais inventé.",
+        "Le paquet Debian sillage-search fournit le service de recherche sans interface graphique. Un client local peut rechercher des passages et consulter leurs sources par socket Unix, sans lancer le lanceur ni charger un modèle.",
+        "Dans le lanceur, la recherche documentaire demande l’installation de ce composant, le choix d’un dossier et une activation explicite. Les préférences affichent la progression de l’indexation et permettent de désactiver la recherche.",
       ],
     },
     {
-      heading: "03 · Un moteur plus simple",
+      heading:
+        "03 · Des extraits vérifiables, pas seulement des noms de fichiers",
       paragraphs: [
-        "Le moteur traînait une façade asynchrone héritée d’une itération passée : une couche entière à lire et à maintenir, sans bénéfice, alors que les voies de recherche travaillent déjà en parallèle avec une concurrence bornée. Je l’ai remplacée par des interfaces synchrones. Le daemon reste le seul endroit où ce travail bloquant est encadré.",
-        "Dans la CLI, une recherche dit si elle vient du daemon ou d’une exécution locale : on sait ce qu’on observe.",
+        "Les résultats documentaires montrent le passage trouvé, le fichier et sa ligne ou sa page. Avant d’afficher la preuve, de copier ou d’ouvrir la source, le service vérifie à nouveau l’autorisation d’accès.",
+        "La recherche lexicale fonctionne sans modèle. La recherche sémantique et l’OCR sont optionnels ; ils ne sont pas activés par défaut dans le lanceur. Ouvrir un fichier ne garantit pas que le lecteur externe se positionne à la ligne ou à la page citée.",
       ],
     },
     {
-      heading: "04 · Ingérer par document",
+      heading: "04 · Ce qui reste à valider",
       paragraphs: [
-        "L’indexation vectorielle créait un effet par fragment de texte : des dizaines d’écritures pour un seul fichier. Le travail est regroupé à l’échelle du document : un appel d’embedding par lot, une mise à jour de projection, un état d’attente rejouable après interruption.",
-        "Les contrôles restent : l’identité de la génération est vérifiée, la réponse du fournisseur doit correspondre aux fragments demandés. Sur le jeu d’essai interne, l’ingestion dense est passée de 81,8 s à 40,6 s, deux fois plus vite.",
-      ],
-    },
-    {
-      heading: "05 · Mesurer avant d’activer",
-      paragraphs: [
-        "Pour les documents visuels, PDF scannés et captures, j’ai construit un banc d’évaluation qui fait réellement tourner SigLIP et RapidOCR, puis corrigé la sortie ONNX retenue et le recadrage des régions de page. Évaluer la bonne région compte autant que brancher un modèle.",
-        "L’inférence CPU est plus rapide, mais quatre cas sur six dépassent le budget de bout en bout : la voie reste expérimentale. La voie dense, elle, n’a été activée qu’après un benchmark : six classes de requêtes, énergie mesurée, enregistrement de promotion lié au hash du rapport.",
-        "La late interaction n’a pas convaincu. Ses résultats négatifs sont archivés dans le dépôt plutôt que d’ajouter un index dont personne ne veut.",
+        "Des paquets Debian et AppImage sont construits et testés, mais aucune release n’est publiée. La parité complète de l’interface Slint et les mesures de performance de la version distribuable restent ouvertes.",
+        "Sous X11, le raccourci global se configure dans les préférences. Sous Wayland, il dépend du portail du bureau ; un raccourci configuré dans le compositeur reste nécessaire sur certains systèmes.",
+        "Les extensions sont optionnelles. Leur installation et leurs permissions ont fait l’objet d’essais, mais le SDK et la validation complète du produit ne sont pas terminés. Les essais d’OCR et de recherche sémantique ne constituent pas une mesure générale de qualité ou de consommation mémoire.",
       ],
     },
   ],
   sources: {
-    label: "Projet, code et docs",
+    label: "Code et état du développement",
     entries: [
       {
-        label: "Brio · orchestration d’agents",
-        href: destinations.brio,
-        detail: "Le projet dans lequel s’inscrit Maestria.",
+        label: "Sillage · dev/sillage",
+        href: "https://github.com/brio-labs/maestria/tree/dev/sillage",
+        detail:
+          "Le dépôt conserve le nom maestria ; le développement présenté est sur dev/sillage.",
       },
       {
-        label: "Dépôt Maestria",
-        href: "https://github.com/brio-labs/maestria",
-        detail: "README, code et historique publics.",
+        label: "Capacités et installation",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/README.md",
+        detail:
+          "Fonctions disponibles, composants optionnels et limites connues.",
+      },
+      {
+        label: "Feuille de route",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/docs/ROADMAP.md",
+        detail: "Travail restant pour le lanceur, le moteur et les extensions.",
       },
       {
         label: "Journal de développement",
-        href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
-        detail: "Un log roulant, sans releases : main est le build courant.",
-      },
-      {
-        label: "Recherche & benchmarks",
-        href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
-        detail: "Protocoles d’évaluation et profils de modèles locaux.",
-      },
-      {
-        label: "Architecture",
-        href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
-        detail: "Daemon, gouvernance, journal d’événements.",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/CHANGELOG.md",
+        detail: "Changements du moteur, du lanceur et des intégrations.",
       },
     ],
   },
@@ -1480,125 +1477,120 @@ const maestriaFr: CaseStudy = {
   languageLabel: "Changer de langue",
 };
 
-const maestriaEn: CaseStudy = {
-  title: "Maestria",
-  question: "A Linux launcher, rooted in your files.",
-  kicker: "Rust · Linux launcher · open source",
+const sillageEn: CaseStudy = {
+  title: "Sillage",
+  question: "Launch an application or find a passage in your documents.",
+  kicker: "Brio project · Rust · Linux · open source",
   summary:
-    "Maestria is an open-source Linux launcher that opens, calculates, executes and, above all, really searches your files: lexical and semantic search, local, with evidence attached. As part of Brio, I work on the search engine, vector ingestion and visual-document evaluation.",
+    "Sillage combines a native Slint launcher with a separately installable document search engine. The launcher opens applications and, once a folder is approved, retrieves excerpts from Markdown, DOCX and PDF files with their line or page.",
   atGlance: {
-    label: "The project at a glance",
+    label: "At a glance",
     entries: [
-      { label: "Context", value: "Brio project · open source · Linux-first" },
-      { label: "Since", value: "2026" },
+      { label: "Context", value: "Brio project · formerly Maestria" },
       {
         label: "My part",
-        value: "Search engine, vector ingestion, visual-document evaluation",
+        value: "Search engine · vector ingestion · visual-document evaluation",
       },
-      { label: "Stack", value: "Rust · Tantivy · SQLite · ONNX Runtime" },
-      { label: "Status", value: "Native launcher shipped · Studio retired" },
+      { label: "Stack", value: "Rust · Slint · Tantivy · SQLite" },
+      {
+        label: "Status",
+        value: "Development build on dev/sillage · no published release",
+      },
     ],
   },
   understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role: "I work on the search engine, vector ingestion and visual-document evaluation. Search is the heart of the product: it decides whether the launcher is any good.",
+  role: "I contribute to the search engine, document processing for vector indexing, and experiments with OCR and visual-document retrieval.",
   roleLabel: "My work",
   relatedProject: {
     label: "Part of the Brio project",
     href: destinations.brio,
   },
-  path: "/en/projects/maestria/",
-  contextLabel: "Maestria within Brio",
+  path: "/en/projects/sillage/",
+  contextLabel: "From Maestria to Sillage",
   context:
-    "Brio explores AI agent orchestration; Maestria is its local pillar. The project started with the search backbone: indexing, retrieval, evidence, and a web interface to query it. That interface is gone: the native launcher replaced it. The daemon keeps authority over sources and evidence; advanced workflows (tasks, memory) live above the backbone.",
+    "Work on dev/sillage separates two uses: launching applications from the keyboard and searching document contents. The engine can serve other clients without installing the launcher. The CLI, daemon and Studio remain available; the main launcher interface is now native, built with Slint.",
   figure: {
     kind: "diagram",
-    title: "The launcher loop",
-    alt: "Three steps: invoke the launcher and type a query, search locally, execute the chosen result.",
-    source: "github.com/brio-labs/maestria",
-    sourceHref: "https://github.com/brio-labs/maestria",
+    title: "Enable document search",
+    alt: "Choose and approve a folder, index its documents, then inspect an excerpt with its file and line or page.",
+    source: "README · dev/sillage branch",
+    sourceHref:
+      "https://github.com/brio-labs/maestria/blob/dev/sillage/README.md",
     nodes: [
       {
-        title: "Invoke & type",
-        detail: "One shortcut, one query: files, apps, commands.",
-      },
-      {
-        title: "Search locally",
+        title: "Choose a folder",
         detail:
-          "Lexical and vector search over indexed files, excerpts linked to their source.",
+          "Install the search component, then approve the folder in Preferences.",
       },
       {
-        title: "Execute",
-        detail: "Open, copy, run, one result at a time.",
+        title: "Index and search",
+        detail:
+          "Follow indexing progress, then search the text without loading a model.",
+      },
+      {
+        title: "Inspect the source",
+        detail:
+          "Read the excerpt and its position; open or copy after an access check.",
       },
     ],
   },
-  mediaLabel: "The launcher in practice",
+  mediaLabel: "From approved folder to excerpt",
   sections: [
     {
-      heading: "01 · A launcher first",
+      heading: "01 · A launcher that works without document search",
       paragraphs: [
-        "The product fits in one loop: a shortcut, a query, a choice, an action executed. The launcher opens applications, exposes registered commands, does arithmetic and searches file names, paths and content. Extensions add their commands and results to the same list. A “command” means a registered action, never shell-evaluating what you type.",
-        "The web interface that used to query the engine is gone: the launcher made it pointless. What remains is the hard part. Finding the right passage in your files, locally, without sending anything to anyone.",
+        "On first launch, the launcher searches installed applications. It also exposes registered commands and a calculator. Typed text is not evaluated as a shell command.",
+        "Closing the window hides the launcher without ending its process. The Slint interface uses software rendering, without embedding Node or WebKitGTK. Application search remains available when document search is disabled or unavailable.",
       ],
     },
     {
-      heading: "02 · A search that hands over its evidence",
+      heading: "02 · An engine that runs without the launcher",
       paragraphs: [
-        "Everything starts from approved read roots: the instance only indexes what you grant. Every excerpt stays linked to its evidence: file and position; page and region for a scanned PDF.",
-        "The lexical lane (Tantivy) and the dense semantic lane work side by side. The CLI can search, explain a query, open a result’s evidence and replay its execution. The daemon frames it all: read-only or trusted-workspace profiles, resumption after interruption, a durable event journal. Without OCR or visual embeddings, the capability reports itself unavailable: text is never invented.",
+        "The sillage-search Debian package provides a headless search service. A local client can retrieve passages and inspect their sources over a Unix socket, without starting the launcher or loading a model.",
+        "In the launcher, document search requires installing this component, choosing a folder and explicitly enabling it. Preferences displays indexing progress and lets the user disable search.",
       ],
     },
     {
-      heading: "03 · A simpler engine",
+      heading: "03 · Inspectable excerpts, not just matching filenames",
       paragraphs: [
-        "The engine carried an asynchronous façade inherited from an earlier iteration: a whole layer to read and maintain, for no benefit, while the retrieval lanes already run in parallel with bounded concurrency. I replaced it with synchronous interfaces. The daemon remains the only place where this blocking work is contained.",
-        "In the CLI, a search says whether the daemon served it or it ran locally: you know what you are looking at.",
+        "Document results show the matching passage, file and line or page. Before displaying evidence, copying or opening the source, the service checks access authorization again.",
+        "Lexical search works without a model. Semantic search and OCR are optional, not launcher defaults. Opening a file does not guarantee that the external viewer jumps to the cited line or page.",
       ],
     },
     {
-      heading: "04 · Ingest by document",
+      heading: "04 · What remains to be validated",
       paragraphs: [
-        "Vector indexing used to create one effect per text chunk: dozens of writes for a single file. Work is grouped at the document level: one batched embedding call, one projection update, pending state that can be replayed after an interruption.",
-        "The controls stay: the generation identity is checked, the provider response must match the requested chunks. On the internal test set, dense ingestion went from 81.8 s to 40.6 s, twice as fast.",
-      ],
-    },
-    {
-      heading: "05 · Measure before enabling",
-      paragraphs: [
-        "For visual documents, scanned PDFs and screenshots, I built an evaluation harness that actually runs SigLIP and RapidOCR, then fixed the selected ONNX output and page-region cropping. Evaluating the right region matters as much as wiring a model.",
-        "CPU inference is faster, but four cases out of six exceed the end-to-end budget: the lane stays experimental. The dense lane, meanwhile, was only enabled after a benchmark: six query classes, measured energy, a promotion record bound to the report hash.",
-        "Late interaction did not convince. Its negative results are archived in the repository rather than adding an index nobody wants.",
+        "Debian and AppImage packages are built and tested, but no release is published. Full Slint interface parity and release performance measurements remain open.",
+        "On X11, the global shortcut is configured in Preferences. On Wayland, it depends on the desktop portal; some systems still require a compositor-configured shortcut.",
+        "Extensions are opt-in. Installation and permission flows have been exercised, but the SDK and complete product validation are unfinished. OCR and semantic-search experiments do not establish general retrieval quality or memory usage.",
       ],
     },
   ],
   sources: {
-    label: "Project, code and docs",
+    label: "Code and development status",
     entries: [
       {
-        label: "Brio · agent orchestration",
-        href: destinations.brio,
-        detail: "The project Maestria belongs to.",
+        label: "Sillage · dev/sillage",
+        href: "https://github.com/brio-labs/maestria/tree/dev/sillage",
+        detail:
+          "The repository retains the maestria name; the work described is on dev/sillage.",
       },
       {
-        label: "Maestria repository",
-        href: "https://github.com/brio-labs/maestria",
-        detail: "Public README, code and history.",
+        label: "Capabilities and installation",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/README.md",
+        detail:
+          "Available features, optional components and known limitations.",
+      },
+      {
+        label: "Roadmap",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/docs/ROADMAP.md",
+        detail: "Remaining launcher, engine and extension work.",
       },
       {
         label: "Development journal",
-        href: "https://github.com/brio-labs/maestria/blob/main/CHANGELOG.md",
-        detail: "A rolling log, no releases: main is the current build.",
-      },
-      {
-        label: "Research & benchmarks",
-        href: "https://github.com/brio-labs/maestria/blob/main/docs/RESEARCH.md",
-        detail: "Evaluation protocols and local model profiles.",
-      },
-      {
-        label: "Architecture",
-        href: "https://github.com/brio-labs/maestria/blob/main/docs/ARCHITECTURE.md",
-        detail: "Daemon, governance, event journal.",
+        href: "https://github.com/brio-labs/maestria/blob/dev/sillage/CHANGELOG.md",
+        detail: "Search engine, launcher and integration changes.",
       },
     ],
   },
@@ -1764,12 +1756,12 @@ const encryptedVotingEn: CaseStudy = {
 export const caseStudies: Record<Locale, Record<CaseStudyId, CaseStudy>> = {
   fr: {
     genomint: genomintFr,
-    maestria: maestriaFr,
+    sillage: sillageFr,
     "encrypted-voting": encryptedVotingFr,
   },
   en: {
     genomint: genomintEn,
-    maestria: maestriaEn,
+    sillage: sillageEn,
     "encrypted-voting": encryptedVotingEn,
   },
 };

@@ -1,6 +1,7 @@
 import {
   siPython,
   siRust,
+  siSlint,
   siTypescript,
   siOpenjdk,
   siC,
@@ -68,6 +69,7 @@ export interface ToolIconData {
 const brands: Record<string, SimpleIcon> = {
   Python: siPython,
   Rust: siRust,
+  Slint: siSlint,
   TypeScript: siTypescript,
   Java: siOpenjdk,
   C: siC,

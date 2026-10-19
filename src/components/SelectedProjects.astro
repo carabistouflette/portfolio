@@ -15,13 +15,13 @@ const fr = locale === "fr";
 const descriptions = fr
   ? {
       genomint: "Explorer la pangénomie.",
-      maestria: "Recherche documentaire locale.",
+      sillage: "Lancer des apps, retrouver un passage.",
       "encrypted-voting": "Vérifier sans révéler les votes.",
       brio: "Le site du projet Brio.",
     }
   : {
       genomint: "Explore pangenomics.",
-      maestria: "Local document retrieval.",
+      sillage: "Launch apps, find a passage.",
       "encrypted-voting": "Verify without revealing votes.",
       brio: "The Brio project website.",
     };
@@ -37,20 +37,20 @@ const projectTools: Record<ProjectId, string[]> = {
     "Docker",
     "Linux",
   ],
-  maestria: ["Rust", "Tantivy", "SQLite"],
+  sillage: ["Rust", "Slint", "Tantivy", "SQLite", "Tokio"],
   "encrypted-voting": ["Java", "Spring Boot"],
   brio: ["Next.js"],
 };
 const projectConcepts: Record<ProjectId, string[]> = fr
   ? {
       genomint: ["Pangénomie", "Graphes", "Agent IA"],
-      maestria: ["Retrieval", "RAG", "Ingestion vectorielle"],
+      sillage: ["Lanceur Linux", "Recherche locale", "Extraits sourcés"],
       "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
       brio: ["Développement web"],
     }
   : {
       genomint: ["Pangenomics", "Graphs", "AI agent"],
-      maestria: ["Retrieval", "RAG", "Vector ingestion"],
+      sillage: ["Linux launcher", "Local search", "Cited excerpts"],
       "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
       brio: ["Web development"],
     };
@@ -251,7 +251,7 @@ const bookTitles = fr
                 </svg>
               </div>
             )}
-            {project.id === "maestria" && (
+            {project.id === "sillage" && (
               <div class="tile-art library-art" aria-hidden="true">
                 {[0, 1, 2, 3].map((row) => (
                   <div class="bookshelf">
@@ -545,7 +545,7 @@ const bookTitles = fr
     --tile-accent: #b0ded0;
     grid-row: span 2;
   }
-  .tile-maestria {
+  .tile-sillage {
     --tile-bg: #182330;
     --tile-border: #435367;
     --tile-accent: #bdd1ec;
@@ -576,7 +576,7 @@ const bookTitles = fr
     z-index: 0;
   }
   .tile-genomint::before,
-  .tile-maestria::before {
+  .tile-sillage::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -591,7 +591,7 @@ const bookTitles = fr
       #091718 100%
     );
   }
-  .tile-maestria::before {
+  .tile-sillage::before {
     background: linear-gradient(
       180deg,
       rgb(18 17 16 / 0.8),
@@ -824,7 +824,7 @@ const bookTitles = fr
     z-index: 2;
   }
   .tile-genomint .tile-copy::before,
-  .tile-maestria .tile-copy::before {
+  .tile-sillage .tile-copy::before {
     content: "";
     position: absolute;
     inset: -2rem -2rem -2rem;
@@ -832,11 +832,11 @@ const bookTitles = fr
     background: linear-gradient(180deg, transparent, rgb(7 23 22 / 0.94) 2rem);
     pointer-events: none;
   }
-  .tile-maestria .tile-copy::before {
+  .tile-sillage .tile-copy::before {
     background: linear-gradient(180deg, transparent, rgb(18 17 16 / 0.94) 2rem);
   }
   .tile-genomint .tile-copy,
-  .tile-maestria .tile-copy {
+  .tile-sillage .tile-copy {
     pointer-events: none;
   }
   .tile-copy h3 {
@@ -979,7 +979,7 @@ const bookTitles = fr
       min-height: max(36rem, calc(100svh - 11rem));
     }
     .tile-genomint,
-    .tile-maestria {
+    .tile-sillage {
       grid-row: auto;
     }
     .tile-description {
@@ -990,7 +990,7 @@ const bookTitles = fr
       min-height: 12rem;
     }
     .tile-genomint,
-    .tile-maestria {
+    .tile-sillage {
       min-height: 25rem;
     }
   }
@@ -1005,7 +1005,7 @@ const bookTitles = fr
       min-height: max(40rem, calc(100svh - 9.5rem - var(--section-space)));
     }
     .tile-genomint,
-    .tile-maestria {
+    .tile-sillage {
       grid-column: span 2;
       min-height: 0;
     }
