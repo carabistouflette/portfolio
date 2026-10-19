@@ -1148,10 +1148,6 @@
           let texture = this.textureSources.get(image);
           if (!texture) {
             texture = document.createElement("canvas");
-            texture.width = texture.height = 512;
-            const ctx = texture.getContext("2d");
-            ctx.filter = `brightness(${cfg.exposure})`;
-            ctx.drawImage(image, 0, 0);
             this.textureSources.set(image, texture);
           }
           variant[name] = texture;
@@ -1207,6 +1203,7 @@
         this.pixelRatio = dpr;
         this.grainTick = -1;
       }
+      this.refreshTextures();
       if (!viewportChanged && this.backgroundGradient === cfg.gradient) return;
       const ctx = this.back.getContext("2d");
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1303,7 +1300,9 @@
       const tex = textures[name];
       const rect =
         name === "body" ? [-190, -155, 218, 136] : [-275, -365, 160, 8];
-      const count = part > 0.5 ? 24 : 4;
+      // Keep strips below ~8 native pixels; large inspection wings retain 24.
+      const count =
+        part > 0.5 ? clamp(Math.ceil((b.span * dpr) / 8), 8, 24) : 4;
       const context = this.lc;
       const facing =
         part > 0.5
@@ -1359,7 +1358,8 @@
           B = (right.y - left.y) / tex.width,
           C = (p1.x - p0.x) / sh,
           D = (p1.y - p0.y) / sh;
-        if (Math.abs(A * D - B * C) < 0.000003) continue;
+        if (Math.abs(A * D - B * C) < 0.000003 * (512 / tex.width) ** 2)
+          continue;
         const E = p0.x - (A * tex.width) / 2 - C * sy,
           F = p0.y - (B * tex.width) / 2 - D * sy;
         context.setTransform(
@@ -1370,8 +1370,8 @@
           (E + origin) * dpr,
           (F + origin) * dpr,
         );
-        // A half source pixel of overlap closes subpixel rasterization cracks.
-        const overlap = 0.5,
+        // Preserve the original half-pixel overlap in the 512px artwork's space.
+        const overlap = (0.5 * tex.height) / 512,
           top = Math.max(0, sy - overlap),
           bottom = Math.min(tex.height, sy + sh + overlap);
         // Bound the actual affine strip rectangle, including its overlap.
@@ -1595,11 +1595,16 @@
       ctx.globalAlpha = 1;
     }
     refreshTextures() {
+      // Match source resolution to the largest projected wing, not the viewport.
+      // Repeated affine draws otherwise minify 512px artwork for ~50–100px wings.
+      let span = 1;
+      for (const b of birds) span = Math.max(span, b.span * dpr);
+      const size = clamp(2 ** Math.ceil(Math.log2(span)), 128, 512);
       for (const [image, texture] of this.textureSources) {
+        texture.width = texture.height = size;
         const ctx = texture.getContext("2d");
-        ctx.clearRect(0, 0, 512, 512);
         ctx.filter = `brightness(${cfg.exposure})`;
-        ctx.drawImage(image, 0, 0);
+        ctx.drawImage(image, 0, 0, size, size);
       }
     }
     destroy() {
