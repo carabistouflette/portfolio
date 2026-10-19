@@ -203,6 +203,8 @@
     paused = false,
     overlaySuspended = false,
     destroyed = false;
+  let scrolling = false,
+    scrollIdleTimer = 0;
   let ready = false,
     lost = false,
     renderer = null,
@@ -1431,7 +1433,11 @@
     draw(t, alpha = 1) {
       const ctx = this.ctx;
       const cachePoses =
-        motionScale <= 0 || paused || isReduced() || adapt.stage >= 3;
+        scrolling ||
+        motionScale <= 0 ||
+        paused ||
+        isReduced() ||
+        adapt.stage >= 3;
       if (
         cachePoses &&
         this.frozenTime === t &&
@@ -1875,6 +1881,7 @@
       !ready ||
       document.hidden ||
       paused ||
+      scrolling ||
       manual ||
       isReduced() ||
       overlaySuspended
@@ -1961,6 +1968,7 @@
       destroyed ||
       lost ||
       paused ||
+      scrolling ||
       document.hidden ||
       !ready ||
       overlaySuspended ||
@@ -2017,6 +2025,7 @@
       !document.hidden &&
       !isReduced() &&
       !overlaySuspended &&
+      !scrolling &&
       adapt.stage < 3 &&
       !manual
     )
@@ -2195,6 +2204,7 @@
     destroy() {
       pause();
       destroyed = true;
+      clearTimeout(scrollIdleTimer);
       if (overlayObserver) {
         overlayObserver.disconnect();
         overlayObserver = null;
@@ -2212,18 +2222,30 @@
   window.butterflyField = api;
   function scrollChange() {
     cameraY = window.scrollY;
-    // In frozen states, scrolling still re-projects the viewpoint without advancing the clock.
+    // Freeze wing rasterization while scrolling; cached poses still track the
+    // camera through compositor transforms, including over the hero.
+    if (!scrolling) {
+      scrolling = true;
+      cancelAnimationFrame(raf);
+      raf = 0;
+      lastTimestamp = 0;
+    }
+    clearTimeout(scrollIdleTimer);
+    scrollIdleTimer = setTimeout(() => {
+      scrolling = false;
+      scrollIdleTimer = 0;
+      updateMotion();
+    }, 120);
+    updateMotion(false);
     if (
       ready &&
       renderer &&
       !destroyed &&
       !lost &&
       !document.hidden &&
-      !overlaySuspended &&
-      (paused || isReduced() || manual)
+      !overlaySuspended
     )
       renderer.draw(time);
-    updateMotion();
   }
   function contextLost(e) {
     e.preventDefault();
