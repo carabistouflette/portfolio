@@ -1161,8 +1161,6 @@
       this.layer = document.createElement("canvas");
       this.lc = this.layer.getContext("2d");
       this.poseCache = new WeakMap();
-      this.blurLayer = document.createElement("canvas");
-      this.bc = this.blurLayer.getContext("2d");
       this.minX = this.minY = Infinity;
       this.maxX = this.maxY = -Infinity;
       this.back = document.createElement("canvas");
@@ -1429,13 +1427,6 @@
       if (this.layer.width !== size || this.layer.height !== size) {
         this.layer.width = this.layer.height = size;
       }
-      const blurLayerSize = size + CANVAS_BLUR_PADDING * 2 + 2;
-      if (
-        this.blurLayer.width !== blurLayerSize ||
-        this.blurLayer.height !== blurLayerSize
-      ) {
-        this.blurLayer.width = this.blurLayer.height = blurLayerSize;
-      }
       // Scroll changes only placement when flight is frozen. Cache the native
       // unblurred pose; keep fractional placement and Gaussian filtering live.
       const cachePoses =
@@ -1547,70 +1538,31 @@
             logicalSize,
           );
         } else {
-          const blurCtx = this.bc;
+          // Bound the filter to the projected strips and their Gaussian support.
+          // Without this clip browsers may filter the entire viewport per bird.
           const nativeX = (b.x - origin) * dpr,
             nativeY = (b.y - origin) * dpr,
-            floorX = Math.floor(nativeX),
-            floorY = Math.floor(nativeY),
-            fractionX = nativeX - floorX,
-            fractionY = nativeY - floorY,
-            padding = CANVAS_BLUR_PADDING,
             scale = (logicalSize * dpr) / size,
-            // Include raster/sampling support and the existing Gaussian border.
-            left = Math.max(
-              0,
-              Math.floor(Math.max(0, this.minX - 2) * scale + fractionX),
-            ),
-            top = Math.max(
-              0,
-              Math.floor(Math.max(0, this.minY - 2) * scale + fractionY),
-            ),
-            right = Math.min(
-              blurLayerSize,
-              Math.ceil(
-                Math.min(size, this.maxX + 2) * scale + fractionX + padding * 2,
-              ),
-            ),
-            bottom = Math.min(
-              blurLayerSize,
-              Math.ceil(
-                Math.min(size, this.maxY + 2) * scale + fractionY + padding * 2,
-              ),
-            ),
-            cropWidth = right - left,
-            cropHeight = bottom - top;
-          if (cropWidth <= 0 || cropHeight <= 0) continue;
-          blurCtx.setTransform(1, 0, 0, 1, 0, 0);
-          blurCtx.globalAlpha = 1;
-          blurCtx.globalCompositeOperation = "source-over";
-          blurCtx.filter = "none";
-          blurCtx.clearRect(0, 0, this.blurLayer.width, this.blurLayer.height);
-          // Keep the original source mapping and fractional placement. Clipping
-          // limits filter work without resampling a cropped source differently.
-          blurCtx.save();
-          blurCtx.beginPath();
-          blurCtx.rect(left, top, cropWidth, cropHeight);
-          blurCtx.clip();
-          blurCtx.filter = `blur(${blurRadius}px)`;
-          blurCtx.drawImage(
-            layer,
-            padding + fractionX,
-            padding + fractionY,
-            logicalSize * dpr,
-            logicalSize * dpr,
+            padding = CANVAS_BLUR_PADDING + 2;
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          ctx.beginPath();
+          ctx.rect(
+            Math.floor(nativeX + this.minX * scale - padding),
+            Math.floor(nativeY + this.minY * scale - padding),
+            Math.ceil((this.maxX - this.minX) * scale + padding * 2 + 2),
+            Math.ceil((this.maxY - this.minY) * scale + padding * 2 + 2),
           );
-          blurCtx.restore();
+          ctx.clip();
+          ctx.filter = `blur(${blurRadius}px)`;
           ctx.drawImage(
-            this.blurLayer,
-            left,
-            top,
-            cropWidth,
-            cropHeight,
-            (floorX - padding + left) / dpr,
-            (floorY - padding + top) / dpr,
-            cropWidth / dpr,
-            cropHeight / dpr,
+            layer,
+            (b.x - origin) * dpr,
+            (b.y - origin) * dpr,
+            logicalSize * dpr,
+            logicalSize * dpr,
           );
+          ctx.restore();
         }
       }
       if (cfg.grain > 0) {
@@ -1654,8 +1606,6 @@
       this.poseCache = new WeakMap();
       this.layer.width =
         this.layer.height =
-        this.blurLayer.width =
-        this.blurLayer.height =
         this.back.width =
         this.back.height =
         this.grainFrame.width =
