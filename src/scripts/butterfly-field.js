@@ -1685,9 +1685,9 @@
     adapt.windowMs = 0;
   }
   function adaptApply() {
-    const is2d = renderer && renderer.kind === "canvas2d";
-    if (adapt.stage === 0 && !is2d) {
-      // GL path: cut pixels first (monotone min(): never raise a user-lowered value).
+    if (adapt.stage === 0) {
+      // Both renderers can be fill-rate bound, even when Canvas 2D is DPR-pinned.
+      // Cut pixels first; never raise a user-lowered quality limit.
       adapt.stage = 1;
       cfg.maxPixelRatio = Math.min(
         cfg.maxPixelRatio,
@@ -1699,7 +1699,7 @@
       );
       resize();
     } else if (adapt.stage <= 1) {
-      // GL after resolution cut; canvas2d is already DPR-pinned so it starts here.
+      // Reduce the population only after trying the lower-resolution backing store.
       adapt.stage = 2;
       const n = Math.min(birds.length, countForQuality());
       if (n < birds.length) birds.length = n;
