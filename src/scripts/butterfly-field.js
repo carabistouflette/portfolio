@@ -1157,6 +1157,12 @@
       this.layer = document.createElement("canvas");
       this.lc = this.layer.getContext("2d");
       this.poseCache = new WeakMap();
+      this.frozenLayers = new Map();
+      this.frozenTime = NaN;
+      this.frozenContainer = document.createElement("div");
+      this.frozenContainer.style.cssText =
+        "position:absolute;inset:0;overflow:hidden;pointer-events:none;display:none";
+      canvas.after(this.frozenContainer);
       this.minX = this.minY = Infinity;
       this.maxX = this.maxY = -Infinity;
       this.back = document.createElement("canvas");
@@ -1183,6 +1189,7 @@
       this.pattern = this.grainContext.createPattern(this.grain, "repeat");
     }
     resize() {
+      this.frozenTime = NaN;
       const renderWidth = Math.round(width * dpr),
         renderHeight = Math.round(height * dpr);
       const viewportChanged =
@@ -1410,14 +1417,35 @@
         );
       }
     }
+    addFrozen(bird, bitmap, offsetX, offsetY) {
+      bitmap.style.cssText = `position:absolute;left:0;top:0;width:${bitmap.width / dpr}px;height:${bitmap.height / dpr}px;will-change:transform`;
+      this.frozenLayers.set(bird, { canvas: bitmap, offsetX, offsetY });
+      this.frozenContainer.append(bitmap);
+    }
+    placeFrozen(alpha) {
+      for (const [bird, layer] of this.frozenLayers) {
+        const b = bird.pose(alpha);
+        layer.canvas.style.transform = `translate3d(${b.x + layer.offsetX}px,${b.y + layer.offsetY}px,0)`;
+      }
+    }
     draw(t, alpha = 1) {
       const ctx = this.ctx;
+      const cachePoses =
+        motionScale <= 0 || paused || isReduced() || adapt.stage >= 3;
+      if (
+        cachePoses &&
+        this.frozenTime === t &&
+        this.frozenAlpha === alpha &&
+        this.frozenBirds === birds
+      ) {
+        this.placeFrozen(alpha);
+        return;
+      }
+      this.frozenTime = NaN;
+      this.frozenContainer.style.display = cachePoses ? "" : "none";
+      for (const layer of this.frozenLayers.values()) layer.canvas.remove();
+      this.frozenLayers.clear();
       ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = "source-over";
-      ctx.filter = "none";
-      ctx.drawImage(this.back, 0, 0);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       let maxSpan = 1;
       for (const b of birds) maxSpan = Math.max(maxSpan, b.span);
       const logicalSize = Math.ceil(maxSpan * 3.8),
@@ -1427,16 +1455,23 @@
       if (this.layer.width !== size || this.layer.height !== size) {
         this.layer.width = this.layer.height = size;
       }
-      // Frozen flight keeps both the projected pose and its native-pixel blur.
-      // Scrolling only places that bitmap; it must not rerun Gaussian filters.
-      const cachePoses =
-        motionScale <= 0 || paused || isReduced() || adapt.stage >= 3;
+      ctx.globalAlpha = 1;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.filter = "none";
+      ctx.drawImage(this.back, 0, 0);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       for (const bird of drawOrder()) {
         const b = bird.pose(alpha);
-        if (b.x < -b.span * 2.7 || b.x > width + b.span * 2.7) continue;
-        // The pose canvas and Gaussian border cannot contribute outside this
-        // vertical footprint. Scroll recycling can leave entire birds offscreen.
-        if (b.y + verticalExtent < 0 || b.y - verticalExtent > height) continue;
+        // Frozen layers must include offscreen birds: scrolling can recycle them
+        // into view without another raster pass.
+        if (
+          !cachePoses &&
+          (b.x < -b.span * 2.7 ||
+            b.x > width + b.span * 2.7 ||
+            b.y + verticalExtent < 0 ||
+            b.y - verticalExtent > height)
+        )
+          continue;
         let layer = this.layer;
         let cached = cachePoses ? this.poseCache.get(bird) : null;
         if (
@@ -1531,6 +1566,12 @@
         const blurRadius = (blur * 1.15).toFixed(2);
         ctx.globalAlpha = 1;
         if (blurRadius === "0.00") {
+          if (cachePoses) {
+            this.addFrozen(bird, cached.canvas, -origin, -origin);
+            cached.canvas.style.width =
+              cached.canvas.style.height = `${logicalSize}px`;
+            continue;
+          }
           ctx.drawImage(
             layer,
             b.x - origin,
@@ -1576,14 +1617,12 @@
               );
               cached.blurRadius = blurRadius;
             }
-            ctx.save();
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.drawImage(
+            this.addFrozen(
+              bird,
               cached.blurred,
-              (b.x - origin) * dpr + sourceX * scale,
-              (b.y - origin) * dpr + sourceY * scale,
+              -origin + (sourceX * scale) / dpr,
+              -origin + (sourceY * scale) / dpr,
             );
-            ctx.restore();
             continue;
           }
           // Bound the filter to the projected strips and their Gaussian support.
@@ -1647,10 +1686,18 @@
           grainCtx.fillRect(0, 0, width + 192, height + 192);
           this.grainTick = tick;
         }
+        // Keep frozen grain in the static backdrop, not a viewport-sized blend
+        // layer that would recomposite every time a butterfly moves underneath.
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.globalCompositeOperation = "screen";
         ctx.globalAlpha = cfg.grain * 0.07;
         ctx.drawImage(this.grainFrame, 0, 0);
+      }
+      if (cachePoses) {
+        this.frozenTime = t;
+        this.frozenAlpha = alpha;
+        this.frozenBirds = birds;
+        this.placeFrozen(alpha);
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.globalCompositeOperation = "source-over";
@@ -1670,6 +1717,8 @@
       }
     }
     destroy() {
+      this.frozenContainer.remove();
+      this.frozenLayers.clear();
       this.poseCache = new WeakMap();
       this.layer.width =
         this.layer.height =
@@ -2048,6 +2097,7 @@
       const before = { ...cfg };
       const resetPopulation = adapt.stage >= 2;
       applyOptions(options);
+      if (renderer) renderer.frozenTime = NaN;
       adaptReset(); // Explicit intent: let the machine re-prove itself.
       const rebuild = [
         "seed",
