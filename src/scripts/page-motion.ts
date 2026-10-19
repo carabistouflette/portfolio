@@ -68,15 +68,16 @@ onPageLoad((signal) => {
             continue;
           }
 
-          target.style.willChange = "opacity, transform, filter";
+          // Keep large content reveals on opacity/transform; blur adds an
+          // offscreen filtering pass while the viewport is already scrolling.
+          target.style.willChange = "opacity, transform";
           const animation = target.animate(
             [
               {
                 opacity: 0,
                 transform: "translateY(14px)",
-                filter: "blur(14px)",
               },
-              { opacity: 1, transform: "translateY(0)", filter: "none" },
+              { opacity: 1, transform: "translateY(0)" },
             ],
             {
               duration: 680,
