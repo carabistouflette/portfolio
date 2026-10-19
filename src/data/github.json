@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-19T07:48:57.640Z",
+  "updatedAt": "2026-10-19T15:38:30.275Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/nacre",
+        "number": 1,
+        "title": "Integrate portable standard-library expansion and affine ownership contracts",
+        "url": "https://github.com/carabistouflette/nacre/pull/1",
+        "createdAt": "2026-10-13T23:34:53Z",
+        "updatedAt": "2026-10-15T15:12:26Z",
+        "mergedAt": "2026-10-15T15:12:26Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 581,
@@ -23,17 +34,6 @@
         "createdAt": "2026-10-07T21:50:18Z",
         "updatedAt": "2026-10-07T21:50:43Z",
         "mergedAt": "2026-10-07T21:50:41Z",
-        "state": "merged",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 579,
-        "title": "feat(evidence): derive read-only v2 references and claims (#576)",
-        "url": "https://github.com/brio-labs/maestria/pull/579",
-        "createdAt": "2026-10-07T19:49:43Z",
-        "updatedAt": "2026-10-07T19:52:46Z",
-        "mergedAt": "2026-10-07T19:52:44Z",
         "state": "merged",
         "relationship": "organization"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 42,
-    "merged": 494
+    "merged": 495
   },
   "featured": [
     {
@@ -1979,8 +1979,8 @@
       },
       {
         "date": "2026-10-19",
-        "count": 0,
-        "level": 0
+        "count": 18,
+        "level": 1
       }
     ]
   }
