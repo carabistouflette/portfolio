@@ -1555,13 +1555,27 @@
           );
           ctx.clip();
           ctx.filter = `blur(${blurRadius}px)`;
-          ctx.drawImage(
-            layer,
-            (b.x - origin) * dpr,
-            (b.y - origin) * dpr,
-            logicalSize * dpr,
-            logicalSize * dpr,
-          );
+          // Do not submit the transparent remainder of the pose to the filter.
+          // Keep Gaussian support inside the crop so fractional placement and
+          // the original native-pixel blur are unchanged.
+          const sourceX = Math.max(0, Math.floor(this.minX - padding)),
+            sourceY = Math.max(0, Math.floor(this.minY - padding)),
+            sourceRight = Math.min(size, Math.ceil(this.maxX + padding)),
+            sourceBottom = Math.min(size, Math.ceil(this.maxY + padding)),
+            sourceWidth = sourceRight - sourceX,
+            sourceHeight = sourceBottom - sourceY;
+          if (sourceWidth > 0 && sourceHeight > 0)
+            ctx.drawImage(
+              layer,
+              sourceX,
+              sourceY,
+              sourceWidth,
+              sourceHeight,
+              nativeX + sourceX * scale,
+              nativeY + sourceY * scale,
+              sourceWidth * scale,
+              sourceHeight * scale,
+            );
           ctx.restore();
         }
       }
