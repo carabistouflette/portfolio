@@ -369,15 +369,17 @@ const bookTitles = fr
       stop(book);
       activeBooks.delete(book);
       book.style.removeProperty("transform");
-      book.removeAttribute("data-book-active");
+      book.parentElement?.removeAttribute("data-book-active");
     };
     const releaseAll = () => {
       for (const book of activeBooks.keys()) release(book);
     };
-    for (const book of document.querySelectorAll<HTMLElement>(
+    for (const slot of document.querySelectorAll<HTMLElement>(
       ".library-book",
     )) {
-      book.addEventListener(
+      const book = slot.querySelector<HTMLElement>(".book-volume");
+      if (!book) continue;
+      slot.addEventListener(
         "pointerenter",
         (event) => {
           if (event.pointerType === "touch" || reduced.matches) return;
@@ -385,7 +387,7 @@ const bookTitles = fr
             ? getComputedStyle(book).transform
             : rest;
           stop(book);
-          book.setAttribute("data-book-active", "");
+          slot.setAttribute("data-book-active", "");
           book.style.transform = extracted;
           // One transform owns both phases; no nested compositor animations.
           const animation = book.animate(
@@ -410,7 +412,7 @@ const bookTitles = fr
         },
         { signal },
       );
-      book.addEventListener(
+      slot.addEventListener(
         "pointerleave",
         () => {
           if (!activeBooks.has(book)) return;
@@ -658,8 +660,6 @@ const bookTitles = fr
     padding: 1rem 0.2rem 0;
     border-bottom: 7px solid #756957;
     box-shadow: 0 3px 0 #171411;
-    perspective: 850px;
-    perspective-origin: 50% 35%;
   }
   .library-book {
     --book-depth: clamp(3.5rem, 7vw, 6rem);
@@ -669,21 +669,22 @@ const bookTitles = fr
     height: var(--book-height);
     color: var(--book-ink, #e6e1d5);
     z-index: 0;
-    transform-origin: 50% 100%;
   }
   .book-volume {
     position: absolute;
     inset: 0;
+    pointer-events: none;
     transform-origin: 50% 100%;
   }
-  .library-book[data-book-active],
+  .library-book[data-book-active] {
+    z-index: 2;
+    perspective: 850px;
+    perspective-origin: 50% 100%;
+  }
   .library-book[data-book-active] .book-volume {
     transform-style: preserve-3d;
-  }
-  .library-book[data-book-active] {
     transform: rotateY(-4deg);
     will-change: transform;
-    z-index: 2;
   }
   .library-book[data-book-active] .book-cover {
     display: flex;
