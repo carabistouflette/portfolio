@@ -1170,9 +1170,6 @@
       this.back = document.createElement("canvas");
       this.grain = document.createElement("canvas");
       this.grain.width = this.grain.height = 192;
-      this.grainFrame = document.createElement("canvas");
-      this.grainContext = this.grainFrame.getContext("2d");
-      this.grainTick = -1;
       this.viewportWidth = 0;
       this.viewportHeight = 0;
       this.pixelRatio = 0;
@@ -1188,7 +1185,9 @@
         data.data[i + 3] = 255;
       }
       gc.putImageData(data, 0, 0);
-      this.pattern = this.grainContext.createPattern(this.grain, "repeat");
+      this.pattern = this.back
+        .getContext("2d")
+        .createPattern(this.grain, "repeat");
     }
     resize() {
       this.frozenTime = NaN;
@@ -1203,17 +1202,17 @@
         if (canvas.height !== renderHeight) canvas.height = renderHeight;
         if (this.back.width !== renderWidth) this.back.width = renderWidth;
         if (this.back.height !== renderHeight) this.back.height = renderHeight;
-        if (this.grainFrame.width !== renderWidth)
-          this.grainFrame.width = renderWidth;
-        if (this.grainFrame.height !== renderHeight)
-          this.grainFrame.height = renderHeight;
         this.viewportWidth = width;
         this.viewportHeight = height;
         this.pixelRatio = dpr;
-        this.grainTick = -1;
       }
       this.refreshTextures();
-      if (!viewportChanged && this.backgroundGradient === cfg.gradient) return;
+      if (
+        !viewportChanged &&
+        this.backgroundGradient === cfg.gradient &&
+        this.backgroundGrain === cfg.grain
+      )
+        return;
       const ctx = this.back.getContext("2d");
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.fillStyle = "#010204";
@@ -1235,6 +1234,15 @@
       ctx.fillStyle = g;
       ctx.fillRect(-2, -2, 4, 4);
       ctx.restore();
+      // The subtle grain is static: bake it into the backdrop once rather than
+      // screen-blending a viewport-sized bitmap over every animation frame.
+      ctx.save();
+      ctx.globalCompositeOperation = "screen";
+      ctx.globalAlpha = cfg.grain * 0.07;
+      ctx.fillStyle = this.pattern;
+      ctx.fillRect(0, 0, width, height);
+      ctx.restore();
+      this.backgroundGrain = cfg.grain;
       this.backgroundGradient = cfg.gradient;
     }
     project(v, b, side, part, angle, t) {
@@ -1672,33 +1680,6 @@
           ctx.restore();
         }
       }
-      if (cfg.grain > 0) {
-        // The tile only moves at 16 Hz. Rasterize its viewport-sized repetition
-        // once per phase, then blend the cached native bitmap over the wings.
-        const tick = Math.floor(t * 16);
-        if (tick !== this.grainTick) {
-          const dx = (tick * 37) % 192,
-            dy = (tick * 73) % 192;
-          const grainCtx = this.grainContext;
-          grainCtx.setTransform(1, 0, 0, 1, 0, 0);
-          grainCtx.clearRect(
-            0,
-            0,
-            this.grainFrame.width,
-            this.grainFrame.height,
-          );
-          grainCtx.setTransform(dpr, 0, 0, dpr, -dx * dpr, -dy * dpr);
-          grainCtx.fillStyle = this.pattern;
-          grainCtx.fillRect(0, 0, width + 192, height + 192);
-          this.grainTick = tick;
-        }
-        // Keep frozen grain in the static backdrop, not a viewport-sized blend
-        // layer that would recomposite every time a butterfly moves underneath.
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.globalCompositeOperation = "screen";
-        ctx.globalAlpha = cfg.grain * 0.07;
-        ctx.drawImage(this.grainFrame, 0, 0);
-      }
       if (cachePoses) {
         this.frozenTime = t;
         this.frozenAlpha = alpha;
@@ -1730,8 +1711,6 @@
         this.layer.height =
         this.back.width =
         this.back.height =
-        this.grainFrame.width =
-        this.grainFrame.height =
           1;
       for (const texture of this.textureSources.values())
         texture.width = texture.height = 1;
@@ -2127,6 +2106,7 @@
         before.maxPixelRatio !== cfg.maxPixelRatio ||
         before.maxRenderPixels !== cfg.maxRenderPixels ||
         before.gradient !== cfg.gradient ||
+        before.grain !== cfg.grain ||
         rebuild ||
         resetPopulation
       )
