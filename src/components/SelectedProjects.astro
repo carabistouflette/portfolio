@@ -16,14 +16,16 @@ const descriptions = fr
   ? {
       genomint: "Explorer la pangénomie.",
       sillage: "Lancer des apps, retrouver un passage.",
+      nacre: "Une syntaxe familière, un exécutable natif.",
       "encrypted-voting": "Vérifier sans révéler les votes.",
-      brio: "Le site du projet Brio.",
+      justsyncit: "Sauvegarder, dédupliquer, restaurer.",
     }
   : {
       genomint: "Explore pangenomics.",
       sillage: "Launch apps, find a passage.",
+      nacre: "Familiar syntax, native executables.",
       "encrypted-voting": "Verify without revealing votes.",
-      brio: "The Brio project website.",
+      justsyncit: "Back up, deduplicate, restore.",
     };
 const projectTools: Record<ProjectId, string[]> = {
   genomint: [
@@ -38,21 +40,24 @@ const projectTools: Record<ProjectId, string[]> = {
     "Linux",
   ],
   sillage: ["Rust", "Slint", "Tantivy", "SQLite", "Tokio"],
+  nacre: ["Rust", "C", "Linux"],
   "encrypted-voting": ["Java", "Spring Boot"],
-  brio: ["Next.js"],
+  justsyncit: ["Java"],
 };
 const projectConcepts: Record<ProjectId, string[]> = fr
   ? {
       genomint: ["Pangénomie", "Graphes", "Agent IA"],
       sillage: ["Lanceur Linux", "Recherche locale", "Extraits sourcés"],
+      nacre: ["Compilateur", "Ownership", "Sans GC"],
       "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
-      brio: ["Développement web"],
+      justsyncit: ["Sauvegardes", "Snapshots", "BLAKE3"],
     }
   : {
       genomint: ["Pangenomics", "Graphs", "AI agent"],
       sillage: ["Linux launcher", "Local search", "Cited excerpts"],
+      nacre: ["Compiler", "Ownership", "No GC"],
       "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
-      brio: ["Web development"],
+      justsyncit: ["Backups", "Snapshots", "BLAKE3"],
     };
 // Stylized category network based on the GenomInt explorer, not live metrics.
 const nodes: [number, number, number, string, string][] = [
@@ -302,6 +307,26 @@ const bookTitles = fr
                 ))}
               </div>
             )}
+            {project.id === "nacre" && (
+              <div class="tile-art compiler-art" aria-hidden="true">
+                <div class="compiler-source">
+                  <span class="compiler-file">hello.ncr</span>
+                  <code>
+                    <span>void</span>
+                    {' main() {\n  println("Hello, native.");\n}'}
+                  </code>
+                </div>
+                <div class="compiler-path">
+                  <span>Nacre</span>
+                  <i>↓</i>
+                  <span>C11</span>
+                  <i>↓</i>
+                  <span class="compiler-native">
+                    1010<span>native</span>0110
+                  </span>
+                </div>
+              </div>
+            )}
             {project.id === "encrypted-voting" && (
               <div class="ballot-art" aria-hidden="true">
                 <span class="ballot-paper">✓</span>
@@ -309,16 +334,12 @@ const bookTitles = fr
                 <span class="ballot-proof">∑ / ≠</span>
               </div>
             )}
-            {project.id === "brio" && (
-              <div class="brio-art" aria-hidden="true">
-                <span class="brio-window">
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                  <span>
-                    brio<span class="brio-dot">.</span>
-                  </span>
-                </span>
+            {project.id === "justsyncit" && (
+              <div class="sync-art" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+                <i>↻</i>
               </div>
             )}
             <div class="tile-copy">
@@ -511,16 +532,17 @@ const bookTitles = fr
   }
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 2fr) minmax(0, 1fr);
     gap: 1rem;
-    height: clamp(32rem, calc(100svh - 12rem), 42rem);
+    height: clamp(36rem, calc(100svh - 12rem), 44rem);
   }
   .project-tile {
     position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
+    grid-column: span 2;
     --tile-padding: clamp(1.15rem, 2vw, 2rem);
     border: 1px solid var(--tile-border);
     background: var(--tile-bg);
@@ -545,23 +567,30 @@ const bookTitles = fr
     --tile-bg: #0c2222;
     --tile-border: #345451;
     --tile-accent: #b0ded0;
-    grid-row: span 2;
+    grid-column: span 2;
   }
   .tile-sillage {
     --tile-bg: #182330;
     --tile-border: #435367;
     --tile-accent: #bdd1ec;
-    grid-row: span 2;
+    grid-column: span 2;
+  }
+  .tile-nacre {
+    --tile-bg: #252733;
+    --tile-border: #575b76;
+    --tile-accent: #d1cbee;
   }
   .tile-encrypted-voting {
     --tile-bg: #29231e;
     --tile-border: #605043;
     --tile-accent: #dbc09c;
+    grid-column: span 3;
   }
-  .tile-brio {
-    --tile-bg: #272331;
-    --tile-border: #554760;
-    --tile-accent: #d1bfdf;
+  .tile-justsyncit {
+    --tile-bg: #202b2d;
+    --tile-border: #496366;
+    --tile-accent: #b1d9d5;
+    grid-column: span 3;
   }
   .tile-mark {
     position: absolute;
@@ -825,7 +854,8 @@ const bookTitles = fr
     z-index: 2;
   }
   .tile-genomint .tile-copy::before,
-  .tile-sillage .tile-copy::before {
+  .tile-sillage .tile-copy::before,
+  .tile-nacre .tile-copy::before {
     content: "";
     position: absolute;
     inset: -2rem -2rem -2rem;
@@ -835,6 +865,9 @@ const bookTitles = fr
   }
   .tile-sillage .tile-copy::before {
     background: linear-gradient(180deg, transparent, rgb(18 17 16 / 0.94) 2rem);
+  }
+  .tile-nacre .tile-copy::before {
+    background: linear-gradient(180deg, transparent, #252733 2rem);
   }
   .tile-genomint .tile-copy,
   .tile-sillage .tile-copy {
@@ -882,11 +915,11 @@ const bookTitles = fr
     height: 1.5rem;
   }
   .tile-encrypted-voting h3,
-  .tile-brio h3 {
+  .tile-justsyncit h3 {
     font-size: 1.5rem;
   }
   .tile-encrypted-voting .tile-description,
-  .tile-brio .tile-description {
+  .tile-justsyncit .tile-description {
     font-size: 0.75rem;
     line-height: 1.4;
     margin-top: 0.5rem;
@@ -920,35 +953,78 @@ const bookTitles = fr
     font-size: 0.6rem;
     opacity: 0.65;
   }
-  .brio-art {
+  .compiler-art {
+    padding: 3.5rem 1.5rem 0;
+    color: var(--tile-accent);
+    background: radial-gradient(ellipse at 80% 10%, #55527455, transparent 65%);
+    font-family: monospace;
+  }
+  .compiler-source {
+    padding: 1rem;
+    border: 1px solid #a6a0c13d;
+    border-radius: 0.4rem;
+    background: #161923;
+    transform: rotate(-4deg);
+    font-size: clamp(0.65rem, 0.85vw, 0.85rem);
+    box-shadow: 0 8px 0 #16192355;
+  }
+  .compiler-file {
+    display: block;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #a6a0c12b;
+    color: #aaa8bb;
+  }
+  .compiler-source code {
+    white-space: pre;
+    line-height: 1.8;
+  }
+  .compiler-source code > span {
+    color: #b7a1e8;
+  }
+  .compiler-path {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+  }
+  .compiler-path i {
+    transform: rotate(-90deg);
+    opacity: 0.5;
+  }
+  .compiler-native {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: #9dafa7;
+  }
+  .compiler-native span {
+    display: block;
+    font-size: 0.85rem;
+    color: #e1e8e0;
+    letter-spacing: 0;
+  }
+  .sync-art {
     position: absolute;
-    top: 3rem;
-    right: 1.5rem;
+    top: 2.5rem;
+    right: 3rem;
+    width: 4rem;
+    color: var(--tile-accent);
   }
-  .brio-window {
+  .sync-art > span {
     display: block;
-    width: 4.4rem;
-    padding: 0.3rem 0.4rem;
-    border: 1px solid #78638a;
-    border-radius: 0.2rem;
-  }
-  .brio-window i {
-    display: inline-block;
-    width: 3px;
-    height: 3px;
-    background: #a790ba;
+    height: 0.7rem;
+    margin-bottom: 0.2rem;
+    border: 1px solid currentColor;
     border-radius: 50%;
-    margin-right: 3px;
-    vertical-align: top;
+    opacity: 0.65;
   }
-  .brio-window > span {
-    display: block;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-  .brio-dot {
-    color: #d1bfdf;
+  .sync-art i {
+    position: absolute;
+    top: 0.5rem;
+    right: -0.8rem;
+    font-style: normal;
+    font-size: 1.7rem;
   }
   .project-tile:focus-within {
     outline: 2px solid var(--tile-accent);
@@ -972,22 +1048,68 @@ const bookTitles = fr
         stroke-width 140ms ease;
     }
   }
+  @media (prefers-reduced-motion: no-preference) {
+    .tile-nacre .compiler-source {
+      transition: transform 320ms cubic-bezier(0.2, 0.7, 0.25, 1);
+    }
+    .tile-nacre:is(:hover, :focus-within) .compiler-source {
+      transform: translateY(-8px) rotate(-1deg) scale(1.015);
+    }
+    .tile-nacre:is(:hover, :focus-within) .compiler-path > * {
+      animation: compilation-step 2.4s ease-in-out var(--compile-delay, 0ms)
+        infinite;
+    }
+    .compiler-path > :nth-child(2) {
+      --compile-delay: 180ms;
+    }
+    .compiler-path > :nth-child(3) {
+      --compile-delay: 360ms;
+    }
+    .compiler-path > :nth-child(4) {
+      --compile-delay: 540ms;
+    }
+    .compiler-path > :nth-child(5) {
+      --compile-delay: 720ms;
+    }
+    @keyframes compilation-step {
+      0%,
+      65%,
+      100% {
+        opacity: 0.35;
+      }
+      20%,
+      40% {
+        opacity: 1;
+      }
+    }
+  }
   @media (max-width: 63.999rem) {
     .projects-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: minmax(min-content, 2fr) minmax(min-content, 1fr);
+      grid-template-rows: 25rem 22rem minmax(13rem, auto);
       height: auto;
-      min-height: max(36rem, calc(100svh - 11rem));
     }
-    .tile-genomint,
-    .tile-sillage {
-      grid-row: auto;
+    .project-tile {
+      grid-column: auto;
+    }
+    .tile-nacre {
+      grid-column: span 2;
+    }
+    .compiler-art {
+      padding: 2rem 2rem 0;
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+    }
+    .compiler-source {
+      width: 55%;
+      font-size: 0.9rem;
     }
     .tile-description {
       font-size: 0.78rem;
     }
     .tile-encrypted-voting,
-    .tile-brio {
+    .tile-justsyncit {
       min-height: 12rem;
     }
     .tile-genomint,
@@ -1001,21 +1123,41 @@ const bookTitles = fr
     }
     .projects-grid {
       gap: 0.6rem;
-      grid-template-rows: repeat(3, minmax(min-content, 1fr));
+      grid-template-rows: repeat(3, minmax(15rem, auto)) minmax(13rem, auto);
       height: auto;
-      min-height: max(40rem, calc(100svh - 9.5rem - var(--section-space)));
     }
     .tile-genomint,
-    .tile-sillage {
+    .tile-sillage,
+    .tile-nacre {
       grid-column: span 2;
       min-height: 0;
     }
     .tile-encrypted-voting,
-    .tile-brio {
+    .tile-justsyncit {
       min-height: 0;
     }
     .project-tile {
       --tile-padding: 0.75rem;
+    }
+    .compiler-art {
+      display: block;
+      padding: 1rem;
+    }
+    .compiler-source {
+      width: 75%;
+      margin-left: auto;
+      padding: 0.65rem;
+      font-size: 0.6rem;
+    }
+    .compiler-file {
+      padding-bottom: 0.35rem;
+      margin-bottom: 0.35rem;
+    }
+    .compiler-path {
+      display: none;
+    }
+    .tile-nacre .tile-copy {
+      text-shadow: 0 1px 4px #161923;
     }
     .library-art {
       inset-inline: -1rem;
@@ -1056,15 +1198,15 @@ const bookTitles = fr
       margin-top: 0.5rem;
     }
     .tile-encrypted-voting h3,
-    .tile-brio h3 {
+    .tile-justsyncit h3 {
       font-size: 1.25rem;
     }
     .tile-encrypted-voting .tile-description,
-    .tile-brio .tile-description {
+    .tile-justsyncit .tile-description {
       font-size: 0.8125rem;
     }
     .ballot-art,
-    .brio-art {
+    .sync-art {
       display: none;
     }
   }

@@ -1,7 +1,8 @@
 export type Locale = "fr" | "en";
 
-export type ProjectId = "genomint" | "sillage" | "encrypted-voting" | "brio";
-export type CaseStudyId = "genomint" | "sillage" | "encrypted-voting";
+export type ProjectId =
+  "genomint" | "sillage" | "nacre" | "encrypted-voting" | "justsyncit";
+export type CaseStudyId = "genomint" | "sillage" | "nacre" | "encrypted-voting";
 
 export interface Project {
   id: ProjectId;
@@ -313,8 +314,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Lire le dossier",
         },
         {
+          id: "nacre",
+          title: "Nacre",
+          description:
+            "Compilateur natif expérimental écrit en Rust, à la syntaxe proche de Java : C11 vers GCC ou Clang par défaut, avec un backend LLVM direct en option.",
+          technologies: "Rust · C11 · LLVM · Linux",
+          url: "/projets/nacre/",
+          linkLabel: "Lire le dossier",
+        },
+        {
           id: "encrypted-voting",
-          title: "Vote chiffré",
+          title: "Vote El Gamal",
           description:
             "Vote vérifiable sans révéler les choix : chiffrement El Gamal et preuves à connaissance zéro.",
           technologies: "Java · Spring · El Gamal",
@@ -322,12 +332,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Lire le dossier",
         },
         {
-          id: "brio",
-          title: "Brio",
-          description: "Site du projet, développé avec Next.js.",
-          technologies: "Next.js",
-          url: destinations.brio,
-          linkLabel: "Visiter Brio",
+          id: "justsyncit",
+          title: "JustSyncIt",
+          description:
+            "Outil Java de sauvegarde avec snapshots, sauvegardes incrémentales, déduplication par contenu et transferts distants.",
+          technologies: "Java · BLAKE3 · TCP · QUIC",
+          url: "https://github.com/carabistouflette/JustSyncIt/",
+          linkLabel: "Voir le dépôt GitHub",
         },
       ],
     },
@@ -469,10 +480,10 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Écrire la logique, des scripts aux applications et aux systèmes.",
           items: [
             { name: "Python", projectIds: ["genomint"] },
-            { name: "Rust", projectIds: ["sillage"] },
+            { name: "Rust", projectIds: ["sillage", "nacre"] },
             { name: "TypeScript", projectIds: [] },
-            { name: "Java", projectIds: ["encrypted-voting"] },
-            { name: "C", projectIds: [] },
+            { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },
+            { name: "C", projectIds: ["nacre"] },
           ],
         },
         {
@@ -482,7 +493,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           items: [
             { name: "Astro", projectIds: [] },
             { name: "React", projectIds: [] },
-            { name: "Next.js", projectIds: ["brio"] },
+            { name: "Next.js", projectIds: [] },
             { name: "Vue.js", projectIds: [] },
             { name: "Nuxt.js", projectIds: [] },
             { name: "Tailwind CSS", projectIds: [] },
@@ -699,8 +710,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Read the case study",
         },
         {
+          id: "nacre",
+          title: "Nacre",
+          description:
+            "Experimental native compiler written in Rust, with Java-like syntax: C11 to GCC or Clang by default, with an optional direct LLVM backend.",
+          technologies: "Rust · C11 · LLVM · Linux",
+          url: "/en/projects/nacre/",
+          linkLabel: "Read the case study",
+        },
+        {
           id: "encrypted-voting",
-          title: "Encrypted voting",
+          title: "El Gamal voting",
           description:
             "Verifiable voting without revealing individual choices: El Gamal encryption and zero-knowledge proofs.",
           technologies: "Java · Spring · El Gamal",
@@ -708,12 +728,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           linkLabel: "Read the case study",
         },
         {
-          id: "brio",
-          title: "Brio",
-          description: "Project website, built with Next.js.",
-          technologies: "Next.js",
-          url: destinations.brio,
-          linkLabel: "Visit Brio",
+          id: "justsyncit",
+          title: "JustSyncIt",
+          description:
+            "Java backup tool with snapshots, incremental backups, content-addressable deduplication and remote transfers.",
+          technologies: "Java · BLAKE3 · TCP · QUIC",
+          url: "https://github.com/carabistouflette/JustSyncIt/",
+          linkLabel: "View on GitHub",
         },
       ],
     },
@@ -857,10 +878,10 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Write the logic, from scripts to applications and systems.",
           items: [
             { name: "Python", projectIds: ["genomint"] },
-            { name: "Rust", projectIds: ["sillage"] },
+            { name: "Rust", projectIds: ["sillage", "nacre"] },
             { name: "TypeScript", projectIds: [] },
-            { name: "Java", projectIds: ["encrypted-voting"] },
-            { name: "C", projectIds: [] },
+            { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },
+            { name: "C", projectIds: ["nacre"] },
           ],
         },
         {
@@ -869,7 +890,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           items: [
             { name: "Astro", projectIds: [] },
             { name: "React", projectIds: [] },
-            { name: "Next.js", projectIds: ["brio"] },
+            { name: "Next.js", projectIds: [] },
             { name: "Vue.js", projectIds: [] },
             { name: "Nuxt.js", projectIds: [] },
             { name: "Tailwind CSS", projectIds: [] },
@@ -1599,7 +1620,7 @@ const sillageEn: CaseStudy = {
   languageLabel: "Change language",
 };
 const encryptedVotingFr: CaseStudy = {
-  title: "Vote chiffré",
+  title: "Vote El Gamal",
   question: "Comment vérifier un vote sans révéler les choix individuels ?",
   kicker: "Projet universitaire · Java · Spring",
   summary:
@@ -1677,7 +1698,7 @@ const encryptedVotingFr: CaseStudy = {
 };
 
 const encryptedVotingEn: CaseStudy = {
-  title: "Encrypted voting",
+  title: "El Gamal voting",
   question: "How can a vote be verified without revealing individual choices?",
   kicker: "University project · Java · Spring",
   summary:
@@ -1753,15 +1774,240 @@ const encryptedVotingEn: CaseStudy = {
   languageLabel: "Change language",
 };
 
+const nacreFr: CaseStudy = {
+  title: "Nacre",
+  question: "Comment compiler un langage à syntaxe Java sans JVM ?",
+  kicker: "Compilateur natif expérimental · Rust · Linux · alpha",
+  summary:
+    "Nacre est un compilateur alpha de langage natif pour Linux, implémenté en Rust avec une syntaxe proche de Java. Le chemin par défaut génère du C11 puis s’appuie sur GCC ou Clang ; un backend LLVM direct est également disponible en option.",
+  atGlance: {
+    label: "Le projet en bref",
+    entries: [
+      { label: "Nature", value: "Compilateur natif expérimental · alpha" },
+      {
+        label: "Implémentation",
+        value: "Rust · syntaxe source proche de Java",
+      },
+      { label: "Backend par défaut", value: "C11 → GCC ou Clang" },
+      { label: "Autre backend", value: "LLVM direct en option" },
+      { label: "Cible", value: "Linux · pré-1.0" },
+    ],
+  },
+  understandLabel: "Comprendre le compilateur",
+  technicalLabel: "Examiner les choix techniques",
+  path: "/projets/nacre/",
+  contextLabel: "Deux voies vers un exécutable natif",
+  context:
+    "La voie habituelle traduit le programme en C11 avant l’édition de liens native. L’option --direct émet le LLVM des fonctions utilisateur et de main ; le runtime C et les éléments de bibliothèque nécessaires restent compilés séparément puis liés au module LLVM.",
+  mediaLabel: "Des sources à l’exécutable",
+  figure: {
+    kind: "diagram",
+    title: "Le pipeline de compilation de Nacre",
+    alt: "Les sources Nacre passent par l’analyse Rust, puis par C11 et GCC ou Clang par défaut ; l’option directe émet du LLVM pour le code utilisateur et relie le support C compilé en bitcode.",
+    source: "README.md · docs/ARCHITECTURE.md",
+    sourceHref: "https://github.com/carabistouflette/nacre",
+    nodes: [
+      {
+        title: "Sources Nacre",
+        detail:
+          "Le frontend collecte les fichiers, résout les modules et vérifie les types, l’ownership et les emprunts.",
+      },
+      {
+        title: "Génération C11",
+        detail:
+          "Le backend par défaut génère du C11 et le compile avec GCC ou Clang pour produire un exécutable natif.",
+      },
+      {
+        title: "Exécutable Linux",
+        detail:
+          "Le compilateur natif s’appuie sur le toolchain C du système et sur le runtime fourni par Nacre.",
+      },
+    ],
+    optional: {
+      title: "Option --direct",
+      detail:
+        "Les fonctions utilisateur et main sont émises en LLVM ; le runtime et le support de bibliothèque sont compilés séparément en bitcode puis liés avec llvm-link avant l’édition de liens Clang.",
+    },
+  },
+  sections: [
+    {
+      heading: "01 · Une syntaxe familière, une compilation native",
+      paragraphs: [
+        "Nacre est un compilateur expérimental écrit en Rust, pour un langage dont la syntaxe rappelle Java. Il ne traduit pas les programmes vers une JVM : la cible décrite est un exécutable natif Linux.",
+        "Par défaut, le compilateur génère du C11 puis laisse GCC ou Clang construire l’exécutable. L’option --direct offre une autre voie : les fonctions utilisateur et main deviennent du LLVM, tandis que le runtime C est compilé à part en bitcode puis lié au module utilisateur.",
+      ],
+    },
+    {
+      heading: "02 · Possession affine et emprunts explicites",
+      paragraphs: [
+        "Les valeurs propriétaires ordinaires sont affines : déplacer une valeur transfère sa responsabilité de destruction. Le langage distingue les emprunts partagés des emprunts exclusifs, et le compilateur vérifie leurs conflits ainsi que les déplacements.",
+        "Ce modèle n’utilise ni ramasse-miettes, ni JVM, ni comptage implicite des références. Il décrit les règles du langage, pas une garantie de sûreté générale : le runtime C fait partie du socle natif et les programmes ne sont pas sandboxés.",
+      ],
+    },
+    {
+      heading: "03 · Une bibliothèque standard et des programmes concrets",
+      paragraphs: [
+        "La bibliothèque standard est injectée dans les programmes. Elle comprend des collections affines, Text en UTF-8, des tampons binaires, des options et résultats, ainsi que des API pour les fichiers, processus, threads, synchronisation explicite, expressions régulières, temps et sockets TCP/UDP.",
+        "Le dépôt accompagne le langage d’exemples plus complets : carnet de contacts, bureau de prêt, Sudoku, jeu de la vie et serveur HTTP. Ils illustrent notamment les collections, les emprunts et les API natives ; leur présence ne transforme pas l’alpha en version stabilisée.",
+      ],
+    },
+    {
+      heading: "04 · Un alpha Linux avec des limites assumées",
+      paragraphs: [
+        "Linux est la seule cible native annoncée. Le projet est pré-1.0 et ne garantit pas la compatibilité du langage ou de sa bibliothèque standard entre versions.",
+        "Les paramètres de durée de vie et les itérateurs empruntés qui s’échappent ne sont pas pris en charge ; le FFI général, l’héritage de classes, l’interface graphique et l’exécution JVM ne font pas partie du langage actuel. Le dépôt précise aussi que Nacre n’est pas un bac à sable ni une certification de sécurité.",
+      ],
+    },
+  ],
+  sources: {
+    label: "Code, documentation et état du développement",
+    entries: [
+      {
+        label: "Dépôt Nacre",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "README.md : présentation, backend par défaut, mode LLVM optionnel, bibliothèque standard et exemples.",
+      },
+      {
+        label: "Architecture et ownership",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "docs/ARCHITECTURE.md et docs/BORROWING.md : pipeline du compilateur, représentation native et règles d’emprunt.",
+      },
+      {
+        label: "Feuille de route",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "docs/ROADMAP.md : capacités actuelles, portée expérimentale et limites connues.",
+      },
+    ],
+  },
+  homeLabel: "Retour au portfolio",
+  counterpartLabel: "Read in English",
+  languageLabel: "Changer de langue",
+};
+
+const nacreEn: CaseStudy = {
+  title: "Nacre",
+  question: "How do you compile a Java-like language without a JVM?",
+  kicker: "Experimental native compiler · Rust · Linux · alpha",
+  summary:
+    "Nacre is an alpha native-language compiler for Linux, implemented in Rust with Java-like syntax. Its default path generates C11 and uses GCC or Clang; an optional direct LLVM backend is also available.",
+  atGlance: {
+    label: "At a glance",
+    entries: [
+      { label: "Project", value: "Experimental native compiler · alpha" },
+      { label: "Implementation", value: "Rust · Java-like source syntax" },
+      { label: "Default backend", value: "C11 → GCC or Clang" },
+      { label: "Alternative backend", value: "Optional direct LLVM" },
+      { label: "Target", value: "Linux · pre-1.0" },
+    ],
+  },
+  understandLabel: "Understand the compiler",
+  technicalLabel: "Examine the technical choices",
+  path: "/en/projects/nacre/",
+  contextLabel: "Two routes to a native executable",
+  context:
+    "The usual route translates the program to C11 before native linking. The --direct option emits LLVM for user functions and main; the C runtime and required library support are still compiled separately and linked with the LLVM module.",
+  mediaLabel: "From source to executable",
+  figure: {
+    kind: "diagram",
+    title: "Nacre’s compilation pipeline",
+    alt: "Nacre source goes through Rust analysis, then C11 and GCC or Clang by default; the direct option emits LLVM for user code and links separately compiled C support bitcode.",
+    source: "README.md · docs/ARCHITECTURE.md",
+    sourceHref: "https://github.com/carabistouflette/nacre",
+    nodes: [
+      {
+        title: "Nacre source",
+        detail:
+          "The frontend collects files, resolves modules, and checks types, ownership and borrowing.",
+      },
+      {
+        title: "C11 generation",
+        detail:
+          "The default backend generates C11 and compiles it with GCC or Clang into a native executable.",
+      },
+      {
+        title: "Linux executable",
+        detail:
+          "Native compilation uses the system C toolchain and Nacre’s supplied runtime.",
+      },
+    ],
+    optional: {
+      title: "--direct option",
+      detail:
+        "User functions and main are emitted as LLVM; the runtime and library support are compiled separately to bitcode and linked with llvm-link before Clang links the executable.",
+    },
+  },
+  sections: [
+    {
+      heading: "01 · Familiar syntax, native compilation",
+      paragraphs: [
+        "Nacre is an experimental compiler written in Rust for a language whose syntax is reminiscent of Java. It does not translate programs to a JVM: its stated native target is Linux executables.",
+        "By default, the compiler generates C11 and lets GCC or Clang build the executable. The --direct option provides another route: user functions and main are emitted as LLVM, while the C runtime is compiled separately to bitcode and linked with the user module.",
+      ],
+    },
+    {
+      heading: "02 · Affine ownership and explicit borrowing",
+      paragraphs: [
+        "Ordinary owning values are affine: moving a value transfers its cleanup responsibility. The language distinguishes shared and exclusive borrows, and the compiler checks their conflicts as well as moves.",
+        "This model uses no garbage collector, JVM or implicit reference counting. It describes the language rules, not a general safety guarantee: the C runtime is part of the native trusted base, and programs are not sandboxed.",
+      ],
+    },
+    {
+      heading: "03 · A standard library and working examples",
+      paragraphs: [
+        "The standard library is injected into programs. It includes affine collections, UTF-8 Text, binary buffers, options and results, plus APIs for files, processes, threads, explicit synchronization, regular expressions, time and TCP/UDP sockets.",
+        "The repository includes fuller examples such as a contact book, lending desk, Sudoku, Game of Life and an HTTP server. They exercise collections, borrowing and native APIs; their presence does not make the alpha a stabilized release.",
+      ],
+    },
+    {
+      heading: "04 · A Linux alpha with explicit limits",
+      paragraphs: [
+        "Linux is the only stated native target. The project is pre-1.0 and does not guarantee language or standard-library compatibility between versions.",
+        "Lifetime parameters and escaping borrowed iterators are not supported; general FFI, class inheritance, GUI applications and JVM execution are outside the current language. The repository also states that Nacre is neither a sandbox nor a security certification.",
+      ],
+    },
+  ],
+  sources: {
+    label: "Code, documentation and development status",
+    entries: [
+      {
+        label: "Nacre repository",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "README.md: overview, default backend, optional LLVM mode, standard library and examples.",
+      },
+      {
+        label: "Architecture and ownership",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "docs/ARCHITECTURE.md and docs/BORROWING.md: compiler pipeline, native representation and borrowing rules.",
+      },
+      {
+        label: "Roadmap",
+        href: "https://github.com/carabistouflette/nacre",
+        detail:
+          "docs/ROADMAP.md: current capabilities, experimental scope and known limits.",
+      },
+    ],
+  },
+  homeLabel: "Back to portfolio",
+  counterpartLabel: "Lire en français",
+  languageLabel: "Change language",
+};
+
 export const caseStudies: Record<Locale, Record<CaseStudyId, CaseStudy>> = {
   fr: {
     genomint: genomintFr,
     sillage: sillageFr,
+    nacre: nacreFr,
     "encrypted-voting": encryptedVotingFr,
   },
   en: {
     genomint: genomintEn,
     sillage: sillageEn,
+    nacre: nacreEn,
     "encrypted-voting": encryptedVotingEn,
   },
 };
