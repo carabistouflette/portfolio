@@ -1427,8 +1427,8 @@
       if (this.layer.width !== size || this.layer.height !== size) {
         this.layer.width = this.layer.height = size;
       }
-      // Scroll changes only placement when flight is frozen. Cache the native
-      // unblurred pose; keep fractional placement and Gaussian filtering live.
+      // Frozen flight keeps both the projected pose and its native-pixel blur.
+      // Scrolling only places that bitmap; it must not rerun Gaussian filters.
       const cachePoses =
         motionScale <= 0 || paused || isReduced() || adapt.stage >= 3;
       for (const bird of drawOrder()) {
@@ -1509,6 +1509,7 @@
               cached.canvas.width = cached.canvas.height = size;
             cached.context.clearRect(0, 0, size, size);
             cached.context.drawImage(this.layer, 0, 0);
+            cached.blurRadius = null;
             cached.time = t;
             cached.alpha = alpha;
             cached.logicalSize = logicalSize;
@@ -1538,6 +1539,53 @@
             logicalSize,
           );
         } else {
+          if (cachePoses && cached) {
+            const padding = CANVAS_BLUR_PADDING + 2,
+              scale = (logicalSize * dpr) / size,
+              sourceX = Math.max(0, Math.floor(this.minX - padding)),
+              sourceY = Math.max(0, Math.floor(this.minY - padding)),
+              sourceWidth =
+                Math.min(size, Math.ceil(this.maxX + padding)) - sourceX,
+              sourceHeight =
+                Math.min(size, Math.ceil(this.maxY + padding)) - sourceY,
+              bitmapWidth = Math.ceil(sourceWidth * scale),
+              bitmapHeight = Math.ceil(sourceHeight * scale);
+            if (bitmapWidth <= 0 || bitmapHeight <= 0) continue;
+            if (!cached.blurred) {
+              cached.blurred = document.createElement("canvas");
+              cached.blurContext = cached.blurred.getContext("2d");
+            }
+            if (cached.blurRadius !== blurRadius) {
+              if (cached.blurred.width !== bitmapWidth)
+                cached.blurred.width = bitmapWidth;
+              if (cached.blurred.height !== bitmapHeight)
+                cached.blurred.height = bitmapHeight;
+              const blurContext = cached.blurContext;
+              blurContext.clearRect(0, 0, bitmapWidth, bitmapHeight);
+              blurContext.filter = `blur(${blurRadius}px)`;
+              blurContext.drawImage(
+                layer,
+                sourceX,
+                sourceY,
+                sourceWidth,
+                sourceHeight,
+                0,
+                0,
+                sourceWidth * scale,
+                sourceHeight * scale,
+              );
+              cached.blurRadius = blurRadius;
+            }
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.drawImage(
+              cached.blurred,
+              (b.x - origin) * dpr + sourceX * scale,
+              (b.y - origin) * dpr + sourceY * scale,
+            );
+            ctx.restore();
+            continue;
+          }
           // Bound the filter to the projected strips and their Gaussian support.
           // Without this clip browsers may filter the entire viewport per bird.
           const nativeX = (b.x - origin) * dpr,
