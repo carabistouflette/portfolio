@@ -1160,6 +1160,7 @@
       });
       this.layer = document.createElement("canvas");
       this.lc = this.layer.getContext("2d");
+      this.poseCache = new WeakMap();
       this.blurLayer = document.createElement("canvas");
       this.bc = this.blurLayer.getContext("2d");
       this.minX = this.minY = Infinity;
@@ -1435,55 +1436,99 @@
       ) {
         this.blurLayer.width = this.blurLayer.height = blurLayerSize;
       }
+      // Scroll changes only placement when flight is frozen. Cache the native
+      // unblurred pose; keep fractional placement and Gaussian filtering live.
+      const cachePoses =
+        motionScale <= 0 || paused || isReduced() || adapt.stage >= 3;
       for (const bird of drawOrder()) {
         const b = bird.pose(alpha);
         if (b.x < -b.span * 2.7 || b.x > width + b.span * 2.7) continue;
         // The pose canvas and Gaussian border cannot contribute outside this
         // vertical footprint. Scroll recycling can leave entire birds offscreen.
         if (b.y + verticalExtent < 0 || b.y - verticalExtent > height) continue;
-        b.cosYaw = Math.cos(b.yaw);
-        b.sinYaw = Math.sin(b.yaw);
-        b.cosElevation = Math.cos(b.elevation);
-        b.sinElevation = Math.sin(b.elevation);
-        b.cosPitch = Math.cos(b.pitch);
-        b.sinPitch = Math.sin(b.pitch);
-        this.lc.setTransform(1, 0, 0, 1, 0, 0);
-        this.lc.clearRect(0, 0, size, size);
-        this.minX = this.minY = Infinity;
-        this.maxX = this.maxY = -Infinity;
-        const rear = b.angle - 0.018;
-        this.part(
-          b,
-          "hindwing",
-          -1,
-          2,
-          rear - 0.006,
-          b.opacity * 0.66,
-          t,
-          origin,
-        );
-        this.part(
-          b,
-          "forewing",
-          -1,
-          1,
-          b.angle - 0.005,
-          b.opacity * 0.69,
-          t,
-          origin,
-        );
-        this.part(
-          b,
-          "hindwing",
-          1,
-          2,
-          rear + 0.006,
-          b.opacity * 0.93,
-          t,
-          origin,
-        );
-        this.part(b, "forewing", 1, 1, b.angle + 0.005, b.opacity, t, origin);
-        this.part(b, "body", 0, 0, 0, b.opacity, t, origin);
+        let layer = this.layer;
+        let cached = cachePoses ? this.poseCache.get(bird) : null;
+        if (
+          cached &&
+          cached.time === t &&
+          cached.alpha === alpha &&
+          cached.logicalSize === logicalSize &&
+          cached.pixelRatio === dpr &&
+          cached.exposure === cfg.exposure
+        ) {
+          layer = cached.canvas;
+          this.minX = cached.minX;
+          this.minY = cached.minY;
+          this.maxX = cached.maxX;
+          this.maxY = cached.maxY;
+        } else {
+          b.cosYaw = Math.cos(b.yaw);
+          b.sinYaw = Math.sin(b.yaw);
+          b.cosElevation = Math.cos(b.elevation);
+          b.sinElevation = Math.sin(b.elevation);
+          b.cosPitch = Math.cos(b.pitch);
+          b.sinPitch = Math.sin(b.pitch);
+          this.lc.setTransform(1, 0, 0, 1, 0, 0);
+          this.lc.clearRect(0, 0, size, size);
+          this.minX = this.minY = Infinity;
+          this.maxX = this.maxY = -Infinity;
+          const rear = b.angle - 0.018;
+          this.part(
+            b,
+            "hindwing",
+            -1,
+            2,
+            rear - 0.006,
+            b.opacity * 0.66,
+            t,
+            origin,
+          );
+          this.part(
+            b,
+            "forewing",
+            -1,
+            1,
+            b.angle - 0.005,
+            b.opacity * 0.69,
+            t,
+            origin,
+          );
+          this.part(
+            b,
+            "hindwing",
+            1,
+            2,
+            rear + 0.006,
+            b.opacity * 0.93,
+            t,
+            origin,
+          );
+          this.part(b, "forewing", 1, 1, b.angle + 0.005, b.opacity, t, origin);
+          this.part(b, "body", 0, 0, 0, b.opacity, t, origin);
+          if (cachePoses) {
+            if (!cached) {
+              const poseCanvas = document.createElement("canvas");
+              cached = {
+                canvas: poseCanvas,
+                context: poseCanvas.getContext("2d"),
+              };
+              this.poseCache.set(bird, cached);
+            }
+            if (cached.canvas.width !== size || cached.canvas.height !== size)
+              cached.canvas.width = cached.canvas.height = size;
+            cached.context.clearRect(0, 0, size, size);
+            cached.context.drawImage(this.layer, 0, 0);
+            cached.time = t;
+            cached.alpha = alpha;
+            cached.logicalSize = logicalSize;
+            cached.pixelRatio = dpr;
+            cached.exposure = cfg.exposure;
+            cached.minX = this.minX;
+            cached.minY = this.minY;
+            cached.maxX = this.maxX;
+            cached.maxY = this.maxY;
+          }
+        }
         const blur = clamp(
           cfg.butterflyBlur +
             (1 - b.depth) * cfg.butterflyDepthBlur +
@@ -1495,7 +1540,7 @@
         ctx.globalAlpha = 1;
         if (blurRadius === "0.00") {
           ctx.drawImage(
-            this.layer,
+            layer,
             b.x - origin,
             b.y - origin,
             logicalSize,
@@ -1548,7 +1593,7 @@
           blurCtx.clip();
           blurCtx.filter = `blur(${blurRadius}px)`;
           blurCtx.drawImage(
-            this.layer,
+            layer,
             padding + fractionX,
             padding + fractionY,
             logicalSize * dpr,
@@ -1606,6 +1651,7 @@
       }
     }
     destroy() {
+      this.poseCache = new WeakMap();
       this.layer.width =
         this.layer.height =
         this.blurLayer.width =
