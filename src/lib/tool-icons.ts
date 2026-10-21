@@ -56,14 +56,10 @@ import {
 } from "simple-icons";
 
 export interface ToolIconData {
-  /** Simple-icons glyph rendered through the page sprite (`use` reference). */
-  spriteId?: string;
-  /** Static webp asset under /tool-icons/. */
+  /** Full URL of a generated SVG or static WebP asset under /tool-icons/. */
   image?: string;
   /** Inline stroked fallback path for tools without brand icons. */
   glyph?: string;
-  /** Resolved CSS color for brand icons. */
-  color: string;
 }
 
 const brands: Record<string, SimpleIcon> = {
@@ -159,6 +155,23 @@ export const allBrandIcons: SimpleIcon[] = [
   ...new Map(Object.values(brands).map((icon) => [icon.slug, icon])).values(),
 ];
 
+/** Lift dark brand colors against the portfolio's dark background. */
+export const brandIconColor = (icon: SimpleIcon): string => {
+  const channels = [0, 2, 4].map(
+    (offset) => parseInt(icon.hex.slice(offset, offset + 2), 16) / 255,
+  );
+  const linear = channels.map((channel) =>
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+  );
+  const luminance =
+    0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
+  return icon.hex === "000000"
+    ? "#eaf4fa"
+    : luminance < 0.12
+      ? `color-mix(in srgb, #${icon.hex} 55%, #eaf4fa)`
+      : `#${icon.hex}`;
+};
+
 export const resolveToolIcon = (name: string): ToolIconData => {
   const icon = brands[name];
   const glyph = glyphs[name];
@@ -166,28 +179,12 @@ export const resolveToolIcon = (name: string): ToolIconData => {
   if (!icon && !glyph && !image)
     throw new Error(`Missing toolbox icon: ${name}`);
 
-  let color = "#9dc7df";
-  if (icon) {
-    const channels = [0, 2, 4].map(
-      (offset) => parseInt(icon.hex.slice(offset, offset + 2), 16) / 255,
-    );
-    const linear = channels.map((channel) =>
-      channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
-    );
-    const luminance =
-      0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2];
-    color =
-      icon.hex === "000000"
-        ? "#eaf4fa"
-        : luminance < 0.12
-          ? `color-mix(in srgb, #${icon.hex} 55%, #eaf4fa)`
-          : `#${icon.hex}`;
-  }
-
   return {
-    spriteId: icon ? `tool-si-${icon.slug}` : undefined,
-    image,
+    image: image
+      ? `/tool-icons/${image}.webp`
+      : icon
+        ? `/tool-icons/${icon.slug}.svg`
+        : undefined,
     glyph,
-    color,
   };
 };

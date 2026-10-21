@@ -10,8 +10,6 @@
   Cache-Control: public, max-age=604800
 /butterflies/*
   Cache-Control: public, max-age=604800
-/icons.svg
-  Cache-Control: public, max-age=604800
 /tool-icons/*
   Cache-Control: public, max-age=604800
 /logos/*
