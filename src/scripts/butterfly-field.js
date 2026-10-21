@@ -1129,8 +1129,8 @@
     }
   }
 
-  /** The same wing rig in a lower-cost CPU renderer when WebGL is unavailable.
-   * Projected raster strips approximate the flexible mesh; no pose images are swapped.
+  /** Rasterize the wing rig into reusable poses. The compositor owns blur and
+   * placement; scrolling moves the same layers without rerasterizing them.
    */
   class CanvasRenderer {
     constructor() {
@@ -1158,18 +1158,17 @@
         }
         return variant;
       });
-      this.layer = document.createElement("canvas");
-      this.lc = this.layer.getContext("2d");
       // Reuse strip projection points; each visible bird projects hundreds
       // of points per frame, and none escape the synchronous draw call.
       this.stripPoints = Array.from({ length: 4 }, () => ({ x: 0, y: 0 }));
-      this.poseCache = new WeakMap();
-      this.frozenLayers = new Map();
-      this.frozenTime = NaN;
-      this.frozenContainer = document.createElement("div");
-      this.frozenContainer.style.cssText =
-        "position:absolute;inset:0;overflow:hidden;pointer-events:none;display:none";
-      canvas.after(this.frozenContainer);
+      this.layers = new Map();
+      this.layerBirds = null;
+      this.layerCount = 0;
+      this.backdropDirty = true;
+      this.container = document.createElement("div");
+      this.container.style.cssText =
+        "position:absolute;inset:0;overflow:hidden;pointer-events:none;contain:layout style";
+      canvas.after(this.container);
       this.minX = this.minY = Infinity;
       this.maxX = this.maxY = -Infinity;
       this.back = document.createElement("canvas");
@@ -1195,7 +1194,8 @@
         .createPattern(this.grain, "repeat");
     }
     resize() {
-      this.frozenTime = NaN;
+      this.invalidate();
+      this.backdropDirty = true;
       const renderWidth = Math.round(width * dpr),
         renderHeight = Math.round(height * dpr);
       const viewportChanged =
@@ -1439,149 +1439,96 @@
         );
       }
     }
-    addFrozen(bird, bitmap, offsetX, offsetY) {
-      bitmap.style.cssText = `position:absolute;left:0;top:0;width:${bitmap.width / dpr}px;height:${bitmap.height / dpr}px;will-change:transform`;
-      this.frozenLayers.set(bird, { canvas: bitmap, offsetX, offsetY });
-      this.frozenContainer.append(bitmap);
+    clearLayers() {
+      for (const layer of this.layers.values()) {
+        layer.element.remove();
+        layer.canvas.width = layer.canvas.height = 1;
+      }
+      this.layers.clear();
     }
-    placeFrozen(alpha) {
-      for (const [bird, layer] of this.frozenLayers) {
-        const b = bird.pose(alpha);
-        layer.canvas.style.transform = `translate3d(${b.x + layer.offsetX}px,${b.y + layer.offsetY}px,0)`;
-      }
+    invalidate() {
+      for (const layer of this.layers.values()) layer.time = NaN;
     }
-    draw(t, alpha = 1) {
-      const ctx = this.ctx;
-      const cachePoses =
-        scrolling ||
-        motionScale <= 0 ||
-        paused ||
-        isReduced() ||
-        adapt.stage >= 3;
-      if (
-        cachePoses &&
-        this.frozenTime === t &&
-        this.frozenAlpha === alpha &&
-        this.frozenBirds === birds
-      ) {
-        this.placeFrozen(alpha);
-        return;
-      }
-      this.frozenTime = NaN;
-      this.frozenContainer.style.display = cachePoses ? "" : "none";
-      for (const layer of this.frozenLayers.values()) layer.canvas.remove();
-      this.frozenLayers.clear();
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      let maxSpan = 1;
-      for (const b of birds) maxSpan = Math.max(maxSpan, b.span);
-      const logicalSize = Math.ceil(maxSpan * 3.8),
-        size = Math.ceil(logicalSize * dpr),
-        origin = logicalSize / 2,
-        verticalExtent = origin + (CANVAS_BLUR_PADDING + 2) / dpr;
-      if (this.layer.width !== size || this.layer.height !== size) {
-        this.layer.width = this.layer.height = size;
-      }
-      ctx.globalAlpha = 1;
-      ctx.globalCompositeOperation = "source-over";
-      ctx.filter = "none";
-      ctx.drawImage(this.back, 0, 0);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      for (const bird of drawOrder()) {
-        const b = bird.pose(alpha);
-        // Frozen layers must include offscreen birds: scrolling can recycle them
-        // into view without another raster pass.
-        if (
-          !cachePoses &&
-          (b.x < -b.span * 2.7 ||
-            b.x > width + b.span * 2.7 ||
-            b.y + verticalExtent < 0 ||
-            b.y - verticalExtent > height)
-        )
-          continue;
-        let layer = this.layer;
-        let cached = cachePoses ? this.poseCache.get(bird) : null;
-        if (
-          cached &&
-          cached.time === t &&
-          cached.alpha === alpha &&
-          cached.logicalSize === logicalSize &&
-          cached.pixelRatio === dpr &&
-          cached.exposure === cfg.exposure
-        ) {
-          layer = cached.canvas;
-          this.minX = cached.minX;
-          this.minY = cached.minY;
-          this.maxX = cached.maxX;
-          this.maxY = cached.maxY;
-        } else {
-          b.cosYaw = Math.cos(b.yaw);
-          b.sinYaw = Math.sin(b.yaw);
-          b.cosElevation = Math.cos(b.elevation);
-          b.sinElevation = Math.sin(b.elevation);
-          b.cosPitch = Math.cos(b.pitch);
-          b.sinPitch = Math.sin(b.pitch);
-          this.lc.setTransform(1, 0, 0, 1, 0, 0);
-          this.lc.clearRect(0, 0, size, size);
-          this.minX = this.minY = Infinity;
-          this.maxX = this.maxY = -Infinity;
-          const rear = b.angle - 0.018;
-          this.part(
-            b,
-            "hindwing",
-            -1,
-            2,
-            rear - 0.006,
-            b.opacity * 0.66,
-            t,
-            origin,
-          );
-          this.part(
-            b,
-            "forewing",
-            -1,
-            1,
-            b.angle - 0.005,
-            b.opacity * 0.69,
-            t,
-            origin,
-          );
-          this.part(
-            b,
-            "hindwing",
-            1,
-            2,
-            rear + 0.006,
-            b.opacity * 0.93,
-            t,
-            origin,
-          );
-          this.part(b, "forewing", 1, 1, b.angle + 0.005, b.opacity, t, origin);
-          this.part(b, "body", 0, 0, 0, b.opacity, t, origin);
-          if (cachePoses) {
-            if (!cached) {
-              const poseCanvas = document.createElement("canvas");
-              cached = {
-                canvas: poseCanvas,
-                context: poseCanvas.getContext("2d"),
-              };
-              this.poseCache.set(bird, cached);
-            }
-            if (cached.canvas.width !== size || cached.canvas.height !== size)
-              cached.canvas.width = cached.canvas.height = size;
-            cached.context.clearRect(0, 0, size, size);
-            cached.context.drawImage(this.layer, 0, 0);
-            cached.blurRadius = null;
-            cached.time = t;
-            cached.alpha = alpha;
-            cached.logicalSize = logicalSize;
-            cached.pixelRatio = dpr;
-            cached.exposure = cfg.exposure;
-            cached.minX = this.minX;
-            cached.minY = this.minY;
-            cached.maxX = this.maxX;
-            cached.maxY = this.maxY;
-          }
-        }
+    createLayer() {
+      const element = document.createElement("div");
+      const poseCanvas = document.createElement("canvas");
+      element.style.cssText =
+        "position:absolute;left:0;top:0;overflow:hidden;will-change:transform";
+      poseCanvas.style.cssText = "position:absolute;left:0;top:0";
+      element.append(poseCanvas);
+      this.container.append(element);
+      return {
+        element,
+        canvas: poseCanvas,
+        context: poseCanvas.getContext("2d"),
+        time: NaN,
+        alpha: NaN,
+        logicalSize: 0,
+        pixelRatio: 0,
+        offsetX: 0,
+        offsetY: 0,
+        empty: false,
+      };
+    }
+    paintPose(layer, b, t, alpha, logicalSize, size) {
+      if (layer.canvas.width !== size || layer.canvas.height !== size)
+        layer.canvas.width = layer.canvas.height = size;
+      layer.canvas.style.width = layer.canvas.style.height = `${logicalSize}px`;
+      this.lc = layer.context;
+      this.lc.setTransform(1, 0, 0, 1, 0, 0);
+      this.lc.clearRect(0, 0, size, size);
+      this.minX = this.minY = Infinity;
+      this.maxX = this.maxY = -Infinity;
+      b.cosYaw = Math.cos(b.yaw);
+      b.sinYaw = Math.sin(b.yaw);
+      b.cosElevation = Math.cos(b.elevation);
+      b.sinElevation = Math.sin(b.elevation);
+      b.cosPitch = Math.cos(b.pitch);
+      b.sinPitch = Math.sin(b.pitch);
+      const origin = logicalSize / 2;
+      const rear = b.angle - 0.018;
+      this.part(
+        b,
+        "hindwing",
+        -1,
+        2,
+        rear - 0.006,
+        b.opacity * 0.66,
+        t,
+        origin,
+      );
+      this.part(
+        b,
+        "forewing",
+        -1,
+        1,
+        b.angle - 0.005,
+        b.opacity * 0.69,
+        t,
+        origin,
+      );
+      this.part(b, "hindwing", 1, 2, rear + 0.006, b.opacity * 0.93, t, origin);
+      this.part(b, "forewing", 1, 1, b.angle + 0.005, b.opacity, t, origin);
+      this.part(b, "body", 0, 0, 0, b.opacity, t, origin);
+
+      // Clip before filtering so the compositor blurs the bird, not the
+      // transparent remainder of its pose canvas. Keep Gaussian support.
+      const padding = CANVAS_BLUR_PADDING + 2;
+      const sourceX = Math.max(0, Math.floor(this.minX - padding));
+      const sourceY = Math.max(0, Math.floor(this.minY - padding));
+      const sourceWidth =
+        Math.min(size, Math.ceil(this.maxX + padding)) - sourceX;
+      const sourceHeight =
+        Math.min(size, Math.ceil(this.maxY + padding)) - sourceY;
+      layer.empty = sourceWidth <= 0 || sourceHeight <= 0;
+      if (!layer.empty) {
+        const scale = logicalSize / size;
+        layer.element.style.width = `${sourceWidth * scale}px`;
+        layer.element.style.height = `${sourceHeight * scale}px`;
+        layer.canvas.style.left = `${-sourceX * scale}px`;
+        layer.canvas.style.top = `${-sourceY * scale}px`;
+        layer.offsetX = -origin + sourceX * scale;
+        layer.offsetY = -origin + sourceY * scale;
         const blur = clamp(
           cfg.butterflyBlur +
             (1 - b.depth) * cfg.butterflyDepthBlur +
@@ -1589,118 +1536,59 @@
           0,
           6,
         );
-        const blurRadius = (blur * 1.15).toFixed(2);
-        ctx.globalAlpha = 1;
-        if (blurRadius === "0.00") {
-          if (cachePoses) {
-            this.addFrozen(bird, cached.canvas, -origin, -origin);
-            cached.canvas.style.width =
-              cached.canvas.style.height = `${logicalSize}px`;
-            continue;
-          }
-          ctx.drawImage(
-            layer,
-            b.x - origin,
-            b.y - origin,
-            logicalSize,
-            logicalSize,
-          );
-        } else {
-          if (cachePoses && cached) {
-            const padding = CANVAS_BLUR_PADDING + 2,
-              scale = (logicalSize * dpr) / size,
-              sourceX = Math.max(0, Math.floor(this.minX - padding)),
-              sourceY = Math.max(0, Math.floor(this.minY - padding)),
-              sourceWidth =
-                Math.min(size, Math.ceil(this.maxX + padding)) - sourceX,
-              sourceHeight =
-                Math.min(size, Math.ceil(this.maxY + padding)) - sourceY,
-              bitmapWidth = Math.ceil(sourceWidth * scale),
-              bitmapHeight = Math.ceil(sourceHeight * scale);
-            if (bitmapWidth <= 0 || bitmapHeight <= 0) continue;
-            if (!cached.blurred) {
-              cached.blurred = document.createElement("canvas");
-              cached.blurContext = cached.blurred.getContext("2d");
-            }
-            if (cached.blurRadius !== blurRadius) {
-              if (cached.blurred.width !== bitmapWidth)
-                cached.blurred.width = bitmapWidth;
-              if (cached.blurred.height !== bitmapHeight)
-                cached.blurred.height = bitmapHeight;
-              const blurContext = cached.blurContext;
-              blurContext.clearRect(0, 0, bitmapWidth, bitmapHeight);
-              blurContext.filter = `blur(${blurRadius}px)`;
-              blurContext.drawImage(
-                layer,
-                sourceX,
-                sourceY,
-                sourceWidth,
-                sourceHeight,
-                0,
-                0,
-                sourceWidth * scale,
-                sourceHeight * scale,
-              );
-              cached.blurRadius = blurRadius;
-            }
-            this.addFrozen(
-              bird,
-              cached.blurred,
-              -origin + (sourceX * scale) / dpr,
-              -origin + (sourceY * scale) / dpr,
-            );
-            continue;
-          }
-          // Bound the filter to the projected strips and their Gaussian support.
-          // Without this clip browsers may filter the entire viewport per bird.
-          const nativeX = (b.x - origin) * dpr,
-            nativeY = (b.y - origin) * dpr,
-            scale = (logicalSize * dpr) / size,
-            padding = CANVAS_BLUR_PADDING + 2;
-          ctx.save();
-          ctx.setTransform(1, 0, 0, 1, 0, 0);
-          ctx.beginPath();
-          ctx.rect(
-            Math.floor(nativeX + this.minX * scale - padding),
-            Math.floor(nativeY + this.minY * scale - padding),
-            Math.ceil((this.maxX - this.minX) * scale + padding * 2 + 2),
-            Math.ceil((this.maxY - this.minY) * scale + padding * 2 + 2),
-          );
-          ctx.clip();
-          ctx.filter = `blur(${blurRadius}px)`;
-          // Do not submit the transparent remainder of the pose to the filter.
-          // Keep Gaussian support inside the crop so fractional placement and
-          // the original native-pixel blur are unchanged.
-          const sourceX = Math.max(0, Math.floor(this.minX - padding)),
-            sourceY = Math.max(0, Math.floor(this.minY - padding)),
-            sourceRight = Math.min(size, Math.ceil(this.maxX + padding)),
-            sourceBottom = Math.min(size, Math.ceil(this.maxY + padding)),
-            sourceWidth = sourceRight - sourceX,
-            sourceHeight = sourceBottom - sourceY;
-          if (sourceWidth > 0 && sourceHeight > 0)
-            ctx.drawImage(
-              layer,
-              sourceX,
-              sourceY,
-              sourceWidth,
-              sourceHeight,
-              nativeX + sourceX * scale,
-              nativeY + sourceY * scale,
-              sourceWidth * scale,
-              sourceHeight * scale,
-            );
-          ctx.restore();
+        // Canvas filters used backing pixels; CSS filters use logical pixels.
+        const radius = Number((blur * 1.15).toFixed(2)) / dpr;
+        layer.element.style.filter = radius ? `blur(${radius}px)` : "none";
+      }
+      layer.time = t;
+      layer.alpha = alpha;
+      layer.logicalSize = logicalSize;
+      layer.pixelRatio = dpr;
+    }
+    draw(t, alpha = 1) {
+      if (this.backdropDirty) {
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        this.ctx.drawImage(this.back, 0, 0);
+        this.backdropDirty = false;
+      }
+      if (this.layerBirds !== birds || this.layerCount !== birds.length) {
+        this.clearLayers();
+        this.layerBirds = birds;
+        this.layerCount = birds.length;
+      }
+      let maxSpan = 1;
+      for (const b of birds) maxSpan = Math.max(maxSpan, b.span);
+      const logicalSize = Math.ceil(maxSpan * 3.8);
+      const size = Math.ceil(logicalSize * dpr);
+      const verticalExtent = logicalSize / 2 + (CANVAS_BLUR_PADDING + 2) / dpr;
+      for (const bird of drawOrder()) {
+        // Create even offscreen layers in depth order, then suspend their work.
+        let layer = this.layers.get(bird);
+        if (!layer) {
+          layer = this.createLayer();
+          this.layers.set(bird, layer);
         }
+        const b = bird.pose(alpha);
+        if (
+          b.x < -b.span * 2.7 ||
+          b.x > width + b.span * 2.7 ||
+          b.y + verticalExtent < 0 ||
+          b.y - verticalExtent > height
+        ) {
+          layer.element.hidden = true;
+          continue;
+        }
+        if (
+          layer.time !== t ||
+          layer.alpha !== alpha ||
+          layer.logicalSize !== logicalSize ||
+          layer.pixelRatio !== dpr
+        )
+          this.paintPose(layer, b, t, alpha, logicalSize, size);
+        layer.element.hidden = layer.empty;
+        if (!layer.empty)
+          layer.element.style.transform = `translate3d(${b.x + layer.offsetX}px,${b.y + layer.offsetY}px,0)`;
       }
-      if (cachePoses) {
-        this.frozenTime = t;
-        this.frozenAlpha = alpha;
-        this.frozenBirds = birds;
-        this.placeFrozen(alpha);
-      }
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.globalCompositeOperation = "source-over";
-      ctx.globalAlpha = 1;
     }
     refreshTextures() {
       // Match source resolution to the largest projected wing, not the viewport.
@@ -1708,22 +1596,22 @@
       let span = 1;
       for (const b of birds) span = Math.max(span, b.span * dpr);
       const size = clamp(2 ** Math.ceil(Math.log2(span)), 128, 512);
+      if (this.textureSize === size && this.textureExposure === cfg.exposure)
+        return;
       for (const [image, texture] of this.textureSources) {
         texture.width = texture.height = size;
         const ctx = texture.getContext("2d");
         ctx.filter = `brightness(${cfg.exposure})`;
         ctx.drawImage(image, 0, 0, size, size);
       }
+      this.textureSize = size;
+      this.textureExposure = cfg.exposure;
     }
     destroy() {
-      this.frozenContainer.remove();
-      this.frozenLayers.clear();
-      this.poseCache = new WeakMap();
-      this.layer.width =
-        this.layer.height =
-        this.back.width =
-        this.back.height =
-          1;
+      this.container.remove();
+      this.clearLayers();
+      this.layerBirds = null;
+      this.back.width = this.back.height = 1;
       for (const texture of this.textureSources.values())
         texture.width = texture.height = 1;
       this.textureSources.clear();
@@ -2097,7 +1985,7 @@
       const before = { ...cfg };
       const resetPopulation = adapt.stage >= 2;
       applyOptions(options);
-      if (renderer) renderer.frozenTime = NaN;
+      if (renderer?.kind === "canvas2d") renderer.invalidate();
       adaptReset(); // Explicit intent: let the machine re-prove itself.
       const rebuild = [
         "seed",

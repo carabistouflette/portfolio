@@ -149,9 +149,7 @@ const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCo
                         "aria-label": dayLabel(cell.day),
                       })}
                   href={preview ? undefined : dayHref(cell.day.date)}
-                >
-                  <span aria-hidden="true"></span>
-                </DayTag>
+                />
               ) : (
                 <span class="min-h-5 min-w-5" aria-hidden="true"></span>
               );
