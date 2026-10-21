@@ -33,6 +33,8 @@
   ];
   const TEXTURE_PARTS = ["forewing", "hindwing", "body"];
   const MAX_CANVAS_BLUR_RADIUS = 6 * 1.15;
+  const WING_RECT = [-275, -365, 160, 8];
+  const BODY_RECT = [-190, -155, 218, 136];
   const CANVAS_BLUR_PADDING = Math.ceil(MAX_CANVAS_BLUR_RADIUS * 3 + 1);
   const DEFAULTS = Object.freeze({
     seed: 49177,
@@ -1158,6 +1160,9 @@
       });
       this.layer = document.createElement("canvas");
       this.lc = this.layer.getContext("2d");
+      // Reuse strip projection points; each visible bird projects hundreds
+      // of points per frame, and none escape the synchronous draw call.
+      this.stripPoints = Array.from({ length: 4 }, () => ({ x: 0, y: 0 }));
       this.poseCache = new WeakMap();
       this.frozenLayers = new Map();
       this.frozenTime = NaN;
@@ -1245,9 +1250,9 @@
       this.backgroundGrain = cfg.grain;
       this.backgroundGradient = cfg.gradient;
     }
-    project(v, b, side, part, angle, t) {
-      let x = v.x,
-        y = -v.y,
+    project(sourceX, sourceY, b, side, part, angle, t, point) {
+      let x = sourceX,
+        y = -sourceY,
         z = 0;
       if (part > 0.5) {
         const limit = part > 1.5 ? 185 : 333,
@@ -1303,20 +1308,16 @@
       const k = (b.scale * 1400) / (1400 - depth),
         qx = cx * k,
         qy = cy * k;
-      return {
-        x: (qx * b.cosPitch - qy * b.sinPitch) * b.direction,
-        y: -(qx * b.sinPitch + qy * b.cosPitch),
-        u: v.u,
-        v: v.v,
-      };
+      point.x = (qx * b.cosPitch - qy * b.sinPitch) * b.direction;
+      point.y = -(qx * b.sinPitch + qy * b.cosPitch);
+      return point;
     }
     part(b, name, side, part, angle, opacity, t, origin) {
       const textures =
         this.textures[(b.variantIndex ?? 0) % this.textures.length] ||
         this.textures[0];
       const tex = textures[name];
-      const rect =
-        name === "body" ? [-190, -155, 218, 136] : [-275, -365, 160, 8];
+      const rect = name === "body" ? BODY_RECT : WING_RECT;
       // Keep strips below ~8 native pixels; large inspection wings retain 24.
       const count =
         part > 0.5 ? clamp(Math.ceil((b.span * dpr) / 8), 8, 24) : 4;
@@ -1329,7 +1330,8 @@
       // Continuous 3D strip projection. Cropped raster strips avoid thousands of
       // CPU clipping operations; every strip still follows the hinged/flexible wing.
       const middleX = (rect[0] + rect[2]) / 2;
-      let previousEnd;
+      const [, , leftPoint, rightPoint] = this.stripPoints;
+      let [start, end] = this.stripPoints;
       for (let row = 0; row < count; row++) {
         const v0 = row / count,
           v1 = (row + 1) / count,
@@ -1337,39 +1339,49 @@
         const sy = v0 * tex.height,
           sh = (v1 - v0) * tex.height;
         const p0 =
-          previousEnd ||
-          this.project(
-            { x: middleX, y: mix(rect[1], rect[3], v0) },
-            b,
-            side,
-            part,
-            angle,
-            t + b.seed,
-          );
+          row === 0
+            ? this.project(
+                middleX,
+                mix(rect[1], rect[3], v0),
+                b,
+                side,
+                part,
+                angle,
+                t + b.seed,
+                start,
+              )
+            : start;
         const p1 = this.project(
-          { x: middleX, y: mix(rect[1], rect[3], v1) },
+          middleX,
+          mix(rect[1], rect[3], v1),
           b,
           side,
           part,
           angle,
           t + b.seed,
+          end,
         );
-        previousEnd = p1;
+        start = end;
+        end = p0;
         const left = this.project(
-          { x: rect[0], y: mix(rect[1], rect[3], vm) },
+          rect[0],
+          mix(rect[1], rect[3], vm),
           b,
           side,
           part,
           angle,
           t + b.seed,
+          leftPoint,
         );
         const right = this.project(
-          { x: rect[2], y: mix(rect[1], rect[3], vm) },
+          rect[2],
+          mix(rect[1], rect[3], vm),
           b,
           side,
           part,
           angle,
           t + b.seed,
+          rightPoint,
         );
         const A = (right.x - left.x) / tex.width,
           B = (right.y - left.y) / tex.width,
@@ -2314,8 +2326,8 @@
       console.error(error);
     }
   }
-  // Texture downloads start only once the page is idle, so the ~1.1 MB of
-  // wing textures never compete with LCP assets (hero image, font, CSS).
+  // Start decorative texture downloads after load and an idle slot, keeping
+  // them behind the hero image, font and CSS on the critical loading path.
   const startWhenIdle = () => {
     if (typeof requestIdleCallback === "function")
       requestIdleCallback(() => void init(), { timeout: 2500 });

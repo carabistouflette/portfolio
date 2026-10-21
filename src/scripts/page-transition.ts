@@ -1,7 +1,4 @@
-import type {
-  TransitionBeforePreparationEvent,
-  TransitionBeforeSwapEvent,
-} from "astro:transitions/client";
+import type { TransitionBeforePreparationEvent } from "astro:transitions/client";
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 let active: Animation | undefined;
@@ -51,14 +48,9 @@ document.addEventListener(
   },
 );
 
-// Astro still owns navigation and persistence, but neither engine uses snapshots
-// for the fade. Both animate the live content with exactly the same timings.
-document.addEventListener(
-  "astro:before-swap",
-  (event: TransitionBeforeSwapEvent) => {
-    event.viewTransition.skipTransition();
-  },
-);
+// BaseLayout disables Astro's snapshot animations with transition:animate="none".
+// Animate live content without skipping the native transition: skipping rejects
+// its ready promise, even when the DOM swap itself succeeds.
 
 document.addEventListener("astro:after-swap", () => {
   cancelFade();
