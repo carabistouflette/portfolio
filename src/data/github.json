@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-29T16:09:06.854Z",
+  "updatedAt": "2026-10-29T21:08:45.842Z",
   "pullRequests": {
     "recent": [
       {
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 42,
-    "merged": 495
+    "merged": 368
   },
   "featured": [
     {
@@ -1369,7 +1369,7 @@
       },
       {
         "date": "2026-06-26",
-        "count": 101,
+        "count": 100,
         "level": 2
       },
       {
@@ -1994,8 +1994,8 @@
       },
       {
         "date": "2026-10-29",
-        "count": 0,
-        "level": 0
+        "count": 1,
+        "level": 1
       }
     ]
   }
