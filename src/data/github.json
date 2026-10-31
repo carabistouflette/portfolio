@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-30T23:49:37.449Z",
+  "updatedAt": "2026-10-31T05:45:29.615Z",
   "pullRequests": {
     "recent": [
       {
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "Steel-Foundation/SteelMC",
+        "number": 550,
+        "title": "perf: batch join tab-list sync into a single CPlayerInfoUpdate",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/550",
+        "createdAt": "2026-08-28T23:27:10Z",
+        "updatedAt": "2026-10-31T01:48:21Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
@@ -95,17 +106,6 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "organization"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 7,
-        "title": "RC3.1: targeted relational-information experiments",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
-        "createdAt": "2026-10-04T20:12:59Z",
-        "updatedAt": "2026-10-05T00:13:37Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-10-26",
-    "to": "2026-10-30",
+    "to": "2026-10-31",
     "days": [
       {
         "date": "2025-10-26",
@@ -1999,6 +1999,11 @@
       },
       {
         "date": "2026-10-30",
+        "count": 0,
+        "level": 0
+      },
+      {
+        "date": "2026-10-31",
         "count": 0,
         "level": 0
       }
