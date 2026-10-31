@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-10-31T12:35:32.208Z",
+  "updatedAt": "2026-10-31T17:45:25.970Z",
   "pullRequests": {
     "recent": [
       {
@@ -75,17 +75,6 @@
     ],
     "open": [
       {
-        "repository": "Steel-Foundation/SteelMC",
-        "number": 550,
-        "title": "perf: batch join tab-list sync into a single CPlayerInfoUpdate",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/550",
-        "createdAt": "2026-08-28T23:27:10Z",
-        "updatedAt": "2026-10-31T01:48:21Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
@@ -106,12 +95,23 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "organization"
+      },
+      {
+        "repository": "carabistouflette/HealthGraphBench",
+        "number": 7,
+        "title": "RC3.1: targeted relational-information experiments",
+        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
+        "createdAt": "2026-10-04T20:12:59Z",
+        "updatedAt": "2026-10-05T00:13:37Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 42,
-    "merged": 368
+    "open": 41,
+    "merged": 369
   },
   "featured": [
     {
@@ -2004,8 +2004,8 @@
       },
       {
         "date": "2026-10-31",
-        "count": 0,
-        "level": 0
+        "count": 1,
+        "level": 1
       }
     ]
   }
