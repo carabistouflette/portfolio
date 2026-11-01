@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-01T19:43:01.435Z",
+  "updatedAt": "2026-11-01T23:37:40.185Z",
   "pullRequests": {
     "recent": [
       {
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "Yucareux/Tellus",
+        "number": 48,
+        "title": "Build centralization, CI hardening, and repo hygiene",
+        "url": "https://github.com/Yucareux/Tellus/pull/48",
+        "createdAt": "2026-08-09T10:46:56Z",
+        "updatedAt": "2026-11-01T21:33:53Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
         "repository": "brio-labs/maestria",
         "number": 516,
         "title": "feat(launcher): introduce Sillage resident Linux launcher",
@@ -95,17 +106,6 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "organization"
-      },
-      {
-        "repository": "carabistouflette/HealthGraphBench",
-        "number": 7,
-        "title": "RC3.1: targeted relational-information experiments",
-        "url": "https://github.com/carabistouflette/HealthGraphBench/pull/7",
-        "createdAt": "2026-10-04T20:12:59Z",
-        "updatedAt": "2026-10-05T00:13:37Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
