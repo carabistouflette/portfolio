@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-02T06:08:59.620Z",
+  "updatedAt": "2026-11-02T15:58:37.237Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/goose-argparse",
+        "number": 2,
+        "title": "Fix NUL matching absent short aliases",
+        "url": "https://github.com/carabistouflette/goose-argparse/pull/2",
+        "createdAt": "2026-11-02T15:19:45Z",
+        "updatedAt": "2026-11-02T15:20:16Z",
+        "mergedAt": "2026-11-02T15:20:16Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-argparse",
+        "number": 1,
+        "title": "Add Goose argument parser with tests and development workflow",
+        "url": "https://github.com/carabistouflette/goose-argparse/pull/1",
+        "createdAt": "2026-11-02T15:13:00Z",
+        "updatedAt": "2026-11-02T15:13:27Z",
+        "mergedAt": "2026-11-02T15:13:26Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/nacre",
         "number": 1,
@@ -14,28 +36,6 @@
         "mergedAt": "2026-10-15T15:12:26Z",
         "state": "merged",
         "relationship": "personal"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 581,
-        "title": "fix(ci): cover convention checks on Sillage integration PRs",
-        "url": "https://github.com/brio-labs/maestria/pull/581",
-        "createdAt": "2026-10-07T22:19:07Z",
-        "updatedAt": "2026-10-07T22:21:11Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 580,
-        "title": "docs(research): register historical material access and permission boundaries",
-        "url": "https://github.com/brio-labs/maestria/pull/580",
-        "createdAt": "2026-10-07T21:50:18Z",
-        "updatedAt": "2026-10-07T21:50:43Z",
-        "mergedAt": "2026-10-07T21:50:41Z",
-        "state": "merged",
-        "relationship": "organization"
       }
     ],
     "external": [
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 41,
-    "merged": 369
+    "merged": 371
   },
   "featured": [
     {
@@ -1979,7 +1979,7 @@
       },
       {
         "date": "2026-11-02",
-        "count": 13,
+        "count": 34,
         "level": 1
       }
     ]
