@@ -2,6 +2,7 @@
 import CaseStudyDemo from "./CaseStudyDemo.astro";
 import EvidenceFigure from "./EvidenceFigure.astro";
 import PaginationEvidence from "./PaginationEvidence.astro";
+import { destinations } from "../data/portfolio";
 import type {
   CaseStudy as CaseStudyData,
   CaseStudyId,
@@ -16,6 +17,8 @@ interface Props {
 
 const { locale, projectId, study } = Astro.props;
 const hasRole = Boolean(study.role && study.roleLabel);
+const fr = locale === "fr";
+const contactHref = `${destinations.email}?subject=${encodeURIComponent(fr ? `Échange à propos de ${study.title}` : `Discussing ${study.title}`)}`;
 const screenshots = study.screenshots;
 const media = screenshots?.items ?? [study.figure];
 // Match global.css's capped shell and gutters, plus this gallery's 1.5rem
@@ -74,12 +77,22 @@ const counterpartPath =
       <p class="lead-copy mt-7 max-w-3xl text-muted text-pretty">
         {study.summary}
       </p>
-      <section
-        class="mt-10 max-w-3xl border border-rule p-5 sm:p-6"
-        aria-label={study.atGlance.label}
-      >
-        <p class="eyebrow">{study.atGlance.label}</p>
-        <dl class="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+      {hasRole && (
+        <section
+          class="mt-7 max-w-3xl border-l border-rule pl-5"
+          aria-labelledby="case-role-label"
+        >
+          <h2 id="case-role-label" class="eyebrow">
+            {study.roleLabel}
+          </h2>
+          <p class="body-copy mt-2">{study.role}</p>
+        </section>
+      )}
+      <details class="mt-7 max-w-3xl border-y border-rule py-3">
+        <summary class="text-link cursor-pointer text-sm">
+          {study.atGlance.label}
+        </summary>
+        <dl class="mt-4 grid gap-x-8 gap-y-4 pb-2 sm:grid-cols-2">
           {study.atGlance.entries.map((entry) => (
             <div class="min-w-0">
               <dt class="eyebrow">{entry.label}</dt>
@@ -87,46 +100,29 @@ const counterpartPath =
             </div>
           ))}
         </dl>
-        <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3 border-t border-rule/60 pt-4">
-          <a class="text-link min-h-0 text-sm underline" href="#case-context">
-            {study.understandLabel}
-            <span class="ml-2" aria-hidden="true">
-              ↓
-            </span>
-          </a>
-          <a class="text-link min-h-0 text-sm underline" href="#case-sections">
-            {study.technicalLabel}
-            <span class="ml-2" aria-hidden="true">
-              ↓
-            </span>
-          </a>
-        </div>
-      </section>
+      </details>
+      <nav
+        class="mt-6 flex flex-wrap gap-x-8 gap-y-3"
+        aria-label={fr ? "Dans ce dossier" : "On this page"}
+      >
+        <a
+          class="text-link text-sm underline"
+          href={study.demonstration ? "#case-demo-title" : "#case-media-title"}
+        >
+          {study.demonstration
+            ? fr
+              ? "Voir la démonstration"
+              : "See the demonstration"
+            : fr
+              ? "Voir le projet"
+              : "See the project"}{" "}
+          <span aria-hidden="true">↓</span>
+        </a>
+        <a class="text-link text-sm underline" href="#case-sections">
+          {study.technicalLabel} <span aria-hidden="true">↓</span>
+        </a>
+      </nav>
     </header>
-
-    <div
-      id="case-context"
-      data-motion-reveal
-      class:list={[
-        "mt-14 grid gap-8 border-y border-rule py-6",
-        { "md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-12": hasRole },
-      ]}
-    >
-      <section aria-labelledby="case-context-label">
-        <h3 id="case-context-label" class="card-title text-muted">
-          {study.contextLabel}
-        </h3>
-        <p class="body-copy mt-3 max-w-[58ch]">{study.context}</p>
-      </section>
-      {hasRole && (
-        <section aria-labelledby="case-role-label">
-          <h3 id="case-role-label" class="card-title text-muted">
-            {study.roleLabel}
-          </h3>
-          <p class="body-copy mt-3 max-w-[58ch]">{study.role}</p>
-        </section>
-      )}
-    </div>
 
     {study.demonstration && (
       <CaseStudyDemo demonstration={study.demonstration} locale={locale} />
@@ -234,6 +230,31 @@ const counterpartPath =
         </section>
       </div>
     )}
+
+    <section
+      class="mt-16 border-t border-rule pt-8 sm:mt-20"
+      aria-labelledby="case-contact-title"
+    >
+      <h2 id="case-contact-title" class="subsection-title">
+        {fr ? "Ce projet vous intéresse ?" : "Interested in this project?"}
+      </h2>
+      <p class="body-copy mt-3 max-w-2xl text-muted">
+        {fr
+          ? "Une question sur ce travail ou une proposition de stage ? Écrivez-moi."
+          : "Have a question about this work or an internship opportunity? Get in touch."}
+      </p>
+      <div class="mt-6 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <a
+          class="inline-flex min-h-12 items-center bg-paper px-5 text-sm font-medium text-ink hover:bg-[#abd1ed] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+          href={contactHref}
+        >
+          {fr ? "Discuter de ce projet" : "Discuss this project"}
+        </a>
+        <a class="text-link text-sm underline" href={destinations.cv} download>
+          {fr ? "Télécharger mon CV" : "Download my CV"}
+        </a>
+      </div>
+    </section>
 
     <footer
       data-motion-reveal

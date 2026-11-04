@@ -10,40 +10,24 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
     question: "Quelle preuve relie une évaluation médicale à ses données ?",
     kicker: "Recherche personnelle · Python · provenance des données",
     summary:
-      "Je développe un cadre de recherche pour examiner les preuves sur les jeux de données utilisés en imagerie médicale. Le dépôt public contient la spécification, une implémentation de référence sur cas synthétiques et un protocole pilote.",
+      "Le nom d’un jeu de données dans un article ne suffit pas à identifier sa version ou son utilisation dans une expérience. MedDataTrace cherche à reconstruire cette chaîne de preuves pour les évaluations en imagerie médicale.",
     atGlance: {
-      label: "Le projet en bref",
+      label: "Repères du projet",
       entries: [
         {
-          label: "Question",
-          value:
-            "Relier une évaluation à un jeu de données, une version et un artefact vérifiables.",
+          label: "Livrables publics",
+          value: "Spécification, code de référence et protocole pilote",
         },
         {
-          label: "Mon travail",
-          value:
-            "Formalisation des états de preuve, code Python de référence et préparation du pilote.",
-        },
-        {
-          label: "Vérifiable",
-          value:
-            "Code, tests de conformité et documents publics cités en bas de page.",
-        },
-        {
-          label: "Limite actuelle",
-          value:
-            "Le pilote public reste à activer ; la validation sur données réelles reste à établir.",
+          label: "État",
+          value: "Recherche en cours · pilote public à activer",
         },
       ],
     },
-    understandLabel: "Comprendre la démarche",
     technicalLabel: "Examiner la méthode",
     roleLabel: "Mon travail",
     role: "Je travaille sur la spécification, la sémantique de référence et les conditions d’admission des références. L’objectif est de rendre explicites les preuves nécessaires pour conclure et les cas où il faut s’abstenir.",
     path: "/projets/meddatatrace/",
-    contextLabel: "Le problème de provenance",
-    context:
-      "Le nom d’un jeu de données dans un article ne suffit pas à établir sa version ou son utilisation dans une expérience. La démarche cherche à reconstruire cette chaîne à partir de sources et d’artefacts inspectables.",
     mediaLabel: "Quatre états de preuve",
     figure: {
       kind: "diagram",
@@ -169,39 +153,24 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
     question: "What evidence links a medical evaluation to its datasets?",
     kicker: "Personal research · Python · dataset provenance",
     summary:
-      "I am developing a research framework for examining dataset evidence in medical-imaging evaluations. The public repository contains the specification, reference code for synthetic cases and a pilot protocol.",
+      "A dataset name in a paper does not identify its version or how it was used in an experiment. MedDataTrace seeks to reconstruct this evidence chain for medical-imaging evaluations.",
     atGlance: {
-      label: "At a glance",
+      label: "Project details",
       entries: [
         {
-          label: "Question",
-          value:
-            "Link an evaluation to a verifiable dataset, version and artifact.",
+          label: "Public artifacts",
+          value: "Specification, reference code and pilot protocol",
         },
         {
-          label: "My work",
-          value:
-            "Evidence-state formalization, Python reference code and pilot preparation.",
-        },
-        {
-          label: "Inspectable",
-          value: "Public code, conformance tests and documents linked below.",
-        },
-        {
-          label: "Current limit",
-          value:
-            "The public pilot is not yet activated; real-data validation remains to be established.",
+          label: "Status",
+          value: "Research in progress · public pilot not yet activated",
         },
       ],
     },
-    understandLabel: "Understand the approach",
     technicalLabel: "Examine the method",
     roleLabel: "My work",
     role: "I work on the specification, reference semantics and reference-admission rules. The goal is to make the evidence needed for a conclusion explicit, including when to abstain.",
     path: "/en/projects/meddatatrace/",
-    contextLabel: "The provenance problem",
-    context:
-      "A dataset name in a paper does not establish its version or how it was used in an experiment. The approach seeks to reconstruct this chain from inspectable sources and artifacts.",
     mediaLabel: "Four evidence states",
     figure: {
       kind: "diagram",

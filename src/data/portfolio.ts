@@ -119,14 +119,11 @@ export interface CaseStudy {
   kicker: string;
   summary: string;
   atGlance: { label: string; entries: { label: string; value: string }[] };
-  understandLabel: string;
   technicalLabel: string;
   role?: string;
   roleLabel?: string;
   relatedProject?: { label: string; href: string };
   path: string;
-  contextLabel: string;
-  context: string;
   mediaLabel: string;
   figure: CaseStudyFigure;
   screenshots?: CaseStudyScreenshots;
@@ -1150,15 +1147,13 @@ const genomintFr: CaseStudy = {
   question: "Interroger un graphe génomique sans écrire de Cypher.",
   kicker: "CIRAD · stage 2026 · système agentique pour graphe génomique",
   summary:
-    "Sur Ganoderma, GenomInt combine dialogue et exploration du graphe. J’ai développé l’agent et le backend de l’explorateur : requêtes Neo4j et API.",
+    "GenomInt aide les biologistes à explorer les données pangénomiques de Ganoderma, par dialogue et navigation dans un graphe Neo4j.",
   atGlance: {
-    label: "En bref",
+    label: "Repères du projet",
     entries: [
-      { label: "Cadre", value: "Stage CIRAD · UMR AGAP · avril–août 2026" },
       {
-        label: "Ma part",
-        value:
-          "Agent Pi · backend de l’explorateur (requêtes Neo4j et API) · sécurité et déploiement",
+        label: "Cadre",
+        value: "Stage CIRAD · UMR AGAP · avril–août 2026",
       },
       {
         label: "Équipe",
@@ -1166,30 +1161,16 @@ const genomintFr: CaseStudy = {
           "Encadrement : Létizia Camus-Kulandaivelu · interface : Théodore de Boisseson",
       },
       {
-        label: "Suite",
+        label: "Accès",
         value:
           "Code fermé · publication scientifique en préparation (co-auteur)",
       },
-      {
-        label: "Livrable",
-        value:
-          "Agent, API de l’explorateur et exports ; captures consultables ci-dessous.",
-      },
-      {
-        label: "À valider",
-        value:
-          "Temps de réponse, pic mémoire, tenue en charge et validation biologique.",
-      },
     ],
   },
-  understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
-  role: "J’ai développé l’agent et le backend du GKG Explorer : requêtes Neo4j, API, parcours et exports. J’ai aussi travaillé sur la sécurité et le déploiement. Théodore de Boisseson a porté l’interface ; nous avons partagé les contrats d’API et l’intégration.",
+  role: "J’ai développé l’agent et le backend du GKG Explorer : requêtes Neo4j, API, parcours et exports. J’ai aussi travaillé sur la sécurité et le déploiement. J’ai partagé les contrats d’API et l’intégration avec le développeur de l’interface.",
   roleLabel: "Périmètre personnel",
   path: "/projets/genomint/",
-  contextLabel: "Contexte et périmètre",
-  context:
-    "Le graphe Neo4j relie génomes, pangènes, transcrits et annotations pour étudier la pathogénie de Ganoderma. L’enjeu : rendre ces données interrogeables par les biologistes.",
   figure: {
     kind: "screenshot",
     title: "Explorer le graphe génomique",
@@ -1327,18 +1308,13 @@ const genomintEn: CaseStudy = {
   question: "Query a genomic graph without writing Cypher.",
   kicker: "CIRAD · 2026 internship · agentic genomics graph workbench",
   summary:
-    "For Ganoderma, GenomInt combines dialogue with graph exploration. I built the agent and the explorer’s backend: Neo4j queries and APIs.",
+    "GenomInt helps biologists explore Ganoderma pangenomic data through dialogue and navigation in a Neo4j graph.",
   atGlance: {
-    label: "At a glance",
+    label: "Project details",
     entries: [
       {
         label: "Setting",
         value: "CIRAD internship · UMR AGAP · April–August 2026",
-      },
-      {
-        label: "My work",
-        value:
-          "Pi agent · graph explorer backend (Neo4j queries and APIs) · security and deployment",
       },
       {
         label: "Team",
@@ -1346,29 +1322,15 @@ const genomintEn: CaseStudy = {
           "Supervisor: Létizia Camus-Kulandaivelu · interface: Théodore de Boisseson",
       },
       {
-        label: "Next",
+        label: "Access",
         value: "Closed code · research paper in preparation (co-author)",
-      },
-      {
-        label: "Deliverable",
-        value:
-          "Agent, explorer APIs and exports; screenshots are available below.",
-      },
-      {
-        label: "To validate",
-        value:
-          "Response time, peak memory, load behavior and biological validation.",
       },
     ],
   },
-  understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
-  role: "I built the agent and the GKG Explorer backend: Neo4j queries, APIs, traversals and exports. I also worked on security and deployment. Théodore de Boisseson led the interface; we shared API contracts and integration.",
+  role: "I built the agent and the GKG Explorer backend: Neo4j queries, APIs, traversals and exports. I also worked on security and deployment. I shared API contracts and integration with the interface developer.",
   roleLabel: "Personal scope",
   path: "/en/projects/genomint/",
-  contextLabel: "Context and scope",
-  context:
-    "The Neo4j graph connects genomes, pangenes, transcripts and annotations to study Ganoderma pathogenicity. The goal: let biologists query this data directly.",
   figure: {
     kind: "screenshot",
     title: "Explore the genomic graph",
@@ -1503,35 +1465,24 @@ const sillageFr: CaseStudy = {
     "Lancer une application ou retrouver un passage dans ses documents.",
   kicker: "Projet Brio · Rust · Linux · open source",
   summary:
-    "Sillage réunit un lanceur natif Slint et un moteur de recherche documentaire installable séparément. Le lanceur ouvre des applications et, après autorisation d’un dossier, retrouve des extraits de fichiers Markdown, DOCX et PDF avec leur ligne ou leur page.",
+    "Sillage permet de lancer une application ou de retrouver un passage dans un dossier autorisé, avec le fichier et la ligne ou la page source. Son moteur de recherche peut être installé sans le lanceur.",
   atGlance: {
-    label: "Le projet en bref",
+    label: "Repères du projet",
     entries: [
-      { label: "Contexte", value: "Projet Brio · anciennement Maestria" },
       {
-        label: "Ma part",
-        value:
-          "Moteur de recherche · ingestion vectorielle · évaluation des documents visuels",
+        label: "Cadre",
+        value: "Projet Brio · anciennement Maestria",
       },
-      { label: "Socle", value: "Rust · Slint · Tantivy · SQLite" },
+      {
+        label: "Socle",
+        value: "Rust · Slint · Tantivy · SQLite",
+      },
       {
         label: "État",
-        value:
-          "Version de développement sur dev/sillage · aucune release publiée",
-      },
-      {
-        label: "Livrable",
-        value:
-          "Lanceur Slint et moteur de recherche séparé ; extraits avec ligne ou page.",
-      },
-      {
-        label: "À valider",
-        value:
-          "Parité de l’interface, performances de la version distribuable et intégration Wayland.",
+        value: "Développement sur dev/sillage · aucune release publiée",
       },
     ],
   },
-  understandLabel: "Comprendre le projet",
   technicalLabel: "Examiner les choix techniques",
   role: "Je contribue au moteur de recherche, au traitement des documents pour l’indexation vectorielle et aux essais d’OCR et de recherche dans les documents visuels.",
   roleLabel: "Mon travail",
@@ -1540,9 +1491,6 @@ const sillageFr: CaseStudy = {
     href: destinations.brio,
   },
   path: "/projets/sillage/",
-  contextLabel: "De Maestria à Sillage",
-  context:
-    "Le travail sur dev/sillage sépare deux usages : lancer des applications au clavier et rechercher dans le contenu de documents. Le moteur peut servir d’autres clients sans installer le lanceur. La CLI, le daemon et Studio restent présents ; l’interface principale du lanceur est désormais native, en Slint.",
   figure: {
     kind: "diagram",
     title: "Activer la recherche documentaire",
@@ -1675,33 +1623,24 @@ const sillageEn: CaseStudy = {
   question: "Launch an application or find a passage in your documents.",
   kicker: "Brio project · Rust · Linux · open source",
   summary:
-    "Sillage combines a native Slint launcher with a separately installable document search engine. The launcher opens applications and, once a folder is approved, retrieves excerpts from Markdown, DOCX and PDF files with their line or page.",
+    "Sillage launches applications and finds passages in an approved folder, with their source file and line or page. Its search engine can be installed without the launcher.",
   atGlance: {
-    label: "At a glance",
+    label: "Project details",
     entries: [
-      { label: "Context", value: "Brio project · formerly Maestria" },
       {
-        label: "My part",
-        value: "Search engine · vector ingestion · visual-document evaluation",
+        label: "Setting",
+        value: "Brio project · formerly Maestria",
       },
-      { label: "Stack", value: "Rust · Slint · Tantivy · SQLite" },
+      {
+        label: "Stack",
+        value: "Rust · Slint · Tantivy · SQLite",
+      },
       {
         label: "Status",
-        value: "Development build on dev/sillage · no published release",
-      },
-      {
-        label: "Deliverable",
-        value:
-          "Slint launcher and separate search engine; excerpts with line or page references.",
-      },
-      {
-        label: "To validate",
-        value:
-          "Interface parity, distributable-build performance and Wayland integration.",
+        value: "Development on dev/sillage · no published release",
       },
     ],
   },
-  understandLabel: "Understand the project",
   technicalLabel: "Examine the technical choices",
   role: "I contribute to the search engine, document processing for vector indexing, and experiments with OCR and visual-document retrieval.",
   roleLabel: "My work",
@@ -1710,9 +1649,6 @@ const sillageEn: CaseStudy = {
     href: destinations.brio,
   },
   path: "/en/projects/sillage/",
-  contextLabel: "From Maestria to Sillage",
-  context:
-    "Work on dev/sillage separates two uses: launching applications from the keyboard and searching document contents. The engine can serve other clients without installing the launcher. The CLI, daemon and Studio remain available; the main launcher interface is now native, built with Slint.",
   figure: {
     kind: "diagram",
     title: "Enable document search",
@@ -1843,34 +1779,24 @@ const encryptedVotingFr: CaseStudy = {
   question: "Comment vérifier un vote sans révéler les choix individuels ?",
   kicker: "Projet universitaire · Java · Spring",
   summary:
-    "Un projet universitaire de vote chiffré en Java et Spring, avec le chiffrement El Gamal et des preuves à connaissance zéro. Le sujet : vérifier les bulletins et décompter les suffrages sans révéler les choix.",
+    "Ce projet universitaire explore la vérification des bulletins et le décompte d’un vote chiffré, sans publier les choix individuels.",
   atGlance: {
-    label: "En bref",
+    label: "Repères du projet",
     entries: [
-      { label: "Cadre", value: "Projet universitaire" },
-      { label: "Technologies", value: "Java · Spring" },
-      { label: "Chiffrement", value: "El Gamal" },
-      { label: "Preuves", value: "Preuves à connaissance zéro" },
       {
-        label: "Périmètre",
-        value:
-          "Chiffrement, preuves et décompte étudiés dans un projet universitaire.",
+        label: "Cadre",
+        value: "Projet universitaire · Java · Spring",
       },
       {
-        label: "Limite",
-        value:
-          "Les repères ci-dessous ne constituent pas un audit de sécurité du protocole.",
+        label: "Accès",
+        value: "Bibliothèque Java publique ; ancienne interface inaccessible",
       },
     ],
   },
-  understandLabel: "Comprendre le sujet",
   technicalLabel: "Examiner le parcours dans le code",
   roleLabel: "Ma contribution",
-  role: "J’ai développé la partie cryptographique et participé au frontend ainsi qu’à l’intégration entre le frontend et le backend. Le dépôt encore accessible contient la bibliothèque cryptographique Java ; l’interface du projet n’est plus accessible.",
+  role: "J’ai développé la partie cryptographique et participé au frontend ainsi qu’à l’intégration entre le frontend et le backend.",
   path: "/projets/encrypted-voting/",
-  contextLabel: "Contexte du projet",
-  context:
-    "Un projet universitaire développé avec Java et Spring, autour de deux exigences : préserver les choix individuels et permettre la vérification des bulletins et du décompte.",
   mediaLabel: "Un schéma pédagogique",
   figure: {
     kind: "diagram",
@@ -1980,34 +1906,24 @@ const encryptedVotingEn: CaseStudy = {
   question: "How can a vote be verified without revealing individual choices?",
   kicker: "University project · Java · Spring",
   summary:
-    "A university project on encrypted voting, built with Java and Spring, using El Gamal encryption and zero-knowledge proofs. Its subject: verifying ballots and tallying votes without revealing individual choices.",
+    "This university project explores ballot verification and encrypted vote tallying without publishing individual choices.",
   atGlance: {
-    label: "At a glance",
+    label: "Project details",
     entries: [
-      { label: "Setting", value: "University project" },
-      { label: "Technologies", value: "Java · Spring" },
-      { label: "Encryption", value: "El Gamal" },
-      { label: "Proofs", value: "Zero-knowledge proofs" },
       {
-        label: "Scope",
-        value:
-          "Encryption, proofs and tallying explored in a university project.",
+        label: "Setting",
+        value: "University project · Java · Spring",
       },
       {
-        label: "Limit",
-        value:
-          "The concepts below do not constitute a security audit of the protocol.",
+        label: "Access",
+        value: "Public Java library; original interface no longer accessible",
       },
     ],
   },
-  understandLabel: "Understand the subject",
   technicalLabel: "Explore the conceptual map",
   roleLabel: "My contribution",
-  role: "I developed the cryptographic part and contributed to the frontend and frontend/backend integration. The accessible repository contains the Java cryptography library; the original project interface is no longer accessible.",
+  role: "I developed the cryptographic part and contributed to the frontend and frontend/backend integration.",
   path: "/en/projects/encrypted-voting/",
-  contextLabel: "Project context",
-  context:
-    "A university project built with Java and Spring, around two requirements: keeping individual choices private and allowing ballots and the tally to be verified.",
   mediaLabel: "A teaching diagram",
   figure: {
     kind: "diagram",
@@ -2116,36 +2032,22 @@ const nacreFr: CaseStudy = {
   question: "Comment compiler un langage à syntaxe Java sans JVM ?",
   kicker: "Compilateur natif expérimental · Rust · Linux · alpha",
   summary:
-    "Nacre est un compilateur alpha de langage natif pour Linux, implémenté en Rust avec une syntaxe proche de Java. Le chemin par défaut génère du C11 puis s’appuie sur GCC ou Clang ; un backend LLVM direct est également disponible en option.",
+    "Nacre compile un langage à syntaxe proche de Java en exécutables natifs Linux, sans JVM. Deux voies sont disponibles : génération de C11 ou backend LLVM direct.",
   atGlance: {
-    label: "Le projet en bref",
+    label: "Repères du projet",
     entries: [
-      { label: "Nature", value: "Compilateur natif expérimental · alpha" },
       {
-        label: "Implémentation",
-        value: "Rust · syntaxe source proche de Java",
-      },
-      { label: "Backend par défaut", value: "C11 → GCC ou Clang" },
-      { label: "Autre backend", value: "LLVM direct en option" },
-      { label: "Cible", value: "Linux · pré-1.0" },
-      {
-        label: "Livrable",
-        value:
-          "Compilateur Linux, bibliothèque standard et exemples exécutables.",
+        label: "Socle",
+        value: "Rust · runtime C · Linux",
       },
       {
-        label: "Limite",
-        value:
-          "Alpha pré-1.0 : compatibilité non garantie, programmes non sandboxés.",
+        label: "État",
+        value: "Alpha pré-1.0 · aucune compatibilité garantie entre versions",
       },
     ],
   },
-  understandLabel: "Comprendre le compilateur",
   technicalLabel: "Examiner les choix techniques",
   path: "/projets/nacre/",
-  contextLabel: "Deux voies vers un exécutable natif",
-  context:
-    "La voie habituelle traduit le programme en C11 avant l’édition de liens native. L’option --direct émet le LLVM des fonctions utilisateur et de main ; le runtime C et les éléments de bibliothèque nécessaires restent compilés séparément puis liés au module LLVM.",
   mediaLabel: "Des sources à l’exécutable",
   figure: {
     kind: "diagram",
@@ -2239,32 +2141,22 @@ const nacreEn: CaseStudy = {
   question: "How do you compile a Java-like language without a JVM?",
   kicker: "Experimental native compiler · Rust · Linux · alpha",
   summary:
-    "Nacre is an alpha native-language compiler for Linux, implemented in Rust with Java-like syntax. Its default path generates C11 and uses GCC or Clang; an optional direct LLVM backend is also available.",
+    "Nacre compiles a Java-like language into native Linux executables without a JVM. It provides two routes: C11 generation or a direct LLVM backend.",
   atGlance: {
-    label: "At a glance",
+    label: "Project details",
     entries: [
-      { label: "Project", value: "Experimental native compiler · alpha" },
-      { label: "Implementation", value: "Rust · Java-like source syntax" },
-      { label: "Default backend", value: "C11 → GCC or Clang" },
-      { label: "Alternative backend", value: "Optional direct LLVM" },
-      { label: "Target", value: "Linux · pre-1.0" },
       {
-        label: "Deliverable",
-        value: "Linux compiler, standard library and runnable examples.",
+        label: "Stack",
+        value: "Rust · C runtime · Linux",
       },
       {
-        label: "Limit",
-        value:
-          "Pre-1.0 alpha: compatibility is not guaranteed; programs are not sandboxed.",
+        label: "Status",
+        value: "Pre-1.0 alpha · no cross-version compatibility guarantee",
       },
     ],
   },
-  understandLabel: "Understand the compiler",
   technicalLabel: "Examine the technical choices",
   path: "/en/projects/nacre/",
-  contextLabel: "Two routes to a native executable",
-  context:
-    "The usual route translates the program to C11 before native linking. The --direct option emits LLVM for user functions and main; the C runtime and required library support are still compiled separately and linked with the LLVM module.",
   mediaLabel: "From source to executable",
   figure: {
     kind: "diagram",

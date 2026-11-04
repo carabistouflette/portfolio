@@ -171,188 +171,205 @@ const bookTitles = fr
     {content.projects.heading}
   </h2>
   <div class="projects-grid">
-    {content.projects.entries.map((project) => {
+    {content.projects.entries.map((project, index) => {
       const Surface = project.url ? "a" : "div";
+      const Heading = index < 3 ? "h3" : "h4";
       return (
-        <article
-          id={`project-${project.id}`}
-          class:list={["project-tile", `tile-${project.id}`]}
-          tabindex="-1"
-        >
-          <Surface
-            class="tile-surface"
-            href={project.url}
-            aria-label={project.url ? project.title : undefined}
-            aria-describedby={`project-${project.id}-description project-${project.id}-tools project-${project.id}-concepts${project.status ? ` project-${project.id}-status` : ""}`}
+        <Fragment>
+          {index === 3 && (
+            <h3 class="complementary-heading">
+              {content.projects.otherHeading}
+            </h3>
+          )}
+          <article
+            id={`project-${project.id}`}
+            class:list={[
+              "project-tile",
+              `tile-${project.id}`,
+              { "project-featured": index < 3 },
+            ]}
+            tabindex="-1"
           >
-            <span class="tile-mark" aria-hidden="true">
-              {project.url ? "↗" : "◇"}
-            </span>
-            {project.id === "genomint" && (
-              <div class="tile-art graph-art" aria-hidden="true">
-                <svg
-                  data-project-graph
-                  viewBox="0 0 510 720"
-                  preserveAspectRatio="xMidYMid slice"
-                  focusable="false"
-                >
-                  <defs>
-                    <mask
-                      id="project-graph-links"
-                      maskUnits="userSpaceOnUse"
-                      x="0"
-                      y="0"
-                      width="510"
-                      height="720"
-                    >
-                      <rect width="510" height="720" fill="white" />
-                      {nodes.map(([x, y, radius]) => (
-                        <circle cx={x} cy={y} r={radius + 4} fill="black" />
-                      ))}
-                    </mask>
-                  </defs>
-                  <g class="graph-edges" mask="url(#project-graph-links)">
-                    {edges.map(([a, b]) => (
-                      <line
-                        x1={nodes[a][0]}
-                        y1={nodes[a][1]}
-                        x2={nodes[b][0]}
-                        y2={nodes[b][1]}
-                        stroke={nodes[a][4]}
-                        vector-effect="non-scaling-stroke"
-                      />
-                    ))}
-                  </g>
-                  {nodes.map(([x, y, radius, label, color]) => (
-                    <g
-                      class="graph-node"
-                      data-x={x}
-                      data-y={y}
-                      style={`--node-color: ${color}`}
-                    >
-                      <circle class="node-halo" cx={x} cy={y} r={radius + 9} />
-                      <circle class="node-core" cx={x} cy={y} r={radius} />
-                      <text
-                        class="node-label"
-                        x={x}
-                        y={y + radius + 15}
-                        text-anchor="middle"
+            <Surface
+              class="tile-surface"
+              href={project.url}
+              aria-label={project.url ? project.title : undefined}
+              aria-describedby={`project-${project.id}-description project-${project.id}-tools project-${project.id}-concepts${project.status ? ` project-${project.id}-status` : ""}`}
+            >
+              <span class="tile-mark" aria-hidden="true">
+                {project.url ? "↗" : "◇"}
+              </span>
+              {project.id === "genomint" && (
+                <div class="tile-art graph-art" aria-hidden="true">
+                  <svg
+                    data-project-graph
+                    viewBox="0 0 510 720"
+                    preserveAspectRatio="xMidYMid slice"
+                    focusable="false"
+                  >
+                    <defs>
+                      <mask
+                        id="project-graph-links"
+                        maskUnits="userSpaceOnUse"
+                        x="0"
+                        y="0"
+                        width="510"
+                        height="720"
                       >
-                        {label}
-                      </text>
+                        <rect width="510" height="720" fill="white" />
+                        {nodes.map(([x, y, radius]) => (
+                          <circle cx={x} cy={y} r={radius + 4} fill="black" />
+                        ))}
+                      </mask>
+                    </defs>
+                    <g class="graph-edges" mask="url(#project-graph-links)">
+                      {edges.map(([a, b]) => (
+                        <line
+                          x1={nodes[a][0]}
+                          y1={nodes[a][1]}
+                          x2={nodes[b][0]}
+                          y2={nodes[b][1]}
+                          stroke={nodes[a][4]}
+                          vector-effect="non-scaling-stroke"
+                        />
+                      ))}
                     </g>
-                  ))}
-                </svg>
-              </div>
-            )}
-            {project.id === "sillage" && (
-              <div class="tile-art library-art" aria-hidden="true">
-                {[0, 1, 2, 3].map((row) => (
-                  <div class="bookshelf">
-                    {Array.from({ length: 12 }, (_, column) => {
-                      const i = row * 12 + column;
-                      return (
-                        <span
-                          class:list={[
-                            "library-book",
-                            `binding-${(column * 5 + row * 2 + Math.floor(column / 3)) % 6}`,
-                          ]}
-                          style={`--book-height: ${72 + ((i * 13) % 27)}%; --book-width: ${7 + ((i * 7) % 9)}`}
+                    {nodes.map(([x, y, radius, label, color]) => (
+                      <g
+                        class="graph-node"
+                        data-x={x}
+                        data-y={y}
+                        style={`--node-color: ${color}`}
+                      >
+                        <circle
+                          class="node-halo"
+                          cx={x}
+                          cy={y}
+                          r={radius + 9}
+                        />
+                        <circle class="node-core" cx={x} cy={y} r={radius} />
+                        <text
+                          class="node-label"
+                          x={x}
+                          y={y + radius + 15}
+                          text-anchor="middle"
                         >
-                          <span class="book-volume">
-                            <span class="book-spine">
-                              <span class="book-title">
-                                {
-                                  bookTitles[
-                                    (column + row * 3) % bookTitles.length
-                                  ]
-                                }
+                          {label}
+                        </text>
+                      </g>
+                    ))}
+                  </svg>
+                </div>
+              )}
+              {project.id === "sillage" && (
+                <div class="tile-art library-art" aria-hidden="true">
+                  {[0, 1, 2, 3].map((row) => (
+                    <div class="bookshelf">
+                      {Array.from({ length: 12 }, (_, column) => {
+                        const i = row * 12 + column;
+                        return (
+                          <span
+                            class:list={[
+                              "library-book",
+                              `binding-${(column * 5 + row * 2 + Math.floor(column / 3)) % 6}`,
+                            ]}
+                            style={`--book-height: ${72 + ((i * 13) % 27)}%; --book-width: ${7 + ((i * 7) % 9)}`}
+                          >
+                            <span class="book-volume">
+                              <span class="book-spine">
+                                <span class="book-title">
+                                  {
+                                    bookTitles[
+                                      (column + row * 3) % bookTitles.length
+                                    ]
+                                  }
+                                </span>
+                                <span class="book-imprint">
+                                  {fr ? "études" : "essays"}
+                                </span>
                               </span>
-                              <span class="book-imprint">
-                                {fr ? "études" : "essays"}
+                              <span class="book-cover">
+                                <span class="cover-series">
+                                  {fr
+                                    ? "Bibliothèque des idées"
+                                    : "Library of ideas"}
+                                </span>
+                                <span class="cover-title">
+                                  {
+                                    bookTitles[
+                                      (column + row * 3) % bookTitles.length
+                                    ]
+                                  }
+                                </span>
+                                <span class="cover-rule"></span>
                               </span>
+                              <span class="book-pages"></span>
                             </span>
-                            <span class="book-cover">
-                              <span class="cover-series">
-                                {fr
-                                  ? "Bibliothèque des idées"
-                                  : "Library of ideas"}
-                              </span>
-                              <span class="cover-title">
-                                {
-                                  bookTitles[
-                                    (column + row * 3) % bookTitles.length
-                                  ]
-                                }
-                              </span>
-                              <span class="cover-rule"></span>
-                            </span>
-                            <span class="book-pages"></span>
                           </span>
-                        </span>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
+              {project.id === "nacre" && (
+                <div class="tile-art compiler-art" aria-hidden="true">
+                  <div class="compiler-source">
+                    <span class="compiler-file">hello.ncr</span>
+                    <code>
+                      <span>void</span>
+                      {' main() {\n  println("Hello, native.");\n}'}
+                    </code>
                   </div>
-                ))}
-              </div>
-            )}
-            {project.id === "nacre" && (
-              <div class="tile-art compiler-art" aria-hidden="true">
-                <div class="compiler-source">
-                  <span class="compiler-file">hello.ncr</span>
-                  <code>
-                    <span>void</span>
-                    {' main() {\n  println("Hello, native.");\n}'}
-                  </code>
+                  <div class="compiler-path">
+                    <span>Nacre</span>
+                    <i>↓</i>
+                    <span>C11</span>
+                    <i>↓</i>
+                    <span class="compiler-native">
+                      1010<span>native</span>0110
+                    </span>
+                  </div>
                 </div>
-                <div class="compiler-path">
-                  <span>Nacre</span>
-                  <i>↓</i>
-                  <span>C11</span>
-                  <i>↓</i>
-                  <span class="compiler-native">
-                    1010<span>native</span>0110
-                  </span>
-                </div>
-              </div>
-            )}
-            {(project.id === "meddatatrace" ||
-              project.id === "encrypted-voting" ||
-              project.id === "justsyncit") && (
-              <ProjectScene kind={project.id} locale={locale} />
-            )}
-            <div class="tile-copy">
-              <h3>{project.title}</h3>
-              <ul id={`project-${project.id}-tools`} class="tile-tools">
-                {projectTools[project.id].map((name) => (
-                  <li title={name}>
-                    <span class="sr-only">{name}</span>
-                    <ToolIcon name={name} />
-                  </li>
-                ))}
-              </ul>
-              <p
-                id={`project-${project.id}-description`}
-                class="tile-description"
-              >
-                {project.description}
-              </p>
-              {project.status && (
-                <p id={`project-${project.id}-status`} class="tile-status">
-                  {project.status}
+              )}
+              {(project.id === "meddatatrace" ||
+                project.id === "encrypted-voting" ||
+                project.id === "justsyncit") && (
+                <ProjectScene kind={project.id} locale={locale} />
+              )}
+              <div class="tile-copy">
+                <Heading>{project.title}</Heading>
+                <ul id={`project-${project.id}-tools`} class="tile-tools">
+                  {projectTools[project.id].map((name) => (
+                    <li title={name}>
+                      <span class="sr-only">{name}</span>
+                      <ToolIcon name={name} />
+                    </li>
+                  ))}
+                </ul>
+                <p
+                  id={`project-${project.id}-description`}
+                  class="tile-description"
+                >
+                  {project.description}
                 </p>
-              )}
-              <p id={`project-${project.id}-concepts`} class="tile-concepts">
-                {projectConcepts[project.id].join(" · ")}
-              </p>
-              {project.linkLabel && (
-                <span class="tile-link" aria-hidden="true">
-                  {project.linkLabel} →
-                </span>
-              )}
-            </div>
-          </Surface>
-        </article>
+                {project.status && (
+                  <p id={`project-${project.id}-status`} class="tile-status">
+                    {project.status}
+                  </p>
+                )}
+                <p id={`project-${project.id}-concepts`} class="tile-concepts">
+                  {projectConcepts[project.id].join(" · ")}
+                </p>
+                {project.linkLabel && (
+                  <span class="tile-link" aria-hidden="true">
+                    {project.linkLabel} →
+                  </span>
+                )}
+              </div>
+            </Surface>
+          </article>
+        </Fragment>
       );
     })}
   </div>
@@ -433,9 +450,20 @@ const bookTitles = fr
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: minmax(28rem, auto) minmax(25rem, auto);
+    grid-auto-rows: auto;
     gap: 1rem;
     height: auto;
+  }
+  .complementary-heading {
+    grid-column: 1 / -1;
+    margin-top: 2rem;
+    margin-bottom: 0.25rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-muted);
+  }
+  .project-featured {
+    min-height: 28rem;
   }
   .project-tile {
     position: relative;
@@ -802,7 +830,7 @@ const bookTitles = fr
   .tile-sillage .tile-copy {
     pointer-events: none;
   }
-  .tile-copy h3 {
+  .tile-copy :is(h3, h4) {
     font-family: var(--font-display);
     font-size: clamp(1.6rem, 2.6vw, 2.8rem);
     font-weight: 700;
@@ -843,8 +871,8 @@ const bookTitles = fr
     width: 1.5rem;
     height: 1.5rem;
   }
-  .tile-encrypted-voting h3,
-  .tile-justsyncit h3 {
+  .tile-encrypted-voting :is(h3, h4),
+  .tile-justsyncit :is(h3, h4) {
     font-size: 1.5rem;
   }
   .tile-encrypted-voting .tile-description,
@@ -960,10 +988,11 @@ const bookTitles = fr
     .projects-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       grid-template-rows: none;
-      grid-auto-rows: minmax(26rem, auto);
+      grid-auto-rows: auto;
       height: auto;
     }
     .project-tile {
+      min-height: 26rem;
       grid-column: auto;
     }
     .tile-nacre {
@@ -1058,7 +1087,7 @@ const bookTitles = fr
     .book-title {
       font-size: 0.55rem;
     }
-    .tile-copy h3 {
+    .tile-copy :is(h3, h4) {
       font-size: 1.6rem;
     }
     .tile-tools {
@@ -1074,8 +1103,8 @@ const bookTitles = fr
       line-height: 1.45;
       margin-top: 0.5rem;
     }
-    .tile-encrypted-voting h3,
-    .tile-justsyncit h3 {
+    .tile-encrypted-voting :is(h3, h4),
+    .tile-justsyncit :is(h3, h4) {
       font-size: 1.25rem;
     }
     .tile-encrypted-voting .tile-description,
