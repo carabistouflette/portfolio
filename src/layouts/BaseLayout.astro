@@ -3,7 +3,11 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import ButterflyBackground from "../components/ButterflyBackground.astro";
 import SiteHeader from "../components/SiteHeader.astro";
-import type { Locale, PortfolioContent } from "../data/portfolio";
+import {
+  destinations,
+  type Locale,
+  type PortfolioContent,
+} from "../data/portfolio";
 
 interface Props {
   locale: Locale;
@@ -11,6 +15,7 @@ interface Props {
   canonicalPath: string;
   alternatePaths?: { fr: string; en: string };
   meta?: { title: string; description: string };
+  noindex?: boolean;
 }
 
 const {
@@ -19,6 +24,7 @@ const {
   canonicalPath,
   alternatePaths = { fr: "/", en: "/en/" },
   meta = content.meta,
+  noindex = false,
 } = Astro.props;
 const canonicalUrl = new URL(canonicalPath, "https://alexisrob.in").toString();
 const frenchUrl = new URL(alternatePaths.fr, "https://alexisrob.in").toString();
@@ -32,7 +38,13 @@ const socialImage = new URL(
 ).toString();
 const socialLocale = locale === "fr" ? "fr_FR" : "en_US";
 const homePath = locale === "fr" ? "/" : "/en/";
-const pageTitle = canonicalPath === homePath ? content.hero.title : meta.title;
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: content.hero.title,
+  url: "https://alexisrob.in/",
+  sameAs: [destinations.github, destinations.linkedin],
+};
 ---
 
 <!doctype html>
@@ -71,7 +83,14 @@ const pageTitle = canonicalPath === homePath ? content.hero.title : meta.title;
     <link rel="alternate" hreflang="fr" href={frenchUrl} />
     <link rel="alternate" hreflang="en" href={englishUrl} />
     <link rel="alternate" hreflang="x-default" href={frenchUrl} />
-    <title>{pageTitle}</title>
+    <title>{meta.title}</title>
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    {canonicalPath === homePath && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(person).replace(/</g, "\\u003c")}
+      ></script>
+    )}
     <ClientRouter fallback="swap" />
   </head>
   <body>

@@ -84,7 +84,11 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
       <ol
         class:list={[
           "relative grid gap-8",
-          { "md:grid-cols-3 md:gap-10": !compact },
+          {
+            "md:grid-cols-3 md:gap-10":
+              !compact && (figure.nodes?.length ?? 0) !== 4,
+            "sm:grid-cols-2 sm:gap-10": !compact && figure.nodes?.length === 4,
+          },
         ]}
       >
         {(figure.nodes ?? []).map((node, index) => (

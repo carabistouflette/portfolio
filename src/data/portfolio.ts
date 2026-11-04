@@ -1,3 +1,5 @@
+import { meddatatrace } from "./meddatatrace";
+
 export type Locale = "fr" | "en";
 
 export type ProjectId =
@@ -7,7 +9,8 @@ export type ProjectId =
   | "nacre"
   | "encrypted-voting"
   | "justsyncit";
-export type CaseStudyId = "genomint" | "sillage" | "nacre" | "encrypted-voting";
+export type CaseStudyId =
+  "genomint" | "meddatatrace" | "sillage" | "nacre" | "encrypted-voting";
 
 export interface Project {
   id: ProjectId;
@@ -266,7 +269,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — IA & systèmes de données",
       description:
-        "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, lanceur Linux et recherche documentaire avec Sillage, contributions Rust à SteelMC.",
+        "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, lanceur Linux et recherche documentaire avec Sillage, recherche MedDataTrace et contributions Rust à SteelMC.",
     },
     skipLink: "Aller au contenu principal",
     navigation: {
@@ -324,8 +327,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Je développe un cadre de recherche pour retracer les preuves sur les jeux de données utilisés dans les évaluations en imagerie médicale : spécification, sémantique de référence en Python et protocole pilote.",
           technologies:
             "Python · Recherche reproductible · Provenance des données",
-          url: "https://github.com/carabistouflette/MedDataTrace",
-          linkLabel: "Explorer le dépôt de recherche",
+          url: "/projets/meddatatrace/",
+          linkLabel: "Lire le dossier",
           status:
             "Recherche en cours · validation sur données réelles à établir.",
         },
@@ -703,7 +706,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — AI & data systems",
       description:
-        "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, Linux launcher and document search with Sillage, Rust contributions to SteelMC.",
+        "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, Linux launcher and document search with Sillage, MedDataTrace research and Rust contributions to SteelMC.",
     },
     skipLink: "Skip to main content",
     navigation: {
@@ -760,8 +763,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "I am developing a research framework to trace evidence about datasets used in medical-imaging evaluations: a specification, Python reference semantics and a pilot protocol.",
           technologies: "Python · Reproducible research · Dataset provenance",
-          url: "https://github.com/carabistouflette/MedDataTrace",
-          linkLabel: "Explore the research repository",
+          url: "/en/projects/meddatatrace/",
+          linkLabel: "Read the case study",
           status:
             "Research in progress · real-data validation remains to be established.",
         },
@@ -1158,6 +1161,16 @@ const genomintFr: CaseStudy = {
         value:
           "Code fermé · publication scientifique en préparation (co-auteur)",
       },
+      {
+        label: "Livrable",
+        value:
+          "Agent, API de l’explorateur et exports ; captures consultables ci-dessous.",
+      },
+      {
+        label: "À valider",
+        value:
+          "Temps de réponse, pic mémoire, tenue en charge et validation biologique.",
+      },
     ],
   },
   understandLabel: "Comprendre le projet",
@@ -1327,6 +1340,16 @@ const genomintEn: CaseStudy = {
         label: "Next",
         value: "Closed code · research paper in preparation (co-author)",
       },
+      {
+        label: "Deliverable",
+        value:
+          "Agent, explorer APIs and exports; screenshots are available below.",
+      },
+      {
+        label: "To validate",
+        value:
+          "Response time, peak memory, load behavior and biological validation.",
+      },
     ],
   },
   understandLabel: "Understand the project",
@@ -1487,6 +1510,16 @@ const sillageFr: CaseStudy = {
         value:
           "Version de développement sur dev/sillage · aucune release publiée",
       },
+      {
+        label: "Livrable",
+        value:
+          "Lanceur Slint et moteur de recherche séparé ; extraits avec ligne ou page.",
+      },
+      {
+        label: "À valider",
+        value:
+          "Parité de l’interface, performances de la version distribuable et intégration Wayland.",
+      },
     ],
   },
   understandLabel: "Comprendre le projet",
@@ -1610,6 +1643,16 @@ const sillageEn: CaseStudy = {
         label: "Status",
         value: "Development build on dev/sillage · no published release",
       },
+      {
+        label: "Deliverable",
+        value:
+          "Slint launcher and separate search engine; excerpts with line or page references.",
+      },
+      {
+        label: "To validate",
+        value:
+          "Interface parity, distributable-build performance and Wayland integration.",
+      },
     ],
   },
   understandLabel: "Understand the project",
@@ -1725,6 +1768,16 @@ const encryptedVotingFr: CaseStudy = {
       { label: "Technologies", value: "Java · Spring" },
       { label: "Chiffrement", value: "El Gamal" },
       { label: "Preuves", value: "Preuves à connaissance zéro" },
+      {
+        label: "Périmètre",
+        value:
+          "Chiffrement, preuves et décompte étudiés dans un projet universitaire.",
+      },
+      {
+        label: "Limite",
+        value:
+          "Les repères ci-dessous ne constituent pas un audit de sécurité du protocole.",
+      },
     ],
   },
   understandLabel: "Comprendre le sujet",
@@ -1803,6 +1856,16 @@ const encryptedVotingEn: CaseStudy = {
       { label: "Technologies", value: "Java · Spring" },
       { label: "Encryption", value: "El Gamal" },
       { label: "Proofs", value: "Zero-knowledge proofs" },
+      {
+        label: "Scope",
+        value:
+          "Encryption, proofs and tallying explored in a university project.",
+      },
+      {
+        label: "Limit",
+        value:
+          "The concepts below do not constitute a security audit of the protocol.",
+      },
     ],
   },
   understandLabel: "Understand the subject",
@@ -1884,6 +1947,16 @@ const nacreFr: CaseStudy = {
       { label: "Backend par défaut", value: "C11 → GCC ou Clang" },
       { label: "Autre backend", value: "LLVM direct en option" },
       { label: "Cible", value: "Linux · pré-1.0" },
+      {
+        label: "Livrable",
+        value:
+          "Compilateur Linux, bibliothèque standard et exemples exécutables.",
+      },
+      {
+        label: "Limite",
+        value:
+          "Alpha pré-1.0 : compatibilité non garantie, programmes non sandboxés.",
+      },
     ],
   },
   understandLabel: "Comprendre le compilateur",
@@ -1994,6 +2067,15 @@ const nacreEn: CaseStudy = {
       { label: "Default backend", value: "C11 → GCC or Clang" },
       { label: "Alternative backend", value: "Optional direct LLVM" },
       { label: "Target", value: "Linux · pre-1.0" },
+      {
+        label: "Deliverable",
+        value: "Linux compiler, standard library and runnable examples.",
+      },
+      {
+        label: "Limit",
+        value:
+          "Pre-1.0 alpha: compatibility is not guaranteed; programs are not sandboxed.",
+      },
     ],
   },
   understandLabel: "Understand the compiler",
@@ -2093,12 +2175,14 @@ const nacreEn: CaseStudy = {
 export const caseStudies: Record<Locale, Record<CaseStudyId, CaseStudy>> = {
   fr: {
     genomint: genomintFr,
+    meddatatrace: meddatatrace.fr,
     sillage: sillageFr,
     nacre: nacreFr,
     "encrypted-voting": encryptedVotingFr,
   },
   en: {
     genomint: genomintEn,
+    meddatatrace: meddatatrace.en,
     sillage: sillageEn,
     nacre: nacreEn,
     "encrypted-voting": encryptedVotingEn,

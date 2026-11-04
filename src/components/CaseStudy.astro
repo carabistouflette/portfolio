@@ -35,7 +35,7 @@ const counterpartPath =
 
 <main id="main">
   <article class="content-shell pb-20 pt-10 sm:pb-28 sm:pt-16">
-    <header class="max-w-5xl">
+    <header class="@container max-w-5xl">
       <a class="text-link text-sm text-muted underline" href={homePath}>
         <span class="mr-2" aria-hidden="true">
           ←
@@ -54,7 +54,17 @@ const counterpartPath =
           </span>
         </a>
       )}
-      <h1 id="case-study-title" class="page-title max-w-4xl text-balance">
+      <h1
+        id="case-study-title"
+        class:list={[
+          "page-title max-w-4xl text-balance",
+          {
+            "case-title-long": study.title
+              .split(/\s+/)
+              .some((word) => word.length > 10),
+          },
+        ]}
+      >
         {study.title}
       </h1>
       <h2 class="subsection-title mt-8 max-w-4xl text-balance">
@@ -144,7 +154,14 @@ const counterpartPath =
       </div>
     </section>
 
-    <div id="case-sections" class="mt-16 sm:mt-24">
+    <section
+      id="case-sections"
+      class="mt-16 sm:mt-24"
+      aria-labelledby="case-decisions-title"
+    >
+      <h2 id="case-decisions-title" class="subsection-title mb-6">
+        {study.technicalLabel}
+      </h2>
       <ol class="m-0 list-none p-0">
         {study.sections.map((section, index) => (
           <li
@@ -174,7 +191,7 @@ const counterpartPath =
           </li>
         ))}
       </ol>
-    </div>
+    </section>
 
     {study.sources && (
       <div
@@ -232,3 +249,9 @@ const counterpartPath =
     </footer>
   </article>
 </main>
+
+<style>
+  .case-title-long {
+    font-size: min(clamp(3rem, 6vw, 5rem), 12cqi);
+  }
+</style>

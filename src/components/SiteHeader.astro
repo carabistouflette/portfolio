@@ -77,8 +77,10 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
         aria-label={content.localeLabel}
       >
         <a
-          class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+          class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
           href={alternatePaths.fr}
+          lang="fr"
+          hreflang="fr"
           aria-current={locale === "fr" ? "page" : undefined}
         >
           {content.localeSwitch.fr}
@@ -87,8 +89,10 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
           /
         </span>
         <a
-          class="inline-flex min-h-9 items-center justify-center px-1 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
+          class="inline-flex min-h-11 min-w-11 items-center justify-center px-2 text-muted no-underline hover:text-paper hover:underline focus-visible:text-paper focus-visible:underline aria-[current=page]:text-paper aria-[current=page]:underline"
           href={alternatePaths.en}
+          lang="en"
+          hreflang="en"
           aria-current={locale === "en" ? "page" : undefined}
         >
           {content.localeSwitch.en}
