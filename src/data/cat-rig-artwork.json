@@ -1,0 +1,82 @@
+{
+  "character": {
+    "width": 981,
+    "height": 1204
+  },
+  "atlas": {
+    "width": 981,
+    "height": 1616
+  },
+  "layers": {
+    "body": {
+      "placement": {
+        "x": 0,
+        "y": 0,
+        "width": 981,
+        "height": 1204
+      },
+      "atlas": {
+        "x": 0,
+        "y": 0,
+        "width": 981,
+        "height": 1204
+      }
+    },
+    "leg": {
+      "placement": {
+        "x": 30,
+        "y": 582,
+        "width": 400,
+        "height": 320
+      },
+      "atlas": {
+        "x": 0,
+        "y": 1204,
+        "width": 400,
+        "height": 320
+      }
+    },
+    "collar": {
+      "placement": {
+        "x": 310,
+        "y": 582,
+        "width": 400,
+        "height": 400
+      },
+      "atlas": {
+        "x": 420,
+        "y": 1204,
+        "width": 400,
+        "height": 400
+      }
+    }
+  },
+  "bones": {
+    "root": {
+      "x": 342,
+      "y": 662
+    },
+    "elbow": {
+      "x": 262,
+      "y": 710
+    },
+    "wrist": {
+      "x": 166,
+      "y": 750
+    },
+    "tip": {
+      "x": 110,
+      "y": 754
+    }
+  },
+  "restPose": {
+    "shoulder": -1.6,
+    "elbow": 0,
+    "wrist": 0
+  },
+  "images": {
+    "atlas": "/images/cat-rig-atlas-d5c19d5f4f74fc01.webp",
+    "rest": "/images/cat-rig-rest-07c49cef36bb7ae1.webp",
+    "rest640": "/images/cat-rig-rest-640-d44d345917088717.webp"
+  }
+}

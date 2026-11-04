@@ -5,6 +5,7 @@ import {
   type ProjectId,
 } from "../data/portfolio";
 import ToolIcon from "./ToolIcon.astro";
+import ProjectScene from "./ProjectScene.astro";
 
 interface Props {
   content: PortfolioContent;
@@ -12,21 +13,6 @@ interface Props {
 }
 const { content, locale } = Astro.props;
 const fr = locale === "fr";
-const descriptions = fr
-  ? {
-      genomint: "Explorer la pangénomie.",
-      sillage: "Lancer des apps, retrouver un passage.",
-      nacre: "Une syntaxe familière, un exécutable natif.",
-      "encrypted-voting": "Vérifier sans révéler les votes.",
-      justsyncit: "Sauvegarder, dédupliquer, restaurer.",
-    }
-  : {
-      genomint: "Explore pangenomics.",
-      sillage: "Launch apps, find a passage.",
-      nacre: "Familiar syntax, native executables.",
-      "encrypted-voting": "Verify without revealing votes.",
-      justsyncit: "Back up, deduplicate, restore.",
-    };
 const projectTools: Record<ProjectId, string[]> = {
   genomint: [
     "Python",
@@ -39,6 +25,7 @@ const projectTools: Record<ProjectId, string[]> = {
     "Docker",
     "Linux",
   ],
+  meddatatrace: ["Python"],
   sillage: ["Rust", "Slint", "Tantivy", "SQLite", "Tokio"],
   nacre: ["Rust", "C", "Linux"],
   "encrypted-voting": ["Java", "Spring Boot"],
@@ -47,6 +34,7 @@ const projectTools: Record<ProjectId, string[]> = {
 const projectConcepts: Record<ProjectId, string[]> = fr
   ? {
       genomint: ["Pangénomie", "Graphes", "Agent IA"],
+      meddatatrace: ["Imagerie médicale", "Provenance", "Reproductibilité"],
       sillage: ["Lanceur Linux", "Recherche locale", "Extraits sourcés"],
       nacre: ["Compilateur", "Ownership", "Sans GC"],
       "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
@@ -54,6 +42,7 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     }
   : {
       genomint: ["Pangenomics", "Graphs", "AI agent"],
+      meddatatrace: ["Medical imaging", "Provenance", "Reproducibility"],
       sillage: ["Linux launcher", "Local search", "Cited excerpts"],
       nacre: ["Compiler", "Ownership", "No GC"],
       "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
@@ -194,7 +183,7 @@ const bookTitles = fr
             class="tile-surface"
             href={project.url}
             aria-label={project.url ? project.title : undefined}
-            aria-describedby={`project-${project.id}-description project-${project.id}-tools project-${project.id}-concepts`}
+            aria-describedby={`project-${project.id}-description project-${project.id}-tools project-${project.id}-concepts${project.status ? ` project-${project.id}-status` : ""}`}
           >
             <span class="tile-mark" aria-hidden="true">
               {project.url ? "↗" : "◇"}
@@ -327,20 +316,10 @@ const bookTitles = fr
                 </div>
               </div>
             )}
-            {project.id === "encrypted-voting" && (
-              <div class="ballot-art" aria-hidden="true">
-                <span class="ballot-paper">✓</span>
-                <span class="ballot-slot"></span>
-                <span class="ballot-proof">∑ / ≠</span>
-              </div>
-            )}
-            {project.id === "justsyncit" && (
-              <div class="sync-art" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-                <i>↻</i>
-              </div>
+            {(project.id === "meddatatrace" ||
+              project.id === "encrypted-voting" ||
+              project.id === "justsyncit") && (
+              <ProjectScene kind={project.id} locale={locale} />
             )}
             <div class="tile-copy">
               <h3>{project.title}</h3>
@@ -356,11 +335,21 @@ const bookTitles = fr
                 id={`project-${project.id}-description`}
                 class="tile-description"
               >
-                {descriptions[project.id]}
+                {project.description}
               </p>
+              {project.status && (
+                <p id={`project-${project.id}-status`} class="tile-status">
+                  {project.status}
+                </p>
+              )}
               <p id={`project-${project.id}-concepts`} class="tile-concepts">
                 {projectConcepts[project.id].join(" · ")}
               </p>
+              {project.linkLabel && (
+                <span class="tile-link" aria-hidden="true">
+                  {project.linkLabel} →
+                </span>
+              )}
             </div>
           </Surface>
         </article>
@@ -371,99 +360,10 @@ const bookTitles = fr
 
 <script>
   import { onPageLoad } from "../scripts/page-lifecycle";
+  import "../scripts/sillage-library";
 
   onPageLoad((signal) => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    const activeBooks = new Map<HTMLElement, Animation | null>();
-    const rest = "rotateY(-4deg)";
-    const lifted = "translateZ(calc(var(--book-depth) + 16px)) rotateY(-4deg)";
-    const extracted =
-      "translateZ(calc(var(--book-depth) + 16px)) rotateX(-8deg) rotateY(-27deg)";
-    const stop = (book: HTMLElement) => {
-      const animation = activeBooks.get(book);
-      if (animation) {
-        animation.onfinish = null;
-        animation.cancel();
-      }
-    };
-    const release = (book: HTMLElement) => {
-      stop(book);
-      activeBooks.delete(book);
-      book.style.removeProperty("transform");
-      book.parentElement?.removeAttribute("data-book-active");
-    };
-    const releaseAll = () => {
-      for (const book of activeBooks.keys()) release(book);
-    };
-    for (const slot of document.querySelectorAll<HTMLElement>(
-      ".library-book",
-    )) {
-      const book = slot.querySelector<HTMLElement>(".book-volume");
-      if (!book) continue;
-      slot.addEventListener(
-        "pointerenter",
-        (event) => {
-          if (event.pointerType === "touch" || reduced.matches) return;
-          const start = activeBooks.has(book)
-            ? getComputedStyle(book).transform
-            : rest;
-          stop(book);
-          slot.setAttribute("data-book-active", "");
-          book.style.transform = extracted;
-          // One transform owns both phases; no nested compositor animations.
-          const animation = book.animate(
-            [
-              { transform: start, easing: "ease" },
-              {
-                transform: lifted,
-                offset: 0.45,
-                easing: "cubic-bezier(.2,.7,.25,1)",
-              },
-              { transform: extracted },
-            ],
-            { duration: 400, fill: "both" },
-          );
-          activeBooks.set(book, animation);
-          animation.onfinish = () => {
-            if (activeBooks.get(book) !== animation) return;
-            animation.onfinish = null;
-            animation.cancel();
-            activeBooks.set(book, null);
-          };
-        },
-        { signal },
-      );
-      slot.addEventListener(
-        "pointerleave",
-        () => {
-          if (!activeBooks.has(book)) return;
-          const start = getComputedStyle(book).transform;
-          const depth = new DOMMatrixReadOnly(start).m43;
-          stop(book);
-          book.style.transform = rest;
-          // Interrupted extraction returns from its current depth, not the end.
-          const animation = book.animate(
-            [
-              { transform: start, easing: "cubic-bezier(.2,.7,.25,1)" },
-              {
-                transform: `translateZ(${depth}px) ${rest}`,
-                offset: 0.55,
-                easing: "ease",
-              },
-              { transform: rest },
-            ],
-            { duration: 400, fill: "both" },
-          );
-          activeBooks.set(book, animation);
-          animation.onfinish = () => {
-            if (activeBooks.get(book) === animation) release(book);
-          };
-        },
-        { signal },
-      );
-    }
-    reduced.addEventListener("change", releaseAll, { signal });
-    signal.addEventListener("abort", releaseAll, { once: true });
     const graph = document.querySelector<SVGSVGElement>("[data-project-graph]");
     const card = graph?.closest<HTMLElement>(".project-tile");
     if (!graph || !card) return;
@@ -533,9 +433,9 @@ const bookTitles = fr
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 2fr) minmax(0, 1fr);
+    grid-template-rows: minmax(28rem, auto) minmax(25rem, auto);
     gap: 1rem;
-    height: clamp(36rem, calc(100svh - 12rem), 44rem);
+    height: auto;
   }
   .project-tile {
     position: relative;
@@ -569,6 +469,29 @@ const bookTitles = fr
     --tile-accent: #b0ded0;
     grid-column: span 2;
   }
+  .tile-meddatatrace {
+    --tile-bg: #15262d;
+    --tile-border: #52737c;
+    --tile-accent: #b4dce1;
+    background-image: radial-gradient(
+      ellipse at top right,
+      #294e5b80,
+      transparent 70%
+    );
+  }
+  .tile-status {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--tile-accent);
+  }
+  .tile-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
   .tile-sillage {
     --tile-bg: #182330;
     --tile-border: #435367;
@@ -584,13 +507,13 @@ const bookTitles = fr
     --tile-bg: #29231e;
     --tile-border: #605043;
     --tile-accent: #dbc09c;
-    grid-column: span 3;
+    grid-column: span 2;
   }
   .tile-justsyncit {
     --tile-bg: #202b2d;
     --tile-border: #496366;
     --tile-accent: #b1d9d5;
-    grid-column: span 3;
+    grid-column: span 2;
   }
   .tile-mark {
     position: absolute;
@@ -707,16 +630,22 @@ const bookTitles = fr
   }
   .library-book[data-book-active] {
     z-index: 2;
-    perspective: 850px;
+    perspective: 1000px;
     perspective-origin: 50% 100%;
   }
   .library-book[data-book-active] .book-volume {
     transform-style: preserve-3d;
-    transform: rotateY(-4deg);
+    transform: none;
     will-change: transform;
+  }
+  .bookshelf:has(.library-book[data-book-active]) {
+    z-index: 2;
   }
   .library-book[data-book-active] .book-cover {
     display: flex;
+    box-shadow:
+      inset 3px 0 5px #0003,
+      3px 4px 8px #0004;
   }
   .library-book[data-book-active] .book-pages {
     display: block;
@@ -881,7 +810,7 @@ const bookTitles = fr
     letter-spacing: -0.035em;
   }
   .tile-description {
-    font-size: 0.85rem;
+    font-size: 0.9375rem;
     line-height: 1.55;
     margin-top: 0.8rem;
     color: #d0d2cd;
@@ -920,38 +849,9 @@ const bookTitles = fr
   }
   .tile-encrypted-voting .tile-description,
   .tile-justsyncit .tile-description {
-    font-size: 0.75rem;
-    line-height: 1.4;
+    font-size: 0.9375rem;
+    line-height: 1.55;
     margin-top: 0.5rem;
-  }
-  .ballot-art {
-    position: absolute;
-    right: 1.5rem;
-    top: 3.1rem;
-    width: 4rem;
-    height: 2.5rem;
-    color: var(--tile-accent);
-  }
-  .ballot-paper {
-    display: block;
-    width: 1.5rem;
-    height: 1.8rem;
-    border: 1px solid currentColor;
-    text-align: center;
-    transform: rotate(-12deg);
-    margin-left: 1rem;
-  }
-  .ballot-slot {
-    display: block;
-    width: 3.5rem;
-    border-bottom: 2px solid currentColor;
-  }
-  .ballot-proof {
-    position: absolute;
-    right: 0;
-    top: 0.3rem;
-    font-size: 0.6rem;
-    opacity: 0.65;
   }
   .compiler-art {
     padding: 3.5rem 1.5rem 0;
@@ -1004,28 +904,6 @@ const bookTitles = fr
     color: #e1e8e0;
     letter-spacing: 0;
   }
-  .sync-art {
-    position: absolute;
-    top: 2.5rem;
-    right: 3rem;
-    width: 4rem;
-    color: var(--tile-accent);
-  }
-  .sync-art > span {
-    display: block;
-    height: 0.7rem;
-    margin-bottom: 0.2rem;
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    opacity: 0.65;
-  }
-  .sync-art i {
-    position: absolute;
-    top: 0.5rem;
-    right: -0.8rem;
-    font-style: normal;
-    font-size: 1.7rem;
-  }
   .project-tile:focus-within {
     outline: 2px solid var(--tile-accent);
     outline-offset: 3px;
@@ -1035,11 +913,6 @@ const bookTitles = fr
     outline-offset: 4px;
   }
   @media (prefers-reduced-motion: no-preference) {
-    .library-book[data-book-active]:hover .book-cover {
-      box-shadow:
-        1px 0 0 #00000088,
-        6px 4px 10px #00000055;
-    }
     .node-core,
     .node-halo {
       transition:
@@ -1086,14 +959,15 @@ const bookTitles = fr
   @media (max-width: 63.999rem) {
     .projects-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      grid-template-rows: 25rem 22rem minmax(13rem, auto);
+      grid-template-rows: none;
+      grid-auto-rows: minmax(26rem, auto);
       height: auto;
     }
     .project-tile {
       grid-column: auto;
     }
     .tile-nacre {
-      grid-column: span 2;
+      grid-column: auto;
     }
     .compiler-art {
       padding: 2rem 2rem 0;
@@ -1106,7 +980,7 @@ const bookTitles = fr
       font-size: 0.9rem;
     }
     .tile-description {
-      font-size: 0.78rem;
+      font-size: 0.9375rem;
     }
     .tile-encrypted-voting,
     .tile-justsyncit {
@@ -1123,21 +997,24 @@ const bookTitles = fr
     }
     .projects-grid {
       gap: 0.6rem;
-      grid-template-rows: repeat(3, minmax(15rem, auto)) minmax(13rem, auto);
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      grid-auto-rows: auto;
       height: auto;
     }
     .tile-genomint,
     .tile-sillage,
     .tile-nacre {
-      grid-column: span 2;
-      min-height: 0;
+      grid-column: auto;
+      min-height: 24rem;
     }
     .tile-encrypted-voting,
     .tile-justsyncit {
       min-height: 0;
     }
     .project-tile {
-      --tile-padding: 0.75rem;
+      grid-column: auto;
+      --tile-padding: 1.25rem;
     }
     .compiler-art {
       display: block;
@@ -1203,11 +1080,7 @@ const bookTitles = fr
     }
     .tile-encrypted-voting .tile-description,
     .tile-justsyncit .tile-description {
-      font-size: 0.8125rem;
-    }
-    .ballot-art,
-    .sync-art {
-      display: none;
+      font-size: 0.875rem;
     }
   }
 </style>

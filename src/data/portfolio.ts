@@ -1,7 +1,12 @@
 export type Locale = "fr" | "en";
 
 export type ProjectId =
-  "genomint" | "sillage" | "nacre" | "encrypted-voting" | "justsyncit";
+  | "genomint"
+  | "meddatatrace"
+  | "sillage"
+  | "nacre"
+  | "encrypted-voting"
+  | "justsyncit";
 export type CaseStudyId = "genomint" | "sillage" | "nacre" | "encrypted-voting";
 
 export interface Project {
@@ -11,6 +16,7 @@ export interface Project {
   technologies: string;
   url?: string;
   linkLabel?: string;
+  status?: string;
 }
 
 export type JourneyPoint =
@@ -152,6 +158,7 @@ export interface PortfolioContent {
     affiliation: string;
     description: string;
     availability: { label: string; detail: string; note: string };
+    projectsCta: string;
     cvCta: string;
     contactCta: string;
   };
@@ -206,6 +213,11 @@ export interface PortfolioContent {
   };
   skills: {
     heading: string;
+    highlights: {
+      name: string;
+      description: string;
+      projectIds: ProjectId[];
+    }[];
     catalogMoreLabel: string;
     catalogCloseLabel: string;
     projectLabel: string;
@@ -278,15 +290,16 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       eyebrow: "IA & systèmes de données",
       summaryTitle: "Sous le nom de carabistouflette",
       title: "Alexis Robin",
-      headline: "Étudiant en M1 à Centrale Lille",
-      affiliation: "IA pour la santé · parcours MIAS",
+      headline: "Des outils d’IA pour interroger les données scientifiques.",
+      affiliation: "M1 à Centrale Lille · IA pour la santé · parcours MIAS",
       description:
-        "Je développe des systèmes d’IA pour explorer des données et retrouver l’information utile.",
+        "Du graphe génomique à la recherche documentaire, je développe les agents, les API et les moteurs qui relient une question à ses sources.",
       availability: {
         label: "Recherche de stage",
         detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
         note: "Alternance possible en M2 à partir de septembre 2027.",
       },
+      projectsCta: "Voir mes projets",
       cvCta: "Télécharger le CV",
       contactCta: "Me contacter",
     },
@@ -303,6 +316,18 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/projets/genomint/",
           linkLabel: "Lire le dossier",
+        },
+        {
+          id: "meddatatrace",
+          title: "MedDataTrace",
+          description:
+            "Je développe un cadre de recherche pour retracer les preuves sur les jeux de données utilisés dans les évaluations en imagerie médicale : spécification, sémantique de référence en Python et protocole pilote.",
+          technologies:
+            "Python · Recherche reproductible · Provenance des données",
+          url: "https://github.com/carabistouflette/MedDataTrace",
+          linkLabel: "Explorer le dépôt de recherche",
+          status:
+            "Recherche en cours · validation sur données réelles à établir.",
         },
         {
           id: "sillage",
@@ -369,17 +394,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
               "Serveur Minecraft en Rust. Contributions sur le routage des paquets réseau et le durcissement de la lecture.",
           },
           {
-            name: "HealthGraphBench",
-            url: "https://github.com/carabistouflette/HealthGraphBench",
-            role: "Projet personnel",
+            name: "MedDataTrace",
+            url: "https://github.com/carabistouflette/MedDataTrace",
+            role: "Projet de recherche personnel",
             description:
-              "Benchmark reproductible qui évalue la valeur prédictive des graphes au-delà de baselines locales fortes, en ML de santé publique et réglementaire (FDA MAUDE, CMS).",
-            zenodo: {
-              label: "Expérimentation sur Zenodo",
-              url: "https://zenodo.org/records/22796551",
-            },
-            publication:
-              "Un article est en cours de rédaction, soumission à venir.",
+              "Traçabilité des preuves sur les jeux de données en imagerie médicale. Spécification, sémantique de référence et protocole pilote ; validation sur données réelles à établir.",
           },
           {
             name: "KolibriOS",
@@ -470,7 +489,41 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     skills: {
       heading: "Compétences",
-      catalogMoreLabel: "Voir plus",
+      highlights: [
+        {
+          name: "Python & API",
+          description:
+            "Agents et services pour explorer les données scientifiques.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Rust",
+          description: "Applications natives, recherche locale et compilation.",
+          projectIds: ["sillage", "nacre"],
+        },
+        {
+          name: "Graphes & Neo4j",
+          description: "Requêtes, traversées et exports de données génomiques.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Recherche d’information",
+          description: "Retrieval agentique et extraits documentaires sourcés.",
+          projectIds: ["genomint", "sillage"],
+        },
+        {
+          name: "Déploiement",
+          description: "Services conteneurisés, Helm et K3s.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Recherche reproductible",
+          description:
+            "Spécification, provenance des preuves et tests de référence.",
+          projectIds: ["meddatatrace"],
+        },
+      ],
+      catalogMoreLabel: "Explorer toutes les compétences",
       catalogCloseLabel: "Refermer",
       projectLabel: "Voir dans le projet",
       groups: [
@@ -479,7 +532,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "Écrire la logique, des scripts aux applications et aux systèmes.",
           items: [
-            { name: "Python", projectIds: ["genomint"] },
+            { name: "Python", projectIds: ["genomint", "meddatatrace"] },
             { name: "Rust", projectIds: ["sillage", "nacre"] },
             { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },
@@ -674,15 +727,16 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       eyebrow: "AI & data systems",
       summaryTitle: "Under the name carabistouflette",
       title: "Alexis Robin",
-      headline: "M1 student at Centrale Lille",
-      affiliation: "AI for health · MIAS track",
+      headline: "AI tools for querying scientific data.",
+      affiliation: "M1 at Centrale Lille · AI for health · MIAS track",
       description:
-        "I build AI systems to explore data and find useful information.",
+        "From genomic graphs to document search, I build agents, APIs and search engines that connect questions to their sources.",
       availability: {
         label: "Seeking an internship",
         detail: "22 March – 21 August 2027 · Montpellier or Lille",
         note: "Apprenticeship (M2) possible from September 2027.",
       },
+      projectsCta: "View my projects",
       cvCta: "Download CV",
       contactCta: "Get in touch",
     },
@@ -699,6 +753,17 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
           linkLabel: "Read the case study",
+        },
+        {
+          id: "meddatatrace",
+          title: "MedDataTrace",
+          description:
+            "I am developing a research framework to trace evidence about datasets used in medical-imaging evaluations: a specification, Python reference semantics and a pilot protocol.",
+          technologies: "Python · Reproducible research · Dataset provenance",
+          url: "https://github.com/carabistouflette/MedDataTrace",
+          linkLabel: "Explore the research repository",
+          status:
+            "Research in progress · real-data validation remains to be established.",
         },
         {
           id: "sillage",
@@ -765,17 +830,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
               "A Minecraft server in Rust. Contributions to network packet routing and read-path hardening.",
           },
           {
-            name: "HealthGraphBench",
-            url: "https://github.com/carabistouflette/HealthGraphBench",
-            role: "Personal project",
+            name: "MedDataTrace",
+            url: "https://github.com/carabistouflette/MedDataTrace",
+            role: "Personal research project",
             description:
-              "A reproducible benchmark evaluating the predictive value of graphs beyond strong local baselines, in public-health and regulatory ML (FDA MAUDE, CMS).",
-            zenodo: {
-              label: "Experiment on Zenodo",
-              url: "https://zenodo.org/records/22796551",
-            },
-            publication:
-              "A paper is in preparation and will be submitted soon.",
+              "Tracing dataset evidence in medical-imaging evaluations. Specification, reference semantics and a pilot protocol; real-data validation remains to be established.",
           },
           {
             name: "KolibriOS",
@@ -868,7 +927,41 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     skills: {
       heading: "Skills",
-      catalogMoreLabel: "See more",
+      highlights: [
+        {
+          name: "Python & APIs",
+          description: "Agents and services for exploring scientific data.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Rust",
+          description: "Native applications, local search and compilation.",
+          projectIds: ["sillage", "nacre"],
+        },
+        {
+          name: "Graphs & Neo4j",
+          description: "Queries, traversals and genomic data exports.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Information retrieval",
+          description:
+            "Agentic retrieval and document excerpts linked to sources.",
+          projectIds: ["genomint", "sillage"],
+        },
+        {
+          name: "Deployment",
+          description: "Containerized services, Helm and K3s.",
+          projectIds: ["genomint"],
+        },
+        {
+          name: "Reproducible research",
+          description:
+            "Specification, evidence provenance and reference tests.",
+          projectIds: ["meddatatrace"],
+        },
+      ],
+      catalogMoreLabel: "Explore all skills",
       catalogCloseLabel: "Close",
       projectLabel: "See in project",
       groups: [
@@ -877,7 +970,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "Write the logic, from scripts to applications and systems.",
           items: [
-            { name: "Python", projectIds: ["genomint"] },
+            { name: "Python", projectIds: ["genomint", "meddatatrace"] },
             { name: "Rust", projectIds: ["sillage", "nacre"] },
             { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },

@@ -1,0 +1,952 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { portfolio } from "../data/portfolio";
+import { CAT_RIG_CONFIG } from "../scripts/cat-rig-config";
+
+const meta = {
+  title: "Atelier du rig du chat | Alexis Robin",
+  description:
+    "Démonstrateur manuel du rig d’une patte du chat : cible IK, articulations, maillage pondéré et corps retouché.",
+};
+---
+
+<BaseLayout
+  locale="fr"
+  content={portfolio.fr}
+  canonicalPath="/cat-rig/"
+  alternatePaths={{ fr: "/cat-rig/", en: "/en/" }}
+  meta={meta}
+>
+  <main id="main" class="cat-rig-page" data-cat-rig-editor>
+    <div class="content-shell cat-rig-shell">
+      <a class="cat-rig-back" href="/">
+        ← Retour au portfolio
+      </a>
+      <header class="cat-rig-heading">
+        <p class="cat-rig-eyebrow">ATELIER · RIG 2D</p>
+        <h1>Le rig du chat</h1>
+        <p>
+          La silhouette au repos et la patte étendue viennent des aperçus
+          d’intégration de la planche. Le même maillage se replie puis s’étend ;
+          le corps, la tête, les moustaches et la queue restent fixes.
+        </p>
+      </header>
+
+      <div class="cat-rig-workbench">
+        <section
+          class="cat-rig-viewport"
+          aria-labelledby="cat-rig-viewport-title"
+        >
+          <div class="cat-rig-panel-heading">
+            <h2 id="cat-rig-viewport-title">Personnage articulé</h2>
+            <p>
+              Coordonnées SVG en pixels de l’illustration d’origine · 981 × 1204
+            </p>
+          </div>
+          <div
+            class="cat-rig-stage"
+            data-rig-stage
+            data-state="loading"
+            data-ready="false"
+          >
+            <img
+              class="cat-rig-fallback"
+              data-rig-fallback
+              src={CAT_RIG_CONFIG.images.rest}
+              alt=""
+              aria-hidden="true"
+              width="981"
+              height="1204"
+            />
+            <canvas
+              class="cat-rig-canvas"
+              data-rig-canvas
+              role="img"
+              aria-label="Rendu du corps fixe et de la patte gauche articulée du chat."
+            ></canvas>
+            <svg
+              class="cat-rig-overlay"
+              data-rig-overlay
+              viewBox="0 0 981 1204"
+              preserveAspectRatio="none"
+              role="group"
+              aria-label="Inspection du squelette, du maillage et de la cible du rig."
+            >
+              <g data-overlay-layer="zone">
+                <ellipse
+                  class="cat-rig-play-area"
+                  data-play-area
+                  cx={CAT_RIG_CONFIG.playArea.cx}
+                  cy={CAT_RIG_CONFIG.playArea.cy}
+                  rx={CAT_RIG_CONFIG.playArea.rx}
+                  ry={CAT_RIG_CONFIG.playArea.ry}
+                />
+                <line class="cat-rig-target-connector" data-target-connector />
+                <circle
+                  class="cat-rig-requested-marker"
+                  data-target-requested
+                  cx={CAT_RIG_CONFIG.bones.tip.x}
+                  cy={CAT_RIG_CONFIG.bones.tip.y}
+                  r="11"
+                />
+                <circle
+                  class="cat-rig-effective-marker"
+                  data-target-effective
+                  cx={CAT_RIG_CONFIG.bones.tip.x}
+                  cy={CAT_RIG_CONFIG.bones.tip.y}
+                  r="5"
+                />
+                <g
+                  class="cat-rig-target"
+                  data-rig-target
+                  transform={`translate(${CAT_RIG_CONFIG.bones.tip.x} ${CAT_RIG_CONFIG.bones.tip.y})`}
+                  tabindex="-1"
+                  role="group"
+                  aria-disabled="true"
+                  aria-label="Cible IK. Déplacez-la avec les flèches du clavier."
+                  aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight"
+                >
+                  <circle class="cat-rig-target-hit" r="24" />
+                </g>
+              </g>
+              <g data-overlay-layer="triangles" display="none">
+                <path class="cat-rig-mesh-path" data-mesh-triangles />
+              </g>
+              <g data-overlay-layer="weights" display="none">
+                <g data-weight-points />
+              </g>
+              <g data-overlay-layer="bones">
+                <line class="cat-rig-bone cat-rig-bone-upper" data-bone />
+                <line class="cat-rig-bone cat-rig-bone-lower" data-bone />
+                <line class="cat-rig-bone cat-rig-bone-wrist" data-bone />
+                <circle
+                  class="cat-rig-joint cat-rig-joint-root"
+                  data-joint
+                  r="9"
+                />
+                <circle class="cat-rig-joint" data-joint r="8" />
+                <circle class="cat-rig-joint" data-joint r="8" />
+                <circle
+                  class="cat-rig-joint cat-rig-joint-tip"
+                  data-joint
+                  r="7"
+                />
+                <text class="cat-rig-joint-label" data-joint-label>
+                  racine
+                </text>
+                <text class="cat-rig-joint-label" data-joint-label>
+                  coude
+                </text>
+                <text class="cat-rig-joint-label" data-joint-label>
+                  poignet
+                </text>
+                <text class="cat-rig-joint-label" data-joint-label>
+                  bout
+                </text>
+              </g>
+            </svg>
+          </div>
+          <p
+            class="cat-rig-status"
+            data-rig-status
+            role="status"
+            aria-live="polite"
+          >
+            Chargement des textures et du moteur graphique…
+          </p>
+
+          <section
+            class="cat-rig-readout"
+            aria-labelledby="cat-rig-readout-title"
+          >
+            <h3 id="cat-rig-readout-title">Mesures du renderer</h3>
+            <dl>
+              <div>
+                <dt>Demande · x / y</dt>
+                <dd data-requested-output>
+                  {CAT_RIG_CONFIG.bones.tip.x} · {CAT_RIG_CONFIG.bones.tip.y} px
+                </dd>
+              </div>
+              <div>
+                <dt>Bout atteint · x / y</dt>
+                <dd data-effective-output>
+                  {CAT_RIG_CONFIG.bones.tip.x} · {CAT_RIG_CONFIG.bones.tip.y} px
+                </dd>
+              </div>
+              <div>
+                <dt>Écart demande / bout</dt>
+                <dd data-target-error data-limited="false">
+                  0 px
+                </dd>
+              </div>
+              <div>
+                <dt>Épaule · relatif au repos</dt>
+                <dd data-pose-shoulder>—</dd>
+              </div>
+              <div>
+                <dt>Coude · relatif au repos</dt>
+                <dd data-pose-elbow>—</dd>
+              </div>
+              <div>
+                <dt>Poignet · relatif au repos</dt>
+                <dd data-pose-wrist>—</dd>
+              </div>
+            </dl>
+          </section>
+        </section>
+
+        <aside class="cat-rig-controls" aria-label="Commandes du rig">
+          <fieldset class="cat-rig-fieldset">
+            <legend>Couches dessinées</legend>
+            <label>
+              <input type="checkbox" data-layer="body" checked disabled /> Corps
+              retouché
+            </label>
+            <label>
+              <input type="checkbox" data-layer="leg" checked disabled /> Patte
+              en maillage
+            </label>
+            <label>
+              <input type="checkbox" data-layer="collar" checked disabled />{" "}
+              Raccord de poitrail
+            </label>
+          </fieldset>
+
+          <fieldset class="cat-rig-fieldset">
+            <legend>Inspection visuelle</legend>
+            <label>
+              <input type="checkbox" data-overlay-toggle="bones" checked /> Os
+              et articulations
+            </label>
+            <label>
+              <input type="checkbox" data-overlay-toggle="triangles" />{" "}
+              Triangles du maillage
+            </label>
+            <label>
+              <input type="checkbox" data-overlay-toggle="weights" /> Couleurs
+              des poids
+            </label>
+            <label>
+              <input type="checkbox" data-overlay-toggle="zone" checked />{" "}
+              Ellipse et cible
+            </label>
+            <ul class="cat-rig-weight-legend" aria-label="Influences des poids">
+              <li>
+                <span></span>Épingle
+              </li>
+              <li>
+                <span></span>Bras supérieur
+              </li>
+              <li>
+                <span></span>Avant-bras
+              </li>
+              <li>
+                <span></span>Poignet
+              </li>
+            </ul>
+          </fieldset>
+
+          <fieldset class="cat-rig-fieldset">
+            <legend>Poses repères</legend>
+            <div class="cat-rig-presets">
+              <button type="button" data-rig-preset="rest" disabled>
+                Repos
+              </button>
+              <button type="button" data-rig-preset="folded" disabled>
+                Préparation
+              </button>
+              <button type="button" data-rig-preset="tap" disabled>
+                Extension · référence
+              </button>
+            </div>
+            <p class="cat-rig-control-note">
+              Repos rentre la patte dans la silhouette ; Préparation la replie
+              devant le poitrail. Extension rejoint la pose de référence par IK.
+            </p>
+          </fieldset>
+
+          <fieldset class="cat-rig-fieldset">
+            <legend>
+              <label for="cat-rig-wrist">Orientation du bout de patte</label>
+            </legend>
+            <div class="cat-rig-range-labels">
+              <span>−30°</span>
+              <output data-wrist-output>0°</output>
+              <span>+30°</span>
+            </div>
+            <input
+              id="cat-rig-wrist"
+              class="cat-rig-range"
+              data-wrist-angle
+              type="range"
+              min="-30"
+              max="30"
+              step="1"
+              value="0"
+              disabled
+            />
+            <p class="cat-rig-control-note">
+              Angle relatif à l’orientation au repos ; le poignet conserve le
+              bout arrondi.
+            </p>
+          </fieldset>
+
+          <p class="cat-rig-help">
+            Cliquez sur la cible puis utilisez ← ↑ → ↓ (Maj + flèche pour un pas
+            plus grand), ou faites-la glisser sur le personnage. La demande
+            reste visible hors zone ; le bout atteint et l’écart viennent
+            directement de l’inspection du renderer.
+          </p>
+        </aside>
+      </div>
+
+      <details class="cat-rig-assets" open>
+        <summary>Textures sources et calques retouchés</summary>
+        <p>
+          La première vignette fournit le personnage au repos, la troisième
+          fournit la vraie patte étendue. Aucun échange d’images pendant le
+          geste : ces deux sources servent à construire un seul rig.
+        </p>
+        <div class="cat-rig-asset-grid">
+          <a href="/images/cat-rig-sheet.png" target="_blank" rel="noreferrer">
+            <img
+              src="/images/cat-rig-sheet.png"
+              alt="Planche fournie utilisée pour l’extraction."
+              loading="lazy"
+              width="1536"
+              height="1024"
+            />
+            <span>Planche source · 1536 × 1024</span>
+          </a>
+          <a
+            href="/images/cat-rig-body-source.webp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/cat-rig-body-source.webp"
+              alt="Personnage détouré de la première vignette, avec sa queue et ses pieds."
+              loading="lazy"
+              width="230"
+              height="230"
+            />
+            <span>Personnage au repos · 230 × 230</span>
+          </a>
+          <a
+            href="/images/cat-rig-front-paw.webp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/cat-rig-front-paw.webp"
+              alt="Avant-patte extraite de la vignette d’extension, jusqu’à son raccord d’épaule."
+              loading="lazy"
+              width="100"
+              height="80"
+            />
+            <span>Avant-patte étendue · 100 × 80</span>
+          </a>
+          <a
+            href="/images/cat-rig-sequence.webp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/cat-rig-sequence.webp"
+              alt="Séquence de référence : repos, préparation, extension, retour et repos."
+              loading="lazy"
+              width="1110"
+              height="360"
+            />
+            <span>Les cinq poses de référence</span>
+          </a>
+          <a
+            href="/images/cat-rig-reference.webp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/cat-rig-reference.webp"
+              alt="Vignette d’extension originale, non retouchée, utilisée pour extraire l’avant-patte."
+              loading="lazy"
+              width="230"
+              height="230"
+            />
+            <span>Extension originale · 230 × 230</span>
+          </a>
+          <a href={CAT_RIG_CONFIG.images.rest} target="_blank" rel="noreferrer">
+            <img
+              src={CAT_RIG_CONFIG.images.rest}
+              alt="Pose au repos produite par le repli de l’avant-patte du rig."
+              loading="lazy"
+              width="981"
+              height="1204"
+            />
+            <span>Assemblage au repos · 981 × 1204</span>
+          </a>
+          <a href="/images/cat-rig-body.webp" target="_blank" rel="noreferrer">
+            <img
+              src="/images/cat-rig-body.webp"
+              alt="Corps et queue fixes derrière la patte mobile."
+              loading="lazy"
+              width="981"
+              height="1204"
+            />
+            <span>Corps et queue fixes · 981 × 1204</span>
+          </a>
+          <a href="/images/cat-rig-leg.webp" target="_blank" rel="noreferrer">
+            <img
+              src="/images/cat-rig-leg.webp"
+              alt="Patte extraite agrandie uniformément pour le rig."
+              loading="lazy"
+              width={CAT_RIG_CONFIG.layers.leg.atlas.width}
+              height={CAT_RIG_CONFIG.layers.leg.atlas.height}
+            />
+            <span>
+              Patte du rig · {CAT_RIG_CONFIG.layers.leg.atlas.width} ×{" "}
+              {CAT_RIG_CONFIG.layers.leg.atlas.height}
+            </span>
+          </a>
+          <a
+            href="/images/cat-rig-collar.webp"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src="/images/cat-rig-collar.webp"
+              alt="Texture fixe du raccord de poitrail."
+              loading="lazy"
+              width={CAT_RIG_CONFIG.layers.collar.atlas.width}
+              height={CAT_RIG_CONFIG.layers.collar.atlas.height}
+            />
+            <span>
+              Occlusion du poitrail · {CAT_RIG_CONFIG.layers.collar.atlas.width}{" "}
+              × {CAT_RIG_CONFIG.layers.collar.atlas.height}
+            </span>
+          </a>
+          <a
+            href={CAT_RIG_CONFIG.images.atlas}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src={CAT_RIG_CONFIG.images.atlas}
+              alt="Atlas du renderer : corps et queue fixes, patte mobile et raccord."
+              loading="lazy"
+              width={CAT_RIG_CONFIG.atlas.width}
+              height={CAT_RIG_CONFIG.atlas.height}
+            />
+            <span>
+              Atlas renderer · {CAT_RIG_CONFIG.atlas.width} ×{" "}
+              {CAT_RIG_CONFIG.atlas.height}
+            </span>
+          </a>
+        </div>
+      </details>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  import "../scripts/cat-rig-editor";
+</script>
+
+<style>
+  .cat-rig-page {
+    padding-block: clamp(2.5rem, 6vw, 5rem) 5rem;
+  }
+
+  .cat-rig-shell {
+    max-width: 88rem;
+  }
+
+  .cat-rig-back {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #c8d7e0;
+    text-decoration: none;
+  }
+
+  .cat-rig-heading {
+    max-width: 48rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .cat-rig-eyebrow {
+    margin: 0 0 0.4rem;
+    color: #a8c8be;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  .cat-rig-heading h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: -0.055em;
+    line-height: 1;
+  }
+
+  .cat-rig-heading > p:last-child {
+    max-width: 62ch;
+    margin: 1rem 0 0;
+    color: #c5d0d8;
+  }
+
+  .cat-rig-workbench {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+    align-items: start;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+
+  .cat-rig-viewport,
+  .cat-rig-controls,
+  .cat-rig-assets {
+    min-width: 0;
+    border: 1px solid rgb(147 182 202 / 24%);
+    border-radius: 0.8rem;
+    background: rgb(4 12 18 / 82%);
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+  }
+
+  .cat-rig-viewport {
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+  }
+
+  .cat-rig-panel-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cat-rig-panel-heading h2,
+  .cat-rig-readout h3 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .cat-rig-panel-heading p {
+    margin: 0;
+    color: #9eafbb;
+    font-size: 0.8rem;
+  }
+
+  .cat-rig-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 981 / 1204;
+    overflow: hidden;
+    border: 1px solid rgb(157 193 213 / 27%);
+    border-radius: 0.5rem;
+    background:
+      radial-gradient(
+        ellipse at 50% 50%,
+        rgb(14 36 51 / 84%),
+        rgb(4 10 15 / 98%) 75%
+      ),
+      #070d12;
+  }
+
+  .cat-rig-fallback,
+  .cat-rig-canvas,
+  .cat-rig-overlay {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .cat-rig-fallback {
+    object-fit: contain;
+  }
+
+  .cat-rig-canvas {
+    z-index: 1;
+  }
+  .cat-rig-stage:not([data-ready="true"]) .cat-rig-canvas {
+    visibility: hidden;
+  }
+
+  .cat-rig-stage[data-ready="true"] .cat-rig-fallback {
+    display: none;
+  }
+
+  .cat-rig-overlay {
+    z-index: 2;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .cat-rig-stage:not([data-ready="true"])
+    .cat-rig-overlay
+    [data-overlay-layer] {
+    visibility: hidden;
+  }
+
+  .cat-rig-play-area {
+    fill: rgb(92 186 217 / 7%);
+    stroke: #84d3e8;
+    stroke-dasharray: 10 9;
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-target-connector {
+    stroke: #f5c874;
+    stroke-dasharray: 6 6;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-requested-marker {
+    fill: rgb(247 197 111 / 18%);
+    stroke: #ffd579;
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-effective-marker {
+    fill: #fff5ce;
+    stroke: #172b36;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-target {
+    cursor: grab;
+    pointer-events: all;
+    touch-action: none;
+  }
+
+  .cat-rig-target:active {
+    cursor: grabbing;
+  }
+
+  .cat-rig-target-hit {
+    fill: transparent;
+    stroke: transparent;
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-target:focus .cat-rig-target-hit {
+    stroke: #fff2b8;
+  }
+
+  .cat-rig-mesh-path {
+    fill: none;
+    stroke: #5ad7ee;
+    stroke-opacity: 0.9;
+    stroke-width: 1.6;
+    vector-effect: non-scaling-stroke;
+  }
+
+  :global(.rig-weight-point) {
+    stroke: #071016;
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-bone {
+    fill: none;
+    stroke: #edf2f5;
+    stroke-linecap: round;
+    stroke-width: 8;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-bone-upper {
+    stroke: #b6a3ff;
+  }
+
+  .cat-rig-bone-lower {
+    stroke: #ffc66d;
+  }
+
+  .cat-rig-bone-wrist {
+    stroke: #ff88ab;
+    stroke-width: 6;
+  }
+
+  .cat-rig-joint {
+    fill: #09131a;
+    stroke: #f5f7f8;
+    stroke-width: 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .cat-rig-joint-root {
+    fill: #b6a3ff;
+  }
+
+  .cat-rig-joint-tip {
+    fill: #ff88ab;
+  }
+
+  .cat-rig-joint-label {
+    fill: #f1f4f5;
+    font: 700 16px/1 var(--font-body);
+    paint-order: stroke;
+    stroke: #061018;
+    stroke-linejoin: round;
+    stroke-width: 5px;
+  }
+
+  .cat-rig-status {
+    min-height: 1.7em;
+    margin: 0.7rem 0 1.1rem;
+    color: #b9c9d2;
+    font-size: 0.86rem;
+  }
+
+  .cat-rig-stage[data-state="error"] + .cat-rig-status {
+    color: #ffbf9d;
+  }
+
+  .cat-rig-readout {
+    padding-top: 0.9rem;
+    border-top: 1px solid rgb(147 182 202 / 24%);
+  }
+
+  .cat-rig-readout dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1rem;
+    margin: 0.75rem 0 0;
+  }
+
+  .cat-rig-readout dl > div {
+    min-width: 0;
+  }
+
+  .cat-rig-readout dt {
+    color: #9eafbb;
+    font-size: 0.72rem;
+  }
+
+  .cat-rig-readout dd {
+    margin: 0.05rem 0 0;
+    font-variant-numeric: tabular-nums;
+    font-weight: 650;
+  }
+
+  .cat-rig-readout [data-limited="true"] {
+    color: #ffd579;
+  }
+
+  .cat-rig-controls {
+    display: grid;
+    gap: 1rem;
+    padding: clamp(1rem, 2.2vw, 1.5rem);
+  }
+
+  .cat-rig-fieldset {
+    min-width: 0;
+    margin: 0;
+    padding: 0 0 1rem;
+    border: 0;
+    border-bottom: 1px solid rgb(147 182 202 / 24%);
+  }
+
+  .cat-rig-fieldset legend {
+    padding: 0 0 0.55rem;
+    color: #e7edf1;
+    font-weight: 700;
+  }
+
+  .cat-rig-fieldset > label:not(.cat-rig-range-labels) {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 2.3rem;
+    color: #c2cdd5;
+    font-size: 0.92rem;
+    cursor: pointer;
+  }
+
+  .cat-rig-fieldset input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    accent-color: #9cd8e8;
+    flex: 0 0 auto;
+  }
+
+  .cat-rig-fieldset input:disabled {
+    cursor: not-allowed;
+    opacity: 0.56;
+  }
+
+  .cat-rig-weight-legend {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 0.6rem;
+    margin: 0.8rem 0 0;
+    padding: 0;
+    color: #abbac4;
+    font-size: 0.72rem;
+    list-style: none;
+  }
+
+  .cat-rig-weight-legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .cat-rig-weight-legend span {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: #43bee8;
+  }
+
+  .cat-rig-weight-legend li:nth-child(2) span {
+    background: #a685ff;
+  }
+
+  .cat-rig-weight-legend li:nth-child(3) span {
+    background: #ffb753;
+  }
+
+  .cat-rig-weight-legend li:nth-child(4) span {
+    background: #ff6f97;
+  }
+
+  .cat-rig-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cat-rig-presets button {
+    min-height: 2.75rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid rgb(156 216 232 / 50%);
+    border-radius: 999px;
+    background: rgb(16 39 52 / 75%);
+    color: #e9f3f6;
+    cursor: pointer;
+  }
+
+  .cat-rig-presets button:hover:not(:disabled) {
+    border-color: #d0f0f6;
+    background: rgb(32 72 89 / 88%);
+  }
+
+  .cat-rig-presets button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .cat-rig-control-note,
+  .cat-rig-help {
+    margin: 0.6rem 0 0;
+    color: #aebdc7;
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  .cat-rig-range-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #aebdc7;
+    font-size: 0.78rem;
+  }
+  .cat-rig-range-labels output {
+    color: #e7edf1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cat-rig-range {
+    width: 100%;
+    min-height: 2.5rem;
+    accent-color: #a7d9e7;
+    cursor: pointer;
+  }
+
+  .cat-rig-help {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-left: 2px solid #8fc6d8;
+    background: rgb(104 158 179 / 9%);
+  }
+
+  .cat-rig-assets {
+    margin-top: 1.5rem;
+    padding: 1rem clamp(0.9rem, 2vw, 1.5rem) 1.25rem;
+  }
+
+  .cat-rig-assets summary {
+    min-height: 2.75rem;
+    color: #e4edf2;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .cat-rig-assets > p {
+    margin: 0.35rem 0 1rem;
+    color: #b4c1ca;
+    font-size: 0.88rem;
+  }
+
+  .cat-rig-asset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.75rem), 1fr));
+    gap: 0.7rem;
+  }
+
+  .cat-rig-asset-grid a {
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+    min-width: 0;
+    color: #d7e3e9;
+    font-size: 0.77rem;
+    text-decoration: none;
+  }
+
+  .cat-rig-asset-grid img {
+    display: block;
+    width: 100%;
+    height: 8rem;
+    object-fit: contain;
+    border: 1px solid rgb(147 182 202 / 24%);
+    border-radius: 0.35rem;
+    background: #070d12;
+  }
+
+  .cat-rig-asset-grid a:hover span {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 52rem) {
+    .cat-rig-workbench {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cat-rig-controls {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cat-rig-help {
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .cat-rig-controls {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cat-rig-readout dl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

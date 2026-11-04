@@ -6,6 +6,9 @@ interface Props {
 }
 const { content } = Astro.props;
 const copy = content.skills;
+const projectById = new Map(
+  content.projects.entries.map((project) => [project.id, project]),
+);
 const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   id,
   title,
@@ -23,6 +26,33 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
       {copy.heading}
     </h2>
   </header>
+
+  <ul class="mt-8 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
+    {copy.highlights.map((skill) => (
+      <li class="min-w-0 border-t border-rule/60 pt-5">
+        <h3 class="card-title">{skill.name}</h3>
+        <p class="body-copy mt-3 text-muted">{skill.description}</p>
+        <ul class="mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0">
+          {skill.projectIds.map((id) => {
+            const project = projectById.get(id);
+            return (
+              project && (
+                <li>
+                  <a class="text-link text-sm" href={`#project-${id}`}>
+                    <span class="sr-only">{copy.projectLabel} : </span>
+                    {project.title}
+                    <span class="ml-2" aria-hidden="true">
+                      ↗
+                    </span>
+                  </a>
+                </li>
+              )
+            );
+          })}
+        </ul>
+      </li>
+    ))}
+  </ul>
 
   {copy.groups.length > 0 && (
     <details class="catalog-invitation mt-12" data-disclosure-reveal>
