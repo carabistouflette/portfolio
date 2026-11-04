@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-04T17:21:14.229Z",
+  "updatedAt": "2026-11-04T23:41:54.486Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/goose-toml",
-        "number": 1,
-        "title": "feat: add source-preserving TOML edits",
-        "url": "https://github.com/carabistouflette/goose-toml/pull/1",
-        "createdAt": "2026-11-04T13:47:21Z",
-        "updatedAt": "2026-11-04T13:47:21Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 1,
-        "title": "feat: preserve comments when editing dependencies",
-        "url": "https://github.com/carabistouflette/honk/pull/1",
-        "createdAt": "2026-11-04T13:19:27Z",
-        "updatedAt": "2026-11-04T13:37:26Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-argparse",
+        "repository": "carabistouflette/goose-log",
         "number": 3,
-        "title": "fix: publish NUL alias rejection and standalone documentation",
-        "url": "https://github.com/carabistouflette/goose-argparse/pull/3",
-        "createdAt": "2026-11-04T08:36:03Z",
-        "updatedAt": "2026-11-04T08:36:29Z",
-        "mergedAt": "2026-11-04T08:36:29Z",
+        "title": "feat: add optional UTC record consumer with injected clocks",
+        "url": "https://github.com/carabistouflette/goose-log/pull/3",
+        "createdAt": "2026-11-04T23:37:40Z",
+        "updatedAt": "2026-11-04T23:41:02Z",
+        "mergedAt": "2026-11-04T23:41:01Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-artifact",
+        "number": 1,
+        "title": "feat: add reusable verified artifact publication",
+        "url": "https://github.com/carabistouflette/goose-artifact/pull/1",
+        "createdAt": "2026-11-04T23:37:30Z",
+        "updatedAt": "2026-11-04T23:39:39Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-toml",
+        "number": 7,
+        "title": "test: sanitize hostile source editor consumer overloads",
+        "url": "https://github.com/carabistouflette/goose-toml/pull/7",
+        "createdAt": "2026-11-04T23:36:27Z",
+        "updatedAt": "2026-11-04T23:40:52Z",
+        "mergedAt": "2026-11-04T23:40:51Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,23 +75,12 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-toml",
+        "repository": "carabistouflette/goose-artifact",
         "number": 1,
-        "title": "feat: add source-preserving TOML edits",
-        "url": "https://github.com/carabistouflette/goose-toml/pull/1",
-        "createdAt": "2026-11-04T13:47:21Z",
-        "updatedAt": "2026-11-04T13:47:21Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 1,
-        "title": "feat: preserve comments when editing dependencies",
-        "url": "https://github.com/carabistouflette/honk/pull/1",
-        "createdAt": "2026-11-04T13:19:27Z",
-        "updatedAt": "2026-11-04T13:37:26Z",
+        "title": "feat: add reusable verified artifact publication",
+        "url": "https://github.com/carabistouflette/goose-artifact/pull/1",
+        "createdAt": "2026-11-04T23:37:30Z",
+        "updatedAt": "2026-11-04T23:39:39Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "personal"
@@ -106,12 +95,23 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 516,
+        "title": "feat(launcher): introduce Sillage resident Linux launcher",
+        "url": "https://github.com/brio-labs/maestria/pull/516",
+        "createdAt": "2026-09-23T19:11:59Z",
+        "updatedAt": "2026-10-18T18:41:18Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "organization"
       }
     ]
   },
   "counts": {
-    "open": 43,
-    "merged": 372
+    "open": 42,
+    "merged": 399
   },
   "featured": [
     {
@@ -395,17 +395,17 @@
       {
         "date": "2025-12-20",
         "count": 91,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2025-12-21",
         "count": 76,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2025-12-22",
         "count": 80,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2025-12-23",
@@ -465,7 +465,7 @@
       {
         "date": "2026-01-03",
         "count": 55,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-01-04",
@@ -515,12 +515,12 @@
       {
         "date": "2026-01-13",
         "count": 57,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-01-14",
         "count": 187,
-        "level": 2
+        "level": 4
       },
       {
         "date": "2026-01-15",
@@ -575,12 +575,12 @@
       {
         "date": "2026-01-25",
         "count": 144,
-        "level": 2
+        "level": 3
       },
       {
         "date": "2026-01-26",
         "count": 108,
-        "level": 1
+        "level": 3
       },
       {
         "date": "2026-01-27",
@@ -635,12 +635,12 @@
       {
         "date": "2026-02-06",
         "count": 172,
-        "level": 2
+        "level": 4
       },
       {
         "date": "2026-02-07",
         "count": 77,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-02-08",
@@ -655,7 +655,7 @@
       {
         "date": "2026-02-10",
         "count": 144,
-        "level": 2
+        "level": 3
       },
       {
         "date": "2026-02-11",
@@ -665,7 +665,7 @@
       {
         "date": "2026-02-12",
         "count": 70,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-02-13",
@@ -675,7 +675,7 @@
       {
         "date": "2026-02-14",
         "count": 140,
-        "level": 2
+        "level": 3
       },
       {
         "date": "2026-02-15",
@@ -685,7 +685,7 @@
       {
         "date": "2026-02-16",
         "count": 89,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-02-17",
@@ -1185,7 +1185,7 @@
       {
         "date": "2026-05-27",
         "count": 62,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-05-28",
@@ -1330,12 +1330,12 @@
       {
         "date": "2026-06-25",
         "count": 207,
-        "level": 2
+        "level": 4
       },
       {
         "date": "2026-06-26",
         "count": 100,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-06-27",
@@ -1345,7 +1345,7 @@
       {
         "date": "2026-06-28",
         "count": 63,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-06-29",
@@ -1390,7 +1390,7 @@
       {
         "date": "2026-07-07",
         "count": 53,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-07-08",
@@ -1455,7 +1455,7 @@
       {
         "date": "2026-07-20",
         "count": 64,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-07-21",
@@ -1490,7 +1490,7 @@
       {
         "date": "2026-07-27",
         "count": 131,
-        "level": 2
+        "level": 3
       },
       {
         "date": "2026-07-28",
@@ -1880,7 +1880,7 @@
       {
         "date": "2026-10-13",
         "count": 126,
-        "level": 2
+        "level": 3
       },
       {
         "date": "2026-10-14",
@@ -1905,12 +1905,12 @@
       {
         "date": "2026-10-18",
         "count": 101,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-10-19",
         "count": 116,
-        "level": 1
+        "level": 3
       },
       {
         "date": "2026-10-20",
@@ -1980,16 +1980,16 @@
       {
         "date": "2026-11-02",
         "count": 101,
-        "level": 1
+        "level": 2
       },
       {
         "date": "2026-11-03",
         "count": 293,
-        "level": 3
+        "level": 4
       },
       {
         "date": "2026-11-04",
-        "count": 472,
+        "count": 785,
         "level": 4
       }
     ]
