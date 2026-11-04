@@ -1,16 +1,27 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-04T13:31:47.913Z",
+  "updatedAt": "2026-11-04T17:21:14.229Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/goose-toml",
+        "number": 1,
+        "title": "feat: add source-preserving TOML edits",
+        "url": "https://github.com/carabistouflette/goose-toml/pull/1",
+        "createdAt": "2026-11-04T13:47:21Z",
+        "updatedAt": "2026-11-04T13:47:21Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/honk",
         "number": 1,
         "title": "feat: preserve comments when editing dependencies",
         "url": "https://github.com/carabistouflette/honk/pull/1",
         "createdAt": "2026-11-04T13:19:27Z",
-        "updatedAt": "2026-11-04T13:22:53Z",
+        "updatedAt": "2026-11-04T13:37:26Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "personal"
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-04T08:36:03Z",
         "updatedAt": "2026-11-04T08:36:29Z",
         "mergedAt": "2026-11-04T08:36:29Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-argparse",
-        "number": 2,
-        "title": "Fix NUL matching absent short aliases",
-        "url": "https://github.com/carabistouflette/goose-argparse/pull/2",
-        "createdAt": "2026-11-02T15:19:45Z",
-        "updatedAt": "2026-11-02T15:20:16Z",
-        "mergedAt": "2026-11-02T15:20:16Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,12 +75,23 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/goose-toml",
+        "number": 1,
+        "title": "feat: add source-preserving TOML edits",
+        "url": "https://github.com/carabistouflette/goose-toml/pull/1",
+        "createdAt": "2026-11-04T13:47:21Z",
+        "updatedAt": "2026-11-04T13:47:21Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
         "repository": "carabistouflette/honk",
         "number": 1,
         "title": "feat: preserve comments when editing dependencies",
         "url": "https://github.com/carabistouflette/honk/pull/1",
         "createdAt": "2026-11-04T13:19:27Z",
-        "updatedAt": "2026-11-04T13:22:53Z",
+        "updatedAt": "2026-11-04T13:37:26Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "personal"
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 516,
-        "title": "feat(launcher): introduce Sillage resident Linux launcher",
-        "url": "https://github.com/brio-labs/maestria/pull/516",
-        "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-18T18:41:18Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "organization"
       }
     ]
   },
   "counts": {
-    "open": 42,
+    "open": 43,
     "merged": 372
   },
   "featured": [
@@ -580,7 +580,7 @@
       {
         "date": "2026-01-26",
         "count": 108,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-01-27",
@@ -1910,7 +1910,7 @@
       {
         "date": "2026-10-19",
         "count": 116,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-10-20",
@@ -1989,7 +1989,7 @@
       },
       {
         "date": "2026-11-04",
-        "count": 428,
+        "count": 472,
         "level": 4
       }
     ]
