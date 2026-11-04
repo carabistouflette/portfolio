@@ -1,0 +1,32 @@
+{
+  "captured_at": "2026-11-04",
+  "sillage": {
+    "kind": "native_screen_recording",
+    "binary_sha256": "24e3c27ee536355bc21d75e44e50de6f28246d189c727c6882829bc85e846a40",
+    "build_commit": "not established for the prebuilt binary",
+    "search_binary_sha256": "d692a62005d53f9b306cde3f266d1472678f0005a2901526e86dd54cf18c8d0c",
+    "input": "Dataset provenance links an evaluation to its source data.\nAn evaluation keeps a pinned dataset version and a source citation.\n",
+    "query": "provenance",
+    "method": "Native Slint build in an isolated X11 session, local lexical search, synthetic document, no neural model; window region cropped without altering application content."
+  },
+  "meddatatrace": {
+    "repository": "https://github.com/carabistouflette/MedDataTrace",
+    "revision": "71f1d6e6545c1effb5c1b687afaf5b853a2c5191",
+    "harness": "scripts/evidence/meddatatrace_example.py",
+    "output": "/evidence/meddatatrace-output.txt",
+    "scope": "Synthetic reference semantics and admission rules; not a real medical-study assessment."
+  },
+  "voting": {
+    "repository": "https://github.com/carabistouflette/Voteomatic-cryptography",
+    "revision": "386dbb6aa9a9348d0155b99604dafd197254d608",
+    "harness": "scripts/evidence/PortfolioVotingDemo.java",
+    "output": "/evidence/voting-output.txt",
+    "scope": "Real library calls on synthetic votes, in-memory keys, no key persistence or original frontend; not a security audit."
+  },
+  "sha256": {
+    "sillage-search-demo.webm": "0708362598952054ec7dd013bc144f5255ccccc70d91d561a37f64671b0efec5",
+    "sillage-search-poster.webp": "06f0f1996ace2a27d4c8d7c96d60421fb12a0e85b720f43ad67b3f9d030e6b04",
+    "meddatatrace-output.txt": "1c39d72c83882844ddc10c3672263aad2685e9ab20243892fabcba27e44bfe06",
+    "voting-output.txt": "454bff7ae8c198184ebc387358acfb915b8b26f7298bbd32e5d54915a3e6fb07"
+  }
+}

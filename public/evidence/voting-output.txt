@@ -1,0 +1,6 @@
+Synthetic inputs: Yes, Yes, No
+Ballot 1: encrypted; validity proof verified = true
+Ballot 2: encrypted; validity proof verified = true
+Ballot 3: encrypted; validity proof verified = true
+Aggregate tally: 2 Yes / 3 ballots
+Expected tally matched = true

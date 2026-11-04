@@ -73,6 +73,34 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
         },
       ],
     },
+    demonstration: {
+      heading: "Un exemple exécuté : quand faut-il s’abstenir ?",
+      description:
+        "Ces entrées synthétiques sont passées aux fonctions du dépôt public. Elles illustrent le contrat du code, sans évaluer une étude médicale réelle.",
+      output:
+        "presence=false, absence=false -> UNKNOWN\npresence=true, absence=false -> APPLIES\npresence=false, absence=true -> NOT_APPLICABLE\npresence=true, absence=true -> CONFLICTING\nIncomplete artifact linkage -> REFERENCE_UNSCORABLE; gold_state=None",
+      steps: [
+        {
+          heading: "1 · Distinguer les preuves",
+          description:
+            "Deux indicateurs disent si une preuve positive ou négative est disponible. Sans l’une ni l’autre, la réponse reste UNKNOWN ; une absence de preuve ne devient pas une preuve d’absence.",
+        },
+        {
+          heading: "2 · Examiner la chaîne",
+          description:
+            "Dans le dernier cas, une évaluation est identifiée, mais son lien avec un artefact n’est pas étayé. Une référence fiable ne peut donc pas être constituée.",
+        },
+        {
+          heading: "3 · Refuser une fausse certitude",
+          description:
+            "La fonction admit renvoie REFERENCE_UNSCORABLE et aucun état de référence. Ce refus est distinct de UNKNOWN : il concerne la possibilité même d’évaluer la méthode.",
+        },
+      ],
+      download: {
+        label: "Télécharger la sortie de l’exécution",
+        href: "/evidence/meddatatrace-output.txt",
+      },
+    },
     sections: [
       {
         heading: "01 · Définir ce que l’on évalue",
@@ -109,6 +137,11 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
     sources: {
       label: "Code et documents de référence",
       entries: [
+        {
+          label: "Exemple exécuté",
+          href: "https://github.com/carabistouflette/portfolio/blob/main/scripts/evidence/meddatatrace_example.py",
+          detail: "Entrées synthétiques et assertions de la démonstration.",
+        },
         {
           label: "README public",
           href: `${source}/README.md`,
@@ -198,6 +231,34 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
         },
       ],
     },
+    demonstration: {
+      heading: "An executed example: when should the method abstain?",
+      description:
+        "These synthetic inputs were passed to the public repository’s functions. They illustrate the code’s contract without assessing a real medical study.",
+      output:
+        "presence=false, absence=false -> UNKNOWN\npresence=true, absence=false -> APPLIES\npresence=false, absence=true -> NOT_APPLICABLE\npresence=true, absence=true -> CONFLICTING\nIncomplete artifact linkage -> REFERENCE_UNSCORABLE; gold_state=None",
+      steps: [
+        {
+          heading: "1 · Separate the evidence",
+          description:
+            "Two flags indicate whether positive or negative support exists. With neither, the answer remains UNKNOWN; missing evidence does not become evidence of absence.",
+        },
+        {
+          heading: "2 · Inspect the chain",
+          description:
+            "In the last case, an evaluation is identified, but its link to an artifact is unsupported. A reliable reference cannot therefore be established.",
+        },
+        {
+          heading: "3 · Avoid false certainty",
+          description:
+            "The admit function returns REFERENCE_UNSCORABLE and no reference state. This differs from UNKNOWN: it concerns whether the method can be evaluated at all.",
+        },
+      ],
+      download: {
+        label: "Download the execution output",
+        href: "/evidence/meddatatrace-output.txt",
+      },
+    },
     sections: [
       {
         heading: "01 · Define the assessment",
@@ -234,6 +295,11 @@ export const meddatatrace: Record<Locale, CaseStudy> = {
     sources: {
       label: "Reference code and documents",
       entries: [
+        {
+          label: "Executed example",
+          href: "https://github.com/carabistouflette/portfolio/blob/main/scripts/evidence/meddatatrace_example.py",
+          detail: "Synthetic inputs and demonstration assertions.",
+        },
         {
           label: "Public README",
           href: `${source}/README.md`,

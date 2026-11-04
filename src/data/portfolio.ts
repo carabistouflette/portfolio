@@ -135,6 +135,15 @@ export interface CaseStudy {
   homeLabel: string;
   counterpartLabel: string;
   languageLabel: string;
+  demonstration?: {
+    heading: string;
+    description: string;
+    video?: { src: string; poster: string; captions: string; caption: string };
+    output?: string;
+    steps: { heading: string; description: string }[];
+    transcript?: { label: string; text: string };
+    download?: { label: string; href: string };
+  };
   pagination?: PaginationEvidence;
 }
 
@@ -1560,6 +1569,43 @@ const sillageFr: CaseStudy = {
     ],
   },
   mediaLabel: "Du dossier autorisé à l’extrait",
+  demonstration: {
+    heading: "Rechercher un passage et inspecter sa source",
+    description:
+      "Capture du lanceur natif Slint sur un document créé pour la démonstration. La recherche est lexicale, sans modèle ni OCR. La vidéo montre le résultat réel puis l’ouverture du passage cité.",
+    video: {
+      src: "/evidence/sillage-search-demo.webm",
+      poster: "/evidence/sillage-search-poster.webp",
+      captions: "/evidence/sillage-demo-fr.vtt",
+      caption:
+        "Build développeur local · document de démonstration · 12 secondes · sans son.",
+    },
+    steps: [
+      {
+        heading: "1 · Saisir la requête",
+        description:
+          "La saisie de « provenance » interroge le contenu du dossier de démonstration autorisé.",
+      },
+      {
+        heading: "2 · Retrouver le passage",
+        description:
+          "Le résultat identifie notes-recherche.md et les lignes 1–2, plutôt qu’un simple nom de fichier.",
+      },
+      {
+        heading: "3 · Inspecter la source",
+        description:
+          "Flèche bas puis Entrée ouvrent le panneau de preuve : passage, citation, version de l’artefact et empreinte du contenu.",
+      },
+    ],
+    transcript: {
+      label: "Lire la transcription",
+      text: "Dans le lanceur vide, la requête provenance est saisie. Un résultat apparaît pour notes-recherche.md, lignes 1–2 : « Dataset provenance links an evaluation to its source data. An evaluation keeps a pinned dataset version and a source citation. » Le résultat est sélectionné au clavier puis ouvert avec Entrée. Le panneau affiche ce passage, sa source et son empreinte ; aucune application externe n’est ouverte.",
+    },
+    download: {
+      label: "Télécharger la vidéo",
+      href: "/evidence/sillage-search-demo.webm",
+    },
+  },
   sections: [
     {
       heading: "01 · Un lanceur utilisable sans recherche documentaire",
@@ -1693,6 +1739,43 @@ const sillageEn: CaseStudy = {
     ],
   },
   mediaLabel: "From approved folder to excerpt",
+  demonstration: {
+    heading: "Find a passage and inspect its source",
+    description:
+      "A recording of the native Slint launcher using a document created for this demonstration. Search is lexical, without a model or OCR. The video shows the real result and opens the cited passage.",
+    video: {
+      src: "/evidence/sillage-search-demo.webm",
+      poster: "/evidence/sillage-search-poster.webp",
+      captions: "/evidence/sillage-demo-en.vtt",
+      caption:
+        "Local developer build · demonstration document · 12 seconds · no audio.",
+    },
+    steps: [
+      {
+        heading: "1 · Type the query",
+        description:
+          "Typing “provenance” searches the contents of the approved demonstration folder.",
+      },
+      {
+        heading: "2 · Find the passage",
+        description:
+          "The result identifies notes-recherche.md and lines 1–2, rather than only a filename.",
+      },
+      {
+        heading: "3 · Inspect the source",
+        description:
+          "Down then Enter open the evidence pane: excerpt, citation, artifact version and content hash.",
+      },
+    ],
+    transcript: {
+      label: "Read the transcript",
+      text: "The query provenance is typed into the empty launcher. A result appears for notes-recherche.md, lines 1–2: “Dataset provenance links an evaluation to its source data. An evaluation keeps a pinned dataset version and a source citation.” The result is selected using the keyboard and opened with Enter. The pane displays the excerpt, its source and content hash; no external application is opened.",
+    },
+    download: {
+      label: "Download the video",
+      href: "/evidence/sillage-search-demo.webm",
+    },
+  },
   sections: [
     {
       heading: "01 · A launcher that works without document search",
@@ -1781,7 +1864,9 @@ const encryptedVotingFr: CaseStudy = {
     ],
   },
   understandLabel: "Comprendre le sujet",
-  technicalLabel: "Voir les repères conceptuels",
+  technicalLabel: "Examiner le parcours dans le code",
+  roleLabel: "Ma contribution",
+  role: "J’ai développé la partie cryptographique et participé au frontend ainsi qu’à l’intégration entre le frontend et le backend. Le dépôt encore accessible contient la bibliothèque cryptographique Java ; l’interface du projet n’est plus accessible.",
   path: "/projets/encrypted-voting/",
   contextLabel: "Contexte du projet",
   context:
@@ -1818,6 +1903,34 @@ const encryptedVotingFr: CaseStudy = {
         "Ce schéma n’est ni une preuve de sécurité ni une description du protocole de l’implémentation.",
     },
   },
+  demonstration: {
+    heading: "Trois bulletins, une exécution réelle",
+    description:
+      "Un programme de démonstration appelle la bibliothèque Java publique sur les entrées synthétiques Yes, Yes, No. Il chiffre les bulletins, vérifie chaque preuve puis décompte le total. L’interface historique n’étant plus accessible, cette sortie présente le parcours du code disponible.",
+    output:
+      "Synthetic inputs: Yes, Yes, No\nBallot 1: encrypted; validity proof verified = true\nBallot 2: encrypted; validity proof verified = true\nBallot 3: encrypted; validity proof verified = true\nAggregate tally: 2 Yes / 3 ballots\nExpected tally matched = true",
+    steps: [
+      {
+        heading: "1 · Chiffrer",
+        description:
+          "castVote encode Yes et No comme deux éléments du groupe, chiffre le choix avec El Gamal et produit une preuve disjonctive de Chaum-Pedersen.",
+      },
+      {
+        heading: "2 · Vérifier",
+        description:
+          "verifyVote vérifie la preuve associée à chaque bulletin chiffré. La démonstration s’arrête si une preuve est rejetée.",
+      },
+      {
+        heading: "3 · Décompter",
+        description:
+          "tallyVotes agrège les chiffrés et retrouve deux Yes sur trois bulletins. Ce cas exécuté n’est pas un audit de sécurité du système complet.",
+      },
+    ],
+    download: {
+      label: "Télécharger la sortie de l’exécution",
+      href: "/evidence/voting-output.txt",
+    },
+  },
   sections: [
     {
       heading: "01 · Chiffrer sans exposer les choix",
@@ -1838,6 +1951,25 @@ const encryptedVotingFr: CaseStudy = {
       ],
     },
   ],
+  sources: {
+    label: "Code consultable",
+    entries: [
+      {
+        label: "VoteServiceImpl.java",
+        href: "https://github.com/carabistouflette/Voteomatic-cryptography/blob/386dbb6aa9a9348d0155b99604dafd197254d608/src/main/java/com/voteomatic/cryptography/voting/VoteServiceImpl.java",
+        detail: "Chiffrement, preuves et agrégation des bulletins.",
+      },
+      {
+        label: "EndToEndTest.java",
+        href: "https://github.com/carabistouflette/Voteomatic-cryptography/blob/386dbb6aa9a9348d0155b99604dafd197254d608/src/test/java/com/voteomatic/cryptography/EndToEndTest.java",
+        detail: "Le scénario de trois votes dont est tirée la démonstration.",
+      },
+      {
+        label: "Programme de démonstration",
+        href: "https://github.com/carabistouflette/portfolio/blob/main/scripts/evidence/PortfolioVotingDemo.java",
+      },
+    ],
+  },
   homeLabel: "Retour au portfolio",
   counterpartLabel: "Read in English",
   languageLabel: "Changer de langue",
@@ -1870,6 +2002,8 @@ const encryptedVotingEn: CaseStudy = {
   },
   understandLabel: "Understand the subject",
   technicalLabel: "Explore the conceptual map",
+  roleLabel: "My contribution",
+  role: "I developed the cryptographic part and contributed to the frontend and frontend/backend integration. The accessible repository contains the Java cryptography library; the original project interface is no longer accessible.",
   path: "/en/projects/encrypted-voting/",
   contextLabel: "Project context",
   context:
@@ -1905,6 +2039,34 @@ const encryptedVotingEn: CaseStudy = {
         "This diagram is neither a security proof nor a description of the implementation protocol.",
     },
   },
+  demonstration: {
+    heading: "Three ballots, a real execution",
+    description:
+      "A demonstration program calls the public Java library with synthetic inputs Yes, Yes, No. It encrypts ballots, verifies each proof and tallies the result. Since the original interface is no longer accessible, this output shows the available code workflow.",
+    output:
+      "Synthetic inputs: Yes, Yes, No\nBallot 1: encrypted; validity proof verified = true\nBallot 2: encrypted; validity proof verified = true\nBallot 3: encrypted; validity proof verified = true\nAggregate tally: 2 Yes / 3 ballots\nExpected tally matched = true",
+    steps: [
+      {
+        heading: "1 · Encrypt",
+        description:
+          "castVote encodes Yes and No as two group elements, encrypts the choice with El Gamal and generates a disjunctive Chaum-Pedersen proof.",
+      },
+      {
+        heading: "2 · Verify",
+        description:
+          "verifyVote checks the proof attached to each encrypted ballot. The demonstration stops if a proof is rejected.",
+      },
+      {
+        heading: "3 · Tally",
+        description:
+          "tallyVotes aggregates ciphertexts and recovers two Yes votes from three ballots. This executed case is not a security audit of the complete system.",
+      },
+    ],
+    download: {
+      label: "Download the execution output",
+      href: "/evidence/voting-output.txt",
+    },
+  },
   sections: [
     {
       heading: "01 · Encrypting without exposing choices",
@@ -1925,6 +2087,25 @@ const encryptedVotingEn: CaseStudy = {
       ],
     },
   ],
+  sources: {
+    label: "Inspectable code",
+    entries: [
+      {
+        label: "VoteServiceImpl.java",
+        href: "https://github.com/carabistouflette/Voteomatic-cryptography/blob/386dbb6aa9a9348d0155b99604dafd197254d608/src/main/java/com/voteomatic/cryptography/voting/VoteServiceImpl.java",
+        detail: "Ballot encryption, proofs and aggregation.",
+      },
+      {
+        label: "EndToEndTest.java",
+        href: "https://github.com/carabistouflette/Voteomatic-cryptography/blob/386dbb6aa9a9348d0155b99604dafd197254d608/src/test/java/com/voteomatic/cryptography/EndToEndTest.java",
+        detail: "The three-ballot scenario used for the demonstration.",
+      },
+      {
+        label: "Demonstration program",
+        href: "https://github.com/carabistouflette/portfolio/blob/main/scripts/evidence/PortfolioVotingDemo.java",
+      },
+    ],
+  },
   homeLabel: "Back to portfolio",
   counterpartLabel: "Lire en français",
   languageLabel: "Change language",

@@ -1,0 +1,5 @@
+presence=false, absence=false -> UNKNOWN
+presence=true, absence=false -> APPLIES
+presence=false, absence=true -> NOT_APPLICABLE
+presence=true, absence=true -> CONFLICTING
+Incomplete artifact linkage -> REFERENCE_UNSCORABLE; gold_state=None

@@ -1,4 +1,5 @@
 ---
+import CaseStudyDemo from "./CaseStudyDemo.astro";
 import EvidenceFigure from "./EvidenceFigure.astro";
 import PaginationEvidence from "./PaginationEvidence.astro";
 import type {
@@ -126,6 +127,10 @@ const counterpartPath =
         </section>
       )}
     </div>
+
+    {study.demonstration && (
+      <CaseStudyDemo demonstration={study.demonstration} locale={locale} />
+    )}
 
     <section
       data-motion-reveal
