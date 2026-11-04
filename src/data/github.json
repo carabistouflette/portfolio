@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-04T09:16:24.737Z",
+  "updatedAt": "2026-11-04T13:31:47.913Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 1,
+        "title": "feat: preserve comments when editing dependencies",
+        "url": "https://github.com/carabistouflette/honk/pull/1",
+        "createdAt": "2026-11-04T13:19:27Z",
+        "updatedAt": "2026-11-04T13:22:53Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-argparse",
         "number": 3,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-02T15:19:45Z",
         "updatedAt": "2026-11-02T15:20:16Z",
         "mergedAt": "2026-11-02T15:20:16Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-argparse",
-        "number": 1,
-        "title": "Add Goose argument parser with tests and development workflow",
-        "url": "https://github.com/carabistouflette/goose-argparse/pull/1",
-        "createdAt": "2026-11-02T15:13:00Z",
-        "updatedAt": "2026-11-02T15:13:27Z",
-        "mergedAt": "2026-11-02T15:13:26Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/honk",
+        "number": 1,
+        "title": "feat: preserve comments when editing dependencies",
+        "url": "https://github.com/carabistouflette/honk/pull/1",
+        "createdAt": "2026-11-04T13:19:27Z",
+        "updatedAt": "2026-11-04T13:22:53Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
         "repository": "Yucareux/Tellus",
         "number": 48,
         "title": "Build centralization, CI hardening, and repo hygiene",
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 581,
-        "title": "fix(ci): cover convention checks on Sillage integration PRs",
-        "url": "https://github.com/brio-labs/maestria/pull/581",
-        "createdAt": "2026-10-07T22:19:07Z",
-        "updatedAt": "2026-10-07T22:21:11Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "organization"
       }
     ]
   },
   "counts": {
-    "open": 41,
+    "open": 42,
     "merged": 372
   },
   "featured": [
@@ -395,17 +395,17 @@
       {
         "date": "2025-12-20",
         "count": 91,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-21",
         "count": 76,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-22",
         "count": 80,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-23",
@@ -520,7 +520,7 @@
       {
         "date": "2026-01-14",
         "count": 187,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-01-15",
@@ -635,12 +635,12 @@
       {
         "date": "2026-02-06",
         "count": 172,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-02-07",
         "count": 77,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-08",
@@ -685,7 +685,7 @@
       {
         "date": "2026-02-16",
         "count": 89,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-17",
@@ -1330,12 +1330,12 @@
       {
         "date": "2026-06-25",
         "count": 207,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-06-26",
         "count": 100,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-06-27",
@@ -1905,7 +1905,7 @@
       {
         "date": "2026-10-18",
         "count": 101,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-10-19",
@@ -1980,17 +1980,17 @@
       {
         "date": "2026-11-02",
         "count": 101,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-11-03",
         "count": 293,
-        "level": 4
+        "level": 3
       },
       {
         "date": "2026-11-04",
-        "count": 219,
-        "level": 3
+        "count": 428,
+        "level": 4
       }
     ]
   }
