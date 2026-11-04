@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-04T01:24:14.995Z",
+  "updatedAt": "2026-11-04T09:16:24.737Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/goose-argparse",
+        "number": 3,
+        "title": "fix: publish NUL alias rejection and standalone documentation",
+        "url": "https://github.com/carabistouflette/goose-argparse/pull/3",
+        "createdAt": "2026-11-04T08:36:03Z",
+        "updatedAt": "2026-11-04T08:36:29Z",
+        "mergedAt": "2026-11-04T08:36:29Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-argparse",
         "number": 2,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-02T15:13:00Z",
         "updatedAt": "2026-11-02T15:13:27Z",
         "mergedAt": "2026-11-02T15:13:26Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/nacre",
-        "number": 1,
-        "title": "Integrate portable standard-library expansion and affine ownership contracts",
-        "url": "https://github.com/carabistouflette/nacre/pull/1",
-        "createdAt": "2026-10-13T23:34:53Z",
-        "updatedAt": "2026-10-15T15:12:26Z",
-        "mergedAt": "2026-10-15T15:12:26Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 41,
-    "merged": 371
+    "merged": 372
   },
   "featured": [
     {
@@ -575,7 +575,7 @@
       {
         "date": "2026-01-25",
         "count": 144,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-01-26",
@@ -655,7 +655,7 @@
       {
         "date": "2026-02-10",
         "count": 144,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-02-11",
@@ -1979,18 +1979,18 @@
       },
       {
         "date": "2026-11-02",
-        "count": 100,
+        "count": 101,
         "level": 2
       },
       {
         "date": "2026-11-03",
-        "count": 282,
+        "count": 293,
         "level": 4
       },
       {
         "date": "2026-11-04",
-        "count": 60,
-        "level": 1
+        "count": 219,
+        "level": 3
       }
     ]
   }
