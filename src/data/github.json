@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-04T23:41:54.486Z",
+  "updatedAt": "2026-11-05T06:50:08.136Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/goose-log",
-        "number": 3,
-        "title": "feat: add optional UTC record consumer with injected clocks",
-        "url": "https://github.com/carabistouflette/goose-log/pull/3",
-        "createdAt": "2026-11-04T23:37:40Z",
-        "updatedAt": "2026-11-04T23:41:02Z",
-        "mergedAt": "2026-11-04T23:41:01Z",
+        "repository": "carabistouflette/goose-json",
+        "number": 6,
+        "title": "test: lock float spellings and match benchmark build inputs",
+        "url": "https://github.com/carabistouflette/goose-json/pull/6",
+        "createdAt": "2026-11-05T02:01:58Z",
+        "updatedAt": "2026-11-05T02:05:25Z",
+        "mergedAt": "2026-11-05T02:05:25Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-artifact",
-        "number": 1,
-        "title": "feat: add reusable verified artifact publication",
-        "url": "https://github.com/carabistouflette/goose-artifact/pull/1",
-        "createdAt": "2026-11-04T23:37:30Z",
-        "updatedAt": "2026-11-04T23:39:39Z",
-        "mergedAt": null,
-        "state": "open",
+        "repository": "carabistouflette/honk",
+        "number": 5,
+        "title": "test: publish real Git workspace exercise and measurements",
+        "url": "https://github.com/carabistouflette/honk/pull/5",
+        "createdAt": "2026-11-05T01:03:25Z",
+        "updatedAt": "2026-11-05T01:10:11Z",
+        "mergedAt": "2026-11-05T01:10:11Z",
+        "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-toml",
-        "number": 7,
-        "title": "test: sanitize hostile source editor consumer overloads",
-        "url": "https://github.com/carabistouflette/goose-toml/pull/7",
-        "createdAt": "2026-11-04T23:36:27Z",
-        "updatedAt": "2026-11-04T23:40:52Z",
-        "mergedAt": "2026-11-04T23:40:51Z",
+        "repository": "carabistouflette/goose-csv",
+        "number": 1,
+        "title": "feat: add bounded streaming CSV reader and writer",
+        "url": "https://github.com/carabistouflette/goose-csv/pull/1",
+        "createdAt": "2026-11-05T00:49:52Z",
+        "updatedAt": "2026-11-05T00:57:24Z",
+        "mergedAt": "2026-11-05T00:57:24Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,17 +75,6 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-artifact",
-        "number": 1,
-        "title": "feat: add reusable verified artifact publication",
-        "url": "https://github.com/carabistouflette/goose-artifact/pull/1",
-        "createdAt": "2026-11-04T23:37:30Z",
-        "updatedAt": "2026-11-04T23:39:39Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
         "repository": "Yucareux/Tellus",
         "number": 48,
         "title": "Build centralization, CI hardening, and repo hygiene",
@@ -106,12 +95,23 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
+      },
+      {
+        "repository": "brio-labs/maestria",
+        "number": 581,
+        "title": "fix(ci): cover convention checks on Sillage integration PRs",
+        "url": "https://github.com/brio-labs/maestria/pull/581",
+        "createdAt": "2026-10-07T22:19:07Z",
+        "updatedAt": "2026-10-07T22:21:11Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "organization"
       }
     ]
   },
   "counts": {
-    "open": 42,
-    "merged": 399
+    "open": 41,
+    "merged": 414
   },
   "featured": [
     {
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-02",
-    "to": "2026-11-04",
+    "to": "2026-11-05",
     "days": [
       {
         "date": "2025-11-02",
@@ -1989,7 +1989,12 @@
       },
       {
         "date": "2026-11-04",
-        "count": 785,
+        "count": 796,
+        "level": 4
+      },
+      {
+        "date": "2026-11-05",
+        "count": 199,
         "level": 4
       }
     ]
