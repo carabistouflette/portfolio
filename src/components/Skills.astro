@@ -27,18 +27,23 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     </h2>
   </header>
 
-  <ul class="mt-8 grid list-none gap-6 p-0 sm:grid-cols-2 lg:grid-cols-3">
+  <ul class="skill-statements">
     {copy.highlights.map((skill) => (
-      <li class="min-w-0 border-t border-rule/60 pt-5">
+      <li class="skill-statement">
         <h3 class="card-title">{skill.name}</h3>
-        <p class="body-copy mt-3 text-muted">{skill.description}</p>
-        <ul class="mt-4 flex list-none flex-wrap gap-x-5 gap-y-2 p-0">
+        <p class="skill-description body-copy text-muted">
+          {skill.description}
+        </p>
+        <ul class="skill-evidence">
           {skill.projectIds.map((id) => {
             const project = projectById.get(id);
             return (
               project && (
                 <li>
-                  <a class="text-link text-sm" href={`#project-${id}`}>
+                  <a
+                    class="skill-project text-link text-sm"
+                    href={`#project-${id}`}
+                  >
                     <span class="sr-only">{copy.projectLabel} : </span>
                     {project.title}
                     <span class="ml-2" aria-hidden="true">
@@ -55,22 +60,22 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   </ul>
 
   {copy.groups.length > 0 && (
-    <details class="catalog-invitation mt-12" data-disclosure-reveal>
+    <details class="skills-details reading-disclosure mt-8">
       <summary
         id="skills-catalog-summary"
         aria-controls="skills-catalog-body"
         class="relative block cursor-pointer border-t border-rule/60 py-3 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
       >
         <span class="relative z-10 flex items-center justify-between gap-6">
-          <span class="eyebrow text-[#a8c8be]">
+          <span class="text-sm text-[#a8c8be]">
             {copy.catalogMoreLabel}
             <span class="sr-only"> — {copy.heading}</span>
           </span>
           <span
-            class="catalog-invitation-arrow shrink-0 text-xl leading-none text-[#a8c8be]"
+            class="skills-details-mark shrink-0 text-xl leading-none text-[#a8c8be]"
             aria-hidden="true"
           >
-            ↘
+            +
           </span>
         </span>
       </summary>
@@ -100,13 +105,73 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
             </span>
           </button>
         </div>
-        <span
-          class="catalog-teaser-plus pointer-events-none absolute bottom-4 left-1/2 z-10 size-10 -translate-x-1/2 place-items-center rounded-full border border-[#9dc7df]/50 bg-[#07121b]/80 text-2xl leading-none text-[#9dc7df]"
-          aria-hidden="true"
-        >
-          +
-        </span>
       </div>
     </details>
   )}
 </section>
+
+<style>
+  .skill-statements {
+    margin-top: 2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .skill-statement {
+    display: grid;
+    gap: 0.75rem;
+    min-width: 0;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--color-rule);
+  }
+  .skill-description {
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+  .skill-evidence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 0.25rem 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .skill-project {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+  .skills-details > summary {
+    list-style: none;
+  }
+  .skills-details > summary::-webkit-details-marker {
+    display: none;
+  }
+  .skills-details-mark {
+    transition: rotate 180ms ease;
+  }
+  .skills-details[open] > summary .skills-details-mark {
+    rotate: 45deg;
+  }
+  .skills-details[data-disclosure-ready] [data-catalog-close-row] {
+    display: flex;
+    justify-content: center;
+  }
+  @media (min-width: 52rem) {
+    .skill-statement {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(
+          8rem,
+          0.6fr
+        );
+      align-items: baseline;
+      gap: 2rem;
+    }
+    .skill-evidence {
+      flex-direction: column;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skills-details-mark {
+      transition: none;
+    }
+  }
+</style>

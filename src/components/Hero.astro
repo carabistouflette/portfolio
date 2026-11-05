@@ -139,7 +139,7 @@ const robinGlyphs = [
     <p class="hero-headline-size mt-8 max-w-[30ch] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
-    <p class="hero-lead mt-3">{content.hero.affiliation}</p>
+    <p class="hero-affiliation mt-4">{content.hero.affiliation}</p>
     <details class="hero-availability group mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 transition-colors hover:border-paper open:border-paper lg:hidden">
       <summary class="flex cursor-pointer items-start justify-between gap-4 rounded-xl focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
         <span class="min-w-0 text-lg font-medium leading-snug text-paper sm:text-xl">
@@ -165,22 +165,24 @@ const robinGlyphs = [
       {content.hero.availability.label}. {content.hero.availability.detail}.
       {content.hero.availability.note}
     </p>
-    <div class="hero-actions relative z-10 mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
+    <div class="hero-actions relative z-10 mt-8 flex flex-wrap items-center gap-3">
       <a
-        class="inline-flex min-h-12 items-center bg-paper px-5 text-sm uppercase tracking-[0.14em] text-ink hover:bg-[#abd1ed] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+        class="hero-button hero-button-primary"
         href={`#${content.navigation.sections.projects.id}`}
       >
         {content.hero.projectsCta}
+        <span aria-hidden="true">↓</span>
       </a>
       <a
-        class="inline-flex min-h-12 items-center border border-rule px-5 text-sm uppercase tracking-[0.14em] text-[#9dc7df] hover:border-paper hover:text-paper"
+        class="hero-button hero-button-secondary"
         href={destinations.cv}
         download
       >
         {content.hero.cvCta}
+        <span aria-hidden="true">↓</span>
       </a>
       <a
-        class="text-link text-base text-muted"
+        class="hero-contact-link text-link text-sm text-muted"
         href={`#${content.navigation.sections.contact.id}`}
       >
         {content.hero.contactCta}

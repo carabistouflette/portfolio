@@ -173,6 +173,7 @@ export interface PortfolioContent {
   };
   projects: {
     heading: string;
+    intro: string;
     otherHeading: string;
     entries: Project[];
   };
@@ -314,6 +315,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     projects: {
       heading: "Mes projets",
+      intro: "Agents IA, données scientifiques et logiciels natifs.",
       otherHeading: "Travaux complémentaires",
       entries: [
         {
@@ -500,35 +502,21 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       heading: "Compétences",
       highlights: [
         {
-          name: "Python & API",
+          name: "Relier un agent aux données",
           description:
-            "Agents et services pour explorer les données scientifiques.",
+            "Agents Python, API FastAPI et requêtes Neo4j pour interroger des graphes génomiques ; déploiement des services avec Docker et K3s.",
           projectIds: ["genomint"],
         },
         {
-          name: "Rust",
-          description: "Applications natives, recherche locale et compilation.",
+          name: "Construire des logiciels natifs",
+          description:
+            "Contribuer à la recherche dans les documents avec Sillage, développer un compilateur avec Nacre : deux façons de travailler en Rust.",
           projectIds: ["sillage", "nacre"],
         },
         {
-          name: "Graphes & Neo4j",
-          description: "Requêtes, traversées et exports de données génomiques.",
-          projectIds: ["genomint"],
-        },
-        {
-          name: "Recherche d’information",
-          description: "Retrieval agentique et extraits documentaires sourcés.",
-          projectIds: ["genomint", "sillage"],
-        },
-        {
-          name: "Déploiement",
-          description: "Services conteneurisés, Helm et K3s.",
-          projectIds: ["genomint"],
-        },
-        {
-          name: "Recherche reproductible",
+          name: "Formaliser la provenance des données",
           description:
-            "Spécification, provenance des preuves et tests de référence.",
+            "Écrire une spécification, sa sémantique de référence en Python et des tests pour retracer les preuves sur les jeux de données en imagerie médicale.",
           projectIds: ["meddatatrace"],
         },
       ],
@@ -751,6 +739,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     projects: {
       heading: "My projects",
+      intro: "AI agents, scientific data and native software.",
       otherHeading: "Supplementary work",
       entries: [
         {
@@ -938,35 +927,21 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       heading: "Skills",
       highlights: [
         {
-          name: "Python & APIs",
-          description: "Agents and services for exploring scientific data.",
+          name: "Connect an agent to data",
+          description:
+            "Python agents, FastAPI endpoints and Neo4j queries for exploring genomic graphs; service deployment with Docker and K3s.",
           projectIds: ["genomint"],
         },
         {
-          name: "Rust",
-          description: "Native applications, local search and compilation.",
+          name: "Build native software",
+          description:
+            "Contributing to document search in Sillage and developing a compiler in Nacre: two ways I work with Rust.",
           projectIds: ["sillage", "nacre"],
         },
         {
-          name: "Graphs & Neo4j",
-          description: "Queries, traversals and genomic data exports.",
-          projectIds: ["genomint"],
-        },
-        {
-          name: "Information retrieval",
+          name: "Specify dataset provenance",
           description:
-            "Agentic retrieval and document excerpts linked to sources.",
-          projectIds: ["genomint", "sillage"],
-        },
-        {
-          name: "Deployment",
-          description: "Containerized services, Helm and K3s.",
-          projectIds: ["genomint"],
-        },
-        {
-          name: "Reproducible research",
-          description:
-            "Specification, evidence provenance and reference tests.",
+            "Writing a specification, Python reference semantics and tests to trace evidence about datasets used in medical imaging.",
           projectIds: ["meddatatrace"],
         },
       ],

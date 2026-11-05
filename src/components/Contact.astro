@@ -26,10 +26,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
   >
     <div class="contact-inner">
       <!-- Section Header -->
-      <header
-        class="section-heading border-t border-rule/50"
-        data-motion-reveal
-      >
+      <header class="border-t border-rule/50 pt-8" data-motion-reveal>
         <h2 id="contact-title" class="section-title text-paper">
           {contact.heading}
         </h2>
@@ -53,7 +50,7 @@ const githubHref = locale === "fr" ? "/github/" : "/en/github/";
       </header>
 
       <!-- Main Contact Grid -->
-      <div class="contact-layout mt-12 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
+      <div class="contact-layout mt-8 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
         <!-- Primary Contact Card (Email & Copy) -->
         <div
           class="contact-primary-card relative flex flex-col justify-between overflow-hidden rounded-2xl border border-rule/60 bg-linear-to-br from-[#102637]/50 via-[#07121b]/70 to-[#020508]/90 p-7 sm:p-9 md:p-10 backdrop-blur-md transition-colors hover:border-[#9dc7df]/60"

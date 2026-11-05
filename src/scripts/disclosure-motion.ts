@@ -32,7 +32,7 @@ onPageLoad((signal) => {
           ),
         ]
       : [];
-    const closeButton = revealPanel?.querySelector<HTMLButtonElement>(
+    const closeButton = panel?.querySelector<HTMLButtonElement>(
       "[data-catalog-close]",
     );
     let pendingCategory: HTMLElement | null = null;
@@ -97,10 +97,14 @@ onPageLoad((signal) => {
         },
         { capture: true, signal },
       );
-      closeButton?.addEventListener(
+    }
+
+    if (closeButton) {
+      details.dataset.disclosureReady = "";
+      closeButton.addEventListener(
         "click",
         () => {
-          if (!expanded) return;
+          if (!details.open && !expanded) return;
           pendingCategory = null;
           summary.focus();
           summary.click();

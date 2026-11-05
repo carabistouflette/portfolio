@@ -23,7 +23,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
     {openSource.heading}
   </h2>
   <a
-    class="mt-6 inline-flex max-w-full items-center gap-4 rounded-xl border border-rule/60 px-4 py-3 hover:border-[#9dc7df] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+    class="mt-8 inline-flex max-w-full items-center gap-4 rounded-xl border border-rule/60 px-4 py-3 hover:border-[#9dc7df] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
     href={openSource.profileLink.url}
     target="_blank"
     rel="noreferrer"
@@ -45,7 +45,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       ↗
     </span>
   </a>
-  <ul class="mt-12 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:gap-x-16">
+  <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:gap-x-16">
     {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
         <h3 class="card-title">
@@ -61,7 +61,9 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
             </span>
           </a>
         </h3>
-        <p class="eyebrow mt-2 text-[#abd1ed]">{project.role}</p>
+        <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">
+          {project.role}
+        </p>
         <p class="body-copy mt-4 max-w-[52ch] text-muted">
           {project.description}
         </p>

@@ -48,89 +48,6 @@ const projectConcepts: Record<ProjectId, string[]> = fr
       "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
       justsyncit: ["Backups", "Snapshots", "BLAKE3"],
     };
-// Stylized category network based on the GenomInt explorer, not live metrics.
-const nodes: [number, number, number, string, string][] = [
-  [245, 75, 9, "phylotree", "#df6aab"],
-  [330, 105, 10, "organism", "#69a8df"],
-  [115, 155, 23, "ontologies", "#89979d"],
-  [305, 170, 36, "pangene", "#e8b34e"],
-  [400, 160, 20, "consensus", "#df6aab"],
-  [245, 205, 28, "gene family", "#df6aab"],
-  [65, 235, 36, "polypeptide", "#4cc48b"],
-  [170, 255, 24, "ncRNA", "#4cc48b"],
-  [355, 245, 24, "synteny block", "#df6aab"],
-  [470, 220, 26, "TE clique", "#e8b34e"],
-  [295, 280, 10, "analysis", "#89979d"],
-  [400, 290, 10, "assembly", "#69a8df"],
-  [30, 345, 33, "dbxref", "#89979d"],
-  [140, 350, 34, "mRNA", "#4cc48b"],
-  [255, 365, 33, "gene", "#4cc48b"],
-  [355, 360, 43, "variant", "#e8b34e"],
-  [450, 335, 30, "TE copy", "#89979d"],
-  [70, 420, 11, "RNAseq sample", "#ae81dc"],
-  [130, 460, 32, "UTR", "#4cc48b"],
-  [295, 445, 21, "source file", "#89979d"],
-  [415, 430, 14, "sequence", "#69a8df"],
-  [215, 555, 37, "CDS", "#4cc48b"],
-  [300, 535, 22, "genomic island", "#df9152"],
-  [420, 540, 45, "sequence segment", "#e8b34e"],
-  [90, 570, 9, "RNAseq dataset", "#ae81dc"],
-  [420, 680, 40, "SNP allele", "#e8b34e"],
-];
-const edges = [
-  [0, 1],
-  [0, 5],
-  [1, 3],
-  [1, 4],
-  [2, 6],
-  [2, 13],
-  [2, 14],
-  [3, 5],
-  [3, 8],
-  [3, 10],
-  [3, 15],
-  [4, 8],
-  [4, 9],
-  [5, 7],
-  [5, 8],
-  [5, 14],
-  [6, 7],
-  [6, 12],
-  [6, 13],
-  [7, 13],
-  [7, 14],
-  [8, 10],
-  [8, 11],
-  [8, 14],
-  [9, 15],
-  [9, 16],
-  [10, 14],
-  [10, 15],
-  [11, 16],
-  [11, 20],
-  [12, 13],
-  [13, 14],
-  [13, 18],
-  [13, 21],
-  [14, 15],
-  [14, 18],
-  [14, 19],
-  [14, 21],
-  [15, 16],
-  [15, 19],
-  [15, 20],
-  [15, 23],
-  [16, 20],
-  [17, 18],
-  [17, 24],
-  [18, 21],
-  [19, 22],
-  [19, 23],
-  [20, 23],
-  [21, 22],
-  [22, 23],
-  [23, 25],
-];
 const bookTitles = fr
   ? [
       "Atlas",
@@ -167,9 +84,12 @@ const bookTitles = fr
   class="content-shell section-shell projects-section"
   aria-labelledby="projects-title"
 >
-  <h2 id="projects-title" class="section-title">
-    {content.projects.heading}
-  </h2>
+  <header class="projects-heading">
+    <h2 id="projects-title" class="section-title">
+      {content.projects.heading}
+    </h2>
+    <p class="projects-intro">{content.projects.intro}</p>
+  </header>
   <div class="projects-grid">
     {content.projects.entries.map((project, index) => {
       const Surface = project.url ? "a" : "div";
@@ -200,66 +120,26 @@ const bookTitles = fr
                 {project.url ? "↗" : "◇"}
               </span>
               {project.id === "genomint" && (
-                <div class="tile-art graph-art" aria-hidden="true">
-                  <svg
-                    data-project-graph
-                    viewBox="0 0 510 720"
-                    preserveAspectRatio="xMidYMid slice"
-                    focusable="false"
-                  >
-                    <defs>
-                      <mask
-                        id="project-graph-links"
-                        maskUnits="userSpaceOnUse"
-                        x="0"
-                        y="0"
-                        width="510"
-                        height="720"
-                      >
-                        <rect width="510" height="720" fill="white" />
-                        {nodes.map(([x, y, radius]) => (
-                          <circle cx={x} cy={y} r={radius + 4} fill="black" />
-                        ))}
-                      </mask>
-                    </defs>
-                    <g class="graph-edges" mask="url(#project-graph-links)">
-                      {edges.map(([a, b]) => (
-                        <line
-                          x1={nodes[a][0]}
-                          y1={nodes[a][1]}
-                          x2={nodes[b][0]}
-                          y2={nodes[b][1]}
-                          stroke={nodes[a][4]}
-                          vector-effect="non-scaling-stroke"
-                        />
-                      ))}
-                    </g>
-                    {nodes.map(([x, y, radius, label, color]) => (
-                      <g
-                        class="graph-node"
-                        data-x={x}
-                        data-y={y}
-                        style={`--node-color: ${color}`}
-                      >
-                        <circle
-                          class="node-halo"
-                          cx={x}
-                          cy={y}
-                          r={radius + 9}
-                        />
-                        <circle class="node-core" cx={x} cy={y} r={radius} />
-                        <text
-                          class="node-label"
-                          x={x}
-                          y={y + radius + 15}
-                          text-anchor="middle"
-                        >
-                          {label}
-                        </text>
-                      </g>
-                    ))}
-                  </svg>
-                </div>
+                <figure class="genomint-preview">
+                  <img
+                    src="/images/genomint-explorer-1100.webp"
+                    srcset="/images/genomint-explorer-1100.webp 1100w, /images/genomint-explorer.webp 2877w"
+                    sizes="(min-width: 100rem) 60vw, (min-width: 64rem) 55vw, calc(100vw - 5rem)"
+                    width="2877"
+                    height="1743"
+                    alt={
+                      fr
+                        ? "GKG Explorer : filtres, graphe génomique et table de gènes dans l’interface GenomInt."
+                        : "GKG Explorer: filters, genomic graph and gene table in the GenomInt interface."
+                    }
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <figcaption>
+                    GKG Explorer <span aria-hidden="true">—</span>{" "}
+                    {fr ? "interface GenomInt" : "GenomInt interface"}
+                  </figcaption>
+                </figure>
               )}
               {project.id === "sillage" && (
                 <div class="tile-art library-art" aria-hidden="true">
@@ -335,10 +215,33 @@ const bookTitles = fr
               {(project.id === "meddatatrace" ||
                 project.id === "encrypted-voting" ||
                 project.id === "justsyncit") && (
-                <ProjectScene kind={project.id} locale={locale} />
+                <div class="tile-scene">
+                  <ProjectScene kind={project.id} locale={locale} />
+                </div>
               )}
               <div class="tile-copy">
+                {index < 3 && (
+                  <p class="tile-context">
+                    {project.id === "genomint"
+                      ? fr
+                        ? "CIRAD · Génomique"
+                        : "CIRAD · Genomics"
+                      : project.id === "meddatatrace"
+                        ? fr
+                          ? "Recherche personnelle"
+                          : "Independent research"
+                        : fr
+                          ? "Brio · Contribution"
+                          : "Brio · Contributor"}
+                  </p>
+                )}
                 <Heading>{project.title}</Heading>
+                <p
+                  id={`project-${project.id}-description`}
+                  class="tile-description"
+                >
+                  {project.description}
+                </p>
                 <ul id={`project-${project.id}-tools`} class="tile-tools">
                   {projectTools[project.id].map((name) => (
                     <li title={name}>
@@ -347,12 +250,6 @@ const bookTitles = fr
                     </li>
                   ))}
                 </ul>
-                <p
-                  id={`project-${project.id}-description`}
-                  class="tile-description"
-                >
-                  {project.description}
-                </p>
                 {project.status && (
                   <p id={`project-${project.id}-status`} class="tile-status">
                     {project.status}
@@ -376,82 +273,27 @@ const bookTitles = fr
 </section>
 
 <script>
-  import { onPageLoad } from "../scripts/page-lifecycle";
   import "../scripts/sillage-library";
-
-  onPageLoad((signal) => {
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    const graph = document.querySelector<SVGSVGElement>("[data-project-graph]");
-    const card = graph?.closest<HTMLElement>(".project-tile");
-    if (!graph || !card) return;
-    const nodes = Array.from(
-      graph.querySelectorAll<SVGGElement>(".graph-node"),
-    );
-    const positions = nodes.map((node) => [
-      Number(node.dataset.x),
-      Number(node.dataset.y),
-    ]);
-    const near = new Uint8Array(nodes.length);
-    let frame = 0;
-    let x = 0;
-    let y = 0;
-    const reset = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
-      for (let i = 0; i < nodes.length; i++) {
-        if (!near[i]) continue;
-        near[i] = 0;
-        nodes[i].classList.remove("is-near");
-      }
-    };
-    const update = () => {
-      frame = 0;
-      const matrix = graph.getScreenCTM();
-      if (!matrix) return;
-      // The graph and its entrance use 2D affine transforms. Apply the
-      // inverse directly instead of allocating an inverse matrix and point.
-      const determinant = matrix.a * matrix.d - matrix.b * matrix.c;
-      if (!determinant) return;
-      const inverse = 1 / determinant;
-      const clientX = x - matrix.e;
-      const clientY = y - matrix.f;
-      const graphX = (matrix.d * clientX - matrix.c * clientY) * inverse;
-      const graphY = (matrix.a * clientY - matrix.b * clientX) * inverse;
-      for (let i = 0; i < nodes.length; i++) {
-        const dx = positions[i][0] - graphX;
-        const dy = positions[i][1] - graphY;
-        const value = dx * dx + dy * dy < 85 * 85 ? 1 : 0;
-        if (value === near[i]) continue;
-        near[i] = value;
-        nodes[i].classList.toggle("is-near", value === 1);
-      }
-    };
-    card.addEventListener(
-      "pointermove",
-      (event) => {
-        if (event.pointerType === "touch" || reduced.matches) return;
-        x = event.clientX;
-        y = event.clientY;
-        if (frame) return;
-        frame = requestAnimationFrame(update);
-      },
-      { passive: true, signal },
-    );
-    card.addEventListener("pointerleave", reset, { signal });
-    reduced.addEventListener("change", reset, { signal });
-    signal.addEventListener("abort", reset, { once: true });
-  });
 </script>
 
 <style>
-  .projects-section h2 {
-    margin-bottom: 1.5rem;
+  .projects-heading {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .projects-intro {
+    max-width: 58ch;
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    text-wrap: pretty;
   }
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-auto-rows: auto;
-    gap: 1rem;
+    gap: 1.25rem;
     height: auto;
   }
   .complementary-heading {
@@ -470,12 +312,12 @@ const bookTitles = fr
     display: flex;
     flex-direction: column;
     min-width: 0;
-    grid-column: span 2;
+    grid-column: span 4;
     --tile-padding: clamp(1.15rem, 2vw, 2rem);
     border: 1px solid var(--tile-border);
     background: var(--tile-bg);
     color: #f1eee5;
-    border-radius: 0.35rem;
+    border-radius: 1rem;
     scroll-margin-top: 6rem;
     overflow: hidden;
     isolation: isolate;
@@ -492,12 +334,58 @@ const bookTitles = fr
     text-decoration: none;
   }
   .tile-genomint {
-    --tile-bg: #0c2222;
+    --tile-bg: #0c1a1b;
     --tile-border: #345451;
     --tile-accent: #b0ded0;
-    grid-column: span 2;
+    grid-column: 1 / -1;
+    border-inline: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+  .tile-genomint .tile-surface {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4rem);
+    padding: 2.5rem 0;
+  }
+  .tile-genomint .tile-copy {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+  }
+  .genomint-preview {
+    grid-column: 2;
+    min-width: 0;
+    margin: 0;
+  }
+  .genomint-preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #657c76;
+    border-radius: 0.25rem;
+  }
+  .genomint-preview figcaption {
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  .tile-context {
+    margin-bottom: 0.75rem;
+    color: var(--tile-accent);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+  .tile-genomint .tile-copy :is(h3, h4) {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+  }
+  .tile-nacre .tile-surface {
+    padding-top: calc(var(--tile-padding) + 10rem);
   }
   .tile-meddatatrace {
+    grid-column: span 5;
     --tile-bg: #15262d;
     --tile-border: #52737c;
     --tile-accent: #b4dce1;
@@ -524,7 +412,20 @@ const bookTitles = fr
     --tile-bg: #182330;
     --tile-border: #435367;
     --tile-accent: #bdd1ec;
-    grid-column: span 2;
+    grid-column: span 7;
+  }
+  .tile-sillage .tile-surface {
+    padding-left: 43%;
+    justify-content: center;
+  }
+  .tile-sillage .library-art {
+    inset: 0 auto 0 0;
+    width: 36%;
+    padding-inline: 0.35rem;
+    border-inline-width: 5px;
+  }
+  .tile-sillage .tile-copy {
+    margin-top: 0;
   }
   .tile-nacre {
     --tile-bg: #252733;
@@ -535,13 +436,13 @@ const bookTitles = fr
     --tile-bg: #29231e;
     --tile-border: #605043;
     --tile-accent: #dbc09c;
-    grid-column: span 2;
+    grid-column: span 4;
   }
   .tile-justsyncit {
     --tile-bg: #202b2d;
     --tile-border: #496366;
     --tile-accent: #b1d9d5;
-    grid-column: span 2;
+    grid-column: span 4;
   }
   .tile-mark {
     position: absolute;
@@ -556,70 +457,6 @@ const bookTitles = fr
     position: absolute;
     inset: 0;
     z-index: 0;
-  }
-  .tile-genomint::before,
-  .tile-sillage::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    background: linear-gradient(
-      180deg,
-      rgb(5 15 17 / 0.85),
-      transparent 22%,
-      transparent 38%,
-      rgb(5 15 17 / 0.75) 64%,
-      #091718 100%
-    );
-  }
-  .tile-sillage::before {
-    background: linear-gradient(
-      180deg,
-      rgb(18 17 16 / 0.8),
-      transparent 18%,
-      transparent 35%,
-      rgb(18 17 16 / 0.82) 66%,
-      #121110 100%
-    );
-  }
-  .graph-art {
-    background-color: #102523;
-    background-image: radial-gradient(#a9c8ba24 1px, transparent 1px);
-    background-size: 22px 22px;
-  }
-  .graph-art svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .graph-edges {
-    stroke-width: 1;
-    stroke-linecap: round;
-    opacity: 0.65;
-  }
-  .node-core {
-    fill: var(--node-color);
-    fill-opacity: 0.7;
-    stroke: var(--node-color);
-    stroke-width: 1;
-  }
-  .node-halo {
-    fill: var(--node-color);
-    opacity: 0;
-  }
-  .graph-node.is-near .node-core {
-    fill-opacity: 1;
-    stroke: #e9f8ed;
-    stroke-width: 2;
-  }
-  .graph-node.is-near .node-halo {
-    opacity: 0.2;
-  }
-  .node-label {
-    fill: #d5e3d8;
-    font-size: 10px;
-    letter-spacing: 0.025em;
   }
   .library-art {
     display: flex;
@@ -810,14 +647,12 @@ const bookTitles = fr
     position: relative;
     z-index: 2;
   }
-  .tile-genomint .tile-copy::before,
-  .tile-sillage .tile-copy::before,
-  .tile-nacre .tile-copy::before {
+  .project-tile:not(.tile-genomint) .tile-copy::before {
     content: "";
     position: absolute;
-    inset: -2rem -2rem -2rem;
+    inset: -2.5rem calc(-1 * var(--tile-padding)) calc(-1 * var(--tile-padding));
     z-index: -1;
-    background: linear-gradient(180deg, transparent, rgb(7 23 22 / 0.94) 2rem);
+    background: linear-gradient(180deg, transparent, var(--tile-bg) 2rem);
     pointer-events: none;
   }
   .tile-sillage .tile-copy::before {
@@ -826,7 +661,6 @@ const bookTitles = fr
   .tile-nacre .tile-copy::before {
     background: linear-gradient(180deg, transparent, #252733 2rem);
   }
-  .tile-genomint .tile-copy,
   .tile-sillage .tile-copy {
     pointer-events: none;
   }
@@ -838,18 +672,19 @@ const bookTitles = fr
     letter-spacing: -0.035em;
   }
   .tile-description {
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    margin-top: 0.8rem;
-    color: #d0d2cd;
+    max-width: 48ch;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-top: 1rem;
+    color: #e0e3df;
   }
   .tile-concepts {
     margin-top: 0.8rem;
     padding-top: 0.65rem;
     border-top: 1px solid var(--tile-border);
     color: var(--tile-accent);
-    font-size: 0.8125rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
   .tile-tools {
     display: flex;
@@ -877,9 +712,9 @@ const bookTitles = fr
   }
   .tile-encrypted-voting .tile-description,
   .tile-justsyncit .tile-description {
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    margin-top: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-top: 0.75rem;
   }
   .compiler-art {
     padding: 3.5rem 1.5rem 0;
@@ -936,18 +771,12 @@ const bookTitles = fr
     outline: 2px solid var(--tile-accent);
     outline-offset: 3px;
   }
+  .project-tile:has(a):is(:hover, :focus-within) {
+    border-color: var(--tile-accent);
+  }
   .tile-surface:focus-visible {
     outline: 2px solid var(--tile-accent);
     outline-offset: 4px;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .node-core,
-    .node-halo {
-      transition:
-        fill 140ms ease,
-        opacity 140ms ease,
-        stroke-width 140ms ease;
-    }
   }
   @media (prefers-reduced-motion: no-preference) {
     .tile-nacre .compiler-source {
@@ -995,8 +824,29 @@ const bookTitles = fr
       min-height: 26rem;
       grid-column: auto;
     }
-    .tile-nacre {
-      grid-column: auto;
+    .tile-genomint {
+      grid-column: 1 / -1;
+    }
+    .tile-genomint .tile-surface {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+    .genomint-preview {
+      grid-column: 1;
+    }
+    .tile-genomint .tile-copy {
+      grid-row: 1;
+      max-width: 58ch;
+    }
+    .tile-sillage .tile-surface {
+      justify-content: flex-end;
+      padding-left: var(--tile-padding);
+      padding-top: calc(var(--tile-padding) + 14rem);
+    }
+    .tile-sillage .library-art {
+      inset: 0 0 auto;
+      width: auto;
+      height: 18rem;
     }
     .compiler-art {
       padding: 2rem 2rem 0;
@@ -1008,24 +858,14 @@ const bookTitles = fr
       width: 55%;
       font-size: 0.9rem;
     }
-    .tile-description {
-      font-size: 0.9375rem;
-    }
     .tile-encrypted-voting,
     .tile-justsyncit {
       min-height: 12rem;
     }
-    .tile-genomint,
-    .tile-sillage {
-      min-height: 25rem;
-    }
   }
   @media (max-width: 39.999rem) {
-    .projects-section h2 {
-      margin-bottom: 1rem;
-    }
     .projects-grid {
-      gap: 0.6rem;
+      gap: 1rem;
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: none;
       grid-auto-rows: auto;
@@ -1044,6 +884,19 @@ const bookTitles = fr
     .project-tile {
       grid-column: auto;
       --tile-padding: 1.25rem;
+    }
+    .tile-nacre .tile-surface {
+      padding-top: calc(var(--tile-padding) + 8rem);
+    }
+    .tile-encrypted-voting .tile-scene,
+    .tile-justsyncit .tile-scene {
+      height: 10.5rem;
+      margin-bottom: 1rem;
+    }
+    .tile-encrypted-voting .tile-scene :global(.project-scene),
+    .tile-justsyncit .tile-scene :global(.project-scene) {
+      transform: scale(0.7);
+      transform-origin: top center;
     }
     .compiler-art {
       display: block;
@@ -1099,17 +952,11 @@ const bookTitles = fr
       height: 1.5rem;
     }
     .tile-description {
-      font-size: 0.875rem;
-      line-height: 1.45;
-      margin-top: 0.5rem;
+      margin-top: 0.75rem;
     }
     .tile-encrypted-voting :is(h3, h4),
     .tile-justsyncit :is(h3, h4) {
       font-size: 1.25rem;
-    }
-    .tile-encrypted-voting .tile-description,
-    .tile-justsyncit .tile-description {
-      font-size: 0.875rem;
     }
   }
 </style>
