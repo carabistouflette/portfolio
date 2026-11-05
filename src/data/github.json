@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-05T06:50:08.136Z",
+  "updatedAt": "2026-11-05T15:30:10.825Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/goose-json",
-        "number": 6,
-        "title": "test: lock float spellings and match benchmark build inputs",
-        "url": "https://github.com/carabistouflette/goose-json/pull/6",
-        "createdAt": "2026-11-05T02:01:58Z",
-        "updatedAt": "2026-11-05T02:05:25Z",
-        "mergedAt": "2026-11-05T02:05:25Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
         "repository": "carabistouflette/honk",
-        "number": 5,
-        "title": "test: publish real Git workspace exercise and measurements",
-        "url": "https://github.com/carabistouflette/honk/pull/5",
-        "createdAt": "2026-11-05T01:03:25Z",
-        "updatedAt": "2026-11-05T01:10:11Z",
-        "mergedAt": "2026-11-05T01:10:11Z",
+        "number": 11,
+        "title": "feat: remove dependencies in one atomic manifest update",
+        "url": "https://github.com/carabistouflette/honk/pull/11",
+        "createdAt": "2026-11-05T14:15:56Z",
+        "updatedAt": "2026-11-05T14:23:49Z",
+        "mergedAt": "2026-11-05T14:23:49Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/goose-csv",
-        "number": 1,
-        "title": "feat: add bounded streaming CSV reader and writer",
-        "url": "https://github.com/carabistouflette/goose-csv/pull/1",
-        "createdAt": "2026-11-05T00:49:52Z",
-        "updatedAt": "2026-11-05T00:57:24Z",
-        "mergedAt": "2026-11-05T00:57:24Z",
+        "number": 2,
+        "title": "perf: accelerate bounded CSV runs and publish native comparisons",
+        "url": "https://github.com/carabistouflette/goose-csv/pull/2",
+        "createdAt": "2026-11-05T13:48:07Z",
+        "updatedAt": "2026-11-05T14:02:17Z",
+        "mergedAt": "2026-11-05T14:02:16Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/honk",
+        "number": 10,
+        "title": "feat: add bounded opt-in local build reuse",
+        "url": "https://github.com/carabistouflette/honk/pull/10",
+        "createdAt": "2026-11-05T13:31:17Z",
+        "updatedAt": "2026-11-05T13:43:45Z",
+        "mergedAt": "2026-11-05T13:43:45Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/goose-log",
+        "number": 6,
+        "title": "bench: record whole-Honk logging observations and failure controls",
+        "url": "https://github.com/carabistouflette/goose-log/pull/6",
+        "createdAt": "2026-11-05T07:19:54Z",
+        "updatedAt": "2026-11-05T07:19:54Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
         "repository": "Yucareux/Tellus",
         "number": 48,
         "title": "Build centralization, CI hardening, and repo hygiene",
@@ -95,23 +106,12 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 581,
-        "title": "fix(ci): cover convention checks on Sillage integration PRs",
-        "url": "https://github.com/brio-labs/maestria/pull/581",
-        "createdAt": "2026-10-07T22:19:07Z",
-        "updatedAt": "2026-10-07T22:21:11Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "organization"
       }
     ]
   },
   "counts": {
-    "open": 41,
-    "merged": 414
+    "open": 42,
+    "merged": 440
   },
   "featured": [
     {
@@ -1994,7 +1994,7 @@
       },
       {
         "date": "2026-11-05",
-        "count": 199,
+        "count": 530,
         "level": 4
       }
     ]
