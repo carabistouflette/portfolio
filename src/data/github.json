@@ -1,44 +1,55 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-05T15:30:10.825Z",
+  "updatedAt": "2026-11-05T22:00:12.115Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/honk",
-        "number": 11,
-        "title": "feat: remove dependencies in one atomic manifest update",
-        "url": "https://github.com/carabistouflette/honk/pull/11",
-        "createdAt": "2026-11-05T14:15:56Z",
-        "updatedAt": "2026-11-05T14:23:49Z",
-        "mergedAt": "2026-11-05T14:23:49Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-csv",
+        "repository": "carabistouflette/goose-url",
         "number": 2,
-        "title": "perf: accelerate bounded CSV runs and publish native comparisons",
-        "url": "https://github.com/carabistouflette/goose-csv/pull/2",
-        "createdAt": "2026-11-05T13:48:07Z",
-        "updatedAt": "2026-11-05T14:02:17Z",
-        "mergedAt": "2026-11-05T14:02:16Z",
-        "state": "merged",
+        "title": "docs: clarify URL API and benchmark scope",
+        "url": "https://github.com/carabistouflette/goose-url/pull/2",
+        "createdAt": "2026-11-05T21:53:24Z",
+        "updatedAt": "2026-11-05T21:53:24Z",
+        "mergedAt": null,
+        "state": "open",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/honk",
-        "number": 10,
-        "title": "feat: add bounded opt-in local build reuse",
-        "url": "https://github.com/carabistouflette/honk/pull/10",
-        "createdAt": "2026-11-05T13:31:17Z",
-        "updatedAt": "2026-11-05T13:43:45Z",
-        "mergedAt": "2026-11-05T13:43:45Z",
-        "state": "merged",
+        "repository": "carabistouflette/goose-http",
+        "number": 3,
+        "title": "docs: clarify HTTP API and benchmark evidence",
+        "url": "https://github.com/carabistouflette/goose-http/pull/3",
+        "createdAt": "2026-11-05T21:52:46Z",
+        "updatedAt": "2026-11-05T21:52:46Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-config",
+        "number": 1,
+        "title": "docs: clarify goose-config usage and performance evidence",
+        "url": "https://github.com/carabistouflette/goose-config/pull/1",
+        "createdAt": "2026-11-05T21:49:13Z",
+        "updatedAt": "2026-11-05T21:49:13Z",
+        "mergedAt": null,
+        "state": "open",
         "relationship": "personal"
       }
     ],
     "external": [
+      {
+        "repository": "libarchive/libarchive",
+        "number": 3825,
+        "title": "read: Close client data if input filter allocation fails",
+        "url": "https://github.com/libarchive/libarchive/pull/3825",
+        "createdAt": "2026-11-05T19:26:44Z",
+        "updatedAt": "2026-11-05T19:26:44Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
       {
         "repository": "brio-labs/maestria",
         "number": 581,
@@ -60,58 +71,47 @@
         "mergedAt": "2026-10-07T21:50:41Z",
         "state": "merged",
         "relationship": "organization"
-      },
-      {
-        "repository": "brio-labs/maestria",
-        "number": 579,
-        "title": "feat(evidence): derive read-only v2 references and claims (#576)",
-        "url": "https://github.com/brio-labs/maestria/pull/579",
-        "createdAt": "2026-10-07T19:49:43Z",
-        "updatedAt": "2026-10-07T19:52:46Z",
-        "mergedAt": "2026-10-07T19:52:44Z",
-        "state": "merged",
-        "relationship": "organization"
       }
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-log",
-        "number": 6,
-        "title": "bench: record whole-Honk logging observations and failure controls",
-        "url": "https://github.com/carabistouflette/goose-log/pull/6",
-        "createdAt": "2026-11-05T07:19:54Z",
-        "updatedAt": "2026-11-05T07:19:54Z",
+        "repository": "carabistouflette/goose-url",
+        "number": 2,
+        "title": "docs: clarify URL API and benchmark scope",
+        "url": "https://github.com/carabistouflette/goose-url/pull/2",
+        "createdAt": "2026-11-05T21:53:24Z",
+        "updatedAt": "2026-11-05T21:53:24Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "personal"
       },
       {
-        "repository": "Yucareux/Tellus",
-        "number": 48,
-        "title": "Build centralization, CI hardening, and repo hygiene",
-        "url": "https://github.com/Yucareux/Tellus/pull/48",
-        "createdAt": "2026-08-09T10:46:56Z",
-        "updatedAt": "2026-11-01T21:33:53Z",
+        "repository": "carabistouflette/goose-http",
+        "number": 3,
+        "title": "docs: clarify HTTP API and benchmark evidence",
+        "url": "https://github.com/carabistouflette/goose-http/pull/3",
+        "createdAt": "2026-11-05T21:52:46Z",
+        "updatedAt": "2026-11-05T21:52:46Z",
         "mergedAt": null,
         "state": "open",
-        "relationship": "external"
+        "relationship": "personal"
       },
       {
-        "repository": "brio-labs/maestria",
-        "number": 516,
-        "title": "feat(launcher): introduce Sillage resident Linux launcher",
-        "url": "https://github.com/brio-labs/maestria/pull/516",
-        "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-18T18:41:18Z",
+        "repository": "carabistouflette/goose-config",
+        "number": 1,
+        "title": "docs: clarify goose-config usage and performance evidence",
+        "url": "https://github.com/carabistouflette/goose-config/pull/1",
+        "createdAt": "2026-11-05T21:49:13Z",
+        "updatedAt": "2026-11-05T21:49:13Z",
         "mergedAt": null,
-        "state": "draft",
-        "relationship": "organization"
+        "state": "open",
+        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 42,
-    "merged": 440
+    "open": 45,
+    "merged": 459
   },
   "featured": [
     {
@@ -1994,7 +1994,7 @@
       },
       {
         "date": "2026-11-05",
-        "count": 530,
+        "count": 688,
         "level": 4
       }
     ]
