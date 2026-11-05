@@ -25,16 +25,16 @@ const projectTools: Record<ProjectId, string[]> = {
     "Docker",
     "Linux",
   ],
-  meddatatrace: ["Python"],
+  meddatatrace: ["Python", "NumPy", "Scikit-learn", "Numba", "Matplotlib"],
   sillage: ["Rust", "Slint", "Tantivy", "SQLite", "Tokio"],
   nacre: ["Rust", "C", "Linux"],
   "encrypted-voting": ["Java", "Spring Boot"],
-  justsyncit: ["Java"],
+  justsyncit: ["Java", "SQLite", "Jackson", "Kwik", "Bouncy Castle"],
 };
 const projectConcepts: Record<ProjectId, string[]> = fr
   ? {
       genomint: ["Pangénomie", "Graphes", "Agent IA"],
-      meddatatrace: ["Imagerie médicale", "Provenance", "Reproductibilité"],
+      meddatatrace: ["Données de santé", "Graphes", "Évaluation temporelle"],
       sillage: ["Lanceur Linux", "Recherche locale", "Extraits sourcés"],
       nacre: ["Compilateur", "Ownership", "Sans GC"],
       "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
@@ -42,7 +42,7 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     }
   : {
       genomint: ["Pangenomics", "Graphs", "AI agent"],
-      meddatatrace: ["Medical imaging", "Provenance", "Reproducibility"],
+      meddatatrace: ["Health data", "Graphs", "Temporal evaluation"],
       sillage: ["Linux launcher", "Local search", "Cited excerpts"],
       nacre: ["Compiler", "Ownership", "No GC"],
       "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
@@ -235,7 +235,16 @@ const bookTitles = fr
                           : "Brio · Contributor"}
                   </p>
                 )}
-                <Heading>{project.title}</Heading>
+                <Heading>
+                  {project.title
+                    .split(/(?<=[a-z])(?=[A-Z])/)
+                    .map((part, index) => (
+                      <Fragment>
+                        {index > 0 && <wbr />}
+                        {part}
+                      </Fragment>
+                    ))}
+                </Heading>
                 <p
                   id={`project-${project.id}-description`}
                   class="tile-description"

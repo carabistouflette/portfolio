@@ -1,4 +1,4 @@
-import { meddatatrace } from "./meddatatrace";
+import { healthgraphbench } from "./healthgraphbench";
 
 export type Locale = "fr" | "en";
 
@@ -181,6 +181,19 @@ export interface PortfolioContent {
     heading: string;
     intro: string;
     profileLink: { label: string; bannerLabel: string; url: string };
+    security: {
+      heading: string;
+      intro: string;
+      entries: {
+        name: string;
+        focus: string;
+        role: string;
+        description: string;
+        detail: string;
+        reference: string;
+        link: { label: string; url: string };
+      }[];
+    };
     projects: {
       heading: string;
       entries: {
@@ -276,7 +289,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — IA & systèmes de données",
       description:
-        "Alexis Robin — IA, systèmes logiciels et logiciel libre. GenomInt au CIRAD, lanceur Linux et recherche documentaire avec Sillage, recherche MedDataTrace et contributions Rust à SteelMC.",
+        "Alexis Robin — IA, systèmes logiciels et cybersécurité en Rust. GenomInt au CIRAD, Sillage, recherche HealthGraphBench, découverte d’une faille Tokio et sécurité réseau de SteelMC.",
     },
     skipLink: "Aller au contenu principal",
     navigation: {
@@ -286,7 +299,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         projects: { id: "projects", label: "Projets" },
         skills: { id: "skills", label: "Compétences" },
         journey: { id: "journey", label: "Parcours" },
-        "open-source": { id: "open-source", label: "GitHub" },
+        "open-source": { id: "open-source", label: "Contributions" },
         personal: { id: "personal", label: "À propos" },
         contact: { id: "contact", label: "Contact" },
       },
@@ -303,7 +316,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       headline: "Des outils d’IA pour interroger les données scientifiques.",
       affiliation: "M1 à Centrale Lille · IA pour la santé · parcours MIAS",
       description:
-        "Du graphe génomique à la recherche documentaire, je développe les agents, les API et les moteurs qui relient une question à ses sources.",
+        "Je développe des outils d’IA pour les données scientifiques. Je m’intéresse aussi à la cybersécurité en Rust.",
       availability: {
         label: "Recherche de stage",
         detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
@@ -330,15 +343,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         },
         {
           id: "meddatatrace",
-          title: "MedDataTrace",
+          title: "HealthGraphBench",
           description:
-            "Je développe un cadre de recherche pour retracer les preuves sur les jeux de données utilisés dans les évaluations en imagerie médicale : spécification, sémantique de référence en Python et protocole pilote.",
-          technologies:
-            "Python · Recherche reproductible · Provenance des données",
+            "Je compare des modèles tabulaires et relationnels sur les données FDA MAUDE et CMS, avec une évaluation temporelle.",
+          technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/projets/meddatatrace/",
           linkLabel: "Lire le dossier",
-          status:
-            "Recherche en cours · validation sur données réelles à établir.",
+          status: "Recherche en cours · résultats exploratoires.",
         },
         {
           id: "sillage",
@@ -372,14 +383,14 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "JustSyncIt",
           description:
             "Outil Java de sauvegarde avec snapshots, sauvegardes incrémentales, déduplication par contenu et transferts distants.",
-          technologies: "Java · BLAKE3 · TCP · QUIC",
+          technologies: "Java · SQLite · Jackson · Kwik · Bouncy Castle",
           url: "https://github.com/carabistouflette/JustSyncIt/",
           linkLabel: "Voir le dépôt GitHub",
         },
       ],
     },
     openSource: {
-      heading: "Le travail continue sur GitHub.",
+      heading: "Open source & cybersécurité.",
       intro:
         "Des changements proposés, discutés et intégrés. Ici, on peut suivre les projets, remonter au code et parcourir l’activité affichée sur",
       profileLink: {
@@ -387,8 +398,43 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         bannerLabel: "Mon profil GitHub",
         url: "https://github.com/carabistouflette",
       },
+      security: {
+        heading: "Cybersécurité & Rust",
+        intro:
+          "Comprendre les défaillances et rendre les logiciels plus robustes : un intérêt que je concrétise par la recherche de vulnérabilités et le durcissement réseau dans l’écosystème Rust.",
+        entries: [
+          {
+            name: "Tokio",
+            focus: "Sécurité mémoire",
+            role: "Découverte & signalement responsable",
+            description:
+              "J’ai découvert et signalé en privé une condition de concurrence dans les intervalles de temps de Tokio 1.54.0. Sur le runtime multithread, elle peut provoquer un accès à de la mémoire libérée et des crashs, même depuis du code Rust sûr.",
+            detail:
+              "Crédité sous carabistouflette pour un signalement indépendant. Sévérité élevée ; corrigée dans Tokio 1.54.1.",
+            reference: "GHSA-5wjr-9356-4wc8",
+            link: {
+              label: "Lire l’avis de sécurité",
+              url: "https://github.com/tokio-rs/tokio/security/advisories/GHSA-5wjr-9356-4wc8",
+            },
+          },
+          {
+            name: "SteelMC",
+            focus: "Sécurité réseau",
+            role: "Contribution au durcissement réseau",
+            description:
+              "J’ai aussi travaillé sur la sécurité réseau de SteelMC, un serveur Minecraft écrit en Rust : durcissement de la lecture des paquets et gestion des entrées réseau malformées.",
+            detail:
+              "Une proposition de durcissement du protocole et de rejet des paquets invalides est consultable dans la pull request #547.",
+            reference: "Steel-Foundation/SteelMC · #547",
+            link: {
+              label: "Voir la contribution réseau",
+              url: "https://github.com/Steel-Foundation/SteelMC/pull/547",
+            },
+          },
+        ],
+      },
       projects: {
-        heading: "Projets & communautés",
+        heading: "Autres projets & communautés",
         entries: [
           {
             name: "Sillage",
@@ -398,18 +444,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
               "Lanceur Linux natif et moteur de recherche documentaire séparé. Code et documentation sur dev/sillage.",
           },
           {
-            name: "SteelMC",
-            url: "https://github.com/Steel-Foundation/SteelMC",
-            role: "Contributeur",
-            description:
-              "Serveur Minecraft en Rust. Contributions sur le routage des paquets réseau et le durcissement de la lecture.",
-          },
-          {
-            name: "MedDataTrace",
-            url: "https://github.com/carabistouflette/MedDataTrace",
+            name: "HealthGraphBench",
+            url: "https://github.com/carabistouflette/HealthGraphBench",
             role: "Projet de recherche personnel",
             description:
-              "Traçabilité des preuves sur les jeux de données en imagerie médicale. Spécification, sémantique de référence et protocole pilote ; validation sur données réelles à établir.",
+              "Benchmark temporel de l’apport prédictif des graphes sur les données FDA et CMS. Code, protocoles et rapports reproductibles.",
           },
           {
             name: "KolibriOS",
@@ -514,9 +553,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           projectIds: ["sillage", "nacre"],
         },
         {
-          name: "Formaliser la provenance des données",
+          name: "Évaluer les modèles dans le temps",
           description:
-            "Écrire une spécification, sa sémantique de référence en Python et des tests pour retracer les preuves sur les jeux de données en imagerie médicale.",
+            "Préparer les données FDA/CMS, comparer des modèles tabulaires et relationnels et contrôler les coupures temporelles avec HealthGraphBench.",
           projectIds: ["meddatatrace"],
         },
       ],
@@ -561,9 +600,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "Polars", projectIds: [] },
             { name: "Pandas", projectIds: [] },
             { name: "Datasets", projectIds: [] },
-            { name: "NumPy", projectIds: [] },
+            { name: "NumPy", projectIds: ["meddatatrace"] },
             { name: "SciPy", projectIds: [] },
-            { name: "Scikit-learn", projectIds: [] },
+            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
           ],
         },
         {
@@ -604,7 +643,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "Lire les distributions, visualiser les résultats et construire des graphiques interactifs.",
           items: [
-            { name: "Matplotlib", projectIds: [] },
+            { name: "Matplotlib", projectIds: ["meddatatrace"] },
             { name: "Seaborn", projectIds: [] },
             { name: "Plotly", projectIds: [] },
             { name: "Altair", projectIds: [] },
@@ -618,7 +657,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "PostgreSQL", projectIds: ["genomint"] },
             { name: "MySQL", projectIds: [] },
             { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["sillage"] },
+            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
             { name: "MongoDB", projectIds: [] },
             { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
@@ -700,7 +739,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — AI & data systems",
       description:
-        "Alexis Robin — AI, software systems and open source. GenomInt at CIRAD, Linux launcher and document search with Sillage, MedDataTrace research and Rust contributions to SteelMC.",
+        "Alexis Robin — AI, software systems and Rust cybersecurity. GenomInt at CIRAD, Sillage, HealthGraphBench research, a Tokio vulnerability discovery and SteelMC network security.",
     },
     skipLink: "Skip to main content",
     navigation: {
@@ -710,7 +749,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         projects: { id: "projects", label: "Projects" },
         skills: { id: "skills", label: "Skills" },
         journey: { id: "journey", label: "Journey" },
-        "open-source": { id: "open-source", label: "GitHub" },
+        "open-source": { id: "open-source", label: "Contributions" },
         personal: { id: "personal", label: "About" },
         contact: { id: "contact", label: "Contact" },
       },
@@ -727,7 +766,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       headline: "AI tools for querying scientific data.",
       affiliation: "M1 at Centrale Lille · AI for health · MIAS track",
       description:
-        "From genomic graphs to document search, I build agents, APIs and search engines that connect questions to their sources.",
+        "I build AI tools for scientific data. I am also interested in Rust cybersecurity.",
       availability: {
         label: "Seeking an internship",
         detail: "22 March – 21 August 2027 · Montpellier or Lille",
@@ -754,14 +793,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         },
         {
           id: "meddatatrace",
-          title: "MedDataTrace",
+          title: "HealthGraphBench",
           description:
-            "I am developing a research framework to trace evidence about datasets used in medical-imaging evaluations: a specification, Python reference semantics and a pilot protocol.",
-          technologies: "Python · Reproducible research · Dataset provenance",
+            "I compare tabular and relational models on FDA MAUDE and CMS data, using temporal evaluation.",
+          technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/en/projects/meddatatrace/",
           linkLabel: "Read the case study",
-          status:
-            "Research in progress · real-data validation remains to be established.",
+          status: "Research in progress · exploratory results.",
         },
         {
           id: "sillage",
@@ -795,14 +833,14 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           title: "JustSyncIt",
           description:
             "Java backup tool with snapshots, incremental backups, content-addressable deduplication and remote transfers.",
-          technologies: "Java · BLAKE3 · TCP · QUIC",
+          technologies: "Java · SQLite · Jackson · Kwik · Bouncy Castle",
           url: "https://github.com/carabistouflette/JustSyncIt/",
           linkLabel: "View on GitHub",
         },
       ],
     },
     openSource: {
-      heading: "The work continues on GitHub.",
+      heading: "Open source & cybersecurity.",
       intro:
         "Changes proposed, discussed and merged. Follow the projects, trace the code and explore the activity shown on",
       profileLink: {
@@ -810,8 +848,43 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         bannerLabel: "My GitHub profile",
         url: "https://github.com/carabistouflette",
       },
+      security: {
+        heading: "Cybersecurity & Rust",
+        intro:
+          "Understanding failures and making software more robust: I put this interest into practice through vulnerability research and network hardening in the Rust ecosystem.",
+        entries: [
+          {
+            name: "Tokio",
+            focus: "Memory safety",
+            role: "Discovery & responsible disclosure",
+            description:
+              "I discovered and privately reported a race condition in Tokio 1.54.0’s time intervals. On the multithreaded runtime, it can cause use-after-free and crashes, even from safe Rust code.",
+            detail:
+              "Credited as carabistouflette for an independent report. High severity; fixed in Tokio 1.54.1.",
+            reference: "GHSA-5wjr-9356-4wc8",
+            link: {
+              label: "Read the security advisory",
+              url: "https://github.com/tokio-rs/tokio/security/advisories/GHSA-5wjr-9356-4wc8",
+            },
+          },
+          {
+            name: "SteelMC",
+            focus: "Network security",
+            role: "Network hardening contributor",
+            description:
+              "I also worked on network security for SteelMC, a Minecraft server written in Rust: hardening packet reads and handling malformed network input.",
+            detail:
+              "A proposal to harden the protocol and reject invalid packets is available in pull request #547.",
+            reference: "Steel-Foundation/SteelMC · #547",
+            link: {
+              label: "View the network contribution",
+              url: "https://github.com/Steel-Foundation/SteelMC/pull/547",
+            },
+          },
+        ],
+      },
       projects: {
-        heading: "Projects & communities",
+        heading: "Other projects & communities",
         entries: [
           {
             name: "Sillage",
@@ -821,18 +894,11 @@ export const portfolio: Record<Locale, PortfolioContent> = {
               "Native Linux launcher and separate document search engine. Code and documentation on dev/sillage.",
           },
           {
-            name: "SteelMC",
-            url: "https://github.com/Steel-Foundation/SteelMC",
-            role: "Contributor",
-            description:
-              "A Minecraft server in Rust. Contributions to network packet routing and read-path hardening.",
-          },
-          {
-            name: "MedDataTrace",
-            url: "https://github.com/carabistouflette/MedDataTrace",
+            name: "HealthGraphBench",
+            url: "https://github.com/carabistouflette/HealthGraphBench",
             role: "Personal research project",
             description:
-              "Tracing dataset evidence in medical-imaging evaluations. Specification, reference semantics and a pilot protocol; real-data validation remains to be established.",
+              "A temporal benchmark of the predictive value of graphs on FDA and CMS data. Reproducible code, protocols and reports.",
           },
           {
             name: "KolibriOS",
@@ -939,9 +1005,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           projectIds: ["sillage", "nacre"],
         },
         {
-          name: "Specify dataset provenance",
+          name: "Evaluate models over time",
           description:
-            "Writing a specification, Python reference semantics and tests to trace evidence about datasets used in medical imaging.",
+            "Preparing FDA/CMS data, comparing tabular and relational models and enforcing temporal cutoffs with HealthGraphBench.",
           projectIds: ["meddatatrace"],
         },
       ],
@@ -984,9 +1050,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "Polars", projectIds: [] },
             { name: "Pandas", projectIds: [] },
             { name: "Datasets", projectIds: [] },
-            { name: "NumPy", projectIds: [] },
+            { name: "NumPy", projectIds: ["meddatatrace"] },
             { name: "SciPy", projectIds: [] },
-            { name: "Scikit-learn", projectIds: [] },
+            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
           ],
         },
         {
@@ -1026,7 +1092,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           description:
             "Read distributions, visualize results and build interactive charts.",
           items: [
-            { name: "Matplotlib", projectIds: [] },
+            { name: "Matplotlib", projectIds: ["meddatatrace"] },
             { name: "Seaborn", projectIds: [] },
             { name: "Plotly", projectIds: [] },
             { name: "Altair", projectIds: [] },
@@ -1039,7 +1105,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             { name: "PostgreSQL", projectIds: ["genomint"] },
             { name: "MySQL", projectIds: [] },
             { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["sillage"] },
+            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
             { name: "MongoDB", projectIds: [] },
             { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
@@ -2223,14 +2289,14 @@ const nacreEn: CaseStudy = {
 export const caseStudies: Record<Locale, Record<CaseStudyId, CaseStudy>> = {
   fr: {
     genomint: genomintFr,
-    meddatatrace: meddatatrace.fr,
+    meddatatrace: healthgraphbench.fr,
     sillage: sillageFr,
     nacre: nacreFr,
     "encrypted-voting": encryptedVotingFr,
   },
   en: {
     genomint: genomintEn,
-    meddatatrace: meddatatrace.en,
+    meddatatrace: healthgraphbench.en,
     sillage: sillageEn,
     nacre: nacreEn,
     "encrypted-voting": encryptedVotingEn,

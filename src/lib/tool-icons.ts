@@ -45,6 +45,7 @@ import {
   siWireshark,
   siZap,
   siNumpy,
+  siNumba,
   siScipy,
   siLightning,
   siWeightsandbiases,
@@ -109,6 +110,7 @@ const brands: Record<string, SimpleIcon> = {
   Wireshark: siWireshark,
   "ZAP Proxy": siZap,
   NumPy: siNumpy,
+  Numba: siNumba,
   SciPy: siScipy,
   Datasets: siHuggingface,
   Tokenizers: siHuggingface,
@@ -129,6 +131,10 @@ const glyphs: Record<string, string> = {
   Nmap: "M12 3a9 9 0 1 0 9 9M12 7a5 5 0 1 0 5 5M12 12l9-9M12 3v9h9",
   gRPC: "M3 3h6v6H3zM15 15h6v6h-6zM6 9v9h9M9 6h9v9",
   Tantivy: "M15.5 15.5 21 21M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14",
+  Jackson: "M8 3H6v6l-3 3 3 3v6h2M16 3h2v6l3 3-3 3v6h-2M10 9h4M10 15h4",
+  Kwik: "M3 7h17m-4-4 4 4-4 4M21 17H4m4-4-4 4 4 4",
+  "Bouncy Castle":
+    "M12 3 4 6v6c0 4 4 7 8 9 4-2 8-5 8-9V6l-8-3ZM8 14V9h2v2h4V9h2v5M8 14h8v3H8z",
 };
 
 const images: Record<string, string> = {

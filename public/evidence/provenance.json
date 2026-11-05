@@ -10,11 +10,26 @@
     "method": "Native Slint build in an isolated X11 session, local lexical search, synthetic document, no neural model; window region cropped without altering application content."
   },
   "meddatatrace": {
-    "repository": "https://github.com/carabistouflette/MedDataTrace",
-    "revision": "71f1d6e6545c1effb5c1b687afaf5b853a2c5191",
+    "project": "HealthGraphBench",
+    "repository": "https://github.com/carabistouflette/HealthGraphBench",
+    "captured_at": "2026-11-06",
+    "revision": "b010d5a49eae56837a920b2e30dece41c42c0c44",
+    "source_state": "Pinned public main source exported with git archive.",
+    "source_sha256": {
+      "healthgraphbench/__init__.py": "50a7aa4d338b22060731ab4446ac69567c6399058c67947ad765812443322cfa",
+      "healthgraphbench/core.py": "6168f76ab2a884835bbb8e5d36b5712c50ba4a078662d2013b07f72ee03e48fb",
+      "healthgraphbench/tasks/__init__.py": "de7d83c85bcfb78295d002d473b33011d0deecff0a7e703d14b0680dba8636b2",
+      "healthgraphbench/tasks/maude/__init__.py": "463ecf76959b8eec9aeb85f8d39e3ba2a499a5d805e889de30126ac512b7a086",
+      "healthgraphbench/tasks/maude/task.py": "1fed3b0f1e37eaf2885275fb0fbfdcc8cc9b736d3c3568bcbee9ec8adaadecce",
+      "healthgraphbench/tasks/maude/data.py": "019d8d4792115e83327e2d5e6c5aa10dc42355bc908b84093fde28dadf0ba9d0",
+      "healthgraphbench/tasks/maude/models.py": "07ae3cbc1f21b9e8018e02a77b3825bd84a65577146ee13d3d0b4518539c9bfb",
+      "healthgraphbench/tasks/maude/evaluate.py": "825cafb260dd2b8f8558224447a866cec9c7dba1cee5b5c5b05ad89a174145b7"
+    },
+    "python_version": "3.14.9",
     "harness": "scripts/evidence/meddatatrace_example.py",
+    "harness_sha256": "7905a6cf3f04cfcc3966da50b975a0d2b9f3a2823f7d9fe8e458c81c7ff4db34",
     "output": "/evidence/meddatatrace-output.txt",
-    "scope": "Synthetic reference semantics and admission rules; not a real medical-study assessment."
+    "scope": "Synthetic quarterly MAUDE candidate selection, ranking and history updates; not a real-data predictive benchmark."
   },
   "voting": {
     "repository": "https://github.com/carabistouflette/Voteomatic-cryptography",
@@ -26,7 +41,7 @@
   "sha256": {
     "sillage-search-demo.webm": "0708362598952054ec7dd013bc144f5255ccccc70d91d561a37f64671b0efec5",
     "sillage-search-poster.webp": "06f0f1996ace2a27d4c8d7c96d60421fb12a0e85b720f43ad67b3f9d030e6b04",
-    "meddatatrace-output.txt": "1c39d72c83882844ddc10c3672263aad2685e9ab20243892fabcba27e44bfe06",
+    "meddatatrace-output.txt": "1c68086f793905a037897f69763532ed966483826d53e02a3127a8f0f32f9687",
     "voting-output.txt": "454bff7ae8c198184ebc387358acfb915b8b26f7298bbd32e5d54915a3e6fb07"
   }
 }

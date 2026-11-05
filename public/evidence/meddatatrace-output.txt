@@ -1,5 +1,5 @@
-presence=false, absence=false -> UNKNOWN
-presence=true, absence=false -> APPLIES
-presence=false, absence=true -> NOT_APPLICABLE
-presence=true, absence=true -> CONFLICTING
-Incomplete artifact linkage -> REFERENCE_UNSCORABLE; gold_state=None
+2019Q1 history: A -> [1]; B -> [2]
+2019Q2 candidates for A: [2]
+2019Q2 eligible new link: A -> 2
+Problem 3 excluded: not in past history
+2019Q3 history for A: [1, 2, 3]

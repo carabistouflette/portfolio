@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GitHubCalendar from "./GitHubCalendar.astro";
+import SecurityContributions from "./SecurityContributions.astro";
 import { portfolio, type Locale } from "../data/portfolio";
 import rawSnapshot from "../data/github.json";
 import { validateGitHubSnapshot } from "../lib/github";
@@ -64,6 +65,12 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
         </div>
       </header>
       <div data-motion-reveal class="mt-14 md:mt-20">
+        <SecurityContributions
+          content={openSource.security}
+          headingLevel="h2"
+        />
+      </div>
+      <div data-motion-reveal class="mt-16 md:mt-24">
         <GitHubCalendar
           calendar={snapshot.calendar}
           locale={locale}
@@ -72,7 +79,7 @@ const paths: Record<Locale, string> = { fr: "/github/", en: "/en/github/" };
       </div>
       <div data-motion-reveal class="mt-16 md:mt-24">
         <h2 class="subsection-title">{openSource.projects.heading}</h2>
-        <ul class="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <ul class="mt-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {openSource.projects.entries.map((project) => (
             <li class="min-w-0 border-t border-rule pt-6">
               <h3 class="card-title">

@@ -3,6 +3,7 @@ import type { Locale, PortfolioContent } from "../data/portfolio";
 import rawSnapshot from "../data/github.json";
 import { validateGitHubSnapshot } from "../lib/github";
 import GitHubCalendar from "./GitHubCalendar.astro";
+import SecurityContributions from "./SecurityContributions.astro";
 
 interface Props {
   content: PortfolioContent;
@@ -45,10 +46,14 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       ↗
     </span>
   </a>
-  <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:gap-x-16">
+  <div class="mt-12">
+    <SecurityContributions content={openSource.security} />
+  </div>
+  <h3 class="subsection-title mt-12">{openSource.projects.heading}</h3>
+  <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-16">
     {openSource.projects.entries.map((project) => (
       <li class="min-w-0 border-t border-rule pt-6">
-        <h3 class="card-title">
+        <h4 class="card-title">
           <a
             class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
             href={project.url}
@@ -60,7 +65,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
               ↗
             </span>
           </a>
-        </h3>
+        </h4>
         <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">
           {project.role}
         </p>
