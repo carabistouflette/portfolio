@@ -1,0 +1,34 @@
+{
+  "version": "0.2",
+  "task": "FDA MAUDE",
+  "metric": "Recall@10",
+  "split": "test",
+  "period": "2024Q1–2025Q4",
+  "threshold": 1,
+  "denominator": "eligible positive edges",
+  "evaluationStatus": "exploratory; target periods inspected during development",
+  "source": {
+    "repository": "https://github.com/carabistouflette/HealthGraphBench",
+    "revision": "b010d5a49eae56837a920b2e30dece41c42c0c44",
+    "path": "results/benchmark_summary_v0_2.csv",
+    "sha256": "2797d20b4bba65b39d95c74bd90ad9cd5d6d24981dc05415baae8294c47eb698"
+  },
+  "models": [
+    {
+      "method": "neighbor_frequency",
+      "value": 0.19204493699711553
+    },
+    {
+      "method": "logistic_tabular",
+      "value": 0.18453013511461971
+    },
+    {
+      "method": "graph_message_passing_bpr",
+      "value": 0.18384697130712008
+    },
+    {
+      "method": "graphsage_link_prediction",
+      "value": 0.17284044329740397
+    }
+  ]
+}

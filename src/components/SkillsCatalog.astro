@@ -81,9 +81,7 @@ const relatedProjects = (skill: SkillItem): Project[] =>
             </span>
           ))}
           {group.items.length > 3 && (
-            <span class="text-xs text-muted">
-              +{group.items.length - 3}
-            </span>
+            <span class="text-xs text-muted">+{group.items.length - 3}</span>
           )}
         </div>
       </summary>
@@ -104,9 +102,7 @@ const relatedProjects = (skill: SkillItem): Project[] =>
                   >
                     <ToolIcon name={skill.name} />
                   </span>
-                  <span class="break-words text-sm">
-                    {skill.name}
-                  </span>
+                  <span class="break-words text-sm">{skill.name}</span>
                 </div>
                 {relatedProjects(skill).map((project) => (
                   <a

@@ -1,0 +1,228 @@
+---
+import type { Locale } from "../data/portfolio";
+import results from "../data/healthgraphbench-results.json";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const fr = locale === "fr";
+const labels: Record<string, string> = {
+  neighbor_frequency: fr ? "Fréquence chez les voisins" : "Neighbor frequency",
+  logistic_tabular: fr ? "Régression logistique" : "Logistic regression",
+  graph_message_passing_bpr: fr
+    ? "BPR + moyenne des voisins"
+    : "BPR + neighbor average",
+  graphsage_link_prediction: "GraphSAGE",
+};
+const percent = new Intl.NumberFormat(fr ? "fr-FR" : "en-US", {
+  style: "percent",
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+const scaleMaximum = 0.25;
+---
+
+<figure class="benchmark-preview">
+  <div class="benchmark-running-head">
+    <span>{fr ? "Extrait du benchmark" : "Benchmark excerpt"}</span>
+    <span>v{results.version}</span>
+  </div>
+  <div class="benchmark-heading">
+    <p>{results.task}</p>
+    <span>
+      {results.metric} <span aria-hidden="true">↑</span>
+    </span>
+  </div>
+  <p class="benchmark-period">
+    {fr
+      ? "Test temporel · T1 2024 – T4 2025"
+      : "Temporal test · Q1 2024 – Q4 2025"}
+  </p>
+
+  <ol class="benchmark-models">
+    {results.models.map((model) => (
+      <li class="benchmark-model" data-method={model.method}>
+        <span class="benchmark-model-label">{labels[model.method]}</span>
+        <span class="benchmark-value">{percent.format(model.value)}</span>
+        <span class="benchmark-track" aria-hidden="true">
+          <span
+            class="benchmark-bar"
+            style={`width: ${(model.value / scaleMaximum) * 100}%`}
+          ></span>
+        </span>
+      </li>
+    ))}
+  </ol>
+  <div class="benchmark-axis" aria-hidden="true">
+    {[0, 0.1, 0.2, scaleMaximum].map((tick) => (
+      <span style={`--tick-position: ${(tick / scaleMaximum) * 100}%`}>
+        {Math.round(tick * 100)} %
+      </span>
+    ))}
+  </div>
+
+  <figcaption>
+    <p class="benchmark-finding">
+      {fr
+        ? "Ici, le voisinage fait mieux que les modèles appris sélectionnés."
+        : "Here, neighbor frequency outperforms the selected learned models."}
+    </p>
+    <p class="benchmark-scope">
+      {fr
+        ? "Recall@10 : part des liens retrouvés parmi les dix premières propositions."
+        : "Recall@10: share of relevant links found in the top ten predictions."}
+    </p>
+    <p class="benchmark-scope">
+      {fr
+        ? "4 méthodes sur 7 · résultats exploratoires du rapport v0.2."
+        : "4 of 7 methods · exploratory results from the v0.2 report."}
+    </p>
+  </figcaption>
+</figure>
+
+<style>
+  .benchmark-preview {
+    min-width: 0;
+    margin-block: 1.5rem;
+    padding: clamp(1rem, 2vw, 1.75rem);
+    border-radius: 0.5rem;
+    background: #e6e8dd;
+    color: #233f41;
+  }
+
+  .benchmark-running-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid #a4b5ac;
+    font-size: 0.625rem;
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .benchmark-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-top: 1rem;
+  }
+
+  .benchmark-heading p {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .benchmark-heading > span {
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .benchmark-period {
+    margin-top: 0.45rem;
+    color: #4b6260;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+  }
+
+  .benchmark-models {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.25rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .benchmark-model {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.35rem 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  .benchmark-value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .benchmark-track {
+    grid-column: 1 / -1;
+    height: 0.4rem;
+    overflow: hidden;
+    border-radius: 0.125rem;
+    background: #ced7cb;
+  }
+
+  .benchmark-bar {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: #7f7865;
+  }
+
+  [data-method="neighbor_frequency"] .benchmark-bar {
+    background: #326a5a;
+  }
+
+  [data-method="logistic_tabular"] .benchmark-bar {
+    background: #587b80;
+  }
+
+  [data-method="graphsage_link_prediction"] .benchmark-bar {
+    background: #9a805a;
+  }
+
+  .benchmark-axis {
+    position: relative;
+    height: 1rem;
+    margin-top: 0.5rem;
+    color: #4b6260;
+    font-size: 0.625rem;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .benchmark-axis span {
+    position: absolute;
+    left: var(--tick-position);
+    transform: translateX(-50%);
+  }
+
+  .benchmark-axis span:first-child {
+    transform: none;
+  }
+
+  .benchmark-axis span:last-child {
+    transform: translateX(-100%);
+  }
+
+  figcaption {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid #a4b5ac;
+  }
+
+  .benchmark-finding {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .benchmark-scope {
+    margin-top: 0.4rem;
+    color: #4b6260;
+    font-size: 0.6875rem;
+    line-height: 1.5;
+  }
+</style>

@@ -13,6 +13,12 @@ export const healthgraphbench: Record<Locale, CaseStudy> = {
     kicker: "Recherche personnelle · Python · données publiques de santé",
     summary:
       "Je compare des méthodes tabulaires et relationnelles sur des données publiques de santé : signalements FDA MAUDE, inspections d’établissements et prescriptions Medicare Part D.",
+    overview: {
+      contribution:
+        "Définition des tâches et du protocole temporel, développement du pipeline MAUDE en Python et comparaison des modèles.",
+      outcome:
+        "Code, rapports et résultats exploratoires publics. L’exemple ci-dessous vérifie les coupures temporelles sur des données synthétiques.",
+    },
     atGlance: {
       label: "Repères du projet",
       entries: [
@@ -143,6 +149,18 @@ export const healthgraphbench: Record<Locale, CaseStudy> = {
       label: "Sources et état de publication",
       entries: [
         {
+          label: "Rapport v0.2 · comparaison MAUDE",
+          href: `${source}/docs/benchmark_report_v0_2.md#41-maude-frozen-test`,
+          detail:
+            "Les sept méthodes et leurs résultats sur 2024T1–2025T4. Les périodes test avaient déjà été inspectées pendant le développement.",
+        },
+        {
+          label: "Table des résultats v0.2 · CSV",
+          href: `${source}/results/benchmark_summary_v0_2.csv`,
+          detail:
+            "Source des quatre valeurs Recall@10 affichées sur le portfolio, à la révision épinglée du dépôt.",
+        },
+        {
           label: "Dépôt HealthGraphBench",
           href: repository,
           detail:
@@ -188,6 +206,12 @@ export const healthgraphbench: Record<Locale, CaseStudy> = {
     kicker: "Independent research · Python · public health data",
     summary:
       "I compare tabular and relational methods on public health data: FDA MAUDE reports, facility inspections and Medicare Part D prescribing records.",
+    overview: {
+      contribution:
+        "Define tasks and the temporal protocol, build the Python MAUDE pipeline and compare models.",
+      outcome:
+        "Public code, reports and exploratory results. The example below checks temporal cutoffs on synthetic data.",
+    },
     atGlance: {
       label: "Project details",
       entries: [
@@ -316,6 +340,18 @@ export const healthgraphbench: Record<Locale, CaseStudy> = {
     sources: {
       label: "Sources and publication status",
       entries: [
+        {
+          label: "v0.2 report · MAUDE comparison",
+          href: `${source}/docs/benchmark_report_v0_2.md#41-maude-frozen-test`,
+          detail:
+            "All seven methods and their results for 2024Q1–2025Q4. Test periods had already been inspected during development.",
+        },
+        {
+          label: "v0.2 result table · CSV",
+          href: `${source}/results/benchmark_summary_v0_2.csv`,
+          detail:
+            "Source of the four Recall@10 values shown on the portfolio, pinned to the repository revision.",
+        },
         {
           label: "HealthGraphBench repository",
           href: repository,

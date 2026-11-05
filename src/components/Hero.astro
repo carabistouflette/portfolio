@@ -194,13 +194,23 @@ const robinGlyphs = [
     aria-label={content.hero.summaryTitle}
   >
     <div class="ml-auto max-w-xl lg:rounded-[1.75rem_1.25rem_1.9rem_1.5rem] lg:border lg:border-[#8fc6ee]/60 lg:bg-linear-to-r lg:from-[#102637]/60 lg:to-transparent lg:px-8 lg:py-6">
-      <span
-        aria-hidden="true"
-        class="mb-3 block select-none font-display text-5xl leading-none text-[#8fc6ee]/70 lg:hidden"
-      >
-        «
-      </span>
+      <h2 class="eyebrow mb-4 text-[#abd1ed]">{content.hero.summaryTitle}</h2>
       <p class="hero-lead">{content.hero.description}</p>
+      <ul class="hero-highlights mt-6 grid list-none gap-1 border-t border-rule/60 pt-3">
+        {content.hero.highlights.map((highlight) => (
+          <li>
+            <a
+              class="text-link flex items-center justify-between gap-4 py-2 text-sm underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+              href={highlight.href}
+            >
+              {highlight.label}
+              <span class="shrink-0 text-[#abd1ed]" aria-hidden="true">
+                {highlight.href.startsWith("#") ? "↓" : "↗"}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 

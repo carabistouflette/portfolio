@@ -118,6 +118,7 @@ export interface CaseStudy {
   question: string;
   kicker: string;
   summary: string;
+  overview: { contribution: string; outcome: string };
   atGlance: { label: string; entries: { label: string; value: string }[] };
   technicalLabel: string;
   role?: string;
@@ -166,6 +167,7 @@ export interface PortfolioContent {
     headline: string;
     affiliation: string;
     description: string;
+    highlights: { label: string; href: string }[];
     availability: { label: string; detail: string; note: string };
     projectsCta: string;
     cvCta: string;
@@ -185,6 +187,7 @@ export interface PortfolioContent {
       heading: string;
       intro: string;
       entries: {
+        id: string;
         name: string;
         focus: string;
         role: string;
@@ -311,12 +314,16 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     hero: {
       eyebrow: "IA & systèmes de données",
-      summaryTitle: "Sous le nom de carabistouflette",
+      summaryTitle: "Expérience & contributions",
       title: "Alexis Robin",
       headline: "Des outils d’IA pour interroger les données scientifiques.",
       affiliation: "M1 à Centrale Lille · IA pour la santé · parcours MIAS",
       description:
-        "Je développe des outils d’IA pour les données scientifiques. Je m’intéresse aussi à la cybersécurité en Rust.",
+        "Au CIRAD, j’ai développé l’agent IA et le backend de GenomInt pour explorer des graphes génomiques.",
+      highlights: [
+        { label: "GenomInt au CIRAD", href: "/projets/genomint/" },
+        { label: "Signalement de sécurité Tokio", href: "#contribution-tokio" },
+      ],
       availability: {
         label: "Recherche de stage",
         detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
@@ -345,7 +352,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "meddatatrace",
           title: "HealthGraphBench",
           description:
-            "Je compare des modèles tabulaires et relationnels sur les données FDA MAUDE et CMS, avec une évaluation temporelle.",
+            "Je mesure l’apport des graphes en comparant modèles tabulaires, heuristiques de voisinage et modèles relationnels sur les données publiques FDA et CMS.",
           technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/projets/meddatatrace/",
           linkLabel: "Lire le dossier",
@@ -358,7 +365,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "Dans Brio, je contribue à Sillage : un lanceur Linux natif et un moteur de recherche dans les documents, utilisable séparément.",
           technologies: "Rust · Slint · Tantivy · SQLite",
           url: "/projets/sillage/",
-          linkLabel: "Lire le dossier",
+          linkLabel: "Voir le projet et la démo",
         },
         {
           id: "nacre",
@@ -404,6 +411,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           "Comprendre les défaillances et rendre les logiciels plus robustes : un intérêt que je concrétise par la recherche de vulnérabilités et le durcissement réseau dans l’écosystème Rust.",
         entries: [
           {
+            id: "tokio",
             name: "Tokio",
             focus: "Sécurité mémoire",
             role: "Découverte & signalement responsable",
@@ -418,6 +426,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             },
           },
           {
+            id: "steelmc",
             name: "SteelMC",
             focus: "Sécurité réseau",
             role: "Contribution au durcissement réseau",
@@ -566,131 +575,50 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           label: "Langages",
           description:
-            "Écrire la logique, des scripts aux applications et aux systèmes.",
+            "Des pipelines Python aux logiciels natifs en Rust, avec Java et C.",
           items: [
             { name: "Python", projectIds: ["genomint", "meddatatrace"] },
             { name: "Rust", projectIds: ["sillage", "nacre"] },
-            { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },
             { name: "C", projectIds: ["nacre"] },
           ],
         },
         {
-          label: "Web & interfaces",
+          label: "Agents IA & services",
           description:
-            "Relier les interfaces, les API et les services applicatifs.",
+            "Relier les modèles, les requêtes et les API aux usages du projet.",
           items: [
-            { name: "Astro", projectIds: [] },
-            { name: "React", projectIds: [] },
-            { name: "Next.js", projectIds: [] },
-            { name: "Vue.js", projectIds: [] },
-            { name: "Nuxt.js", projectIds: [] },
-            { name: "Tailwind CSS", projectIds: [] },
             { name: "FastAPI", projectIds: ["genomint"] },
-            { name: "Flask", projectIds: [] },
-            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
-            { name: "Thymeleaf", projectIds: [] },
-          ],
-        },
-        {
-          label: "Données & analyse",
-          description:
-            "Préparer les datasets, transformer les tableaux et explorer les données.",
-          items: [
-            { name: "Polars", projectIds: [] },
-            { name: "Pandas", projectIds: [] },
-            { name: "Datasets", projectIds: [] },
-            { name: "NumPy", projectIds: ["meddatatrace"] },
-            { name: "SciPy", projectIds: [] },
-            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
-          ],
-        },
-        {
-          label: "IA & fine-tuning",
-          description:
-            "Adapter les modèles, préparer les tokens et optimiser l’inférence.",
-          items: [
-            { name: "PyTorch", projectIds: [] },
-            { name: "Transformers", projectIds: [] },
-            { name: "Unsloth", projectIds: [] },
-            { name: "Tokenizers", projectIds: [] },
-            { name: "PEFT", projectIds: [] },
-            { name: "TRL", projectIds: [] },
-            { name: "bitsandbytes", projectIds: [] },
-            { name: "Safetensors", projectIds: [] },
             { name: "Pi", projectIds: ["genomint"] },
             { name: "LangChain", projectIds: ["genomint"] },
             { name: "Haystack", projectIds: ["genomint"] },
-            { name: "vLLM", projectIds: [] },
+            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
           ],
         },
         {
-          label: "Entraînement & suivi",
+          label: "Données & évaluation",
           description:
-            "Exécuter les entraînements, comparer les expériences et suivre les métriques.",
+            "Interroger les graphes, préparer les données et comparer les modèles dans le temps.",
           items: [
-            { name: "Accelerate", projectIds: [] },
-            { name: "PyTorch Lightning", projectIds: [] },
-            { name: "Weights & Biases", projectIds: [] },
-            { name: "DeepSpeed", projectIds: [] },
-            { name: "TensorBoard", projectIds: [] },
-            { name: "MLflow", projectIds: [] },
-            { name: "Optuna", projectIds: [] },
-          ],
-        },
-        {
-          label: "Visualisation",
-          description:
-            "Lire les distributions, visualiser les résultats et construire des graphiques interactifs.",
-          items: [
+            { name: "NumPy", projectIds: ["meddatatrace"] },
+            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
+            { name: "Numba", projectIds: ["meddatatrace"] },
             { name: "Matplotlib", projectIds: ["meddatatrace"] },
-            { name: "Seaborn", projectIds: [] },
-            { name: "Plotly", projectIds: [] },
-            { name: "Altair", projectIds: [] },
-          ],
-        },
-        {
-          label: "Bases de données",
-          description:
-            "Organiser les données, du relationnel aux documents et aux graphes.",
-          items: [
-            { name: "PostgreSQL", projectIds: ["genomint"] },
-            { name: "MySQL", projectIds: [] },
-            { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
-            { name: "MongoDB", projectIds: [] },
-            { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
+            { name: "PostgreSQL", projectIds: ["genomint"] },
+            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
           ],
         },
         {
-          label: "Systèmes & déploiement",
+          label: "Logiciels natifs & déploiement",
           description:
-            "Construire, automatiser et faire communiquer les services.",
+            "Construire la recherche documentaire et déployer les services sur Linux.",
           items: [
+            { name: "Slint", projectIds: ["sillage"] },
+            { name: "Tantivy", projectIds: ["sillage"] },
+            { name: "Tokio", projectIds: ["sillage"] },
             { name: "Docker", projectIds: ["genomint"] },
-            { name: "Podman", projectIds: [] },
-            { name: "Maven", projectIds: [] },
-            { name: "Ansible", projectIds: [] },
-            { name: "Terraform", projectIds: [] },
-            { name: "GitLab CI/CD", projectIds: [] },
-            { name: "GitHub Actions", projectIds: [] },
-            { name: "gRPC", projectIds: [] },
-            { name: "Tokio", projectIds: [] },
-            { name: "WebAssembly", projectIds: [] },
-          ],
-        },
-        {
-          label: "Sécurité & réseau",
-          description:
-            "Explorer les environnements, les échanges réseau et leur sécurité.",
-          items: [
-            { name: "Linux", projectIds: ["genomint"] },
-            { name: "Nmap", projectIds: [] },
-            { name: "Cisco Packet Tracer", projectIds: [] },
-            { name: "OpenSSL", projectIds: [] },
-            { name: "Wireshark", projectIds: [] },
-            { name: "ZAP Proxy", projectIds: [] },
+            { name: "Linux", projectIds: ["genomint", "nacre"] },
           ],
         },
       ],
@@ -715,13 +643,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      heading: "Donnons vie à vos projets.",
+      heading: "Parlons de votre prochain projet.",
       email: contactEmail,
       emailCta: "Envoyer un e-mail",
       copyEmail: "Copier l'adresse",
       copiedEmail: "Adresse copiée !",
-      status: "Disponible pour de nouvelles opportunités",
-      location: "Montpellier · Remote",
+      status: "Recherche de stage · 22 mars – 21 août 2027",
+      location: "Montpellier ou Lille",
       responseTime: "Réponse habituelle sous 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Parcours professionnel & réseau",
@@ -761,12 +689,16 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     },
     hero: {
       eyebrow: "AI & data systems",
-      summaryTitle: "Under the name carabistouflette",
+      summaryTitle: "Experience & contributions",
       title: "Alexis Robin",
       headline: "AI tools for querying scientific data.",
       affiliation: "M1 at Centrale Lille · AI for health · MIAS track",
       description:
-        "I build AI tools for scientific data. I am also interested in Rust cybersecurity.",
+        "At CIRAD, I built GenomInt’s AI agent and backend to explore genomic graphs.",
+      highlights: [
+        { label: "GenomInt at CIRAD", href: "/en/projects/genomint/" },
+        { label: "Tokio security disclosure", href: "#contribution-tokio" },
+      ],
       availability: {
         label: "Seeking an internship",
         detail: "22 March – 21 August 2027 · Montpellier or Lille",
@@ -795,7 +727,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           id: "meddatatrace",
           title: "HealthGraphBench",
           description:
-            "I compare tabular and relational models on FDA MAUDE and CMS data, using temporal evaluation.",
+            "I measure the value of graph structure by comparing tabular models, neighborhood heuristics and relational models on public FDA and CMS data.",
           technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/en/projects/meddatatrace/",
           linkLabel: "Read the case study",
@@ -808,7 +740,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             "At Brio, I contribute to Sillage: a native Linux launcher and a document search engine that can run separately.",
           technologies: "Rust · Slint · Tantivy · SQLite",
           url: "/en/projects/sillage/",
-          linkLabel: "Read the case study",
+          linkLabel: "View the project and demo",
         },
         {
           id: "nacre",
@@ -854,6 +786,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
           "Understanding failures and making software more robust: I put this interest into practice through vulnerability research and network hardening in the Rust ecosystem.",
         entries: [
           {
+            id: "tokio",
             name: "Tokio",
             focus: "Memory safety",
             role: "Discovery & responsible disclosure",
@@ -868,6 +801,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             },
           },
           {
+            id: "steelmc",
             name: "SteelMC",
             focus: "Network security",
             role: "Network hardening contributor",
@@ -1018,125 +952,49 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           label: "Languages",
           description:
-            "Write the logic, from scripts to applications and systems.",
+            "From Python pipelines to native Rust software, with Java and C.",
           items: [
             { name: "Python", projectIds: ["genomint", "meddatatrace"] },
             { name: "Rust", projectIds: ["sillage", "nacre"] },
-            { name: "TypeScript", projectIds: [] },
             { name: "Java", projectIds: ["encrypted-voting", "justsyncit"] },
             { name: "C", projectIds: ["nacre"] },
           ],
         },
         {
-          label: "Web & interfaces",
-          description: "Connect interfaces, APIs and application services.",
+          label: "AI agents & services",
+          description:
+            "Connect models, queries and APIs to the needs of each project.",
           items: [
-            { name: "Astro", projectIds: [] },
-            { name: "React", projectIds: [] },
-            { name: "Next.js", projectIds: [] },
-            { name: "Vue.js", projectIds: [] },
-            { name: "Nuxt.js", projectIds: [] },
-            { name: "Tailwind CSS", projectIds: [] },
             { name: "FastAPI", projectIds: ["genomint"] },
-            { name: "Flask", projectIds: [] },
-            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
-            { name: "Thymeleaf", projectIds: [] },
-          ],
-        },
-        {
-          label: "Data & analysis",
-          description: "Prepare datasets, transform tables and explore data.",
-          items: [
-            { name: "Polars", projectIds: [] },
-            { name: "Pandas", projectIds: [] },
-            { name: "Datasets", projectIds: [] },
-            { name: "NumPy", projectIds: ["meddatatrace"] },
-            { name: "SciPy", projectIds: [] },
-            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
-          ],
-        },
-        {
-          label: "AI & fine-tuning",
-          description: "Adapt models, prepare tokens and optimize inference.",
-          items: [
-            { name: "PyTorch", projectIds: [] },
-            { name: "Transformers", projectIds: [] },
-            { name: "Unsloth", projectIds: [] },
-            { name: "Tokenizers", projectIds: [] },
-            { name: "PEFT", projectIds: [] },
-            { name: "TRL", projectIds: [] },
-            { name: "bitsandbytes", projectIds: [] },
-            { name: "Safetensors", projectIds: [] },
             { name: "Pi", projectIds: ["genomint"] },
             { name: "LangChain", projectIds: ["genomint"] },
             { name: "Haystack", projectIds: ["genomint"] },
-            { name: "vLLM", projectIds: [] },
+            { name: "Spring Boot", projectIds: ["encrypted-voting"] },
           ],
         },
         {
-          label: "Training & tracking",
+          label: "Data & evaluation",
           description:
-            "Run training jobs, compare experiments and track metrics.",
+            "Query graphs, prepare data and compare models over time.",
           items: [
-            { name: "Accelerate", projectIds: [] },
-            { name: "PyTorch Lightning", projectIds: [] },
-            { name: "Weights & Biases", projectIds: [] },
-            { name: "DeepSpeed", projectIds: [] },
-            { name: "TensorBoard", projectIds: [] },
-            { name: "MLflow", projectIds: [] },
-            { name: "Optuna", projectIds: [] },
-          ],
-        },
-        {
-          label: "Visualization",
-          description:
-            "Read distributions, visualize results and build interactive charts.",
-          items: [
+            { name: "NumPy", projectIds: ["meddatatrace"] },
+            { name: "Scikit-learn", projectIds: ["meddatatrace"] },
+            { name: "Numba", projectIds: ["meddatatrace"] },
             { name: "Matplotlib", projectIds: ["meddatatrace"] },
-            { name: "Seaborn", projectIds: [] },
-            { name: "Plotly", projectIds: [] },
-            { name: "Altair", projectIds: [] },
-          ],
-        },
-        {
-          label: "Databases",
-          description: "Organize data, from relations to documents and graphs.",
-          items: [
-            { name: "PostgreSQL", projectIds: ["genomint"] },
-            { name: "MySQL", projectIds: [] },
-            { name: "MariaDB", projectIds: [] },
-            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
-            { name: "MongoDB", projectIds: [] },
-            { name: "Cassandra", projectIds: [] },
             { name: "Neo4j", projectIds: ["genomint"] },
+            { name: "PostgreSQL", projectIds: ["genomint"] },
+            { name: "SQLite", projectIds: ["sillage", "justsyncit"] },
           ],
         },
         {
-          label: "Systems & deployment",
-          description: "Build, automate and connect services.",
+          label: "Native software & deployment",
+          description: "Build document search and deploy services on Linux.",
           items: [
+            { name: "Slint", projectIds: ["sillage"] },
+            { name: "Tantivy", projectIds: ["sillage"] },
+            { name: "Tokio", projectIds: ["sillage"] },
             { name: "Docker", projectIds: ["genomint"] },
-            { name: "Podman", projectIds: [] },
-            { name: "Maven", projectIds: [] },
-            { name: "Ansible", projectIds: [] },
-            { name: "Terraform", projectIds: [] },
-            { name: "GitLab CI/CD", projectIds: [] },
-            { name: "GitHub Actions", projectIds: [] },
-            { name: "gRPC", projectIds: [] },
-            { name: "Tokio", projectIds: [] },
-            { name: "WebAssembly", projectIds: [] },
-          ],
-        },
-        {
-          label: "Security & networking",
-          description: "Explore environments, network traffic and security.",
-          items: [
-            { name: "Linux", projectIds: ["genomint"] },
-            { name: "Nmap", projectIds: [] },
-            { name: "Cisco Packet Tracer", projectIds: [] },
-            { name: "OpenSSL", projectIds: [] },
-            { name: "Wireshark", projectIds: [] },
-            { name: "ZAP Proxy", projectIds: [] },
+            { name: "Linux", projectIds: ["genomint", "nacre"] },
           ],
         },
       ],
@@ -1161,13 +1019,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      heading: "Let's build something together.",
+      heading: "Let’s talk about your next project.",
       email: contactEmail,
       emailCta: "Send an email",
       copyEmail: "Copy address",
       copiedEmail: "Address copied!",
-      status: "Available for new opportunities",
-      location: "Montpellier · Remote",
+      status: "Seeking an internship · 22 March – 21 August 2027",
+      location: "Montpellier or Lille",
       responseTime: "Typically replies within 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Professional background & network",
@@ -1189,6 +1047,12 @@ const genomintFr: CaseStudy = {
   kicker: "CIRAD · stage 2026 · système agentique pour graphe génomique",
   summary:
     "GenomInt aide les biologistes à explorer les données pangénomiques de Ganoderma, par dialogue et navigation dans un graphe Neo4j.",
+  overview: {
+    contribution:
+      "Développement de l’agent IA, des requêtes Neo4j et des API de l’explorateur génomique pendant mon stage au CIRAD.",
+    outcome:
+      "Une interface pour questionner le graphe, parcourir les résultats et exporter des séquences. Des captures du projet sont consultables ci-dessous.",
+  },
   atGlance: {
     label: "Repères du projet",
     entries: [
@@ -1350,6 +1214,12 @@ const genomintEn: CaseStudy = {
   kicker: "CIRAD · 2026 internship · agentic genomics graph workbench",
   summary:
     "GenomInt helps biologists explore Ganoderma pangenomic data through dialogue and navigation in a Neo4j graph.",
+  overview: {
+    contribution:
+      "Built the AI agent, Neo4j queries and genomic explorer APIs during my CIRAD internship.",
+    outcome:
+      "An interface to query the graph, browse results and export sequences. Project screenshots are available below.",
+  },
   atGlance: {
     label: "Project details",
     entries: [
@@ -1507,6 +1377,12 @@ const sillageFr: CaseStudy = {
   kicker: "Projet Brio · Rust · Linux · open source",
   summary:
     "Sillage permet de lancer une application ou de retrouver un passage dans un dossier autorisé, avec le fichier et la ligne ou la page source. Son moteur de recherche peut être installé sans le lanceur.",
+  overview: {
+    contribution:
+      "Contribution au moteur de recherche, au traitement des documents pour l’indexation vectorielle et aux essais d’OCR.",
+    outcome:
+      "Une vidéo de 12 secondes montre la recherche lexicale et l’ouverture du passage cité. Le projet est en développement, sans release publiée.",
+  },
   atGlance: {
     label: "Repères du projet",
     entries: [
@@ -1665,6 +1541,12 @@ const sillageEn: CaseStudy = {
   kicker: "Brio project · Rust · Linux · open source",
   summary:
     "Sillage launches applications and finds passages in an approved folder, with their source file and line or page. Its search engine can be installed without the launcher.",
+  overview: {
+    contribution:
+      "Contribute to the search engine, document processing for vector indexing and OCR experiments.",
+    outcome:
+      "A 12-second video demonstrates lexical search and opening a cited passage. The project is in development with no published release.",
+  },
   atGlance: {
     label: "Project details",
     entries: [
@@ -1821,6 +1703,12 @@ const encryptedVotingFr: CaseStudy = {
   kicker: "Projet universitaire · Java · Spring",
   summary:
     "Ce projet universitaire explore la vérification des bulletins et le décompte d’un vote chiffré, sans publier les choix individuels.",
+  overview: {
+    contribution:
+      "Développement de la partie cryptographique et participation au frontend et à son intégration avec le backend.",
+    outcome:
+      "Une démonstration exécute le chiffrement, la vérification et le décompte de trois bulletins synthétiques avec la bibliothèque Java réelle.",
+  },
   atGlance: {
     label: "Repères du projet",
     entries: [
@@ -1948,6 +1836,12 @@ const encryptedVotingEn: CaseStudy = {
   kicker: "University project · Java · Spring",
   summary:
     "This university project explores ballot verification and encrypted vote tallying without publishing individual choices.",
+  overview: {
+    contribution:
+      "Developed the cryptographic component and contributed to the frontend and its backend integration.",
+    outcome:
+      "A demonstration runs encryption, verification and tallying for three synthetic ballots using the actual Java library.",
+  },
   atGlance: {
     label: "Project details",
     entries: [
@@ -2074,6 +1968,12 @@ const nacreFr: CaseStudy = {
   kicker: "Compilateur natif expérimental · Rust · Linux · alpha",
   summary:
     "Nacre compile un langage à syntaxe proche de Java en exécutables natifs Linux, sans JVM. Deux voies sont disponibles : génération de C11 ou backend LLVM direct.",
+  overview: {
+    contribution:
+      "Développement d’un compilateur en Rust, de la vérification des types et des emprunts à la génération de code natif.",
+    outcome:
+      "Un compilateur alpha pour Linux, avec exemples et documentation publics. La compatibilité entre versions reste à stabiliser.",
+  },
   atGlance: {
     label: "Repères du projet",
     entries: [
@@ -2183,6 +2083,12 @@ const nacreEn: CaseStudy = {
   kicker: "Experimental native compiler · Rust · Linux · alpha",
   summary:
     "Nacre compiles a Java-like language into native Linux executables without a JVM. It provides two routes: C11 generation or a direct LLVM backend.",
+  overview: {
+    contribution:
+      "Develop a Rust compiler, from type and borrow checking to native code generation.",
+    outcome:
+      "An alpha compiler for Linux with public examples and documentation. Cross-version compatibility remains unstable.",
+  },
   atGlance: {
     label: "Project details",
     entries: [

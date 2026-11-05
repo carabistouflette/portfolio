@@ -17,7 +17,11 @@ const EntryHeading = Heading === "h2" ? "h3" : "h4";
   <p class="body-copy mt-4 max-w-[72ch] text-muted">{content.intro}</p>
   <ul class="mt-8 grid gap-6 lg:grid-cols-2">
     {content.entries.map((entry) => (
-      <li class="flex min-w-0 flex-col rounded-2xl border border-rule/70 bg-linear-to-br from-[#102637]/50 to-transparent p-6 sm:p-8">
+      <li
+        id={`contribution-${entry.id}`}
+        tabindex="-1"
+        class="flex min-w-0 scroll-mt-24 flex-col rounded-2xl border border-rule/70 bg-linear-to-br from-[#102637]/50 to-transparent p-6 sm:p-8"
+      >
         <p class="eyebrow text-[#a8c8be]">{entry.focus}</p>
         <EntryHeading class="card-title mt-3">{entry.name}</EntryHeading>
         <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">{entry.role}</p>

@@ -74,21 +74,25 @@ const counterpartPath =
       <h2 class="subsection-title mt-8 max-w-4xl text-balance">
         {study.question}
       </h2>
-      <p class="lead-copy mt-7 max-w-3xl text-muted text-pretty">
-        {study.summary}
-      </p>
-      {hasRole && (
-        <section
-          class="mt-7 max-w-3xl border-l border-rule pl-5"
-          aria-labelledby="case-role-label"
-        >
-          <h2 id="case-role-label" class="eyebrow">
-            {study.roleLabel}
-          </h2>
-          <p class="body-copy mt-2">{study.role}</p>
-        </section>
-      )}
-      <details class="mt-7 max-w-3xl border-y border-rule py-3">
+      <dl class="mt-8 grid gap-6 border-y border-rule py-6 md:grid-cols-3 md:gap-8">
+        {[
+          { label: fr ? "Le besoin" : "The problem", detail: study.summary },
+          {
+            label: fr ? "Ma contribution" : "My contribution",
+            detail: study.overview.contribution,
+          },
+          {
+            label: fr ? "Le résultat" : "The outcome",
+            detail: study.overview.outcome,
+          },
+        ].map((item) => (
+          <div class="min-w-0">
+            <dt class="eyebrow mb-3 text-[#abd1ed]">{item.label}</dt>
+            <dd class="body-copy text-muted text-pretty">{item.detail}</dd>
+          </div>
+        ))}
+      </dl>
+      <details class="mt-4 max-w-3xl border-b border-rule py-3">
         <summary class="text-link cursor-pointer text-sm">
           {study.atGlance.label}
         </summary>
@@ -100,6 +104,12 @@ const counterpartPath =
             </div>
           ))}
         </dl>
+        {hasRole && (
+          <div class="mt-4 border-t border-rule/60 pt-4 pb-2">
+            <h2 class="eyebrow mb-2">{study.roleLabel}</h2>
+            <p class="body-copy text-muted">{study.role}</p>
+          </div>
+        )}
       </details>
       <nav
         class="mt-6 flex flex-wrap gap-x-8 gap-y-3"
