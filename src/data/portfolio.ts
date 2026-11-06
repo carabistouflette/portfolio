@@ -296,7 +296,7 @@ export const destinations = {
 export const portfolio: Record<Locale, PortfolioContent> = {
   fr: {
     meta: {
-      title: "Alexis Robin — IA & systèmes de données",
+      title: "Alexis Robin",
       description:
         "Alexis Robin — recherche de stage en IA et données scientifiques du 22 mars au 21 août 2027, en France ou à l’étranger. GenomInt au CIRAD, logiciels Rust et recherche en cybersécurité.",
     },
@@ -673,7 +673,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
   },
   en: {
     meta: {
-      title: "Alexis Robin — AI & data systems",
+      title: "Alexis Robin",
       description:
         "Alexis Robin — seeking an AI and scientific data internship from 22 March to 21 August 2027, in France or abroad. GenomInt at CIRAD, Rust software and security research.",
     },
