@@ -67,27 +67,7 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
         id="skills-catalog-summary"
         aria-controls="skills-catalog-body"
       >
-        <span class="skills-catalog-invitation">
-          <span class="skills-catalog-icon" aria-hidden="true">
-            <svg
-              width="22"
-              height="22"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linejoin="round"
-            >
-              <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" />
-            </svg>
-          </span>
-          <span>
-            <span class="skills-catalog-label">{copy.catalogMoreLabel}</span>
-            <span class="skills-catalog-description">
-              {copy.catalogPreview}
-            </span>
-          </span>
-        </span>
+        <span class="skills-catalog-label">{copy.catalogMoreLabel}</span>
       </DisclosureSummary>
       <div
         id="skills-catalog-body"
@@ -161,75 +141,39 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     align-items: center;
   }
   .skills-details > :global(summary) {
-    width: 100%;
-    justify-content: space-between;
-    gap: 1.25rem;
-    padding: 1.25rem;
-    border: 1px solid var(--color-rule);
-    border-radius: 0.75rem;
-    background: #10263780;
-    text-decoration: none;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 3rem;
+    gap: 1rem;
+    padding: 0.75rem 1.125rem;
+    border: 1px solid #abd1ed;
+    border-radius: 0.5rem;
+    background: #abd1ed;
+    color: #102637;
+    box-shadow: 0 2px 8px #0000001a;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease;
   }
   .skills-details > :global(summary:is(:hover, :focus-visible)) {
-    border-color: #9dc7df;
-    background: #18374b;
-  }
-  .skills-details[open] > :global(summary) {
-    border-color: #9dc7df;
-  }
-  .skills-details > :global(summary .disclosure-copy) {
-    flex: 1;
+    border-color: #cce6f7;
+    background: #cce6f7;
   }
   .skills-details
     > :global(summary:is(:hover, :focus-visible) .disclosure-copy) {
     text-decoration: none;
   }
-  .skills-catalog-invitation {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .skills-catalog-icon {
-    display: grid;
-    width: 2.75rem;
-    height: 2.75rem;
-    flex-shrink: 0;
-    place-items: center;
-    border-radius: 0.5rem;
-    background: #9dc7df1a;
-    color: #abd1ed;
+  .skills-details > :global(summary .disclosure-cue) {
+    color: inherit;
   }
   .skills-catalog-label {
-    display: block;
-    color: var(--color-paper);
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 600;
     line-height: 1.5;
   }
-  .skills-catalog-description {
-    display: block;
-    margin-top: 0.25rem;
-    color: var(--color-muted);
-    font-size: 0.875rem;
-    line-height: 1.6;
-    text-wrap: pretty;
-  }
-  @media (max-width: 39.999rem) {
-    .skills-details > :global(summary) {
-      gap: 0.75rem;
-      padding: 1rem;
-    }
-    .skills-catalog-invitation {
-      gap: 0.75rem;
-    }
-    .skills-catalog-icon {
-      width: 2.25rem;
-      height: 2.25rem;
-    }
-    .skills-details > :global(summary .disclosure-cue-closed),
-    .skills-details > :global(summary .disclosure-cue-open) {
-      display: none;
-    }
+  .skills-details > :global(summary .disclosure-cue-closed),
+  .skills-details > :global(summary .disclosure-cue-open) {
+    display: none;
   }
   .skills-details[data-disclosure-ready] [data-catalog-close-row] {
     display: flex;
