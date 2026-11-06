@@ -247,6 +247,7 @@ export interface PortfolioContent {
       projectIds: ProjectId[];
     }[];
     catalogMoreLabel: string;
+    catalogPreview: string;
     catalogCloseLabel: string;
     projectLabel: string;
     groups: SkillGroup[];
@@ -574,6 +575,8 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         },
       ],
       catalogMoreLabel: "Explorer toutes les compétences",
+      catalogPreview:
+        "Langages, outils et liens vers les projets où je les utilise.",
       catalogCloseLabel: "Refermer",
       projectLabel: "Voir dans le projet",
       groups: [
@@ -951,6 +954,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         },
       ],
       catalogMoreLabel: "Explore all skills",
+      catalogPreview: "Languages, tools, and the projects where I use them.",
       catalogCloseLabel: "Close",
       projectLabel: "See in project",
       groups: [
