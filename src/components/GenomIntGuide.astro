@@ -1,0 +1,362 @@
+---
+import type { Locale } from "../data/portfolio";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const fr = locale === "fr";
+const steps = fr
+  ? [
+      {
+        id: "region",
+        label: "Filtrer",
+        title: "Choisir une région du génome",
+        description:
+          "Les filtres de chromosome et de position sont appliqués côté serveur. J’ai développé les requêtes et les API qui alimentent cette exploration.",
+        decision: 2,
+        alt: "Détail de la capture : filtres de génome, chromosome et position.",
+      },
+      {
+        id: "graph",
+        label: "Explorer",
+        title: "Relier les résultats dans le graphe",
+        description:
+          "Le graphe relie les gènes et leurs annotations. Côté agent, les appels d’outils interrogent le schéma puis exécutent les traversées Cypher nécessaires à la question.",
+        decision: 1,
+        alt: "Détail de la capture : gènes et annotations reliés dans le graphe.",
+      },
+      {
+        id: "results",
+        label: "Résultats",
+        title: "Parcourir les gènes trouvés",
+        description:
+          "La table affiche les gènes de la région sélectionnée. J’ai développé la pagination côté serveur, avant l’enrichissement des résultats.",
+        decision: 2,
+        alt: "Détail de la capture : table des gènes, pagination et menu d’export.",
+      },
+    ]
+  : [
+      {
+        id: "region",
+        label: "Filter",
+        title: "Choose a genomic region",
+        description:
+          "Chromosome and position filters run on the server. I built the queries and APIs behind this exploration.",
+        decision: 2,
+        alt: "Screenshot detail: genome, chromosome and position filters.",
+      },
+      {
+        id: "graph",
+        label: "Explore",
+        title: "Connect results in the graph",
+        description:
+          "The graph links genes and their annotations. In the agent, tool calls inspect the schema and execute the Cypher traversals needed for the question.",
+        decision: 1,
+        alt: "Screenshot detail: connected genes and annotations in the graph.",
+      },
+      {
+        id: "results",
+        label: "Results",
+        title: "Browse the returned genes",
+        description:
+          "The table shows genes in the selected region. I built the server-side pagination, which runs before result enrichment.",
+        decision: 2,
+        alt: "Screenshot detail: gene records, pagination and the export menu.",
+      },
+    ];
+---
+
+<section class="explorer-guide" aria-labelledby="explorer-guide-title">
+  <h3 id="explorer-guide-title" class="sr-only">
+    {fr ? "Détails de l’interface" : "Interface details"}
+  </h3>
+  <fieldset>
+    <legend class="sr-only">
+      {fr ? "Choisir un détail de la capture" : "Choose a screenshot detail"}
+    </legend>
+    <div class="guide-controls">
+      {steps.map((step, index) => (
+        <label>
+          <input
+            type="radio"
+            name="explorer-detail"
+            id={`explorer-${step.id}`}
+            checked={index === 0}
+          />
+          <span>
+            <b aria-hidden="true">0{index + 1}</b> {step.label}
+          </span>
+        </label>
+      ))}
+    </div>
+    <div class="guide-panels">
+      {steps.map((step) => (
+        <figure class={`guide-panel guide-${step.id}`}>
+          <div class="guide-visual">
+            <a
+              class="guide-crop"
+              href="/images/genomint-explorer.webp"
+              data-evidence-reference
+              aria-label={
+                fr
+                  ? `${step.title} : ouvrir la capture complète`
+                  : `${step.title}: open the full screenshot`
+              }
+            >
+              <img
+                src="/images/genomint-explorer.webp"
+                width="2877"
+                height="1743"
+                alt={step.alt}
+                loading="eager"
+                decoding="async"
+              />
+              <span class="guide-zoom">
+                {fr ? "Agrandir la capture ↗" : "Enlarge screenshot ↗"}
+              </span>
+            </a>
+            <a
+              class="guide-orientation"
+              href="/images/genomint-explorer.webp"
+              data-evidence-reference
+              aria-label={
+                fr
+                  ? "Situer ce détail dans la capture complète"
+                  : "Locate this detail in the full screenshot"
+              }
+            >
+              <span class="orientation-map" aria-hidden="true">
+                <img
+                  src="/images/genomint-explorer.webp"
+                  width="2877"
+                  height="1743"
+                  alt=""
+                  loading="eager"
+                  decoding="async"
+                />
+                <span class={`orientation-marker marker-${step.id}`}></span>
+              </span>
+              <span>
+                {fr ? "Zone agrandie" : "Enlarged area"}
+                <span class="orientation-action">
+                  {fr ? "Vue complète ↗" : "Full screenshot ↗"}
+                </span>
+              </span>
+            </a>
+          </div>
+          <figcaption>
+            <p class="guide-caption-label">
+              {fr
+                ? "Détail d’une capture réelle"
+                : "Detail from the actual interface"}
+            </p>
+            <h4 class="card-title">{step.title}</h4>
+            <p class="body-copy text-muted">{step.description}</p>
+            <a class="text-link" href={`#decision-${step.decision}`}>
+              {fr ? "Lire le choix technique" : "Read the engineering decision"}{" "}
+              <span aria-hidden="true">↓</span>
+            </a>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </fieldset>
+</section>
+<style>
+  .explorer-guide {
+    margin-block: 0 1.5rem;
+    max-width: 72rem;
+  }
+  fieldset {
+    min-width: 0;
+  }
+  .guide-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+  label {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+  }
+  input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    z-index: 1;
+    cursor: pointer;
+  }
+  label > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--rule);
+    border-radius: 0.4rem;
+    font-size: 0.9375rem;
+  }
+  b {
+    font-size: 0.75rem;
+    color: var(--secondary);
+    font-weight: 400;
+  }
+  input:checked + span {
+    background: #17342e;
+    border-color: #9ccdbd;
+    color: #d4eee4;
+  }
+  input:focus-visible + span {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+  .guide-panel {
+    display: none;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    margin: 0;
+  }
+  .explorer-guide:has(#explorer-region:checked) .guide-region,
+  .explorer-guide:has(#explorer-graph:checked) .guide-graph,
+  .explorer-guide:has(#explorer-results:checked) .guide-results {
+    display: grid;
+  }
+  .guide-visual {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    min-width: 0;
+  }
+  .guide-orientation {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: fit-content;
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  .orientation-map {
+    display: block;
+    position: relative;
+    width: 7rem;
+    flex-shrink: 0;
+    border: 1px solid var(--rule);
+    border-radius: 0.25rem;
+    overflow: hidden;
+  }
+  .orientation-map img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .orientation-marker {
+    position: absolute;
+    border: 2px solid #a04400;
+    background: #e89b3738;
+  }
+  .marker-region {
+    left: 3.33%;
+    top: 26.8%;
+    width: 16.67%;
+    height: 20.6%;
+  }
+  .marker-graph {
+    left: 28%;
+    top: 4.4%;
+    width: 29.4%;
+    height: 36.4%;
+  }
+  .marker-results {
+    left: 83.33%;
+    top: 18.6%;
+    width: 16.67%;
+    height: 20.6%;
+  }
+  .orientation-action {
+    display: block;
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .guide-crop {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    width: min(100%, 29rem);
+    justify-self: start;
+    overflow: hidden;
+    background: #eff4ef;
+    border: 1px solid var(--rule);
+    border-radius: 0.5rem;
+    cursor: zoom-in;
+  }
+  .guide-crop img {
+    position: absolute;
+    width: 600%;
+    max-width: none;
+    height: auto;
+    top: -20%;
+    left: -20%;
+  }
+  .guide-region img {
+    top: -130%;
+  }
+  .guide-graph img {
+    width: 340%;
+    left: -95%;
+    top: -12%;
+  }
+  .guide-results img {
+    width: 600%;
+    left: -500%;
+    top: -90%;
+  }
+  .guide-zoom {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    border: 1px solid #567364;
+    border-radius: 0.3rem;
+    background: #f6faf5;
+    color: #11231b;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.8125rem;
+  }
+  figcaption {
+    align-self: center;
+  }
+  .guide-caption-label {
+    margin-bottom: 0.75rem;
+    color: #a6c8bc;
+    font-size: 0.8125rem;
+  }
+  figcaption .body-copy {
+    margin-block: 0.75rem;
+    max-width: 44ch;
+  }
+  figcaption a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: underline;
+    font-size: 0.875rem;
+  }
+  @media (min-width: 48rem) {
+    .guide-panel {
+      grid-template-columns: minmax(0, 29rem) minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+  }
+  @media (forced-colors: active) {
+    input:checked + span {
+      outline: 2px solid Highlight;
+    }
+  }
+</style>

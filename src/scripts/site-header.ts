@@ -34,6 +34,24 @@ function setupMobileMenu(signal: AbortSignal): void {
 
   const mobile = window.matchMedia("(max-width: 79.999rem)");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const background = Array.from(
+    document.querySelectorAll<HTMLElement>(".site-content, .skip-link"),
+  );
+  let previousOverflow: string | undefined;
+  const setModal = (active: boolean): void => {
+    background.forEach((element) => {
+      element.inert = active;
+    });
+    menu.inert = mobile.matches && !active;
+    if (active && previousOverflow === undefined) {
+      previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+    } else if (!active && previousOverflow !== undefined) {
+      document.body.style.overflow = previousOverflow;
+      previousOverflow = undefined;
+    }
+  };
+  signal.addEventListener("abort", () => setModal(false), { once: true });
   let closeTimer: number | undefined;
   let openFrame: number | undefined;
 
@@ -54,6 +72,7 @@ function setupMobileMenu(signal: AbortSignal): void {
     const isMobile = mobile.matches;
     const nextOpen = isMobile && open;
     clearMenuTimers();
+    setModal(nextOpen);
     toggle.setAttribute("aria-expanded", String(nextOpen));
 
     if (!isMobile) {
@@ -136,6 +155,26 @@ function setupMobileMenu(signal: AbortSignal): void {
   document.addEventListener(
     "keydown",
     (event) => {
+      if (
+        event.key === "Tab" &&
+        toggle.getAttribute("aria-expanded") === "true"
+      ) {
+        const controls = [
+          toggle,
+          ...Array.from(
+            menu.querySelectorAll<HTMLElement>("a, button:not(:disabled)"),
+          ),
+        ];
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
       if (
         event.key === "Escape" &&
         toggle.getAttribute("aria-expanded") === "true"

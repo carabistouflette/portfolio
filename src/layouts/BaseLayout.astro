@@ -93,7 +93,7 @@ const person = {
     )}
     <ClientRouter fallback="swap" />
   </head>
-  <body>
+  <body class:list={{ "reading-page": canonicalPath !== homePath }}>
     <ButterflyBackground />
     <a
       class="skip-link fixed top-4 left-1/2 z-50 min-h-11 -translate-x-1/2 -translate-y-[180%] bg-paper px-[0.9rem] py-[0.55rem] text-ink no-underline transition-transform duration-[140ms] ease-[ease] focus:translate-y-0 motion-reduce:transition-none"

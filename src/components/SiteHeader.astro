@@ -32,6 +32,7 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
         height="213"
         decoding="async"
       />
+      <span class="header-wordmark">Alexis Robin</span>
     </a>
     <button
       class="header-menu-toggle"
@@ -53,23 +54,23 @@ const { locale, content, homeHref, alternatePaths } = Astro.props;
       </svg>
     </button>
     <div id="header-menu" class="header-menu">
-      <nav
-        class="primary-nav"
-        aria-label={content.navigation.primaryLabel}
-        tabindex="0"
-      >
+      <nav class="primary-nav" aria-label={content.navigation.primaryLabel}>
         <ul class="header-sections">
-          {Object.values(content.navigation.sections).map((section) => (
-            <li>
-              <a
-                class="header-section-link"
-                href={`${homeHref}#${section.id}`}
-                data-nav-link
-              >
-                {section.label}
-              </a>
-            </li>
-          ))}
+          {Object.values(content.navigation.sections)
+            .filter(
+              (section) => !["accueil", "open-source"].includes(section.id),
+            )
+            .map((section) => (
+              <li>
+                <a
+                  class="header-section-link"
+                  href={`${homeHref}#${section.id}`}
+                  data-nav-link
+                >
+                  {section.label}
+                </a>
+              </li>
+            ))}
         </ul>
       </nav>
       <nav

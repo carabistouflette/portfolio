@@ -1,12 +1,8 @@
 ---
+import ProjectIndex from "./ProjectIndex.astro";
+import ProjectPreview from "./ProjectPreview.astro";
 import DisclosureSummary from "./DisclosureSummary.astro";
-import {
-  type Locale,
-  type PortfolioContent,
-  type ProjectId,
-} from "../data/portfolio";
-import ToolIcon from "./ToolIcon.astro";
-import HealthGraphBenchmark from "./HealthGraphBenchmark.astro";
+import type { Locale, PortfolioContent } from "../data/portfolio";
 
 interface Props {
   content: PortfolioContent;
@@ -14,23 +10,31 @@ interface Props {
 }
 const { content, locale } = Astro.props;
 const fr = locale === "fr";
-const projectConcepts: Record<ProjectId, string[]> = fr
-  ? {
-      genomint: ["Pangénomie", "Graphes", "Agent IA"],
-      meddatatrace: ["Données de santé", "Graphes", "Évaluation temporelle"],
-      sillage: ["Lanceur Linux", "Recherche locale", "Extraits sourcés"],
-      nacre: ["Compilateur", "Ownership", "Sans GC"],
-      "encrypted-voting": ["El Gamal", "Preuves à connaissance zéro"],
-      justsyncit: ["Sauvegardes", "Snapshots", "BLAKE3"],
-    }
-  : {
-      genomint: ["Pangenomics", "Graphs", "AI agent"],
-      meddatatrace: ["Health data", "Graphs", "Temporal evaluation"],
-      sillage: ["Linux launcher", "Local search", "Cited excerpts"],
-      nacre: ["Compiler", "Ownership", "No GC"],
-      "encrypted-voting": ["El Gamal", "Zero-knowledge proofs"],
-      justsyncit: ["Backups", "Snapshots", "BLAKE3"],
-    };
+const hooks = fr
+  ? [
+      "Interroger un graphe génomique en langage naturel.",
+      "Les graphes améliorent-ils les prédictions en santé ?",
+      "Retrouver un passage, puis ouvrir sa source.",
+    ]
+  : [
+      "Query a genomic graph in natural language.",
+      "Do graphs improve predictions on health data?",
+      "Find a passage, then open its source.",
+    ];
+const actions = fr
+  ? ["Voir l’explorateur", "Lire le benchmark", "Voir la recherche"]
+  : ["See the explorer", "Read the benchmark", "See the search"];
+const contributions = fr
+  ? [
+      "Agent IA, requêtes Neo4j, API et exports.",
+      "Protocole temporel, modèles de référence et évaluation.",
+      "Moteur de recherche et traitement des documents pour l’indexation vectorielle.",
+    ]
+  : [
+      "AI agent, Neo4j queries, APIs and exports.",
+      "Temporal protocol, baseline models and evaluation.",
+      "Search engine and document processing for vector indexing.",
+    ];
 ---
 
 <section
@@ -44,153 +48,94 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     </h2>
     <p class="projects-intro">{content.projects.intro}</p>
   </header>
+  <ProjectIndex content={content} locale={locale} />
   <div class="projects-grid">
-    {content.projects.entries.slice(0, 3).map((project) => {
+    {content.projects.entries.slice(0, 3).map((project, index) => {
+      const tools =
+        project.id === "genomint"
+          ? ["Python", "FastAPI", "Neo4j"]
+          : project.technologies.split(" · ").slice(0, 3);
       return (
         <article
           id={`project-${project.id}`}
           class:list={["project-tile", `tile-${project.id}`]}
           tabindex="-1"
         >
-          <div class="tile-surface">
-            {project.id === "genomint" && (
-              <figure class="genomint-preview">
-                <img
-                  src="/images/genomint-explorer-1100.webp"
-                  srcset="/images/genomint-explorer-1100.webp 1100w, /images/genomint-explorer.webp 2877w"
-                  sizes="(min-width: 100rem) 60vw, (min-width: 64rem) 55vw, calc(100vw - 5rem)"
-                  width="2877"
-                  height="1743"
-                  alt={
-                    fr
-                      ? "GKG Explorer : filtres, graphe génomique et table de gènes dans l’interface GenomInt."
-                      : "GKG Explorer: filters, genomic graph and gene table in the GenomInt interface."
-                  }
-                  loading="lazy"
-                  decoding="async"
-                />
-                <figcaption>
-                  GKG Explorer <span aria-hidden="true">—</span>{" "}
-                  {fr ? "interface GenomInt" : "GenomInt interface"}
-                </figcaption>
-              </figure>
-            )}
-            {project.id === "meddatatrace" && (
-              <HealthGraphBenchmark locale={locale} compact />
-            )}
-            {project.id === "sillage" && (
-              <figure class="sillage-preview">
-                <div class="sillage-preview-image">
-                  <img
-                    src="/evidence/sillage-search-poster.webp"
-                    width="1108"
-                    height="594"
-                    alt={
-                      fr
-                        ? "Sillage : recherche du mot « provenance », extrait trouvé et passage source dans le lanceur Linux."
-                        : "Sillage: search for “provenance”, matching excerpt and source passage in the Linux launcher."
-                    }
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <figcaption>
-                  <span aria-hidden="true">▷</span>{" "}
-                  {fr
-                    ? "Capture du lanceur · démonstration de 12 s"
-                    : "Launcher capture · 12-second demonstration"}
-                </figcaption>
-              </figure>
-            )}
-            <div class="tile-copy">
-              <p class="tile-context">
-                {project.id === "genomint"
+          <ProjectPreview projectId={project.id} locale={locale} />
+          <div class="tile-copy">
+            <p class="tile-context">
+              {project.id === "genomint"
+                ? "CIRAD · 2026"
+                : project.id === "meddatatrace"
                   ? fr
-                    ? "CIRAD · Génomique"
-                    : "CIRAD · Genomics"
-                  : project.id === "meddatatrace"
-                    ? fr
-                      ? "Recherche personnelle"
-                      : "Independent research"
-                    : fr
-                      ? "Brio · Contribution"
-                      : "Brio · Contributor"}
-              </p>
-              <h3>
-                <a class="tile-title-link" href={project.url}>
-                  {project.title
-                    .split(/(?<=[a-z])(?=[A-Z])/)
-                    .map((part, index) => (
-                      <Fragment>
-                        {index > 0 && <wbr />}
-                        {part}
-                      </Fragment>
-                    ))}
-                </a>
-              </h3>
-              {project.outcome && (
-                <p id={`project-${project.id}-outcome`} class="tile-outcome">
-                  {project.outcome}
-                </p>
-              )}
-              {project.status && (
-                <p id={`project-${project.id}-status`} class="tile-status">
-                  {project.status}
-                </p>
-              )}
-              <p
-                id={`project-${project.id}-description`}
-                class="tile-description"
+                    ? "Recherche personnelle · en cours"
+                    : "Independent research · in progress"
+                  : fr
+                    ? "Brio · contribution"
+                    : "Brio · contributor"}
+            </p>
+            <h3>
+              <a
+                class="tile-title-link"
+                href={project.url}
+                aria-describedby={`project-${project.id}-outcome`}
               >
-                <span class="tile-role-label">
-                  {content.projects.contributionLabel}
-                </span>{" "}
-                {project.description}
-              </p>
-              <div class="mt-5">
-                <p id={`project-${project.id}-concepts`} class="tile-concepts">
-                  {projectConcepts[project.id].join(" · ")}
-                </p>
-                <ul
-                  id={`project-${project.id}-tools`}
-                  class="tile-tools"
-                  role="list"
-                  aria-label={
-                    fr ? "Technologies utilisées" : "Technologies used"
-                  }
-                >
-                  {project.technologies.split(" · ").map((name) => (
-                    <li>
-                      <ToolIcon name={name} className="size-4 shrink-0" />
-                      <span>{name}</span>
-                    </li>
+                {project.title
+                  .split(/(?<=[a-z])(?=[A-Z])/)
+                  .map((part, index) => (
+                    <Fragment>
+                      {index > 0 && <wbr />}
+                      {part}
+                    </Fragment>
                   ))}
-                </ul>
+              </a>
+            </h3>
+            <p id={`project-${project.id}-outcome`} class="tile-outcome">
+              {hooks[index]}
+            </p>
+            <p class="tile-contribution">
+              <span>{content.projects.contributionLabel}</span>{" "}
+              {contributions[index]}
+            </p>
+            <footer class="tile-footer">
+              <p
+                class="tile-tools"
+                aria-label={
+                  fr ? "Technologies principales" : "Principal technologies"
+                }
+              >
+                {tools.join(" · ")}
+              </p>
+              <div class="tile-actions">
+                <span class="tile-primary-cta" aria-hidden="true">
+                  {actions[index]}
+                  <span class="tile-arrow">↗</span>
+                </span>
+                {project.id === "sillage" && (
+                  <a
+                    class="tile-secondary-link"
+                    href={`${project.url}#case-demo-title`}
+                  >
+                    {fr ? "Démo · 12 s" : "Demo · 12 s"}
+                    <span aria-hidden="true">▷</span>
+                  </a>
+                )}
+                {project.id === "meddatatrace" && (
+                  <a
+                    class="tile-secondary-link"
+                    href={`${project.url}#benchmark-results`}
+                  >
+                    {fr ? "Résultats" : "Results"}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                )}
               </div>
-              {project.linkLabel && (
-                <a
-                  class="tile-link"
-                  href={
-                    project.id === "sillage"
-                      ? `${project.url}#case-demo-title`
-                      : project.url
-                  }
-                  aria-describedby={
-                    project.outcome
-                      ? `project-${project.id}-outcome`
-                      : undefined
-                  }
-                >
-                  {project.linkLabel} →
-                </a>
-              )}
-            </div>
+            </footer>
           </div>
         </article>
       );
     })}
   </div>
-
   <details class="other-projects button-disclosure reading-disclosure content-disclosure">
     <DisclosureSummary>
       <span id="other-projects-title" class="button-disclosure-label">
@@ -207,7 +152,7 @@ const projectConcepts: Record<ProjectId, string[]> = fr
                 <p>{project.description}</p>
               </div>
               <span class="other-project-action" aria-hidden="true">
-                {project.linkLabel} <span>↗</span>
+                {project.linkLabel} ↗
               </span>
             </a>
           </li>
@@ -221,232 +166,180 @@ const projectConcepts: Record<ProjectId, string[]> = fr
   .projects-heading {
     display: grid;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
   .projects-intro {
     max-width: 58ch;
-    color: var(--color-muted);
+    color: var(--secondary);
     font-size: 1.0625rem;
     line-height: 1.7;
     text-wrap: pretty;
   }
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem;
-    align-items: stretch;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
   }
   .project-tile {
     position: relative;
-    display: flex;
-    min-width: 0;
-    --tile-padding: clamp(1.15rem, 2vw, 2rem);
-    border: 1px solid var(--tile-border);
-    background: var(--tile-bg);
-    color: #f1eee5;
-    border-radius: 1rem;
-    scroll-margin-top: 6rem;
-  }
-  .tile-surface {
-    position: relative;
+    isolation: isolate;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    gap: 1.5rem;
-    width: 100%;
-    padding: var(--tile-padding);
-    border-radius: inherit;
-    color: inherit;
-    text-decoration: none;
+    min-width: 0;
+    border: 1px solid #819b9b38;
+    border-radius: 1rem;
+    background: #0b1518;
+    --tile-accent: #b2ddca;
+    scroll-margin-top: 6rem;
+    transition:
+      border-color 180ms ease,
+      box-shadow 180ms ease,
+      transform 180ms ease;
   }
-  .tile-genomint {
-    --tile-bg: #0c1a1b;
-    --tile-border: #345451;
-    --tile-accent: #b0ded0;
-    grid-column: 1 / -1;
-    border-inline: 0;
-    border-radius: 0;
-    background: transparent;
+  .project-tile > :global(.project-preview) {
+    border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
   }
-  .tile-genomint .tile-surface {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
-    align-items: center;
-    gap: clamp(2rem, 4vw, 4rem);
-    padding: 2rem 0;
+  .tile-meddatatrace {
+    --tile-accent: #bbd5ed;
+    background: #0c1720;
   }
-  .tile-genomint .tile-copy {
-    grid-column: 1;
-    grid-row: 1;
+  .tile-sillage {
+    --tile-accent: #d4c8ed;
+    background: #141622;
   }
   .tile-copy {
-    position: relative;
     display: flex;
-    flex: 1;
     flex-direction: column;
-  }
-  .sillage-preview-image {
-    display: grid;
-    aspect-ratio: 1108 / 594;
-    align-items: center;
-    overflow: hidden;
-    border: 1px solid var(--tile-border);
-    border-radius: 0.4rem;
-    background: #101214;
-  }
-  .sillage-preview .sillage-preview-image img {
-    border: 0;
-    border-radius: 0;
-  }
-  .genomint-preview {
-    grid-column: 2;
-  }
-  .genomint-preview,
-  .sillage-preview {
-    min-width: 0;
-    margin: 0;
-  }
-  .genomint-preview img,
-  .sillage-preview img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--tile-border);
-    border-radius: 0.4rem;
-  }
-  .genomint-preview figcaption,
-  .sillage-preview figcaption {
-    margin-top: 0.65rem;
-    color: var(--tile-accent);
-    font-size: 0.8125rem;
-    line-height: 1.6;
+    flex: 1;
+    padding: clamp(1.25rem, 2vw, 1.75rem);
   }
   .tile-context {
-    margin-bottom: 0.75rem;
-    padding-right: 1.5rem;
     color: var(--tile-accent);
     font-size: 0.8125rem;
     line-height: 1.5;
   }
-  .tile-copy h3 {
+  h3 {
+    margin-top: 0.65rem;
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 2.6vw, 2.8rem);
-    font-weight: 700;
-    line-height: 1.1;
+    font-size: clamp(1.75rem, 2.2vw, 2.35rem);
+    line-height: 1.15;
     letter-spacing: -0.035em;
     overflow-wrap: anywhere;
   }
-  .tile-genomint h3 {
-    font-size: clamp(2.5rem, 4vw, 4rem);
-  }
   .tile-title-link {
-    color: inherit;
+    color: var(--primary);
     text-decoration: none;
   }
-  .tile-title-link:is(:hover, :focus-visible) {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.15em;
+  .tile-title-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: 1rem;
   }
-  .tile-meddatatrace {
-    --tile-bg: #15262d;
-    --tile-border: #52737c;
-    --tile-accent: #b4dce1;
-    background-image: radial-gradient(
-      ellipse at top right,
-      #294e5b80,
-      transparent 70%
-    );
+  .tile-title-link:focus-visible {
+    outline: none;
   }
-  .tile-sillage {
-    --tile-bg: #182330;
-    --tile-border: #435367;
-    --tile-accent: #bdd1ec;
+  .tile-title-link:focus-visible::after {
+    outline: 2px solid var(--tile-accent);
+    outline-offset: 5px;
   }
   .tile-outcome {
-    max-width: 42ch;
-    margin-top: 1.25rem;
-    font-size: clamp(1.125rem, 1.5vw, 1.375rem);
-    line-height: 1.5;
+    margin-top: 0.85rem;
+    color: var(--primary);
+    font-size: 1.0625rem;
+    line-height: 1.6;
     text-wrap: pretty;
   }
-  .tile-description {
-    max-width: 52ch;
-    margin-top: 1rem;
-    color: var(--color-muted);
-    font-size: 0.9375rem;
+  .tile-contribution {
+    margin-top: 1.25rem;
+    color: var(--secondary);
+    font-size: 0.875rem;
     line-height: 1.7;
     text-wrap: pretty;
   }
-  .tile-role-label {
+  .tile-contribution > span {
     color: var(--tile-accent);
-    font-weight: 500;
   }
-  .tile-status {
-    margin-top: 1rem;
-    color: var(--tile-accent);
-    font-size: 0.8125rem;
-    line-height: 1.5;
-  }
-  .tile-link {
-    display: inline-flex;
-    align-items: center;
-    min-height: 2.75rem;
-    width: fit-content;
+  .tile-footer {
     margin-top: auto;
-    padding-block: 0.75rem;
-    font-size: 0.875rem;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-  }
-  .tile-concepts {
-    margin-top: 0.8rem;
-    padding-top: 0.65rem;
-    border-top: 1px solid var(--tile-border);
-    color: var(--tile-accent);
-    font-size: 0.875rem;
-    line-height: 1.6;
+    padding-top: 1.5rem;
   }
   .tile-tools {
+    color: var(--tile-accent);
+    font-size: 0.75rem;
+    line-height: 1.6;
+  }
+  .tile-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
-    margin-block: 0.8rem;
-    color: var(--color-paper);
-    list-style: none;
-    padding: 0;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-top: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #abc7cf24;
   }
-  .tile-tools li {
+  .tile-primary-cta {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.3rem 0.55rem;
-    border: 1px solid var(--tile-border);
-    border-radius: 0.35rem;
-    font-size: 0.75rem;
-    line-height: 1.5;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary);
   }
-  .project-tile:focus-within {
-    border-color: var(--tile-accent);
+  .tile-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border: 1px solid #b5d3ce52;
+    border-radius: 50%;
+    color: var(--tile-accent);
+    transition:
+      color 180ms ease,
+      background 180ms ease,
+      transform 180ms ease;
+  }
+  .tile-secondary-link {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    color: var(--tile-accent);
+    font-size: 0.8125rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .project-tile:is(:hover, :focus-within) {
+    border-color: color-mix(in srgb, var(--tile-accent) 65%, transparent);
+    box-shadow: 0 1rem 2.5rem #0004;
+  }
+  .project-tile:is(:hover, :focus-within) .tile-arrow {
+    background: var(--tile-accent);
+    color: #101b18;
+    transform: translate(2px, -2px);
+  }
+  @media (hover: hover) {
+    .project-tile:hover {
+      transform: translateY(-4px);
+    }
   }
   .other-projects {
     margin-top: 2.5rem;
-  }
-  .complementary-heading {
-    margin-bottom: 1rem;
-    color: var(--color-muted);
-    font-size: 1.25rem;
-    font-weight: 500;
   }
   .other-projects-list {
     margin: 0;
     padding: 0;
     list-style: none;
-    border-bottom: 1px solid var(--color-rule);
+    border-bottom: 1px solid var(--rule);
   }
   .other-project {
-    border-top: 1px solid var(--color-rule);
+    border-top: 1px solid var(--rule);
     scroll-margin-top: 6rem;
   }
   .other-project-link {
@@ -455,9 +348,6 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     justify-content: space-between;
     gap: 1rem 2rem;
     padding-block: 1.25rem;
-    text-decoration: none;
-  }
-  .other-project-link:hover {
     text-decoration: none;
   }
   .other-project-copy {
@@ -469,18 +359,15 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     overflow-wrap: anywhere;
   }
   .other-project-copy p {
-    max-width: 75ch;
-    margin-top: 0.35rem;
-    color: var(--color-muted);
+    max-width: 68ch;
+    margin-top: 0.55rem;
+    color: var(--secondary);
     font-size: 0.9375rem;
-    line-height: 1.6;
+    line-height: 1.7;
     text-wrap: pretty;
   }
   .other-project-action {
-    display: inline-flex;
     flex-shrink: 0;
-    align-items: center;
-    gap: 1rem;
     color: #abd1ed;
     font-size: 0.875rem;
   }
@@ -488,29 +375,31 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     text-decoration: underline;
     text-underline-offset: 0.25em;
   }
-  @media (max-width: 63.999rem) {
+  @media (min-width: 48rem) and (max-width: 79.999rem) {
+    .projects-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 47.999rem) {
+    .projects-heading {
+      margin-bottom: 1.5rem;
+    }
     .projects-grid {
       grid-template-columns: minmax(0, 1fr);
-    }
-    .tile-genomint .tile-surface {
-      grid-template-columns: minmax(0, 1fr);
       gap: 1.5rem;
-    }
-    .genomint-preview {
-      grid-column: 1;
     }
     .other-project-link {
       align-items: start;
       flex-direction: column;
     }
   }
-  @media (max-width: 47.999rem) {
-    .projects-grid {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1rem;
+  @media (prefers-reduced-motion: reduce) {
+    .project-tile,
+    .tile-arrow {
+      transition: none;
     }
-    .project-tile {
-      --tile-padding: 1.25rem;
+    .project-tile:hover {
+      transform: none;
     }
   }
 </style>

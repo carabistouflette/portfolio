@@ -1,0 +1,396 @@
+---
+import type { Locale, ProjectId } from "../data/portfolio";
+import results from "../data/healthgraphbench-results.json";
+interface Props {
+  projectId: ProjectId;
+  locale: Locale;
+}
+const { projectId, locale } = Astro.props;
+const fr = locale === "fr";
+const percent = new Intl.NumberFormat(locale, {
+  style: "percent",
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+const modelNames = fr
+  ? ["Voisinage", "Logistique", "BPR + voisins", "GraphSAGE"]
+  : ["Neighbors", "Logistic", "BPR + neighbors", "GraphSAGE"];
+---
+
+<figure class:list={["project-preview", `preview-${projectId}`]}>
+  <div class="preview-grid" aria-hidden="true"></div>
+  {projectId === "genomint" && (
+    <div class="software-window genomint-window">
+      <div class="window-chrome" aria-hidden="true">
+        <span class="window-dots">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+        <span>GenomInt / GKG Explorer</span>
+      </div>
+      <img
+        src="/images/genomint-explorer-1100.webp"
+        srcset="/images/genomint-explorer-1100.webp 1100w, /images/genomint-explorer.webp 2877w"
+        sizes="(min-width: 100rem) 40vw, (min-width: 80rem) 35vw, (min-width: 48rem) 55vw, 110vw"
+        width="2877"
+        height="1743"
+        alt={
+          fr
+            ? "L’interface réelle de GenomInt, avec son graphe génomique et ses filtres."
+            : "The actual GenomInt interface, with its genomic graph and filters."
+        }
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  )}
+  {projectId === "meddatatrace" && (
+    <div class="benchmark-visual">
+      <div class="benchmark-visual-heading">
+        <span>FDA MAUDE · {fr ? "exploratoire" : "exploratory"}</span>
+        <span>Recall@10 ↑</span>
+      </div>
+      <div class="showcase-chart">
+        <div class="chart-grid" aria-hidden="true">
+          <span>25%</span>
+          <span>{fr ? "12,5%" : "12.5%"}</span>
+          <span>0%</span>
+        </div>
+        <ol
+          aria-label={
+            fr
+              ? "Résultats exploratoires du benchmark, quatre méthodes sur sept"
+              : "Exploratory benchmark results, four of seven methods"
+          }
+        >
+          {results.models.map((model, index) => (
+            <li
+              style={`--score: ${(model.value / 0.25) * 100}%; --bar-color: var(--bar-${index});`}
+            >
+              <div class="chart-column">
+                <span class="chart-bar">
+                  <strong>{percent.format(model.value)}</strong>
+                </span>
+              </div>
+              <span class="chart-model">{modelNames[index]}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  )}
+  {projectId === "sillage" && (
+    <>
+      <div class="search-visual" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="10.5" cy="10.5" r="6.5"></circle>
+          <path d="m16 16 4.5 4.5"></path>
+        </svg>
+        <span>provenance</span>
+        <kbd>↵</kbd>
+      </div>
+      <div class="software-window sillage-window">
+        <div class="window-chrome" aria-hidden="true">
+          <span class="window-dots">
+            <i></i>
+            <i></i>
+            <i></i>
+          </span>
+          <span>Sillage / source</span>
+        </div>
+        <div class="sillage-source-crop">
+          <img
+            src="/evidence/sillage-search-poster.webp"
+            width="1108"
+            height="594"
+            alt={
+              fr
+                ? "Capture réelle de Sillage : le passage trouvé, sa citation et les actions pour ouvrir ou copier la source."
+                : "Actual Sillage capture: the matching passage, citation and actions to open or copy its source."
+            }
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </>
+  )}
+  <figcaption>
+    <span class="preview-dot" aria-hidden="true"></span>
+    {projectId === "genomint"
+      ? fr
+        ? "L’explorateur en action"
+        : "Inside the genomic explorer"
+      : projectId === "meddatatrace"
+        ? fr
+          ? "Graphes face aux modèles de référence"
+          : "Graphs against baseline models"
+        : fr
+          ? "Recherche locale → passage source"
+          : "Local search → source passage"}
+  </figcaption>
+</figure>
+
+<style>
+  .project-preview {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 1.36;
+    overflow: hidden;
+    margin: 0;
+    border-bottom: 1px solid #ffffff12;
+    background: #0e2420;
+  }
+  .preview-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(#a8d5c00a 1px, transparent 1px),
+      linear-gradient(90deg, #a8d5c00a 1px, transparent 1px);
+    background-size: 2rem 2rem;
+    mask-image: linear-gradient(black, transparent);
+  }
+  .preview-genomint {
+    background:
+      radial-gradient(ellipse at 60% 45%, #45756888, transparent 70%), #102c25;
+  }
+  .preview-meddatatrace {
+    background:
+      radial-gradient(ellipse at 75% 5%, #3d66845c, transparent 75%), #10202d;
+  }
+  .preview-sillage {
+    background:
+      radial-gradient(ellipse at 45% 20%, #5e538959, transparent 70%), #1a1c31;
+  }
+  .software-window {
+    position: absolute;
+    overflow: hidden;
+    border: 1px solid #c1dbd344;
+    border-radius: 0.65rem;
+    background: #101817;
+    box-shadow: 0 1.5rem 3rem #0008;
+    transition: transform 300ms ease;
+  }
+  .genomint-window {
+    width: 118%;
+    top: 14%;
+    left: 9%;
+    transform: perspective(900px) rotateY(-8deg) rotateX(4deg) rotateZ(-3deg);
+    transform-origin: left center;
+  }
+  .genomint-window img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .window-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.7rem;
+    color: #bdcdc7;
+    font-size: 0.625rem;
+    background: #101b18;
+    border-bottom: 1px solid #ffffff12;
+    letter-spacing: 0.04em;
+  }
+  .window-dots {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .window-dots i {
+    width: 0.3rem;
+    height: 0.3rem;
+    background: #8ca49a;
+    border-radius: 50%;
+  }
+  .project-preview::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 25%;
+    background: linear-gradient(transparent, #07120fe8);
+    pointer-events: none;
+  }
+  figcaption {
+    position: absolute;
+    z-index: 1;
+    left: 1.4rem;
+    bottom: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #d9e5df;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-shadow: 0 1px 5px #000;
+  }
+  .preview-dot {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: #a9dcc6;
+  }
+  .benchmark-visual {
+    position: absolute;
+    inset: 11% 7% 19%;
+    color: #d9e7ef;
+    --bar-0: #a5d6c9;
+    --bar-1: #83b0c7;
+    --bar-2: #a29fc7;
+    --bar-3: #7991a6;
+  }
+  .benchmark-visual-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.035em;
+  }
+  .benchmark-visual-heading > span:last-child {
+    color: #b3c7d5;
+  }
+  .showcase-chart {
+    position: relative;
+    margin-top: 1.25rem;
+    height: calc(100% - 2.5rem);
+  }
+  .chart-grid {
+    position: absolute;
+    inset: 0 0 1.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.5625rem;
+    color: #8096a7;
+  }
+  .chart-grid span {
+    border-top: 1px solid #8ab7d422;
+    padding-top: 0.15rem;
+  }
+  ol {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0 0 0 1.6rem;
+    margin: 0;
+  }
+  li {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) 1.9rem;
+  }
+  .chart-column {
+    display: flex;
+    align-items: end;
+    padding-inline: 12%;
+  }
+  .chart-bar {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: var(--score);
+    border-radius: 0.25rem 0.25rem 0 0;
+    background: linear-gradient(
+      var(--bar-color),
+      color-mix(in srgb, var(--bar-color) 28%, transparent)
+    );
+    border-top: 1px solid var(--bar-color);
+  }
+  .chart-bar strong {
+    position: absolute;
+    bottom: calc(100% + 0.45rem);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(0.75rem, 1.1vw, 1rem);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .chart-model {
+    align-self: center;
+    padding-top: 0.35rem;
+    font-size: 0.625rem;
+    text-align: center;
+    line-height: 1.3;
+    color: #b6cbd8;
+  }
+  .search-visual {
+    position: absolute;
+    top: 14%;
+    left: 10%;
+    width: 77%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid #a79cdb66;
+    border-radius: 0.6rem;
+    background: #242439;
+    color: #ebe8fa;
+    font-size: clamp(0.9375rem, 1.3vw, 1.125rem);
+    box-shadow: 0 0.5rem 2rem #0005;
+    transform: rotate(-3deg);
+    transition: transform 300ms ease;
+  }
+  .search-visual svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    stroke: #b9acd8;
+    stroke-width: 1.5;
+    flex-shrink: 0;
+  }
+  kbd {
+    margin-left: auto;
+    color: #c1b6dc;
+    font-family: inherit;
+    font-size: 0.875rem;
+  }
+  .sillage-window {
+    width: 145%;
+    top: 40%;
+    left: 12%;
+    transform: perspective(900px) rotateY(-5deg) rotateZ(-3deg);
+    border-color: #a69ac359;
+    background: #17272b;
+  }
+  .sillage-window .window-chrome {
+    background: #191f2b;
+  }
+  .sillage-source-crop {
+    position: relative;
+    aspect-ratio: 576 / 120;
+    overflow: hidden;
+  }
+  .sillage-source-crop img {
+    position: absolute;
+    display: block;
+    width: 192.36%;
+    max-width: none;
+    height: auto;
+    left: -92.36%;
+    top: -190.83%;
+  }
+  :global(.project-tile:hover) .genomint-window,
+  :global(.project-tile:focus-within) .genomint-window {
+    transform: perspective(900px) rotateY(-4deg) rotateX(2deg) rotateZ(-1deg)
+      translateY(-0.25rem);
+  }
+  :global(.project-tile:hover) .search-visual {
+    transform: rotate(-1deg) translateY(-0.2rem);
+  }
+  :global(.project-tile:hover) .sillage-window {
+    transform: perspective(900px) rotateY(-3deg) rotateZ(-1deg)
+      translateY(-0.2rem);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .software-window,
+    .search-visual {
+      transition: none;
+    }
+  }
+</style>

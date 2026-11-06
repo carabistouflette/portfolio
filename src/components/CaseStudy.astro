@@ -1,10 +1,12 @@
 ---
+import GenomIntTrace from "./GenomIntTrace.astro";
+import GenomIntGuide from "./GenomIntGuide.astro";
 import DisclosureSummary from "./DisclosureSummary.astro";
 import CaseStudyDemo from "./CaseStudyDemo.astro";
 import EvidenceFigure from "./EvidenceFigure.astro";
 import PaginationEvidence from "./PaginationEvidence.astro";
 import HealthGraphBenchmark from "./HealthGraphBenchmark.astro";
-import { destinations } from "../data/portfolio";
+import { destinations, portfolio } from "../data/portfolio";
 import type {
   CaseStudy as CaseStudyData,
   CaseStudyId,
@@ -22,6 +24,9 @@ const hasRole = Boolean(study.role && study.roleLabel);
 const fr = locale === "fr";
 const contactHref = `${destinations.email}?subject=${encodeURIComponent(fr ? `Échange à propos de ${study.title}` : `Discussing ${study.title}`)}`;
 const screenshots = study.screenshots;
+const projectTools = portfolio[locale].projects.entries.find(
+  (project) => project.id === projectId,
+)?.technologies;
 // Match global.css's capped shell and gutters, plus this gallery's 1.5rem
 // column gap and each image link's 2px border. Reserve the full hover scale
 // (1.02) in every source selection, including browsers without sizes="auto".
@@ -40,149 +45,131 @@ const evidenceSizes = [
 ].join(", ");
 const homePath = locale === "fr" ? "/" : "/en/";
 const primaryHref =
-  projectId === "meddatatrace"
-    ? "#benchmark-results"
-    : study.demonstration
-      ? "#case-demo-title"
-      : projectId === "nacre" && study.figure.sourceHref
-        ? study.figure.sourceHref
-        : "#case-media-title";
-const primaryLabel =
-  projectId === "meddatatrace"
-    ? fr
-      ? "Voir les résultats"
-      : "See the results"
-    : study.demonstration?.video
-      ? fr
-        ? "Regarder la démo · 12 s"
-        : "Watch the demo · 12 s"
+  projectId === "genomint"
+    ? "#agent-trace"
+    : projectId === "meddatatrace"
+      ? "#benchmark-results"
       : study.demonstration
+        ? "#case-demo-title"
+        : projectId === "nacre" && study.figure.sourceHref
+          ? study.figure.sourceHref
+          : "#case-media-title";
+const primaryLabel =
+  projectId === "genomint"
+    ? fr
+      ? "Lire la trace et les résultats"
+      : "Read the trace and records"
+    : projectId === "meddatatrace"
+      ? fr
+        ? "Voir les résultats"
+        : "See the results"
+      : study.demonstration?.video
         ? fr
-          ? "Voir l’exemple exécuté"
-          : "See the execution example"
-        : projectId === "nacre"
+          ? "Regarder la démo · 12 s"
+          : "Watch the demo · 12 s"
+        : study.demonstration
           ? fr
-            ? "Voir le code et les exemples"
-            : "View the code and examples"
-          : fr
-            ? "Voir l’explorateur"
-            : "See the explorer";
+            ? "Voir l’exemple exécuté"
+            : "See the execution example"
+          : projectId === "nacre"
+            ? fr
+              ? "Voir le code et les exemples"
+              : "View the code and examples"
+            : fr
+              ? "Voir l’explorateur"
+              : "See the explorer";
 const counterpartPath =
   locale === "fr" ? `/en/projects/${projectId}/` : `/projets/${projectId}/`;
 ---
 
 <main id="main">
-  <article class="content-shell pb-16 pt-8 sm:pb-24 sm:pt-10">
-    <header class="@container max-w-5xl">
-      <a
-        class="text-link text-sm text-muted underline"
-        href={`${homePath}#projects`}
-      >
-        <span class="mr-2" aria-hidden="true">
-          ←
-        </span>
-        {fr ? "Retour aux projets" : "Back to projects"}
-      </a>
-      <p class="eyebrow mt-7 mb-3">{study.kicker}</p>
-      <h1
-        id="case-study-title"
-        class:list={[
-          "page-title max-w-4xl text-balance",
-          {
-            "case-title-long": study.title
-              .split(/\s+/)
-              .some((word) => word.length > 10),
-          },
-        ]}
-      >
-        {study.title}
-      </h1>
-      <p class="lead-copy mt-5 max-w-[62ch] text-paper">{study.question}</p>
-      <p class="body-copy mt-3 max-w-[72ch] text-muted">
-        {study.overview.outcome}
-      </p>
-      <section
-        class="case-contribution"
-        aria-labelledby="case-contribution-title"
-      >
-        <h2 id="case-contribution-title" class="case-contribution-title">
-          {fr ? "Ma contribution" : "My contribution"}
-        </h2>
-        <p class="body-copy text-muted text-pretty">
-          {study.overview.contribution}
-        </p>
-      </section>
-      <nav
-        class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"
-        aria-label={fr ? "Dans ce dossier" : "On this page"}
-      >
-        <a class="hero-button hero-button-primary" href={primaryHref}>
-          {primaryLabel}
-          <span aria-hidden="true">
-            {primaryHref.startsWith("#") ? "↓" : "↗"}
+  <article class="case-study content-shell pb-16 pt-8 sm:pb-24 sm:pt-10">
+    <header class="case-intro @container">
+      <div class="case-intro-copy">
+        <a
+          class="text-link text-sm text-muted underline"
+          href={`${homePath}#projects`}
+        >
+          <span class="mr-2" aria-hidden="true">
+            ←
           </span>
+          {fr ? "Retour aux projets" : "Back to projects"}
         </a>
-        <a class="text-link text-sm underline" href="#case-sections">
-          {study.technicalLabel}{" "}
-          <span class="ml-2" aria-hidden="true">
-            ↓
-          </span>
+        <p class="eyebrow mt-7 mb-3">{study.kicker}</p>
+        <h1
+          id="case-study-title"
+          class:list={[
+            "page-title max-w-4xl text-balance",
+            {
+              "case-title-long": study.title
+                .split(/\s+/)
+                .some((word) => word.length > 10),
+            },
+          ]}
+        >
+          {study.title}
+        </h1>
+        <p class="lead-copy mt-5 max-w-[62ch] text-paper">{study.question}</p>
+        {projectId !== "genomint" && (
+          <p class="body-copy mt-3 max-w-[72ch] text-muted">
+            {study.overview.outcome}
+          </p>
+        )}
+        <section
+          class="case-contribution"
+          aria-labelledby="case-contribution-title"
+        >
+          <h2 id="case-contribution-title" class="case-contribution-title">
+            {fr ? "Ma contribution" : "My contribution"}
+          </h2>
+          <p class="body-copy text-muted text-pretty">
+            {study.overview.contribution}
+          </p>
+        </section>
+        {projectId === "genomint" && (
+          <p class="case-evidence-note">
+            {fr
+              ? "Trace et captures réelles · code fermé"
+              : "Captured trace and screenshots · closed code"}
+          </p>
+        )}
+        <nav
+          class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3"
+          aria-label={fr ? "Dans ce dossier" : "On this page"}
+        >
+          <a class="hero-button hero-button-primary" href={primaryHref}>
+            {primaryLabel}
+            <span aria-hidden="true">
+              {primaryHref.startsWith("#") ? "↓" : "↗"}
+            </span>
+          </a>
+          <a class="text-link text-sm underline" href="#case-sections">
+            {study.technicalLabel}{" "}
+            <span class="ml-2" aria-hidden="true">
+              ↓
+            </span>
+          </a>
+        </nav>
+      </div>
+      <nav
+        class="case-intro-outline"
+        aria-label={fr ? "Repères dans le dossier" : "Case overview"}
+      >
+        <p>{fr ? "Dans ce dossier" : "On this page"}</p>
+        <a href="#case-media-title">{study.mediaLabel}</a>
+        {projectId === "genomint" && (
+          <a href="#agent-trace">
+            {fr ? "Trace lisible et résultats" : "Readable trace and records"}
+          </a>
+        )}
+        <a href="#case-sections">{study.technicalLabel}</a>
+        <a href="#case-context">
+          {fr ? "Contexte et stack" : "Context and stack"}
+        </a>
+        <a href="#case-contact-title">
+          {fr ? "Échanger sur ce projet" : "Discuss this project"}
         </a>
       </nav>
-      <details class="reading-disclosure content-disclosure mt-6 max-w-3xl">
-        <DisclosureSummary>
-          <span>
-            {fr
-              ? "Contexte et repères du projet"
-              : "Project context and key facts"}
-            <span class="disclosure-preview">
-              {study.atGlance.entries.map((entry) => entry.label).join(" · ")}
-            </span>
-          </span>
-        </DisclosureSummary>
-        <div class="reading-disclosure-body">
-          <dl class="grid gap-5">
-            <div>
-              <dt class="text-sm font-medium text-[#abd1ed]">
-                {fr ? "Le besoin" : "The problem"}
-              </dt>
-              <dd class="body-copy mt-2 text-muted">{study.summary}</dd>
-            </div>
-          </dl>
-          <h2 class="mt-6 text-sm font-medium text-[#abd1ed]">
-            {study.atGlance.label}
-          </h2>
-          <dl class="mt-3 grid gap-x-8 gap-y-4 sm:grid-cols-2">
-            {study.atGlance.entries.map((entry) => (
-              <div>
-                <dt class="text-sm font-medium">{entry.label}</dt>
-                <dd class="mt-1 text-sm leading-relaxed text-muted">
-                  {entry.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          {hasRole && (
-            <div class="mt-5 border-t border-rule/60 pt-4">
-              <h2 class="text-sm font-medium text-[#abd1ed]">
-                {study.roleLabel}
-              </h2>
-              <p class="body-copy mt-2 text-muted">{study.role}</p>
-            </div>
-          )}
-          {study.relatedProject && (
-            <a
-              class="text-link mt-4 text-sm underline"
-              href={study.relatedProject.href}
-            >
-              {study.relatedProject.label}
-              <span class="ml-2" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          )}
-        </div>
-      </details>
     </header>
 
     {projectId === "meddatatrace" && (
@@ -226,17 +213,63 @@ const counterpartPath =
       <h2 id="case-media-title" class="subsection-title mb-6 scroll-mt-24">
         {study.mediaLabel}
       </h2>
-      <div class="max-w-5xl">
-        <EvidenceFigure
-          locale={locale}
-          projectId={projectId}
-          sizes={evidenceSizes}
-          compact={"preview" in primaryMedia}
-          image={"preview" in primaryMedia ? primaryMedia : undefined}
-          openLabel={screenshots?.openLabel}
-        />
-      </div>
-      {otherMedia.length > 0 && (
+      {projectId === "genomint" ? (
+        <>
+          <GenomIntGuide locale={locale} />
+          <details
+            id="case-captures"
+            class="reading-disclosure content-disclosure mt-6"
+          >
+            <DisclosureSummary>
+              <span>
+                {fr
+                  ? "Captures originales du projet"
+                  : "Original project captures"}{" "}
+                · {screenshots?.items.length}
+              </span>
+            </DisclosureSummary>
+            <div class="reading-disclosure-body grid gap-8 md:grid-cols-2">
+              {screenshots?.items.map((item) => (
+                <div
+                  id={
+                    item.src.includes("genomint-chat")
+                      ? "genomint-trace"
+                      : undefined
+                  }
+                  class:list={[
+                    "scroll-mt-24",
+                    { "md:col-span-2": item.src === primaryMedia.src },
+                  ]}
+                  tabindex={
+                    item.src.includes("genomint-chat") ? "-1" : undefined
+                  }
+                >
+                  <EvidenceFigure
+                    locale={locale}
+                    projectId={projectId}
+                    sizes={evidenceSizes}
+                    compact
+                    image={item}
+                    openLabel={screenshots?.openLabel}
+                  />
+                </div>
+              ))}
+            </div>
+          </details>
+        </>
+      ) : (
+        <div class="max-w-5xl">
+          <EvidenceFigure
+            locale={locale}
+            projectId={projectId}
+            sizes={evidenceSizes}
+            compact={"preview" in primaryMedia}
+            image={"preview" in primaryMedia ? primaryMedia : undefined}
+            openLabel={screenshots?.openLabel}
+          />
+        </div>
+      )}
+      {projectId !== "genomint" && otherMedia.length > 0 && (
         <details class="reading-disclosure content-disclosure mt-6">
           <DisclosureSummary>
             <span>
@@ -249,20 +282,104 @@ const counterpartPath =
           </DisclosureSummary>
           <div class="reading-disclosure-body grid gap-8 md:grid-cols-2">
             {otherMedia.map((item) => (
-              <EvidenceFigure
-                locale={locale}
-                projectId={projectId}
-                sizes="(min-width: 48rem) 45vw, calc(100vw - 3rem)"
-                compact
-                image={item}
-                openLabel={screenshots?.openLabel}
-              />
+              <div
+                id={
+                  item.src.includes("genomint-chat")
+                    ? "genomint-trace"
+                    : undefined
+                }
+                class="scroll-mt-24"
+                tabindex={item.src.includes("genomint-chat") ? "-1" : undefined}
+              >
+                <EvidenceFigure
+                  locale={locale}
+                  projectId={projectId}
+                  sizes="(min-width: 48rem) 45vw, calc(100vw - 3rem)"
+                  compact
+                  image={item}
+                  openLabel={screenshots?.openLabel}
+                />
+              </div>
             ))}
           </div>
         </details>
       )}
     </section>
 
+    <details
+      id="case-context"
+      tabindex="-1"
+      class="reading-disclosure content-disclosure mt-6 max-w-3xl"
+    >
+      <DisclosureSummary>
+        <span>
+          {fr ? "Contexte et stack du projet" : "Project context and stack"}
+          <span class="disclosure-preview">
+            {study.atGlance.entries.map((entry) => entry.label).join(" · ")}
+          </span>
+        </span>
+      </DisclosureSummary>
+      <div class="reading-disclosure-body">
+        <dl class="grid gap-5">
+          {projectId === "genomint" && (
+            <div>
+              <dt class="text-sm font-medium text-[#abd1ed]">
+                {fr ? "Ce que permet l’outil" : "What the tool enables"}
+              </dt>
+              <dd class="body-copy mt-2 text-muted">
+                {study.overview.outcome}
+              </dd>
+            </div>
+          )}
+          <div>
+            <dt class="text-sm font-medium text-[#abd1ed]">
+              {fr ? "Le besoin" : "The problem"}
+            </dt>
+            <dd class="body-copy mt-2 text-muted">{study.summary}</dd>
+          </div>
+        </dl>
+        <h2 class="mt-6 text-sm font-medium text-[#abd1ed]">
+          {study.atGlance.label}
+        </h2>
+        <dl class="mt-3 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          {study.atGlance.entries.map((entry) => (
+            <div>
+              <dt class="text-sm font-medium">{entry.label}</dt>
+              <dd class="mt-1 text-sm leading-relaxed text-muted">
+                {entry.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        {projectTools && (
+          <dl class="mt-5 border-t border-rule/60 pt-4">
+            <dt class="text-sm font-medium text-[#abd1ed]">
+              {fr ? "Stack du projet" : "Project stack"}
+            </dt>
+            <dd class="body-copy mt-2 text-muted">{projectTools}</dd>
+          </dl>
+        )}
+        {hasRole && (
+          <div class="mt-5 border-t border-rule/60 pt-4">
+            <h2 class="text-sm font-medium text-[#abd1ed]">
+              {study.roleLabel}
+            </h2>
+            <p class="body-copy mt-2 text-muted">{study.role}</p>
+          </div>
+        )}
+        {study.relatedProject && (
+          <a
+            class="text-link mt-4 text-sm underline"
+            href={study.relatedProject.href}
+          >
+            {study.relatedProject.label}
+            <span class="ml-2" aria-hidden="true">
+              ↗
+            </span>
+          </a>
+        )}
+      </div>
+    </details>
     <section
       id="case-sections"
       class="mt-12 scroll-mt-24 sm:mt-16"
@@ -271,66 +388,148 @@ const counterpartPath =
       <h2 id="case-decisions-title" class="subsection-title mb-5">
         {study.technicalLabel}
       </h2>
-      <ol class="m-0 grid list-none gap-8 p-0">
-        {study.sections.map((section, index) => (
-          <li>
-            <section
-              id={`decision-${index + 1}`}
-              class="scroll-mt-24 border-t border-rule pt-5"
-              aria-labelledby={`decision-${index + 1}-title`}
-            >
-              <h3 id={`decision-${index + 1}-title`} class="card-title">
-                {section.heading}
-              </h3>
-              <p class="body-copy mt-3 max-w-3xl text-pretty">
-                {section.paragraphs[0]}
-              </p>
-              {(section.paragraphs.length > 1 ||
-                section.points?.length ||
-                (index === 1 && study.pagination)) && (
-                <details class="reading-disclosure content-disclosure mt-4 max-w-3xl">
-                  <DisclosureSummary>
-                    <span>
-                      {fr
-                        ? "Explications et détails"
-                        : "Explanation and details"}
-                      {section.points?.length && (
-                        <span class="disclosure-preview">
-                          {section.points
-                            .map((point) => point.label)
-                            .join(" · ")}
-                        </span>
-                      )}
-                    </span>
-                  </DisclosureSummary>
-                  <div class="reading-disclosure-body max-w-3xl">
-                    {section.paragraphs.slice(1).map((paragraph) => (
-                      <p class="body-copy mb-5 text-pretty last:mb-0">
-                        {paragraph}
-                      </p>
-                    ))}
-                    {section.points && (
-                      <dl class="mt-6 grid gap-5 border-l border-rule pl-5 sm:grid-cols-2 sm:gap-x-8">
-                        {section.points.map((point) => (
-                          <div>
-                            <dt class="text-sm font-medium">{point.label}</dt>
-                            <dd class="body-copy mt-1 text-muted">
-                              {point.detail}
-                            </dd>
-                          </div>
+      <div class="case-reading-layout">
+        <details class="case-outline-mobile reading-disclosure content-disclosure">
+          <DisclosureSummary>
+            <span>
+              {fr
+                ? "Aller à un choix technique"
+                : "Jump to an engineering decision"}{" "}
+              · {study.sections.length}
+            </span>
+          </DisclosureSummary>
+          <nav
+            class="case-outline-links"
+            aria-label={fr ? "Sommaire technique" : "Technical contents"}
+          >
+            <p>{fr ? "Dans ce dossier" : "On this page"}</p>
+            <a href="#case-media-title">{study.mediaLabel}</a>
+            {study.sections.map((section, index) => (
+              <a href={`#decision-${index + 1}`}>{section.heading}</a>
+            ))}
+            <a href="#case-contact-title">
+              {fr ? "Échanger sur ce projet" : "Discuss this project"}
+            </a>
+          </nav>
+        </details>
+        <nav
+          class="case-outline"
+          aria-label={fr ? "Sommaire technique" : "Technical contents"}
+        >
+          <p>{fr ? "Dans ce dossier" : "On this page"}</p>
+          <a href="#case-media-title">{study.mediaLabel}</a>
+          {study.sections.map((section, index) => (
+            <a href={`#decision-${index + 1}`}>{section.heading}</a>
+          ))}
+          <a href="#case-contact-title">
+            {fr ? "Échanger sur ce projet" : "Discuss this project"}
+          </a>
+        </nav>
+        <ol class="m-0 grid list-none gap-8 p-0">
+          {study.sections.map((section, index) => (
+            <li>
+              <section
+                id={`decision-${index + 1}`}
+                class="scroll-mt-24 border-t border-rule pt-5"
+                aria-labelledby={`decision-${index + 1}-title`}
+              >
+                <h3 id={`decision-${index + 1}-title`} class="decision-title">
+                  {section.heading}
+                </h3>
+                {projectId === "genomint" && index === 0 ? (
+                  <dl class="decision-summary">
+                    <div>
+                      <dt>{fr ? "Choix" : "Choice"}</dt>
+                      <dd>
+                        {fr
+                          ? "Un agent qui inspecte le schéma et appelle des outils pour construire ses traversées Cypher."
+                          : "An agent that inspects the schema and calls tools to construct its Cypher traversals."}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{fr ? "Pourquoi" : "Why"}</dt>
+                      <dd>
+                        {fr
+                          ? "Les faits recherchés sont dans les relations du graphe, plutôt que dans des passages de texte."
+                          : "The relevant facts live in graph relationships rather than in text passages."}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{fr ? "Compromis" : "Trade-off"}</dt>
+                      <dd>
+                        {fr
+                          ? "Davantage d’appels d’outils et de tokens, en échange d’un lien traçable jusqu’aux nœuds."
+                          : "More tool calls and tokens, in exchange for traceability back to the graph nodes."}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p class="body-copy mt-3 max-w-3xl text-pretty">
+                    {section.paragraphs[0]}
+                  </p>
+                )}
+                {projectId === "genomint" && index === 0 && (
+                  <GenomIntTrace locale={locale} />
+                )}
+                {(section.paragraphs.length > 1 ||
+                  section.points?.length ||
+                  (index === 1 && study.pagination)) && (
+                  <details class="reading-disclosure content-disclosure mt-4 max-w-3xl">
+                    <DisclosureSummary
+                      aria-label={`${fr ? "Détails" : "Details"} : ${section.heading}`}
+                    >
+                      <span>
+                        {index === 0
+                          ? fr
+                            ? "Méthode et compromis"
+                            : "Method and trade-off"
+                          : index === 1
+                            ? fr
+                              ? "Implémentation et limites"
+                              : "Implementation and limits"
+                            : fr
+                              ? "Vérifications et limites"
+                              : "Checks and limits"}
+                        {section.points?.length && (
+                          <span class="disclosure-preview">
+                            {section.points
+                              .map((point) => point.label)
+                              .join(" · ")}
+                          </span>
+                        )}
+                      </span>
+                    </DisclosureSummary>
+                    <div class="reading-disclosure-body max-w-3xl">
+                      {section.paragraphs
+                        .slice(projectId === "genomint" && index === 0 ? 0 : 1)
+                        .map((paragraph) => (
+                          <p class="body-copy mb-5 text-pretty last:mb-0">
+                            {paragraph}
+                          </p>
                         ))}
-                      </dl>
-                    )}
-                    {index === 1 && study.pagination && (
-                      <PaginationEvidence content={study.pagination} />
-                    )}
-                  </div>
-                </details>
-              )}
-            </section>
-          </li>
-        ))}
-      </ol>
+                      {section.points && (
+                        <dl class="mt-6 grid gap-5 border-l border-rule pl-5 sm:grid-cols-2 sm:gap-x-8">
+                          {section.points.map((point) => (
+                            <div>
+                              <dt class="text-sm font-medium">{point.label}</dt>
+                              <dd class="body-copy mt-1 text-muted">
+                                {point.detail}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      )}
+                      {index === 1 && study.pagination && (
+                        <PaginationEvidence content={study.pagination} />
+                      )}
+                    </div>
+                  </details>
+                )}
+              </section>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
 
     {study.sources && (
@@ -420,6 +619,165 @@ const counterpartPath =
 </main>
 
 <style>
+  .case-study :global([id]) {
+    scroll-margin-top: 1rem;
+  }
+  .case-evidence-note {
+    margin-top: 0.75rem;
+    color: var(--secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .decision-title {
+    max-width: 30ch;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .decision-summary {
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    max-width: 62ch;
+  }
+  .decision-summary > div {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .decision-summary dt {
+    color: #b6d9cb;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .decision-summary dd {
+    color: var(--secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+  @media (min-width: 40rem) {
+    .decision-summary > div {
+      grid-template-columns: 6rem minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  .case-study {
+    max-width: 80rem;
+  }
+  .case-intro-copy {
+    min-width: 0;
+  }
+  .case-intro-outline {
+    display: none;
+  }
+  @media (min-width: 64rem) {
+    .case-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 15rem;
+      gap: 3rem;
+    }
+    .case-intro-outline {
+      display: grid;
+      align-content: start;
+      align-self: start;
+      gap: 0.5rem;
+      margin-top: 2.75rem;
+      padding-block: 1rem;
+      border-block: 1px solid var(--rule);
+    }
+    .case-intro-outline p {
+      margin-bottom: 0.25rem;
+      color: var(--secondary);
+      font-size: 0.8125rem;
+    }
+    .case-intro-outline a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.75rem;
+      font-size: 0.875rem;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+  .case-reading-layout {
+    display: grid;
+    gap: 2rem;
+  }
+  .case-outline {
+    display: none;
+  }
+  .case-outline-mobile {
+    margin-bottom: 0;
+  }
+  .case-outline-mobile :global(summary) {
+    width: 100%;
+  }
+  .case-outline-links {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.75rem;
+    padding-bottom: 1rem;
+  }
+  .case-outline-links p {
+    display: none;
+  }
+  .case-outline-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: 0.875rem;
+    text-decoration: underline;
+  }
+  .case-outline p {
+    width: 100%;
+    color: var(--secondary);
+    font-size: 0.8125rem;
+  }
+  .case-outline a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    max-width: 34ch;
+    font-size: 0.875rem;
+    text-decoration: underline;
+  }
+  .case-reading-layout > ol :global(p) {
+    max-width: 62ch;
+  }
+  @media (min-width: 48rem) {
+    .case-reading-layout :global(.body-copy) {
+      font-size: 1.0625rem;
+      line-height: 1.8;
+    }
+  }
+  @media (min-width: 64rem) {
+    .case-outline-mobile {
+      display: none;
+    }
+    .case-reading-layout {
+      grid-template-columns: minmax(0, 1fr) 15rem;
+      gap: 3rem;
+    }
+    .case-outline {
+      position: sticky;
+      top: 6rem;
+      align-self: start;
+      grid-column: 2;
+      grid-row: 1;
+      display: grid;
+      gap: 0.25rem;
+      padding-block: 1rem;
+      border-block: 1px solid var(--rule);
+    }
+    .case-reading-layout > ol {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
   .case-contribution {
     display: grid;
     max-width: 48rem;
@@ -429,6 +787,18 @@ const counterpartPath =
     border-block: 1px solid var(--color-rule);
   }
 
+  @media (max-width: 47.999rem) {
+    .case-contribution {
+      margin-top: 1.25rem;
+      padding-block: 1rem;
+    }
+    .case-intro-copy > .eyebrow {
+      margin-top: 1.25rem;
+    }
+    .case-reading-layout {
+      gap: 1rem;
+    }
+  }
   .case-contribution-title {
     color: var(--color-paper);
     font-size: 0.875rem;

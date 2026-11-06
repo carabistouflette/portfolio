@@ -27,6 +27,8 @@ onPageLoad((signal) => {
 
     if (revealed) {
       frame = requestAnimationFrame(() => {
+        if (target instanceof HTMLElement && target.hasAttribute("tabindex"))
+          target.focus({ preventScroll: true });
         target.scrollIntoView({ behavior: "instant", block: "start" });
       });
     }

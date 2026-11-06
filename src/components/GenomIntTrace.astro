@@ -1,0 +1,295 @@
+---
+import type { Locale } from "../data/portfolio";
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const fr = locale === "fr";
+const records = [
+  { gene: "GBNJ3R2_2_chr13.tRNA3-LeuCAA", pangene: "PG001110" },
+  { gene: "RNase_MRP", pangene: "PG000005" },
+];
+const capturedQuery = `MATCH (o:organism)-[:HAS_ASSEMBLY]->(a:assembly)
+MATCH (a)-[:PART_OF_ASSEMBLY]->(s:sequence)
+MATCH (g:gene)-[:PART_OF_SEQUENCE]->(s)
+MATCH (g)-[:PART_OF_PANGENE]->(p:pangene)
+WHERE o.species = $species AND p.pg_partition = 'core'
+RETURN DISTINCT g.id AS gene_id, g.name AS gene_name,
+  g.uniquename AS uniquename, p.pangene_id AS pangene_id
+LIMIT 100`;
+const steps = fr
+  ? [
+      {
+        name: "READ_SKILL",
+        title: "Lire les instructions",
+        detail:
+          "Deux appels : syntaxe Cypher et terminologie du graphe génomique.",
+      },
+      {
+        name: "GET_GRAPH_SCHEMA",
+        title: "Inspecter le schéma",
+        detail:
+          "L’agent consulte les types de nœuds et leurs relations avant de construire la requête.",
+      },
+      {
+        name: "QUERY_NEO4J",
+        title: "Obtenir les données",
+        detail:
+          "La capture montre la requête paramétrée et les enregistrements renvoyés par Neo4j.",
+      },
+    ]
+  : [
+      {
+        name: "READ_SKILL",
+        title: "Read the instructions",
+        detail: "Two calls: Cypher syntax and genomic graph terminology.",
+      },
+      {
+        name: "GET_GRAPH_SCHEMA",
+        title: "Inspect the schema",
+        detail:
+          "The agent checks node types and relationships before constructing the query.",
+      },
+      {
+        name: "QUERY_NEO4J",
+        title: "Retrieve the records",
+        detail:
+          "The capture shows the parameterized query and the records returned by Neo4j.",
+      },
+    ];
+---
+
+<figure
+  id="agent-trace"
+  class="agent-trace scroll-mt-24"
+  tabindex="-1"
+  aria-labelledby="agent-trace-title"
+>
+  <figcaption id="agent-trace-title">
+    {fr
+      ? "Trace lisible · transcrite de la capture"
+      : "Readable trace · transcribed from the capture"}
+  </figcaption>
+  <a href="#genomint-trace">
+    {fr ? "Capture originale de la session" : "Original session capture"}{" "}
+    <span aria-hidden="true">↓</span>
+  </a>
+  <blockquote lang="en">
+    <span>{fr ? "Question posée" : "Question asked"}</span>
+    <p>What genes are in the core genome of G. boninense?</p>
+  </blockquote>
+  <div class="trace-result">
+    <table>
+      <caption>
+        {fr
+          ? "Deux enregistrements visibles dans la capture"
+          : "Two records visible in the capture"}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">
+            <code>gene_name</code>
+          </th>
+          <th scope="col">
+            <code>pangene_id</code>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {records.map((record) => (
+          <tr>
+            <td>
+              <code>{record.gene}</code>
+            </td>
+            <td>
+              <code>{record.pangene}</code>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+    <details class="trace-query">
+      <summary>
+        {fr ? "Inspecter la requête capturée" : "Inspect the captured query"}
+      </summary>
+      <p>
+        {fr ? "Paramètre" : "Parameter"} : <code>species = G. boninense</code>
+      </p>
+      <pre><code>{capturedQuery}</code></pre>
+    </details>
+  </div>
+  <ol
+    aria-label={
+      fr ? "Appels d’outils de cette session" : "Tool calls in this session"
+    }
+  >
+    {steps.map((step, index) => (
+      <li>
+        <span class="trace-number" aria-hidden="true">
+          0{index + 1}
+        </span>
+        <code>{step.name}</code>
+        <p>{step.detail}</p>
+      </li>
+    ))}
+  </ol>
+  <p class="trace-boundary">
+    {fr
+      ? "Cette capture montre les appels d’outils et des enregistrements. La réponse finale et sa validation biologique n’y sont pas établies."
+      : "This capture shows tool calls and returned records. It does not establish a final answer or its biological validity."}
+  </p>
+</figure>
+<style>
+  .agent-trace {
+    margin: 1.75rem 0;
+    padding: clamp(1rem, 2vw, 1.75rem);
+    border: 1px solid #36574d;
+    border-radius: 0.5rem;
+    background: #091b17;
+  }
+  figcaption {
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  blockquote {
+    margin-block: 1.25rem;
+    padding-left: 1rem;
+    border-left: 2px solid #9ccdbd;
+  }
+  blockquote span,
+  .trace-result > p {
+    display: block;
+    color: #b6d9cb;
+    font-size: 0.8125rem;
+    margin-bottom: 0.4rem;
+  }
+  blockquote p {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  ol {
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 1.25rem 0 0;
+  }
+  ol li {
+    display: grid;
+    grid-template-columns: 1.25rem minmax(0, 1fr);
+    column-gap: 0.65rem;
+    row-gap: 0.4rem;
+    min-width: 0;
+    position: relative;
+    padding-block: 0.75rem;
+    border-top: 1px solid #36574d;
+  }
+  .trace-number {
+    display: block;
+    color: #b6d9cb;
+    font-size: 0.75rem;
+    grid-row: 1 / span 2;
+    margin-top: 0.15rem;
+  }
+  ol li > code,
+  ol li > p {
+    grid-column: 2;
+  }
+  code {
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+    color: #d5eee4;
+  }
+  ol p {
+    color: var(--secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+  .trace-result {
+    padding-top: 1rem;
+    border-top: 1px solid #36574d;
+  }
+  .trace-boundary {
+    margin-top: 1rem;
+    color: var(--secondary);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+  }
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    text-decoration: underline;
+  }
+  @media (min-width: 48rem) {
+    ol {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  caption {
+    text-align: left;
+    color: #b6d9cb;
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 0.65rem 0.5rem;
+    border-bottom: 1px solid #36574d;
+    vertical-align: top;
+  }
+  th {
+    font-weight: 500;
+  }
+  th:first-child {
+    width: 65%;
+  }
+  td code {
+    overflow-wrap: anywhere;
+  }
+  .trace-query {
+    margin-top: 1rem;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    text-decoration: underline;
+  }
+  summary::after {
+    content: "+";
+    margin-left: 0.75rem;
+  }
+  details[open] summary::after {
+    content: "−";
+  }
+  summary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+  }
+  .trace-query p {
+    margin-block: 0.5rem;
+    font-size: 0.875rem;
+  }
+  pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    padding: 1rem;
+    border: 1px solid #36574d;
+    background: #05110e;
+    line-height: 1.7;
+  }
+</style>

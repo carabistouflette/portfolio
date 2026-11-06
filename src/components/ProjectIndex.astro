@@ -1,0 +1,105 @@
+---
+import type { Locale, PortfolioContent } from "../data/portfolio";
+interface Props {
+  locale: Locale;
+  content: PortfolioContent;
+}
+const { locale, content } = Astro.props;
+const fr = locale === "fr";
+const labels = ["GenomInt", "HealthGraph", "Sillage"];
+const scopes = fr
+  ? ["Agent IA", "Benchmark", "Recherche"]
+  : ["AI agent", "Benchmark", "Search"];
+const projects = content.projects.entries.slice(0, 3);
+---
+
+<div class="project-index">
+  <nav
+    class="index-links"
+    aria-label={
+      fr ? "Accès direct aux dossiers" : "Go directly to a case study"
+    }
+  >
+    {projects.map((project, index) => (
+      <a href={project.url} aria-label={project.title}>
+        <span class="index-number" aria-hidden="true">
+          0{index + 1}
+        </span>
+        <span>
+          <strong>{labels[index]}</strong>
+          <span class="index-scope">{scopes[index]}</span>
+        </span>
+        <span aria-hidden="true">↗</span>
+      </a>
+    ))}
+  </nav>
+</div>
+<style>
+  .project-index {
+    margin-block: 0 1.5rem;
+  }
+  .index-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 2.75rem;
+    padding-block: 1rem;
+    text-decoration: none;
+  }
+  a:hover strong {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  .index-number {
+    color: #a6c8bc;
+    font-size: 0.75rem;
+  }
+  strong {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .index-scope {
+    display: block;
+    color: var(--secondary);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    line-height: 1.5;
+  }
+  @media (min-width: 64rem) {
+    .project-index {
+      display: none;
+    }
+  }
+  @media (max-width: 63.999rem) {
+    .index-links {
+      gap: 0.5rem;
+    }
+    .index-links a {
+      justify-content: center;
+      padding: 0.75rem 0.25rem;
+      min-height: 4.5rem;
+      text-align: center;
+      border: 1px solid var(--rule);
+      border-radius: 0.4rem;
+    }
+    .index-number,
+    .index-links a > span:last-child {
+      display: none;
+    }
+    .index-scope {
+      font-size: 0.75rem;
+      margin-top: 0.2rem;
+    }
+    strong {
+      font-size: 0.8125rem;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+  }
+</style>

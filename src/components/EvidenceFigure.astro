@@ -280,9 +280,19 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         closeTimer = window.setTimeout(() => dialog.close(), 280);
       };
 
-      for (const link of figure.querySelectorAll<HTMLAnchorElement>(
+      const primaryLink = figure.querySelector<HTMLAnchorElement>(
         "[data-evidence-open]",
-      )) {
+      );
+      const relatedLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>(
+          "[data-evidence-reference]",
+        ),
+      ).filter((link) => link.href === primaryLink?.href);
+      const openers = [
+        ...figure.querySelectorAll<HTMLAnchorElement>("[data-evidence-open]"),
+        ...relatedLinks,
+      ];
+      for (const link of openers) {
         link.setAttribute("aria-haspopup", "dialog");
         link.addEventListener(
           "click",
