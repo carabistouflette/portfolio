@@ -32,7 +32,7 @@ function setupMobileMenu(signal: AbortSignal): void {
   const menu = header?.querySelector<HTMLElement>("#header-menu");
   if (!header || !toggle || !menu) return;
 
-  const mobile = window.matchMedia("(max-width: 47.999rem)");
+  const mobile = window.matchMedia("(max-width: 79.999rem)");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let closeTimer: number | undefined;
   let openFrame: number | undefined;

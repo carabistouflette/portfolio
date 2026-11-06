@@ -22,12 +22,12 @@ const canonicalPath = locale === "fr" ? "/" : "/en/";
   <div class="portfolio-page">
     <div class="portfolio-composition">
       <main id="main">
-        <Hero content={content} />
+        <Hero content={content} locale={locale} />
         <SelectedProjects content={content} locale={locale} />
         <Skills content={content} />
         <Journey content={content} />
         <SelectedContributions content={content} locale={locale} />
-        <Personal content={content.personal} />
+        <Personal content={content.personal} locale={locale} />
       </main>
       <Contact content={content} locale={locale} />
     </div>

@@ -12,7 +12,6 @@ interface CatalogItem {
   panel: HTMLElement;
   summary: HTMLElement;
   preview: HTMLElement | null;
-  mark: HTMLElement | null;
   expanded: boolean;
   closing: boolean;
   closeTimer?: number;
@@ -27,7 +26,6 @@ const syncItem = (item: CatalogItem): void => {
   panel.classList.toggle("skills-panel-open", expanded);
   details.classList.toggle("border-[#9dc7df]/60", expanded);
   details.classList.toggle("border-rule/60", !expanded);
-  item.mark?.classList.toggle("rotate-45", expanded);
   if (item.preview) {
     item.preview.classList.toggle("hidden", expanded);
     item.preview.setAttribute("aria-hidden", String(expanded));
@@ -138,7 +136,6 @@ const setupCatalog = (root: HTMLElement, signal: AbortSignal): void => {
       panel,
       summary,
       preview: details.querySelector<HTMLElement>(".skill-preview"),
-      mark: details.querySelector<HTMLElement>(".disclosure-mark"),
       expanded: details.open,
       closing: false,
     });

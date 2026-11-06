@@ -1,0 +1,13 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import DisclosureCue from "./DisclosureCue.astro";
+
+type Props = HTMLAttributes<"summary">;
+---
+
+<summary {...Astro.props}>
+  <span class="disclosure-copy">
+    <slot />
+  </span>
+  <DisclosureCue />
+</summary>

@@ -1,4 +1,5 @@
 ---
+import DisclosureSummary from "./DisclosureSummary.astro";
 import type { CaseStudy, Locale } from "../data/portfolio";
 interface Props {
   demonstration: NonNullable<CaseStudy["demonstration"]>;
@@ -7,8 +8,11 @@ interface Props {
 const { demonstration: demo, locale } = Astro.props;
 ---
 
-<section class="mt-14 sm:mt-20" aria-labelledby="case-demo-title">
-  <h2 id="case-demo-title" class="subsection-title">
+<section class="mt-10 sm:mt-12" aria-labelledby="case-demo-title">
+  <h2
+    id="case-demo-title"
+    class="scroll-mt-24 font-display text-2xl leading-tight tracking-tight"
+  >
     {demo.heading}
   </h2>
   <p class="body-copy mt-4 max-w-3xl text-muted">{demo.description}</p>
@@ -45,29 +49,43 @@ const { demonstration: demo, locale } = Astro.props;
     aria-label={locale === "fr" ? "Sortie de l’exécution" : "Execution output"}
     class="mt-7 overflow-x-auto border-y border-rule bg-[#07121b]/60 p-5 text-sm leading-relaxed text-[#c4d8d0] sm:p-7"
   ><code>{demo.output}</code></pre>}
-  <ol class="mt-7 grid list-none gap-6 p-0 md:grid-cols-3">
-    {demo.steps.map((step) => (
-      <li class="border-t border-rule/60 pt-4">
-        <h3 class="card-title">{step.heading}</h3>
-        <p class="body-copy mt-3 text-muted">{step.description}</p>
-      </li>
-    ))}
-  </ol>
-  {demo.transcript && (
-    <details class="mt-6 border-t border-rule/60 pt-4">
-      <summary class="text-link cursor-pointer text-sm">
-        {demo.transcript.label}
-      </summary>
-      <p class="body-copy mt-4 max-w-3xl text-muted">{demo.transcript.text}</p>
-    </details>
-  )}
-  {demo.download && (
-    <a
-      class="text-link mt-6 text-sm underline"
-      href={demo.download.href}
-      download
-    >
-      {demo.download.label}
-    </a>
-  )}
+  <details class="reading-disclosure content-disclosure mt-6">
+    <DisclosureSummary>
+      <span>
+        {locale === "fr"
+          ? "Déroulé de la démonstration et fichiers"
+          : "Demonstration walkthrough and files"}
+        <span class="disclosure-preview">
+          {demo.steps.map((step) => step.heading).join(" · ")}
+        </span>
+      </span>
+    </DisclosureSummary>
+    <div class="reading-disclosure-body">
+      <ol class="mt-7 grid list-none gap-6 p-0 md:grid-cols-3">
+        {demo.steps.map((step) => (
+          <li class="border-t border-rule/60 pt-4">
+            <h3 class="card-title">{step.heading}</h3>
+            <p class="body-copy mt-3 text-muted">{step.description}</p>
+          </li>
+        ))}
+      </ol>
+      {demo.transcript && (
+        <details class="reading-disclosure content-disclosure mt-6">
+          <DisclosureSummary>{demo.transcript.label}</DisclosureSummary>
+          <div class="reading-disclosure-body">
+            <p class="body-copy max-w-3xl text-muted">{demo.transcript.text}</p>
+          </div>
+        </details>
+      )}
+      {demo.download && (
+        <a
+          class="text-link mt-6 text-sm underline"
+          href={demo.download.href}
+          download
+        >
+          {demo.download.label}
+        </a>
+      )}
+    </div>
+  </details>
 </section>

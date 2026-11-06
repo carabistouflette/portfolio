@@ -4,15 +4,22 @@ import results from "../data/healthgraphbench-results.json";
 
 interface Props {
   locale: Locale;
+  compact?: boolean;
 }
 
-const { locale } = Astro.props;
+const { locale, compact = false } = Astro.props;
 const fr = locale === "fr";
 const labels: Record<string, string> = {
-  neighbor_frequency: fr ? "Fréquence chez les voisins" : "Neighbor frequency",
+  neighbor_frequency: fr
+    ? compact
+      ? "Voisinage"
+      : "Fréquence chez les voisins"
+    : "Neighbor frequency",
   logistic_tabular: fr ? "Régression logistique" : "Logistic regression",
   graph_message_passing_bpr: fr
-    ? "BPR + moyenne des voisins"
+    ? compact
+      ? "BPR + voisins"
+      : "BPR + moyenne des voisins"
     : "BPR + neighbor average",
   graphsage_link_prediction: "GraphSAGE",
 };
@@ -24,65 +31,166 @@ const percent = new Intl.NumberFormat(fr ? "fr-FR" : "en-US", {
 const scaleMaximum = 0.25;
 ---
 
-<figure class="benchmark-preview">
-  <div class="benchmark-running-head">
-    <span>{fr ? "Extrait du benchmark" : "Benchmark excerpt"}</span>
-    <span>v{results.version}</span>
-  </div>
-  <div class="benchmark-heading">
-    <p>{results.task}</p>
-    <span>
-      {results.metric} <span aria-hidden="true">↑</span>
-    </span>
-  </div>
-  <p class="benchmark-period">
-    {fr
-      ? "Test temporel · T1 2024 – T4 2025"
-      : "Temporal test · Q1 2024 – Q4 2025"}
-  </p>
-
-  <ol class="benchmark-models">
-    {results.models.map((model) => (
-      <li class="benchmark-model" data-method={model.method}>
-        <span class="benchmark-model-label">{labels[model.method]}</span>
-        <span class="benchmark-value">{percent.format(model.value)}</span>
-        <span class="benchmark-track" aria-hidden="true">
-          <span
-            class="benchmark-bar"
-            style={`width: ${(model.value / scaleMaximum) * 100}%`}
-          ></span>
-        </span>
-      </li>
-    ))}
-  </ol>
-  <div class="benchmark-axis" aria-hidden="true">
-    {[0, 0.1, 0.2, scaleMaximum].map((tick) => (
-      <span style={`--tick-position: ${(tick / scaleMaximum) * 100}%`}>
-        {Math.round(tick * 100)} %
+<figure class:list={["benchmark-preview", { "benchmark-compact": compact }]}>
+  <div class="benchmark-chart">
+    <div class="benchmark-running-head">
+      <span>{fr ? "Extrait du benchmark" : "Benchmark excerpt"}</span>
+      <span>v{results.version}</span>
+    </div>
+    <div class="benchmark-heading">
+      <p>{results.task}</p>
+      <span>
+        {results.metric} <span aria-hidden="true">↑</span>
       </span>
-    ))}
+    </div>
+    <p class="benchmark-period">
+      {fr
+        ? "Test temporel · T1 2024 – T4 2025"
+        : "Temporal test · Q1 2024 – Q4 2025"}
+    </p>
+
+    <ol class="benchmark-models">
+      {results.models.map((model) => (
+        <li class="benchmark-model" data-method={model.method}>
+          <span class="benchmark-model-label">{labels[model.method]}</span>
+          <span class="benchmark-value">{percent.format(model.value)}</span>
+          <span class="benchmark-track" aria-hidden="true">
+            <span
+              class="benchmark-bar"
+              style={`width: ${(model.value / scaleMaximum) * 100}%`}
+            ></span>
+          </span>
+        </li>
+      ))}
+    </ol>
+    <div class="benchmark-axis" aria-hidden="true">
+      {[0, 0.1, 0.2, scaleMaximum].map((tick) => (
+        <span style={`--tick-position: ${(tick / scaleMaximum) * 100}%`}>
+          {Math.round(tick * 100)} %
+        </span>
+      ))}
+    </div>
   </div>
 
   <figcaption>
-    <p class="benchmark-finding">
-      {fr
-        ? "Ici, le voisinage fait mieux que les modèles appris sélectionnés."
-        : "Here, neighbor frequency outperforms the selected learned models."}
-    </p>
-    <p class="benchmark-scope">
-      {fr
-        ? "Recall@10 : part des liens retrouvés parmi les dix premières propositions."
-        : "Recall@10: share of relevant links found in the top ten predictions."}
-    </p>
-    <p class="benchmark-scope">
-      {fr
-        ? "4 méthodes sur 7 · résultats exploratoires du rapport v0.2."
-        : "4 of 7 methods · exploratory results from the v0.2 report."}
-    </p>
+    {compact ? (
+      <p class="benchmark-compact-caption">
+        {fr
+          ? "4 méthodes sur 7 · rapport v0.2 · résultats exploratoires"
+          : "4 of 7 methods · v0.2 report · exploratory results"}
+      </p>
+    ) : (
+      <Fragment>
+        <p class="benchmark-finding">
+          {fr
+            ? "Ici, le voisinage fait mieux que les modèles appris sélectionnés."
+            : "Here, neighbor frequency outperforms the selected learned models."}
+        </p>
+        <p class="benchmark-scope">
+          {fr
+            ? "Recall@10 : part des liens retrouvés parmi les dix premières propositions."
+            : "Recall@10: share of relevant links found in the top ten predictions."}
+        </p>
+        <p class="benchmark-scope">
+          {fr
+            ? "4 méthodes sur 7 · résultats exploratoires du rapport v0.2."
+            : "4 of 7 methods · exploratory results from the v0.2 report."}
+        </p>
+        <p class="benchmark-scope">
+          {fr
+            ? "Les périodes cibles ont été examinées pendant le développement ; ces résultats ne constituent pas une évaluation indépendante."
+            : "Target periods were inspected during development; these results are not an independent evaluation."}
+        </p>
+        <a
+          class="benchmark-source"
+          href={`${results.source.repository}/blob/${results.source.revision}/${results.source.path}`}
+        >
+          {fr ? "Consulter les résultats sources" : "View the source results"}
+          <span aria-hidden="true">↗</span>
+        </a>
+      </Fragment>
+    )}
   </figcaption>
 </figure>
 
 <style>
+  .benchmark-preview.benchmark-compact {
+    container-type: inline-size;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .benchmark-compact .benchmark-chart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    aspect-ratio: 1108 / 594;
+    padding: clamp(0.75rem, 3cqi, 1.5rem);
+    border: 1px solid #a4b5ac;
+    border-radius: 0.4rem;
+    background: #e6e8dd;
+  }
+
+  .benchmark-compact .benchmark-heading {
+    margin-top: clamp(0.4rem, 1.5cqi, 0.9rem);
+  }
+
+  .benchmark-compact .benchmark-heading p {
+    font-size: clamp(1rem, 3.5cqi, 1.75rem);
+  }
+
+  .benchmark-compact .benchmark-models {
+    gap: clamp(0.5rem, 1.8cqi, 1rem);
+    margin-top: clamp(0.65rem, 2cqi, 1.25rem);
+  }
+
+  .benchmark-compact .benchmark-model {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: clamp(0.6875rem, 2.5cqi, 1rem);
+  }
+
+  .benchmark-compact .benchmark-track {
+    grid-column: 2;
+    grid-row: 1;
+    height: 0.4em;
+  }
+
+  .benchmark-compact .benchmark-value {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .benchmark-compact .benchmark-axis {
+    display: none;
+  }
+
+  .benchmark-compact figcaption {
+    margin-top: 0.65rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .benchmark-compact-caption {
+    color: var(--tile-accent, var(--color-muted));
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .benchmark-source {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    color: inherit;
+    font-size: 0.8125rem;
+    text-decoration: underline;
+  }
+
   .benchmark-preview {
     min-width: 0;
     margin-block: 1.5rem;

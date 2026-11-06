@@ -15,6 +15,7 @@ export type CaseStudyId =
 export interface Project {
   id: ProjectId;
   title: string;
+  outcome?: string;
   description: string;
   technologies: string;
   url?: string;
@@ -161,21 +162,21 @@ export interface PortfolioContent {
     en: string;
   };
   hero: {
-    eyebrow: string;
-    summaryTitle: string;
     title: string;
     headline: string;
-    affiliation: string;
-    description: string;
-    highlights: { label: string; href: string }[];
-    availability: { label: string; detail: string; note: string };
+    availability: {
+      label: string;
+      detail: string;
+      note: string;
+    };
+    internshipCta: string;
     projectsCta: string;
     cvCta: string;
-    contactCta: string;
   };
   projects: {
     heading: string;
     intro: string;
+    contributionLabel: string;
     otherHeading: string;
     entries: Project[];
   };
@@ -195,6 +196,7 @@ export interface PortfolioContent {
         detail: string;
         reference: string;
         link: { label: string; url: string };
+        status?: string;
       }[];
     };
     projects: {
@@ -284,7 +286,10 @@ export const destinations = {
   linkedin: "https://www.linkedin.com/in/alexisr-dev",
   github: "https://github.com/carabistouflette",
   brio: "https://brio.build/",
-  cv: "/cv/Alexis-Robin-CV-2026.pdf",
+  cv: {
+    fr: "/cv/Alexis-Robin-CV-FR.pdf",
+    en: "/cv/Alexis-Robin-CV-2026.pdf",
+  },
 } as const;
 
 export const portfolio: Record<Locale, PortfolioContent> = {
@@ -292,7 +297,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — IA & systèmes de données",
       description:
-        "Alexis Robin — IA, systèmes logiciels et cybersécurité en Rust. GenomInt au CIRAD, Sillage, recherche HealthGraphBench, découverte d’une faille Tokio et sécurité réseau de SteelMC.",
+        "Alexis Robin — recherche de stage en IA et données scientifiques du 22 mars au 21 août 2027, en France ou à l’étranger. GenomInt au CIRAD, logiciels Rust et recherche en cybersécurité.",
     },
     skipLink: "Aller au contenu principal",
     navigation: {
@@ -313,36 +318,31 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       en: "EN",
     },
     hero: {
-      eyebrow: "IA & systèmes de données",
-      summaryTitle: "Expérience & contributions",
       title: "Alexis Robin",
       headline: "Des outils d’IA pour interroger les données scientifiques.",
-      affiliation: "M1 à Centrale Lille · IA pour la santé · parcours MIAS",
-      description:
-        "Au CIRAD, j’ai développé l’agent IA et le backend de GenomInt pour explorer des graphes génomiques.",
-      highlights: [
-        { label: "GenomInt au CIRAD", href: "/projets/genomint/" },
-        { label: "Signalement de sécurité Tokio", href: "#contribution-tokio" },
-      ],
       availability: {
-        label: "Recherche de stage",
-        detail: "22 mars – 21 août 2027 · Montpellier ou Lille",
+        label: "Je cherche un stage en IA / données scientifiques",
+        detail: "22 mars – 21 août 2027",
         note: "Alternance possible en M2 à partir de septembre 2027.",
       },
+      internshipCta: "Proposer un stage",
       projectsCta: "Voir mes projets",
-      cvCta: "Télécharger le CV",
-      contactCta: "Me contacter",
+      cvCta: "Mon CV",
     },
     projects: {
-      heading: "Mes projets",
-      intro: "Agents IA, données scientifiques et logiciels natifs.",
+      heading: "Trois projets à explorer",
+      intro:
+        "Explorer des données génomiques, évaluer des modèles et retrouver l’information dans des documents.",
+      contributionLabel: "Ma contribution :",
       otherHeading: "Travaux complémentaires",
       entries: [
         {
           id: "genomint",
           title: "GenomInt",
+          outcome:
+            "Interroger un graphe génomique, explorer les résultats et exporter les séquences.",
           description:
-            "Au CIRAD, j’ai développé l’agent IA et le backend de l’explorateur génomique : requêtes Neo4j, API et exports.",
+            "Au CIRAD, j’ai développé l’agent IA et le backend de l’explorateur : requêtes Neo4j, API et exports.",
           technologies:
             "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/projets/genomint/",
@@ -351,18 +351,22 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "meddatatrace",
           title: "HealthGraphBench",
+          outcome:
+            "Mesurer l’apport des graphes à la prédiction sur des données de santé.",
           description:
-            "Je mesure l’apport des graphes en comparant modèles tabulaires, heuristiques de voisinage et modèles relationnels sur les données publiques FDA et CMS.",
+            "Je développe un benchmark public pour comparer les méthodes sur les données FDA/CMS, avec un protocole temporel explicite.",
           technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/projets/meddatatrace/",
-          linkLabel: "Lire le dossier",
+          linkLabel: "Voir les résultats et la démarche",
           status: "Recherche en cours · résultats exploratoires.",
         },
         {
           id: "sillage",
           title: "Sillage",
+          outcome:
+            "Retrouver un passage dans ses documents et consulter sa source depuis un lanceur Linux.",
           description:
-            "Dans Brio, je contribue à Sillage : un lanceur Linux natif et un moteur de recherche dans les documents, utilisable séparément.",
+            "Dans Brio, je contribue au moteur de recherche et au traitement des documents pour l’indexation vectorielle.",
           technologies: "Rust · Slint · Tantivy · SQLite",
           url: "/projets/sillage/",
           linkLabel: "Voir le projet et la démo",
@@ -408,17 +412,18 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       security: {
         heading: "Cybersécurité & Rust",
         intro:
-          "Comprendre les défaillances et rendre les logiciels plus robustes : un intérêt que je concrétise par la recherche de vulnérabilités et le durcissement réseau dans l’écosystème Rust.",
+          "Recherche de vulnérabilités et contributions à la sécurité de projets Rust.",
         entries: [
           {
             id: "tokio",
             name: "Tokio",
+            status: "Corrigée dans Tokio 1.54.1",
             focus: "Sécurité mémoire",
             role: "Découverte & signalement responsable",
             description:
-              "J’ai découvert et signalé en privé une condition de concurrence dans les intervalles de temps de Tokio 1.54.0. Sur le runtime multithread, elle peut provoquer un accès à de la mémoire libérée et des crashs, même depuis du code Rust sûr.",
+              "J’ai découvert et signalé en privé une condition de concurrence dans Tokio 1.54.0 : accès à de la mémoire libérée et crashs sur le runtime multithread, même depuis du Rust sûr.",
             detail:
-              "Crédité sous carabistouflette pour un signalement indépendant. Sévérité élevée ; corrigée dans Tokio 1.54.1.",
+              "Sévérité élevée. Crédité sous carabistouflette pour un signalement indépendant.",
             reference: "GHSA-5wjr-9356-4wc8",
             link: {
               label: "Lire l’avis de sécurité",
@@ -431,9 +436,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             focus: "Sécurité réseau",
             role: "Contribution au durcissement réseau",
             description:
-              "J’ai aussi travaillé sur la sécurité réseau de SteelMC, un serveur Minecraft écrit en Rust : durcissement de la lecture des paquets et gestion des entrées réseau malformées.",
+              "Durcissement de la lecture des paquets et gestion des entrées réseau malformées dans ce serveur Minecraft écrit en Rust.",
             detail:
-              "Une proposition de durcissement du protocole et de rejet des paquets invalides est consultable dans la pull request #547.",
+              "Proposition de durcissement du protocole et de rejet des paquets invalides, documentée dans la PR #547.",
             reference: "Steel-Foundation/SteelMC · #547",
             link: {
               label: "Voir la contribution réseau",
@@ -490,7 +495,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       invitation: {
         title: "Vous ?",
         description:
-          "Je cherche un stage du 22 mars au 21 août 2027, à Montpellier ou Lille. Une alternance en M2 est également possible à partir de septembre 2027.",
+          "Je cherche un stage du 22 mars au 21 août 2027, en France ou à l’étranger. Une alternance en M2 est également possible à partir de septembre 2027.",
         linkLabel: "Proposer un stage",
         start: "2026-master",
         end: "2028",
@@ -643,13 +648,13 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      heading: "Parlons de votre prochain projet.",
+      heading: "Un stage à proposer ?",
       email: contactEmail,
       emailCta: "Envoyer un e-mail",
       copyEmail: "Copier l'adresse",
       copiedEmail: "Adresse copiée !",
       status: "Recherche de stage · 22 mars – 21 août 2027",
-      location: "Montpellier ou Lille",
+      location: "Ouvert aux stages en France et à l’étranger",
       responseTime: "Réponse habituelle sous 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Parcours professionnel & réseau",
@@ -667,7 +672,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
     meta: {
       title: "Alexis Robin — AI & data systems",
       description:
-        "Alexis Robin — AI, software systems and Rust cybersecurity. GenomInt at CIRAD, Sillage, HealthGraphBench research, a Tokio vulnerability discovery and SteelMC network security.",
+        "Alexis Robin — seeking an AI and scientific data internship from 22 March to 21 August 2027, in France or abroad. GenomInt at CIRAD, Rust software and security research.",
     },
     skipLink: "Skip to main content",
     navigation: {
@@ -688,36 +693,31 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       en: "EN",
     },
     hero: {
-      eyebrow: "AI & data systems",
-      summaryTitle: "Experience & contributions",
       title: "Alexis Robin",
       headline: "AI tools for querying scientific data.",
-      affiliation: "M1 at Centrale Lille · AI for health · MIAS track",
-      description:
-        "At CIRAD, I built GenomInt’s AI agent and backend to explore genomic graphs.",
-      highlights: [
-        { label: "GenomInt at CIRAD", href: "/en/projects/genomint/" },
-        { label: "Tokio security disclosure", href: "#contribution-tokio" },
-      ],
       availability: {
-        label: "Seeking an internship",
-        detail: "22 March – 21 August 2027 · Montpellier or Lille",
+        label: "Seeking an AI / scientific data internship",
+        detail: "22 March – 21 August 2027",
         note: "Apprenticeship (M2) possible from September 2027.",
       },
+      internshipCta: "Discuss an internship",
       projectsCta: "View my projects",
-      cvCta: "Download CV",
-      contactCta: "Get in touch",
+      cvCta: "My CV",
     },
     projects: {
-      heading: "My projects",
-      intro: "AI agents, scientific data and native software.",
+      heading: "Three projects to explore",
+      intro:
+        "Explore genomic data, evaluate models and find information in documents.",
+      contributionLabel: "My contribution:",
       otherHeading: "Supplementary work",
       entries: [
         {
           id: "genomint",
           title: "GenomInt",
+          outcome:
+            "Query a genomic graph, explore the results and export sequences.",
           description:
-            "At CIRAD, I built the AI agent and the genomic graph explorer’s backend: Neo4j queries, APIs and exports.",
+            "At CIRAD, I built the AI agent and the explorer’s backend: Neo4j queries, APIs and exports.",
           technologies:
             "Python · FastAPI · Pi · LangChain · Haystack · PostgreSQL · Neo4j · Docker · Linux",
           url: "/en/projects/genomint/",
@@ -726,18 +726,22 @@ export const portfolio: Record<Locale, PortfolioContent> = {
         {
           id: "meddatatrace",
           title: "HealthGraphBench",
+          outcome:
+            "Measure the value of graphs for predictions on health data.",
           description:
-            "I measure the value of graph structure by comparing tabular models, neighborhood heuristics and relational models on public FDA and CMS data.",
+            "I am building a public benchmark to compare methods on FDA/CMS data, with an explicit temporal protocol.",
           technologies: "Python · NumPy · Scikit-learn · Numba · Matplotlib",
           url: "/en/projects/meddatatrace/",
-          linkLabel: "Read the case study",
+          linkLabel: "See the results and approach",
           status: "Research in progress · exploratory results.",
         },
         {
           id: "sillage",
           title: "Sillage",
+          outcome:
+            "Find a passage in your documents and inspect its source from a Linux launcher.",
           description:
-            "At Brio, I contribute to Sillage: a native Linux launcher and a document search engine that can run separately.",
+            "At Brio, I contribute to the search engine and document processing for vector indexing.",
           technologies: "Rust · Slint · Tantivy · SQLite",
           url: "/en/projects/sillage/",
           linkLabel: "View the project and demo",
@@ -783,17 +787,18 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       security: {
         heading: "Cybersecurity & Rust",
         intro:
-          "Understanding failures and making software more robust: I put this interest into practice through vulnerability research and network hardening in the Rust ecosystem.",
+          "Vulnerability research and security contributions to Rust projects.",
         entries: [
           {
             id: "tokio",
             name: "Tokio",
+            status: "Fixed in Tokio 1.54.1",
             focus: "Memory safety",
             role: "Discovery & responsible disclosure",
             description:
-              "I discovered and privately reported a race condition in Tokio 1.54.0’s time intervals. On the multithreaded runtime, it can cause use-after-free and crashes, even from safe Rust code.",
+              "I discovered and privately reported a race condition in Tokio 1.54.0: use-after-free and crashes on the multithreaded runtime, even from safe Rust.",
             detail:
-              "Credited as carabistouflette for an independent report. High severity; fixed in Tokio 1.54.1.",
+              "High severity. Credited as carabistouflette for an independent report.",
             reference: "GHSA-5wjr-9356-4wc8",
             link: {
               label: "Read the security advisory",
@@ -806,9 +811,9 @@ export const portfolio: Record<Locale, PortfolioContent> = {
             focus: "Network security",
             role: "Network hardening contributor",
             description:
-              "I also worked on network security for SteelMC, a Minecraft server written in Rust: hardening packet reads and handling malformed network input.",
+              "Hardened packet reads and handling of malformed network input for this Minecraft server written in Rust.",
             detail:
-              "A proposal to harden the protocol and reject invalid packets is available in pull request #547.",
+              "Proposed protocol hardening and rejection of invalid packets, documented in PR #547.",
             reference: "Steel-Foundation/SteelMC · #547",
             link: {
               label: "View the network contribution",
@@ -865,7 +870,7 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       invitation: {
         title: "You?",
         description:
-          "I’m looking for an internship from 22 March to 21 August 2027, in Montpellier or Lille. An M2 apprenticeship is also possible from September 2027.",
+          "I’m looking for an internship from 22 March to 21 August 2027, in France or abroad. An M2 apprenticeship is also possible from September 2027.",
         linkLabel: "Discuss an internship",
         start: "2026-master",
         end: "2028",
@@ -1019,20 +1024,20 @@ export const portfolio: Record<Locale, PortfolioContent> = {
       ],
     },
     contact: {
-      heading: "Let’s talk about your next project.",
+      heading: "Have an internship opportunity?",
       email: contactEmail,
       emailCta: "Send an email",
       copyEmail: "Copy address",
       copiedEmail: "Address copied!",
       status: "Seeking an internship · 22 March – 21 August 2027",
-      location: "Montpellier or Lille",
+      location: "Open to internships in France and abroad",
       responseTime: "Typically replies within 24h",
       linkedin: "LinkedIn",
       linkedinDescription: "Professional background & network",
       github: "GitHub",
       githubDescription: "Source code, projects & contributions",
       cv: "Download CV",
-      cvDescription: "Education & experience · PDF in French",
+      cvDescription: "Education & experience · English PDF",
       backToTop: "Back to top",
       colophon: "Alexis Robin · AI, software systems & open source",
       legal: "All rights reserved",

@@ -1,4 +1,5 @@
 ---
+import DisclosureSummary from "./DisclosureSummary.astro";
 import type { Locale, PortfolioContent } from "../data/portfolio";
 import rawSnapshot from "../data/github.json";
 import { validateGitHubSnapshot } from "../lib/github";
@@ -24,7 +25,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
     {openSource.heading}
   </h2>
   <a
-    class="mt-8 inline-flex max-w-full items-center gap-4 rounded-xl border border-rule/60 px-4 py-3 hover:border-[#9dc7df] focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
+    class="mt-5 inline-flex max-w-full items-center gap-3 text-sm underline focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
     href={openSource.profileLink.url}
     target="_blank"
     rel="noreferrer"
@@ -36,7 +37,7 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       alt=""
       loading="lazy"
       decoding="async"
-      class="size-12 shrink-0 rounded-full object-cover"
+      class="size-8 shrink-0 rounded-full object-cover"
     />
     <div class="min-w-0">
       <p class="text-base font-medium">{openSource.profileLink.bannerLabel}</p>
@@ -46,61 +47,88 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
       ↗
     </span>
   </a>
-  <div class="mt-12">
+  <div class="mt-8">
     <SecurityContributions content={openSource.security} />
   </div>
-  <h3 class="subsection-title mt-12">{openSource.projects.heading}</h3>
-  <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-16">
-    {openSource.projects.entries.map((project) => (
-      <li class="min-w-0 border-t border-rule pt-6">
-        <h4 class="card-title">
-          <a
-            class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
-            href={project.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {project.name}
-            <span class="ml-2 text-muted" aria-hidden="true">
-              ↗
-            </span>
-          </a>
-        </h4>
-        <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">
-          {project.role}
-        </p>
-        <p class="body-copy mt-4 max-w-[52ch] text-muted">
-          {project.description}
-        </p>
-        {project.zenodo && (
-          <p class="mt-3 text-sm">
-            <a
-              class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
-              href={project.zenodo.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {project.zenodo.label}
-              <span class="ml-2 text-muted" aria-hidden="true">
-                ↗
-              </span>
-            </a>
-          </p>
-        )}
-        {project.publication && (
-          <p class="body-copy mt-2 max-w-[52ch] text-muted">
-            {project.publication}
-          </p>
-        )}
-      </li>
-    ))}
-  </ul>
-  <div class="mt-14">
+  <details class="reading-disclosure content-disclosure mt-6">
+    <DisclosureSummary>
+      <span>
+        <h3 class="card-title">
+          {openSource.projects.heading} · {openSource.projects.entries.length}
+        </h3>
+        <span class="disclosure-preview">
+          {openSource.projects.entries
+            .map((project) => project.name)
+            .join(" · ")}
+        </span>
+      </span>
+    </DisclosureSummary>
+    <div class="reading-disclosure-body">
+      <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-16">
+        {openSource.projects.entries.map((project) => (
+          <li class="min-w-0 border-t border-rule pt-6">
+            <h4 class="card-title">
+              <a
+                class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+                href={project.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {project.name}
+                <span class="ml-2 text-muted" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </h4>
+            <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">
+              {project.role}
+            </p>
+            <p class="body-copy mt-4 max-w-[52ch] text-muted">
+              {project.description}
+            </p>
+            {project.zenodo && (
+              <p class="mt-3 text-sm">
+                <a
+                  class="underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
+                  href={project.zenodo.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {project.zenodo.label}
+                  <span class="ml-2 text-muted" aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </p>
+            )}
+            {project.publication && (
+              <p class="body-copy mt-2 max-w-[52ch] text-muted">
+                {project.publication}
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </details>
+  <div class="mt-8">
     <GitHubCalendar
       calendar={snapshot.calendar}
       locale={locale}
       copy={openSource.github.calendar}
       preview
+      headingLevel="h3"
     />
+    <a
+      class="text-link mt-5 text-sm underline"
+      href={locale === "fr" ? "/github/" : "/en/github/"}
+    >
+      {locale === "fr"
+        ? "Voir la page des contributions"
+        : "View the contributions page"}
+      <span class="ml-2" aria-hidden="true">
+        →
+      </span>
+    </a>
   </div>
 </section>

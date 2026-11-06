@@ -8,9 +8,16 @@ interface Props {
   locale: Locale;
   copy: PortfolioContent["openSource"]["github"]["calendar"];
   preview?: boolean;
+  headingLevel?: "h2" | "h3";
 }
 
-const { calendar, locale, copy, preview = false } = Astro.props;
+const {
+  calendar,
+  locale,
+  copy,
+  preview = false,
+  headingLevel: Heading = "h2",
+} = Astro.props;
 const DayTag = preview ? "span" : "a";
 const profileUrl = "https://github.com/carabistouflette";
 const dateFormat = new Intl.DateTimeFormat(locale, {
@@ -96,9 +103,9 @@ const gridTemplate = `grid-template-columns: 2.75rem repeat(${Math.max(1, weekCo
 
 <section class="min-w-0" aria-labelledby="github-calendar-title">
   <header class="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-t border-rule/60 pt-8">
-    <h2 id="github-calendar-title" class="subsection-title">
+    <Heading id="github-calendar-title" class="subsection-title">
       {copy.heading}
-    </h2>
+    </Heading>
     <p class="text-xs text-muted">
       <span class="font-display text-xl text-paper">
         {stats.totalContributions.toLocaleString(locale)}

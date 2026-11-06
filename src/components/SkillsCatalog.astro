@@ -1,5 +1,6 @@
 ---
 import ToolIcon from "./ToolIcon.astro";
+import DisclosureCue from "./DisclosureCue.astro";
 
 interface SkillItem {
   name: string;
@@ -48,7 +49,7 @@ const relatedProjects = (skill: SkillItem): Project[] =>
       <summary
         id={`skills-summary-${index}`}
         aria-controls={`skills-panel-${index}`}
-        class="cursor-pointer list-none rounded-xl p-6 focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 sm:p-8 [&::-webkit-details-marker]:hidden"
+        class="cursor-pointer list-none rounded-xl p-6 transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-[#9dc7df] focus-visible:outline-offset-4 sm:p-8 [&::-webkit-details-marker]:hidden"
       >
         <div class="flex items-start justify-between gap-6">
           <div class="min-w-0">
@@ -57,13 +58,6 @@ const relatedProjects = (skill: SkillItem): Project[] =>
               {group.description}
             </p>
           </div>
-          <span
-            class="mt-1 flex shrink-0 items-center gap-4 text-[#9dc7df]"
-            aria-hidden="true"
-          >
-            <span class="text-xs">{group.items.length}</span>
-            <span class="disclosure-mark text-2xl leading-none">+</span>
-          </span>
         </div>
         <div
           class="skill-preview mt-6 flex flex-wrap items-center gap-x-6 gap-y-4 text-sm text-paper/90"
@@ -84,11 +78,18 @@ const relatedProjects = (skill: SkillItem): Project[] =>
             <span class="text-xs text-muted">+{group.items.length - 3}</span>
           )}
         </div>
+        <div class="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-rule/60 pt-4">
+          <span class="text-xs text-muted">
+            {group.items.length} technologies
+          </span>
+          <DisclosureCue />
+        </div>
       </summary>
 
       <div
         id={`skills-panel-${index}`}
         role="region"
+        aria-labelledby={`skills-summary-${index}`}
         class="skills-panel overflow-hidden"
       >
         <div class="skills-panel-inner">

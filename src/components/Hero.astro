@@ -1,22 +1,21 @@
 ---
-import type { PortfolioContent } from "../data/portfolio";
+import type { Locale, PortfolioContent } from "../data/portfolio";
 import { destinations } from "../data/portfolio";
 interface Props {
   content: PortfolioContent;
+  locale: Locale;
 }
-const { content } = Astro.props;
+const { content, locale } = Astro.props;
 const nameLines = content.hero.title.split(" ");
 // The absolute cat uses the shell's padding-box width, not the content width.
 // Match global.css: 88rem shell, widening above 100rem up to 122rem;
-// mobile overrides and the short-desktop 22% override take precedence.
+// The short-desktop 22% override takes precedence; the cat is hidden on mobile.
 const catSizes = [
   "(min-width: 100rem) and (max-height: 820px) min(calc(13.2vw + 6.16rem), 26.84rem)",
   "(min-width: 64rem) and (max-height: 820px) min(22vw, 19.36rem)",
   "(min-width: 100rem) min(calc(16.8vw + 7.84rem), 34.16rem)",
   "(min-width: 64rem) min(28vw, 24.64rem)",
-  "(min-width: 48rem) 30vw",
-  "(max-width: 24rem) 35vw",
-  "38vw",
+  "30vw",
 ].join(", ");
 // Same glyph outlines as the former RobinTrace.vue; `M`-separated subpaths
 // become individual stroked paths so each letter draws via `robin-stroke`.
@@ -49,20 +48,14 @@ const robinGlyphs = [
 
 <section
   id="accueil"
-  class="hero content-shell relative isolate grid gap-14 pb-16 pt-8 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-start md:gap-x-12 md:gap-y-8 md:pb-16 md:pt-10 lg:min-h-[calc(100vh-3.75rem)] lg:min-h-[calc(100svh-3.75rem)] lg:min-h-[calc(100dvh-3.75rem)] lg:items-end xl:gap-x-16 min-[100rem]:gap-x-[min(8rem,calc(4rem+(100vw-100rem)*0.2))] [@media(min-height:1600px)]:lg:items-center!"
+  class="hero content-shell relative isolate grid py-12 md:grid-cols-[minmax(0,1.35fr)_minmax(0,0.85fr)] md:items-center md:gap-x-12 md:py-16 lg:min-h-[calc(100svh-4rem)] xl:gap-x-16"
   aria-labelledby="hero-title"
 >
   <div
-    class="pointer-events-none absolute inset-0 -z-10 overflow-clip"
+    class="hero-cat-layer pointer-events-none absolute inset-0 z-0 hidden overflow-clip md:block"
     aria-hidden="true"
   >
-    <div class="absolute -right-24 top-0 h-[32rem] w-[38rem] bg-[radial-gradient(ellipse,rgba(23,75,105,0.32),transparent_68%)] md:right-0 md:h-[46rem] md:w-[56rem]"></div>
-  </div>
-  <div
-    class="hero-cat-layer pointer-events-none absolute inset-0 z-0 overflow-clip"
-    aria-hidden="true"
-  >
-    <div class="hero-cat absolute top-4 left-[45%] w-[55%] max-w-none opacity-100 md:top-10 md:left-[56%] md:w-[30%] lg:top-8 lg:left-[60%] lg:w-[28%]">
+    <div class="hero-cat absolute top-1/2 left-[62%] w-[30%] max-w-none -translate-y-1/2 opacity-100 lg:w-[28%]">
       <img
         src="/images/hero-cat-640.webp"
         srcset="/images/hero-cat-320.webp 320w, /images/hero-cat-480.webp 480w, /images/hero-cat-640.webp 640w, /images/hero-cat.webp 981w"
@@ -76,30 +69,9 @@ const robinGlyphs = [
       />
       <span class="hero-cat-eye hero-cat-eye-left" aria-hidden="true"></span>
       <span class="hero-cat-eye hero-cat-eye-right" aria-hidden="true"></span>
-      <div class="hero-cat-bubble hidden lg:block">
-        <svg
-          class="hero-cat-bubble-frame"
-          viewBox="0 0 210 132"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path
-            class="hero-cat-bubble-outline"
-            d="M 9 46 C 8 60 8 74 8 86 C 8 96 9 106 13 114 C 18 122 28 127 42 127 C 74 130 128 130 170 127 C 190 126 200 116 201 100 C 204 80 201 55 202 32 C 203 16 194 8 178 6 C 140 2 72 2 30 6 C 20 7 13 12 10 18 C 9 20 9 23 9 26"
-          ></path>
-          <path
-            class="hero-cat-bubble-beak"
-            d="M 9 26 C -25 15 -68 13 -95 24 C -65 20 -35 38 9 46 Z"
-          ></path>
-        </svg>
-        <p class="hero-cat-bubble-label">{content.hero.availability.label}</p>
-        <p class="hero-cat-bubble-detail">{content.hero.availability.detail}</p>
-        <p class="hero-cat-bubble-note">{content.hero.availability.note}</p>
-      </div>
     </div>
   </div>
   <div class="hero-copy @container relative z-10 min-w-0">
-    <p class="eyebrow mb-0 max-w-[24ch]">{content.hero.eyebrow}</p>
     <h1
       id="hero-title"
       aria-label={content.hero.title}
@@ -139,33 +111,11 @@ const robinGlyphs = [
     <p class="hero-headline-size mt-8 max-w-[30ch] font-medium leading-snug tracking-tight text-balance">
       {content.hero.headline}
     </p>
-    <p class="hero-affiliation mt-4">{content.hero.affiliation}</p>
-    <details class="hero-availability group mt-6 max-w-xl rounded-[1.75rem_1.25rem_1.9rem_1.5rem] border border-[#8fc6ee]/60 bg-linear-to-r from-[#102637]/60 to-transparent px-6 py-5 transition-colors hover:border-paper open:border-paper lg:hidden">
-      <summary class="flex cursor-pointer items-start justify-between gap-4 rounded-xl focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4 [&::-webkit-details-marker]:hidden">
-        <span class="min-w-0 text-lg font-medium leading-snug text-paper sm:text-xl">
-          <span class="block text-[#abd1ed]">
-            {content.hero.availability.label}
-          </span>
-          {content.hero.availability.detail.split("·").map((part) => (
-            <span class="block">{part.trim()}</span>
-          ))}
-        </span>
-        <span
-          aria-hidden="true"
-          class="disclosure-mark mt-1 shrink-0 text-2xl leading-none text-[#9dc7df] transition-transform group-open:rotate-45"
-        >
-          +
-        </span>
-      </summary>
-      <p class="hero-availability-note mt-3 body-copy text-muted">
-        {content.hero.availability.note}
-      </p>
-    </details>
-    <p class="sr-only hidden lg:block">
-      {content.hero.availability.label}. {content.hero.availability.detail}.
-      {content.hero.availability.note}
+    <p class="mt-5 max-w-xl text-base leading-relaxed text-muted">
+      {content.hero.availability.detail}
+      <span class="block">{content.contact.location}</span>
     </p>
-    <div class="hero-actions relative z-10 mt-8 flex flex-wrap items-center gap-3">
+    <div class="hero-actions relative z-10 mt-7 flex flex-wrap items-center gap-3">
       <a
         class="hero-button hero-button-primary"
         href={`#${content.navigation.sections.projects.id}`}
@@ -175,44 +125,28 @@ const robinGlyphs = [
       </a>
       <a
         class="hero-button hero-button-secondary"
-        href={destinations.cv}
-        download
+        href={destinations.cv[locale]}
+        download={`Alexis-Robin-CV-${locale.toUpperCase()}.pdf`}
       >
         {content.hero.cvCta}
-        <span aria-hidden="true">↓</span>
-      </a>
-      <a
-        class="hero-contact-link text-link text-sm text-muted"
-        href={`#${content.navigation.sections.contact.id}`}
-      >
-        {content.hero.contactCta}
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M8 2v8m-3-3 3 3 3-3M3 11v3h10v-3"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
       </a>
     </div>
   </div>
-  <section
-    class="hero-summary relative z-10 min-w-0 md:pt-[24rem] lg:self-end lg:pt-0 [@media(min-height:1600px)]:lg:self-center!"
-    aria-label={content.hero.summaryTitle}
-  >
-    <div class="ml-auto max-w-xl lg:rounded-[1.75rem_1.25rem_1.9rem_1.5rem] lg:border lg:border-[#8fc6ee]/60 lg:bg-linear-to-r lg:from-[#102637]/60 lg:to-transparent lg:px-8 lg:py-6">
-      <h2 class="eyebrow mb-4 text-[#abd1ed]">{content.hero.summaryTitle}</h2>
-      <p class="hero-lead">{content.hero.description}</p>
-      <ul class="hero-highlights mt-6 grid list-none gap-1 border-t border-rule/60 pt-3">
-        {content.hero.highlights.map((highlight) => (
-          <li>
-            <a
-              class="text-link flex items-center justify-between gap-4 py-2 text-sm underline decoration-[#9dc7df]/40 underline-offset-4 hover:decoration-[#9dc7df]"
-              href={highlight.href}
-            >
-              {highlight.label}
-              <span class="shrink-0 text-[#abd1ed]" aria-hidden="true">
-                {highlight.href.startsWith("#") ? "↓" : "↗"}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
 
   <script>
     import "../scripts/robin-trace";

@@ -1,4 +1,5 @@
 ---
+import DisclosureSummary from "./DisclosureSummary.astro";
 import type { PortfolioContent } from "../data/portfolio";
 import SkillsCatalog from "./SkillsCatalog.astro";
 interface Props {
@@ -29,56 +30,50 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
 
   <ul class="skill-statements">
     {copy.highlights.map((skill) => (
-      <li class="skill-statement">
-        <h3 class="card-title">{skill.name}</h3>
-        <p class="skill-description body-copy text-muted">
-          {skill.description}
-        </p>
-        <ul class="skill-evidence">
-          {skill.projectIds.map((id) => {
-            const project = projectById.get(id);
-            return (
-              project && (
-                <li>
-                  <a
-                    class="skill-project text-link text-sm"
-                    href={`#project-${id}`}
-                  >
-                    <span class="sr-only">{copy.projectLabel} : </span>
-                    {project.title}
-                    <span class="ml-2" aria-hidden="true">
-                      ↗
-                    </span>
-                  </a>
-                </li>
-              )
-            );
-          })}
-        </ul>
+      <li>
+        <article class="skill-statement">
+          <h3 class="card-title">{skill.name}</h3>
+          <p class="skill-description body-copy mt-3 text-muted">
+            {skill.description}
+          </p>
+          <ul class="skill-evidence mt-3">
+            {skill.projectIds.map((id) => {
+              const project = projectById.get(id);
+              return (
+                project && (
+                  <li>
+                    <a
+                      class="skill-project text-link text-sm underline"
+                      href={project.url || `#project-${id}`}
+                    >
+                      {copy.projectLabel} : {project.title}
+                      <span class="ml-2" aria-hidden="true">
+                        {project.url?.startsWith("https:") ? "↗" : "→"}
+                      </span>
+                    </a>
+                  </li>
+                )
+              );
+            })}
+          </ul>
+        </article>
       </li>
     ))}
   </ul>
 
   {copy.groups.length > 0 && (
-    <details class="skills-details reading-disclosure mt-8">
-      <summary
+    <details class="skills-details reading-disclosure content-disclosure mt-8">
+      <DisclosureSummary
         id="skills-catalog-summary"
         aria-controls="skills-catalog-body"
-        class="relative block cursor-pointer border-t border-rule/60 py-3 focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
       >
-        <span class="relative z-10 flex items-center justify-between gap-6">
-          <span class="text-sm text-[#a8c8be]">
-            {copy.catalogMoreLabel}
-            <span class="sr-only"> — {copy.heading}</span>
-          </span>
-          <span
-            class="skills-details-mark shrink-0 text-xl leading-none text-[#a8c8be]"
-            aria-hidden="true"
-          >
-            +
+        <span>
+          {copy.catalogMoreLabel}
+          <span class="disclosure-preview">
+            {copy.groups.map((group) => group.label).join(" · ")}
           </span>
         </span>
-      </summary>
+      </DisclosureSummary>
       <div
         id="skills-catalog-body"
         class="reading-disclosure-body pb-6"
@@ -97,12 +92,10 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
           <button
             type="button"
             data-catalog-close
-            class="grid size-10 place-items-center rounded-full border border-rule/60 text-2xl leading-none text-muted hover:border-[#9dc7df] hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
-            aria-label={copy.catalogCloseLabel}
+            class="inline-flex min-h-11 cursor-pointer items-center gap-3 rounded-lg border border-rule px-4 text-sm text-[#abd1ed] hover:border-[#9dc7df] hover:text-paper focus-visible:outline-2 focus-visible:outline-paper focus-visible:outline-offset-4"
           >
-            <span class="catalog-minus" aria-hidden="true">
-              −
-            </span>
+            {copy.catalogCloseLabel}
+            <span aria-hidden="true">↑</span>
           </button>
         </div>
       </div>
@@ -113,15 +106,14 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
 <style>
   .skill-statements {
     margin-top: 2rem;
+    display: grid;
+    gap: 1.5rem;
     padding: 0;
     list-style: none;
   }
   .skill-statement {
-    display: grid;
-    gap: 0.75rem;
-    min-width: 0;
-    padding-block: 1.5rem;
-    border-top: 1px solid var(--color-rule);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
   }
   .skill-description {
     max-width: 60ch;
@@ -140,38 +132,8 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     min-height: 2.75rem;
     align-items: center;
   }
-  .skills-details > summary {
-    list-style: none;
-  }
-  .skills-details > summary::-webkit-details-marker {
-    display: none;
-  }
-  .skills-details-mark {
-    transition: rotate 180ms ease;
-  }
-  .skills-details[open] > summary .skills-details-mark {
-    rotate: 45deg;
-  }
   .skills-details[data-disclosure-ready] [data-catalog-close-row] {
     display: flex;
     justify-content: center;
-  }
-  @media (min-width: 52rem) {
-    .skill-statement {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr) minmax(
-          8rem,
-          0.6fr
-        );
-      align-items: baseline;
-      gap: 2rem;
-    }
-    .skill-evidence {
-      flex-direction: column;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .skills-details-mark {
-      transition: none;
-    }
   }
 </style>

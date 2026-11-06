@@ -11,35 +11,180 @@ const EntryHeading = Heading === "h2" ? "h3" : "h4";
 ---
 
 <section id="security" aria-labelledby="security-title">
-  <Heading id="security-title" class="subsection-title">
+  <Heading id="security-title" class="card-title">
     {content.heading}
   </Heading>
-  <p class="body-copy mt-4 max-w-[72ch] text-muted">{content.intro}</p>
-  <ul class="mt-8 grid gap-6 lg:grid-cols-2">
+  <p class="security-intro">{content.intro}</p>
+  <ul class="security-entries">
     {content.entries.map((entry) => (
-      <li
-        id={`contribution-${entry.id}`}
-        tabindex="-1"
-        class="flex min-w-0 scroll-mt-24 flex-col rounded-2xl border border-rule/70 bg-linear-to-br from-[#102637]/50 to-transparent p-6 sm:p-8"
-      >
-        <p class="eyebrow text-[#a8c8be]">{entry.focus}</p>
-        <EntryHeading class="card-title mt-3">{entry.name}</EntryHeading>
-        <p class="mt-2 text-sm leading-relaxed text-[#abd1ed]">{entry.role}</p>
-        <p class="body-copy mt-5 text-muted">{entry.description}</p>
-        <p class="body-copy mt-4 text-muted">{entry.detail}</p>
-        <div class="mt-auto pt-6">
-          <p class="break-words text-xs text-muted">{entry.reference}</p>
-          <a
-            class="text-link mt-2 inline-flex min-h-11 items-center gap-2 text-sm underline decoration-[#9dc7df]/40 hover:decoration-[#9dc7df]"
-            href={entry.link.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {entry.link.label}
-            <span aria-hidden="true">↗</span>
-          </a>
-        </div>
+      <li>
+        <article
+          id={`contribution-${entry.id}`}
+          class="security-entry scroll-mt-24"
+          aria-labelledby={`${entry.id}-highlight`}
+        >
+          <header class="security-entry-heading">
+            <EntryHeading
+              id={`${entry.id}-highlight`}
+              class="security-entry-name scroll-mt-24"
+            >
+              {entry.name}
+            </EntryHeading>
+            <p class="security-entry-focus">{entry.focus}</p>
+          </header>
+          <div class="security-entry-copy">
+            <p class="security-entry-role">{entry.role}</p>
+            <p class="security-entry-description">{entry.description}</p>
+            <p class="security-entry-detail">{entry.detail}</p>
+          </div>
+          <footer class="security-entry-evidence">
+            <a
+              class="security-entry-link"
+              href={entry.link.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>{entry.link.label}</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            {entry.status && (
+              <p class="security-entry-status">{entry.status}</p>
+            )}
+            <p class="security-entry-reference">{entry.reference}</p>
+          </footer>
+        </article>
       </li>
     ))}
   </ul>
 </section>
+
+<style>
+  .security-intro {
+    max-width: 65ch;
+    margin-top: 0.5rem;
+    color: var(--secondary);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  .security-entries {
+    max-width: 82rem;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .security-entry {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.7fr) minmax(0, 2fr) minmax(
+        12rem,
+        0.9fr
+      );
+    align-items: start;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .security-entry-name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+
+  .security-entry-focus {
+    margin-top: 0.5rem;
+    color: var(--secondary);
+    font-size: 0.8125rem;
+  }
+
+  .security-entry-copy,
+  .security-entry-evidence {
+    min-width: 0;
+  }
+
+  .security-entry-role {
+    color: #abd1ed;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .security-entry-description {
+    max-width: 60ch;
+    margin-top: 0.625rem;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  .security-entry-detail {
+    max-width: 65ch;
+    margin-top: 0.75rem;
+    color: var(--secondary);
+    font-size: 0.8125rem;
+    line-height: 1.65;
+  }
+
+  .security-entry-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding-block: 0.25rem;
+    margin-top: -0.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    text-decoration: underline;
+  }
+
+  .security-entry-status {
+    color: #abd1ed;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .security-entry-reference {
+    margin-top: 0.5rem;
+    color: var(--secondary);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 63.999rem) {
+    .security-entry {
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: 0.75rem 2rem;
+    }
+
+    .security-entry-evidence {
+      grid-column: 2;
+    }
+  }
+
+  @media (max-width: 39.999rem) {
+    .security-entry {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+      padding-block: 1.5rem;
+    }
+
+    .security-entry-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.25rem 1rem;
+    }
+
+    .security-entry-focus {
+      margin-top: 0;
+    }
+
+    .security-entry-evidence {
+      grid-column: auto;
+    }
+  }
+</style>
