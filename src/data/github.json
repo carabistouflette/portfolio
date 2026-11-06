@@ -1,38 +1,38 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-06T17:59:17.575Z",
+  "updatedAt": "2026-11-06T23:11:15.756Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "voidssx1/gosh",
-        "number": 12,
-        "title": "fix: assign command-string positional parameters correctly",
-        "url": "https://github.com/voidssx1/gosh/pull/12",
-        "createdAt": "2026-11-06T17:37:31Z",
-        "updatedAt": "2026-11-06T17:37:31Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
+        "repository": "carabistouflette/goose-glob",
+        "number": 1,
+        "title": "Optimize glob matching and publish competitive benchmarks",
+        "url": "https://github.com/carabistouflette/goose-glob/pull/1",
+        "createdAt": "2026-11-06T20:33:48Z",
+        "updatedAt": "2026-11-06T20:34:42Z",
+        "mergedAt": "2026-11-06T20:34:41Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/honk",
+        "number": 14,
+        "title": "feat: filter test and bench targets with public goose-glob",
+        "url": "https://github.com/carabistouflette/honk/pull/14",
+        "createdAt": "2026-11-06T20:07:45Z",
+        "updatedAt": "2026-11-06T20:16:22Z",
+        "mergedAt": "2026-11-06T20:16:21Z",
+        "state": "merged",
+        "relationship": "personal"
       },
       {
         "repository": "voidssx1/gosh",
-        "number": 11,
-        "title": "fix: preserve arithmetic grouping and quoted expansion",
-        "url": "https://github.com/voidssx1/gosh/pull/11",
-        "createdAt": "2026-11-06T17:37:28Z",
-        "updatedAt": "2026-11-06T17:37:28Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "voidssx1/gosh",
-        "number": 10,
-        "title": "fix: synchronize exported variable assignments",
-        "url": "https://github.com/voidssx1/gosh/pull/10",
-        "createdAt": "2026-11-06T17:37:22Z",
-        "updatedAt": "2026-11-06T17:37:22Z",
+        "number": 15,
+        "title": "fix: expand pathname globs in their target directories",
+        "url": "https://github.com/voidssx1/gosh/pull/15",
+        "createdAt": "2026-11-06T19:17:55Z",
+        "updatedAt": "2026-11-06T19:17:55Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
@@ -41,68 +41,68 @@
     "external": [
       {
         "repository": "voidssx1/gosh",
-        "number": 12,
-        "title": "fix: assign command-string positional parameters correctly",
-        "url": "https://github.com/voidssx1/gosh/pull/12",
-        "createdAt": "2026-11-06T17:37:31Z",
-        "updatedAt": "2026-11-06T17:37:31Z",
+        "number": 15,
+        "title": "fix: expand pathname globs in their target directories",
+        "url": "https://github.com/voidssx1/gosh/pull/15",
+        "createdAt": "2026-11-06T19:17:55Z",
+        "updatedAt": "2026-11-06T19:17:55Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
         "repository": "voidssx1/gosh",
-        "number": 11,
-        "title": "fix: preserve arithmetic grouping and quoted expansion",
-        "url": "https://github.com/voidssx1/gosh/pull/11",
-        "createdAt": "2026-11-06T17:37:28Z",
-        "updatedAt": "2026-11-06T17:37:28Z",
+        "number": 14,
+        "title": "fix: complete executable commands after shell separators",
+        "url": "https://github.com/voidssx1/gosh/pull/14",
+        "createdAt": "2026-11-06T19:17:24Z",
+        "updatedAt": "2026-11-06T19:17:24Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
         "repository": "voidssx1/gosh",
-        "number": 10,
-        "title": "fix: synchronize exported variable assignments",
-        "url": "https://github.com/voidssx1/gosh/pull/10",
-        "createdAt": "2026-11-06T17:37:22Z",
-        "updatedAt": "2026-11-06T17:37:22Z",
-        "mergedAt": null,
-        "state": "open",
+        "number": 13,
+        "title": "fix: reuse printf format for remaining arguments",
+        "url": "https://github.com/voidssx1/gosh/pull/13",
+        "createdAt": "2026-11-06T19:16:26Z",
+        "updatedAt": "2026-11-06T19:44:29Z",
+        "mergedAt": "2026-11-06T19:44:29Z",
+        "state": "merged",
         "relationship": "external"
       }
     ],
     "open": [
       {
         "repository": "voidssx1/gosh",
+        "number": 15,
+        "title": "fix: expand pathname globs in their target directories",
+        "url": "https://github.com/voidssx1/gosh/pull/15",
+        "createdAt": "2026-11-06T19:17:55Z",
+        "updatedAt": "2026-11-06T19:17:55Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
+        "repository": "voidssx1/gosh",
+        "number": 14,
+        "title": "fix: complete executable commands after shell separators",
+        "url": "https://github.com/voidssx1/gosh/pull/14",
+        "createdAt": "2026-11-06T19:17:24Z",
+        "updatedAt": "2026-11-06T19:17:24Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
+        "repository": "voidssx1/gosh",
         "number": 12,
         "title": "fix: assign command-string positional parameters correctly",
         "url": "https://github.com/voidssx1/gosh/pull/12",
         "createdAt": "2026-11-06T17:37:31Z",
         "updatedAt": "2026-11-06T17:37:31Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "voidssx1/gosh",
-        "number": 11,
-        "title": "fix: preserve arithmetic grouping and quoted expansion",
-        "url": "https://github.com/voidssx1/gosh/pull/11",
-        "createdAt": "2026-11-06T17:37:28Z",
-        "updatedAt": "2026-11-06T17:37:28Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
-      },
-      {
-        "repository": "voidssx1/gosh",
-        "number": 10,
-        "title": "fix: synchronize exported variable assignments",
-        "url": "https://github.com/voidssx1/gosh/pull/10",
-        "createdAt": "2026-11-06T17:37:22Z",
-        "updatedAt": "2026-11-06T17:37:22Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
@@ -110,8 +110,8 @@
     ]
   },
   "counts": {
-    "open": 50,
-    "merged": 466
+    "open": 49,
+    "merged": 472
   },
   "featured": [
     {
@@ -1999,8 +1999,8 @@
       },
       {
         "date": "2026-11-06",
-        "count": 106,
-        "level": 3
+        "count": 156,
+        "level": 4
       }
     ]
   }
