@@ -72,10 +72,18 @@ const robinGlyphs = [
     </div>
   </div>
   <div class="hero-copy @container relative z-10 min-w-0">
+    <a
+      class="hero-availability"
+      href={`#${content.navigation.sections.contact.id}`}
+    >
+      <span class="hero-availability-dot" aria-hidden="true"></span>
+      <span>{content.hero.availability.label}</span>
+      <span aria-hidden="true">↗</span>
+    </a>
     <h1
       id="hero-title"
       aria-label={content.hero.title}
-      class="hero-name-size mt-2 font-display leading-[0.82] tracking-[-0.065em]"
+      class="hero-name-size mt-6 font-display leading-[0.82] tracking-[-0.065em]"
     >
       {nameLines.map((line, index) =>
         index === 0 ? (

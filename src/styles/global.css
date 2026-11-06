@@ -825,6 +825,38 @@
     text-decoration: none;
   }
 
+  .hero-availability {
+    /* The oversized name glyphs extend above their line box. */
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    max-width: 100%;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #8eb7ae66;
+    border-radius: 0.5rem;
+    background: #8eb7ae0d;
+    color: #c2e0d8;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    text-decoration: none;
+  }
+
+  .hero-availability:is(:hover, :focus-visible) {
+    border-color: #b0ded0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .hero-availability-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
   .hero-button-primary {
     background: var(--color-paper);
     color: var(--color-ink);
@@ -1024,11 +1056,6 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-actions) {
   opacity: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .hero-name-fallback {
-    opacity: 0;
-  }
-}
 .hero-robin-trace path {
   fill: none;
   stroke: #a9c8db;

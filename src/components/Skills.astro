@@ -112,6 +112,9 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     list-style: none;
   }
   .skill-statement {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
     padding-top: 1.5rem;
     border-top: 1px solid var(--rule);
   }
@@ -126,6 +129,16 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     gap: 0.25rem 1.5rem;
     padding: 0;
     list-style: none;
+  }
+  @media (min-width: 64rem) {
+    .skill-statements {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+    .skill-evidence {
+      margin-top: auto;
+      padding-top: 0.75rem;
+    }
   }
   .skill-project {
     display: inline-flex;
