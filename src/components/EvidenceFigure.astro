@@ -309,6 +309,9 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
             event.preventDefault();
             opener = link;
             if (!image.hasAttribute("src")) image.src = link.href;
+            // A modal inside a closed <details> remains invisible while making
+            // the rest of the page inert. Keep it outside collapsed ancestors.
+            document.body.append(dialog);
             dialog.showModal();
           },
           { signal },
@@ -423,6 +426,7 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         "close",
         () => {
           window.clearTimeout(closeTimer);
+          figure.append(dialog);
           dialog.removeAttribute("data-closing");
           resetZoom();
           opener?.focus({ preventScroll: true });
@@ -437,9 +441,15 @@ const fitAction = locale === "fr" ? "Voir toute la capture" : "Fit whole image";
         },
         { signal },
       );
-      signal.addEventListener("abort", () => window.clearTimeout(closeTimer), {
-        once: true,
-      });
+      signal.addEventListener(
+        "abort",
+        () => {
+          window.clearTimeout(closeTimer);
+          if (dialog.open) dialog.close();
+          figure.append(dialog);
+        },
+        { once: true },
+      );
     }
   });
 </script>
