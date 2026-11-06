@@ -1,4 +1,5 @@
 ---
+import DisclosureSummary from "./DisclosureSummary.astro";
 import type { Locale } from "../data/portfolio";
 interface Props {
   locale: Locale;
@@ -59,178 +60,124 @@ const steps = fr
     ];
 ---
 
-<figure
+<section
   id="agent-trace"
   class="agent-trace scroll-mt-24"
   tabindex="-1"
   aria-labelledby="agent-trace-title"
 >
-  <figcaption id="agent-trace-title">
+  <h3 id="agent-trace-title">
     {fr
-      ? "Trace lisible · transcrite de la capture"
-      : "Readable trace · transcribed from the capture"}
-  </figcaption>
-  <a href="#genomint-trace">
-    {fr ? "Capture originale de la session" : "Original session capture"}{" "}
-    <span aria-hidden="true">↓</span>
+      ? "D’une question aux données du graphe"
+      : "From a question to graph records"}
+  </h3>
+  <p class="trace-question" lang="en">
+    “What genes are in the core genome of G. boninense?”
+  </p>
+  <p class="trace-outcome">
+    {fr
+      ? "L’agent consulte le schéma, construit une requête Cypher et récupère des gènes associés à un pangène du core genome. Deux enregistrements sont visibles dans la capture."
+      : "The agent inspects the schema, builds a Cypher query and retrieves genes associated with a core-genome pangene. Two records are visible in the capture."}
+  </p>
+  <a class="trace-source" href="#genomint-trace">
+    {fr ? "Voir la capture originale" : "View the original capture"}
+    <span aria-hidden="true">↗</span>
   </a>
-  <blockquote lang="en">
-    <span>{fr ? "Question posée" : "Question asked"}</span>
-    <p>What genes are in the core genome of G. boninense?</p>
-  </blockquote>
-  <div class="trace-result">
-    <table>
-      <caption>
-        {fr
-          ? "Deux enregistrements visibles dans la capture"
-          : "Two records visible in the capture"}
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">
-            <code>gene_name</code>
-          </th>
-          <th scope="col">
-            <code>pangene_id</code>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {records.map((record) => (
+  <details class="reading-disclosure content-disclosure trace-details">
+    <DisclosureSummary>
+      {fr ? "Données et requête de la session" : "Session records and query"}
+    </DisclosureSummary>
+    <div class="reading-disclosure-body">
+      <table>
+        <caption>
+          {fr ? "Les deux enregistrements visibles" : "The two visible records"}
+        </caption>
+        <thead>
           <tr>
-            <td>
-              <code>{record.gene}</code>
-            </td>
-            <td>
-              <code>{record.pangene}</code>
-            </td>
+            <th scope="col">
+              <code>gene_name</code>
+            </th>
+            <th scope="col">
+              <code>pangene_id</code>
+            </th>
           </tr>
+        </thead>
+        <tbody>
+          {records.map((record) => (
+            <tr>
+              <td>
+                <code>{record.gene}</code>
+              </td>
+              <td>
+                <code>{record.pangene}</code>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <ol
+        aria-label={
+          fr ? "Appels d’outils de cette session" : "Tool calls in this session"
+        }
+      >
+        {steps.map((step) => (
+          <li>
+            <code>{step.name}</code>
+            <p>{step.detail}</p>
+          </li>
         ))}
-      </tbody>
-    </table>
-    <details class="trace-query">
-      <summary>
-        {fr ? "Inspecter la requête capturée" : "Inspect the captured query"}
-      </summary>
-      <p>
-        {fr ? "Paramètre" : "Parameter"} : <code>species = G. boninense</code>
+      </ol>
+      <p class="trace-parameter">
+        {fr ? "Requête capturée · paramètre" : "Captured query · parameter"} :
+        <code>species = G. boninense</code>
       </p>
       <pre><code>{capturedQuery}</code></pre>
-    </details>
-  </div>
-  <ol
-    aria-label={
-      fr ? "Appels d’outils de cette session" : "Tool calls in this session"
-    }
-  >
-    {steps.map((step, index) => (
-      <li>
-        <span class="trace-number" aria-hidden="true">
-          0{index + 1}
-        </span>
-        <code>{step.name}</code>
-        <p>{step.detail}</p>
-      </li>
-    ))}
-  </ol>
-  <p class="trace-boundary">
-    {fr
-      ? "Cette capture montre les appels d’outils et des enregistrements. La réponse finale et sa validation biologique n’y sont pas établies."
-      : "This capture shows tool calls and returned records. It does not establish a final answer or its biological validity."}
-  </p>
-</figure>
+      <p class="trace-boundary">
+        {fr
+          ? "Extrait de session : ces enregistrements ne constituent pas une liste exhaustive ni une validation biologique."
+          : "Session excerpt: these records are not an exhaustive list or a biological validation."}
+      </p>
+    </div>
+  </details>
+</section>
 <style>
   .agent-trace {
-    margin: 1.75rem 0;
-    padding: clamp(1rem, 2vw, 1.75rem);
-    border: 1px solid #36574d;
-    border-radius: 0.5rem;
-    background: #091b17;
+    max-width: 72ch;
+    margin-block: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
   }
-  figcaption {
+  h3 {
     font-size: 0.9375rem;
     font-weight: 600;
   }
-  blockquote {
-    margin-block: 1.25rem;
-    padding-left: 1rem;
-    border-left: 2px solid #9ccdbd;
-  }
-  blockquote span,
-  .trace-result > p {
-    display: block;
-    color: #b6d9cb;
-    font-size: 0.8125rem;
-    margin-bottom: 0.4rem;
-  }
-  blockquote p {
+  .trace-question {
+    margin-block: 0.75rem;
     font-size: 1.0625rem;
     line-height: 1.6;
   }
-  ol {
-    display: grid;
-    gap: 1rem;
-    list-style: none;
-    padding: 0;
-    margin: 1.25rem 0 0;
-  }
-  ol li {
-    display: grid;
-    grid-template-columns: 1.25rem minmax(0, 1fr);
-    column-gap: 0.65rem;
-    row-gap: 0.4rem;
-    min-width: 0;
-    position: relative;
-    padding-block: 0.75rem;
-    border-top: 1px solid #36574d;
-  }
-  .trace-number {
-    display: block;
-    color: #b6d9cb;
-    font-size: 0.75rem;
-    grid-row: 1 / span 2;
-    margin-top: 0.15rem;
-  }
-  ol li > code,
-  ol li > p {
-    grid-column: 2;
-  }
-  code {
-    overflow-wrap: anywhere;
-    font-size: 0.8125rem;
-    color: #d5eee4;
-  }
-  ol p {
+  .trace-outcome {
     color: var(--secondary);
     font-size: 0.9375rem;
     line-height: 1.7;
   }
-  .trace-result {
-    padding-top: 1rem;
-    border-top: 1px solid #36574d;
-  }
-  .trace-boundary {
-    margin-top: 1rem;
-    color: var(--secondary);
-    font-size: 0.8125rem;
-    line-height: 1.7;
-  }
-  a {
+  .trace-source {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     min-height: 2.75rem;
     margin-top: 0.5rem;
     font-size: 0.875rem;
     text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
-  @media (min-width: 48rem) {
-    ol {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.25rem;
-    }
+  .trace-details {
+    margin: 0;
   }
-
+  code {
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+  }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -238,15 +185,15 @@ const steps = fr
   }
   caption {
     text-align: left;
-    color: #b6d9cb;
+    color: var(--secondary);
     font-size: 0.8125rem;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
   }
   th,
   td {
     text-align: left;
-    padding: 0.65rem 0.5rem;
-    border-bottom: 1px solid #36574d;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--rule);
     vertical-align: top;
   }
   th {
@@ -255,41 +202,31 @@ const steps = fr
   th:first-child {
     width: 65%;
   }
-  td code {
-    overflow-wrap: anywhere;
+  ol {
+    display: grid;
+    gap: 0.75rem;
+    padding-left: 1.25rem;
+    margin-block: 1.25rem;
+    list-style: decimal;
   }
-  .trace-query {
-    margin-top: 1rem;
+  ol p,
+  .trace-parameter,
+  .trace-boundary {
+    color: var(--secondary);
+    font-size: 0.8125rem;
+    line-height: 1.7;
   }
-  summary {
-    display: flex;
-    align-items: center;
-    min-height: 2.75rem;
-    cursor: pointer;
-    font-size: 0.875rem;
-    text-decoration: underline;
-  }
-  summary::after {
-    content: "+";
-    margin-left: 0.75rem;
-  }
-  details[open] summary::after {
-    content: "−";
-  }
-  summary:focus-visible {
-    outline: 2px solid var(--primary);
-    outline-offset: 4px;
-  }
-  .trace-query p {
-    margin-block: 0.5rem;
-    font-size: 0.875rem;
+  .trace-parameter {
+    margin-bottom: 0.5rem;
   }
   pre {
     white-space: pre-wrap;
     overflow-wrap: anywhere;
-    padding: 1rem;
-    border: 1px solid #36574d;
-    background: #05110e;
+    padding: 0.75rem;
+    border: 1px solid var(--rule);
     line-height: 1.7;
+  }
+  .trace-boundary {
+    margin-top: 0.75rem;
   }
 </style>
