@@ -1202,3 +1202,38 @@ details[data-disclosure-animating] .skill-preview {
     display: none;
   }
 }
+
+.button-disclosure > summary {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 3rem;
+  gap: 1rem;
+  padding: 0.75rem 1.125rem;
+  border: 1px solid #abd1ed;
+  border-radius: 0.5rem;
+  background: #abd1ed;
+  color: #102637;
+  box-shadow: 0 2px 8px #0000001a;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+}
+.button-disclosure > summary:is(:hover, :focus-visible) {
+  border-color: #cce6f7;
+  background: #cce6f7;
+}
+.button-disclosure > summary:is(:hover, :focus-visible) .disclosure-copy {
+  text-decoration: none;
+}
+.button-disclosure > summary .disclosure-cue {
+  color: inherit;
+}
+.button-disclosure-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.button-disclosure > summary .disclosure-cue-closed,
+.button-disclosure > summary .disclosure-cue-open {
+  display: none;
+}

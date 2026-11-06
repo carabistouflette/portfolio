@@ -191,19 +191,10 @@ const projectConcepts: Record<ProjectId, string[]> = fr
     })}
   </div>
 
-  <details class="other-projects reading-disclosure content-disclosure">
+  <details class="other-projects button-disclosure reading-disclosure content-disclosure">
     <DisclosureSummary>
-      <span>
-        <h3 id="other-projects-title" class="card-title">
-          {content.projects.otherHeading} ·{" "}
-          {content.projects.entries.length - 3}
-        </h3>
-        <span class="disclosure-preview">
-          {content.projects.entries
-            .slice(3)
-            .map((project) => project.title)
-            .join(" · ")}
-        </span>
+      <span id="other-projects-title" class="button-disclosure-label">
+        {content.projects.otherHeading}
       </span>
     </DisclosureSummary>
     <div class="reading-disclosure-body">

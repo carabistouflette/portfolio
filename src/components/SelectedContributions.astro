@@ -50,18 +50,9 @@ const snapshot = validateGitHubSnapshot(rawSnapshot);
   <div class="mt-8">
     <SecurityContributions content={openSource.security} />
   </div>
-  <details class="reading-disclosure content-disclosure mt-6">
+  <details class="button-disclosure reading-disclosure content-disclosure mt-6">
     <DisclosureSummary>
-      <span>
-        <h3 class="card-title">
-          {openSource.projects.heading} · {openSource.projects.entries.length}
-        </h3>
-        <span class="disclosure-preview">
-          {openSource.projects.entries
-            .map((project) => project.name)
-            .join(" · ")}
-        </span>
-      </span>
+      <span class="button-disclosure-label">{openSource.projects.heading}</span>
     </DisclosureSummary>
     <div class="reading-disclosure-body">
       <ul class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-16">

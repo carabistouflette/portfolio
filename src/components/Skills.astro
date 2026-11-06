@@ -62,12 +62,12 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
   </ul>
 
   {copy.groups.length > 0 && (
-    <details class="skills-details reading-disclosure content-disclosure mt-8">
+    <details class="skills-details button-disclosure reading-disclosure content-disclosure mt-8">
       <DisclosureSummary
         id="skills-catalog-summary"
         aria-controls="skills-catalog-body"
       >
-        <span class="skills-catalog-label">{copy.catalogMoreLabel}</span>
+        <span class="button-disclosure-label">{copy.catalogMoreLabel}</span>
       </DisclosureSummary>
       <div
         id="skills-catalog-body"
@@ -139,41 +139,6 @@ const projectLinks = content.projects.entries.map(({ id, title, url }) => ({
     display: inline-flex;
     min-height: 2.75rem;
     align-items: center;
-  }
-  .skills-details > :global(summary) {
-    width: fit-content;
-    max-width: 100%;
-    min-height: 3rem;
-    gap: 1rem;
-    padding: 0.75rem 1.125rem;
-    border: 1px solid #abd1ed;
-    border-radius: 0.5rem;
-    background: #abd1ed;
-    color: #102637;
-    box-shadow: 0 2px 8px #0000001a;
-    transition:
-      background 160ms ease,
-      border-color 160ms ease;
-  }
-  .skills-details > :global(summary:is(:hover, :focus-visible)) {
-    border-color: #cce6f7;
-    background: #cce6f7;
-  }
-  .skills-details
-    > :global(summary:is(:hover, :focus-visible) .disclosure-copy) {
-    text-decoration: none;
-  }
-  .skills-details > :global(summary .disclosure-cue) {
-    color: inherit;
-  }
-  .skills-catalog-label {
-    font-size: 0.875rem;
-    font-weight: 600;
-    line-height: 1.5;
-  }
-  .skills-details > :global(summary .disclosure-cue-closed),
-  .skills-details > :global(summary .disclosure-cue-open) {
-    display: none;
   }
   .skills-details[data-disclosure-ready] [data-catalog-close-row] {
     display: flex;
