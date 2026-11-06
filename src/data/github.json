@@ -1,117 +1,117 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-06T10:56:06.940Z",
+  "updatedAt": "2026-11-06T17:59:17.575Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/goose-sqlite",
-        "number": 1,
-        "title": "docs: simplify usage and qualify benchmark currentness",
-        "url": "https://github.com/carabistouflette/goose-sqlite/pull/1",
-        "createdAt": "2026-11-05T22:06:59Z",
-        "updatedAt": "2026-11-05T22:18:32Z",
-        "mergedAt": "2026-11-05T22:18:31Z",
-        "state": "merged",
-        "relationship": "personal"
+        "repository": "voidssx1/gosh",
+        "number": 12,
+        "title": "fix: assign command-string positional parameters correctly",
+        "url": "https://github.com/voidssx1/gosh/pull/12",
+        "createdAt": "2026-11-06T17:37:31Z",
+        "updatedAt": "2026-11-06T17:37:31Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
       },
       {
-        "repository": "carabistouflette/goose-url",
-        "number": 2,
-        "title": "docs: clarify URL API and benchmark scope",
-        "url": "https://github.com/carabistouflette/goose-url/pull/2",
-        "createdAt": "2026-11-05T21:53:24Z",
-        "updatedAt": "2026-11-05T22:12:17Z",
-        "mergedAt": "2026-11-05T22:12:15Z",
-        "state": "merged",
-        "relationship": "personal"
+        "repository": "voidssx1/gosh",
+        "number": 11,
+        "title": "fix: preserve arithmetic grouping and quoted expansion",
+        "url": "https://github.com/voidssx1/gosh/pull/11",
+        "createdAt": "2026-11-06T17:37:28Z",
+        "updatedAt": "2026-11-06T17:37:28Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
       },
       {
-        "repository": "carabistouflette/goose-http",
-        "number": 3,
-        "title": "docs: clarify HTTP API and benchmark evidence",
-        "url": "https://github.com/carabistouflette/goose-http/pull/3",
-        "createdAt": "2026-11-05T21:52:46Z",
-        "updatedAt": "2026-11-05T22:00:40Z",
-        "mergedAt": "2026-11-05T22:00:37Z",
-        "state": "merged",
-        "relationship": "personal"
+        "repository": "voidssx1/gosh",
+        "number": 10,
+        "title": "fix: synchronize exported variable assignments",
+        "url": "https://github.com/voidssx1/gosh/pull/10",
+        "createdAt": "2026-11-06T17:37:22Z",
+        "updatedAt": "2026-11-06T17:37:22Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
       }
     ],
     "external": [
       {
-        "repository": "libarchive/libarchive",
-        "number": 3825,
-        "title": "read: Close client data if input filter allocation fails",
-        "url": "https://github.com/libarchive/libarchive/pull/3825",
-        "createdAt": "2026-11-05T19:26:44Z",
-        "updatedAt": "2026-11-05T19:26:44Z",
+        "repository": "voidssx1/gosh",
+        "number": 12,
+        "title": "fix: assign command-string positional parameters correctly",
+        "url": "https://github.com/voidssx1/gosh/pull/12",
+        "createdAt": "2026-11-06T17:37:31Z",
+        "updatedAt": "2026-11-06T17:37:31Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
-        "repository": "brio-labs/maestria",
-        "number": 581,
-        "title": "fix(ci): cover convention checks on Sillage integration PRs",
-        "url": "https://github.com/brio-labs/maestria/pull/581",
-        "createdAt": "2026-10-07T22:19:07Z",
-        "updatedAt": "2026-10-07T22:21:11Z",
+        "repository": "voidssx1/gosh",
+        "number": 11,
+        "title": "fix: preserve arithmetic grouping and quoted expansion",
+        "url": "https://github.com/voidssx1/gosh/pull/11",
+        "createdAt": "2026-11-06T17:37:28Z",
+        "updatedAt": "2026-11-06T17:37:28Z",
         "mergedAt": null,
         "state": "open",
-        "relationship": "organization"
+        "relationship": "external"
       },
       {
-        "repository": "brio-labs/maestria",
-        "number": 580,
-        "title": "docs(research): register historical material access and permission boundaries",
-        "url": "https://github.com/brio-labs/maestria/pull/580",
-        "createdAt": "2026-10-07T21:50:18Z",
-        "updatedAt": "2026-10-07T21:50:43Z",
-        "mergedAt": "2026-10-07T21:50:41Z",
-        "state": "merged",
-        "relationship": "organization"
+        "repository": "voidssx1/gosh",
+        "number": 10,
+        "title": "fix: synchronize exported variable assignments",
+        "url": "https://github.com/voidssx1/gosh/pull/10",
+        "createdAt": "2026-11-06T17:37:22Z",
+        "updatedAt": "2026-11-06T17:37:22Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
       }
     ],
     "open": [
       {
-        "repository": "libarchive/libarchive",
-        "number": 3825,
-        "title": "read: Close client data if input filter allocation fails",
-        "url": "https://github.com/libarchive/libarchive/pull/3825",
-        "createdAt": "2026-11-05T19:26:44Z",
-        "updatedAt": "2026-11-05T19:26:44Z",
+        "repository": "voidssx1/gosh",
+        "number": 12,
+        "title": "fix: assign command-string positional parameters correctly",
+        "url": "https://github.com/voidssx1/gosh/pull/12",
+        "createdAt": "2026-11-06T17:37:31Z",
+        "updatedAt": "2026-11-06T17:37:31Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
-        "repository": "Yucareux/Tellus",
-        "number": 48,
-        "title": "Build centralization, CI hardening, and repo hygiene",
-        "url": "https://github.com/Yucareux/Tellus/pull/48",
-        "createdAt": "2026-08-09T10:46:56Z",
-        "updatedAt": "2026-11-01T21:33:53Z",
+        "repository": "voidssx1/gosh",
+        "number": 11,
+        "title": "fix: preserve arithmetic grouping and quoted expansion",
+        "url": "https://github.com/voidssx1/gosh/pull/11",
+        "createdAt": "2026-11-06T17:37:28Z",
+        "updatedAt": "2026-11-06T17:37:28Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
-        "repository": "brio-labs/maestria",
-        "number": 516,
-        "title": "feat(launcher): introduce Sillage resident Linux launcher",
-        "url": "https://github.com/brio-labs/maestria/pull/516",
-        "createdAt": "2026-09-23T19:11:59Z",
-        "updatedAt": "2026-10-18T18:41:18Z",
+        "repository": "voidssx1/gosh",
+        "number": 10,
+        "title": "fix: synchronize exported variable assignments",
+        "url": "https://github.com/voidssx1/gosh/pull/10",
+        "createdAt": "2026-11-06T17:37:22Z",
+        "updatedAt": "2026-11-06T17:37:22Z",
         "mergedAt": null,
-        "state": "draft",
-        "relationship": "organization"
+        "state": "open",
+        "relationship": "external"
       }
     ]
   },
   "counts": {
-    "open": 42,
-    "merged": 463
+    "open": 50,
+    "merged": 466
   },
   "featured": [
     {
@@ -1999,8 +1999,8 @@
       },
       {
         "date": "2026-11-06",
-        "count": 50,
-        "level": 1
+        "count": 106,
+        "level": 3
       }
     ]
   }
