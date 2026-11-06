@@ -205,8 +205,6 @@
     paused = false,
     overlaySuspended = false,
     destroyed = false;
-  let scrolling = false,
-    scrollIdleTimer = 0;
   let ready = false,
     lost = false,
     renderer = null,
@@ -1760,7 +1758,6 @@
       !ready ||
       document.hidden ||
       paused ||
-      scrolling ||
       manual ||
       isReduced() ||
       overlaySuspended
@@ -1847,7 +1844,6 @@
       destroyed ||
       lost ||
       paused ||
-      scrolling ||
       document.hidden ||
       !ready ||
       overlaySuspended ||
@@ -1904,7 +1900,6 @@
       !document.hidden &&
       !isReduced() &&
       !overlaySuspended &&
-      !scrolling &&
       adapt.stage < 3 &&
       !manual
     )
@@ -2084,7 +2079,6 @@
     destroy() {
       pause();
       destroyed = true;
-      clearTimeout(scrollIdleTimer);
       if (overlayObserver) {
         overlayObserver.disconnect();
         overlayObserver = null;
@@ -2102,22 +2096,12 @@
   window.butterflyField = api;
   function scrollChange() {
     cameraY = window.scrollY;
-    // Freeze wing rasterization while scrolling; cached poses still track the
-    // camera through compositor transforms, including over the hero.
-    if (!scrolling) {
-      scrolling = true;
-      cancelAnimationFrame(raf);
-      raf = 0;
-      lastTimestamp = 0;
-    }
-    clearTimeout(scrollIdleTimer);
-    scrollIdleTimer = setTimeout(() => {
-      scrolling = false;
-      scrollIdleTimer = 0;
-      updateMotion();
-    }, 120);
+    // Keep flight and wingbeats on the hero's progressive slowdown curve.
     updateMotion(false);
+    // The running loop draws the new camera position. Redraw here only when
+    // motion is stopped, so scrolling never submits a second, un-interpolated pose.
     if (
+      !raf &&
       ready &&
       renderer &&
       !destroyed &&
