@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-07T02:49:39.737Z",
+  "updatedAt": "2026-11-07T10:14:37.305Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 16,
-        "title": "perf: adopt verified goose-glob alpha.4 in the combined consumer",
-        "url": "https://github.com/carabistouflette/honk/pull/16",
-        "createdAt": "2026-11-07T02:06:51Z",
-        "updatedAt": "2026-11-07T02:14:05Z",
-        "mergedAt": "2026-11-07T02:14:05Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/awesome-goose",
-        "number": 2,
-        "title": "docs: refresh goose-glob alpha.4 source evidence",
-        "url": "https://github.com/carabistouflette/awesome-goose/pull/2",
-        "createdAt": "2026-11-07T02:02:35Z",
-        "updatedAt": "2026-11-07T02:05:49Z",
-        "mergedAt": "2026-11-07T02:05:49Z",
+        "number": 17,
+        "title": "feat: watch a source directory and rerun checks or tests",
+        "url": "https://github.com/carabistouflette/honk/pull/17",
+        "createdAt": "2026-11-07T04:02:39Z",
+        "updatedAt": "2026-11-07T04:15:07Z",
+        "mergedAt": "2026-11-07T04:15:07Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/goose-glob",
-        "number": 4,
-        "title": "perf: reduce long-path matching and small-directory staging costs",
-        "url": "https://github.com/carabistouflette/goose-glob/pull/4",
-        "createdAt": "2026-11-07T01:40:23Z",
-        "updatedAt": "2026-11-07T01:55:03Z",
-        "mergedAt": "2026-11-07T01:55:03Z",
+        "number": 8,
+        "title": "bench: distinguish heap allocations from temporary stack records",
+        "url": "https://github.com/carabistouflette/goose-glob/pull/8",
+        "createdAt": "2026-11-07T04:01:46Z",
+        "updatedAt": "2026-11-07T04:04:34Z",
+        "mergedAt": "2026-11-07T04:04:34Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-check",
+        "number": 7,
+        "title": "feat: add configurable bounded stdout context hunks",
+        "url": "https://github.com/carabistouflette/goose-check/pull/7",
+        "createdAt": "2026-11-07T04:00:33Z",
+        "updatedAt": "2026-11-07T04:11:17Z",
+        "mergedAt": "2026-11-07T04:11:17Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 51,
-    "merged": 479
+    "merged": 491
   },
   "featured": [
     {
@@ -1994,7 +1994,7 @@
       },
       {
         "date": "2026-11-05",
-        "count": 729,
+        "count": 736,
         "level": 4
       },
       {
@@ -2004,8 +2004,8 @@
       },
       {
         "date": "2026-11-07",
-        "count": 78,
-        "level": 2
+        "count": 173,
+        "level": 4
       }
     ]
   }
