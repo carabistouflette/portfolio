@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-07T16:29:28.819Z",
+  "updatedAt": "2026-11-07T20:54:15.800Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 23,
-        "title": "feat: add optional bounded debounce to watch commands",
-        "url": "https://github.com/carabistouflette/honk/pull/23",
-        "createdAt": "2026-11-07T15:51:01Z",
-        "updatedAt": "2026-11-07T16:02:37Z",
-        "mergedAt": "2026-11-07T16:02:37Z",
+        "number": 31,
+        "title": "chore: prepare Honk 0.5.0-rc.1",
+        "url": "https://github.com/carabistouflette/honk/pull/31",
+        "createdAt": "2026-11-07T20:53:17Z",
+        "updatedAt": "2026-11-07T20:53:17Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/honk",
+        "number": 30,
+        "title": "bench: qualify recursive watch against real project suites",
+        "url": "https://github.com/carabistouflette/honk/pull/30",
+        "createdAt": "2026-11-07T20:30:38Z",
+        "updatedAt": "2026-11-07T20:43:33Z",
+        "mergedAt": "2026-11-07T20:43:32Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-check",
-        "number": 9,
-        "title": "chore: pin goose-diff v0.1.0 release",
-        "url": "https://github.com/carabistouflette/goose-check/pull/9",
-        "createdAt": "2026-11-07T15:50:17Z",
-        "updatedAt": "2026-11-07T15:55:19Z",
-        "mergedAt": "2026-11-07T15:55:19Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-glob",
-        "number": 11,
-        "title": "docs: add focused consumer feedback intake",
-        "url": "https://github.com/carabistouflette/goose-glob/pull/11",
-        "createdAt": "2026-11-07T15:50:08Z",
-        "updatedAt": "2026-11-07T15:52:24Z",
-        "mergedAt": "2026-11-07T15:52:24Z",
+        "repository": "carabistouflette/goose-search",
+        "number": 1,
+        "title": "feat: add bounded regex file search consumer",
+        "url": "https://github.com/carabistouflette/goose-search/pull/1",
+        "createdAt": "2026-11-07T20:04:44Z",
+        "updatedAt": "2026-11-07T20:09:36Z",
+        "mergedAt": "2026-11-07T20:09:35Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -45,9 +45,9 @@
         "title": "fix: expand pathname globs in their target directories",
         "url": "https://github.com/voidssx1/gosh/pull/15",
         "createdAt": "2026-11-06T19:17:55Z",
-        "updatedAt": "2026-11-06T19:17:55Z",
+        "updatedAt": "2026-11-07T18:08:31Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "closed",
         "relationship": "external"
       },
       {
@@ -56,9 +56,9 @@
         "title": "fix: complete executable commands after shell separators",
         "url": "https://github.com/voidssx1/gosh/pull/14",
         "createdAt": "2026-11-06T19:17:24Z",
-        "updatedAt": "2026-11-06T19:17:24Z",
+        "updatedAt": "2026-11-07T18:08:39Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "closed",
         "relationship": "external"
       },
       {
@@ -74,6 +74,17 @@
       }
     ],
     "open": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 31,
+        "title": "chore: prepare Honk 0.5.0-rc.1",
+        "url": "https://github.com/carabistouflette/honk/pull/31",
+        "createdAt": "2026-11-07T20:53:17Z",
+        "updatedAt": "2026-11-07T20:53:17Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-diff",
         "number": 2,
@@ -95,23 +106,12 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-check",
-        "number": 4,
-        "title": "refactor: use goose-argparse for checker options",
-        "url": "https://github.com/carabistouflette/goose-check/pull/4",
-        "createdAt": "2026-11-07T00:44:34Z",
-        "updatedAt": "2026-11-07T00:44:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 52,
-    "merged": 513
+    "open": 46,
+    "merged": 525
   },
   "featured": [
     {
@@ -395,7 +395,7 @@
       {
         "date": "2025-12-20",
         "count": 91,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-21",
@@ -405,7 +405,7 @@
       {
         "date": "2025-12-22",
         "count": 80,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-23",
@@ -520,7 +520,7 @@
       {
         "date": "2026-01-14",
         "count": 187,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-01-15",
@@ -580,7 +580,7 @@
       {
         "date": "2026-01-26",
         "count": 108,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-01-27",
@@ -635,7 +635,7 @@
       {
         "date": "2026-02-06",
         "count": 172,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-02-07",
@@ -685,7 +685,7 @@
       {
         "date": "2026-02-16",
         "count": 89,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-17",
@@ -1330,12 +1330,12 @@
       {
         "date": "2026-06-25",
         "count": 207,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-06-26",
         "count": 100,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-06-27",
@@ -1905,12 +1905,12 @@
       {
         "date": "2026-10-18",
         "count": 101,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-10-19",
         "count": 116,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-10-20",
@@ -1980,12 +1980,12 @@
       {
         "date": "2026-11-02",
         "count": 101,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-11-03",
         "count": 293,
-        "level": 4
+        "level": 3
       },
       {
         "date": "2026-11-04",
@@ -1999,12 +1999,12 @@
       },
       {
         "date": "2026-11-06",
-        "count": 157,
+        "count": 162,
         "level": 2
       },
       {
         "date": "2026-11-07",
-        "count": 318,
+        "count": 484,
         "level": 4
       }
     ]
