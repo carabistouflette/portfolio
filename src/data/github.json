@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-07T10:14:37.305Z",
+  "updatedAt": "2026-11-07T16:29:28.819Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 17,
-        "title": "feat: watch a source directory and rerun checks or tests",
-        "url": "https://github.com/carabistouflette/honk/pull/17",
-        "createdAt": "2026-11-07T04:02:39Z",
-        "updatedAt": "2026-11-07T04:15:07Z",
-        "mergedAt": "2026-11-07T04:15:07Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-glob",
-        "number": 8,
-        "title": "bench: distinguish heap allocations from temporary stack records",
-        "url": "https://github.com/carabistouflette/goose-glob/pull/8",
-        "createdAt": "2026-11-07T04:01:46Z",
-        "updatedAt": "2026-11-07T04:04:34Z",
-        "mergedAt": "2026-11-07T04:04:34Z",
+        "number": 23,
+        "title": "feat: add optional bounded debounce to watch commands",
+        "url": "https://github.com/carabistouflette/honk/pull/23",
+        "createdAt": "2026-11-07T15:51:01Z",
+        "updatedAt": "2026-11-07T16:02:37Z",
+        "mergedAt": "2026-11-07T16:02:37Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/goose-check",
-        "number": 7,
-        "title": "feat: add configurable bounded stdout context hunks",
-        "url": "https://github.com/carabistouflette/goose-check/pull/7",
-        "createdAt": "2026-11-07T04:00:33Z",
-        "updatedAt": "2026-11-07T04:11:17Z",
-        "mergedAt": "2026-11-07T04:11:17Z",
+        "number": 9,
+        "title": "chore: pin goose-diff v0.1.0 release",
+        "url": "https://github.com/carabistouflette/goose-check/pull/9",
+        "createdAt": "2026-11-07T15:50:17Z",
+        "updatedAt": "2026-11-07T15:55:19Z",
+        "mergedAt": "2026-11-07T15:55:19Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-glob",
+        "number": 11,
+        "title": "docs: add focused consumer feedback intake",
+        "url": "https://github.com/carabistouflette/goose-glob/pull/11",
+        "createdAt": "2026-11-07T15:50:08Z",
+        "updatedAt": "2026-11-07T15:52:24Z",
+        "mergedAt": "2026-11-07T15:52:24Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/goose-diff",
+        "number": 2,
+        "title": "experiment: evaluate bounded Myers for sparse edits",
+        "url": "https://github.com/carabistouflette/goose-diff/pull/2",
+        "createdAt": "2026-11-07T14:06:09Z",
+        "updatedAt": "2026-11-07T14:11:12Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
         "repository": "carabistouflette/goose-crypto",
         "number": 5,
         "title": "refactor: reuse goose-artifact in download example",
@@ -95,23 +106,12 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "libarchive/libarchive",
-        "number": 3825,
-        "title": "read: Close client data if input filter allocation fails",
-        "url": "https://github.com/libarchive/libarchive/pull/3825",
-        "createdAt": "2026-11-05T19:26:44Z",
-        "updatedAt": "2026-11-06T23:19:40Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
       }
     ]
   },
   "counts": {
-    "open": 51,
-    "merged": 491
+    "open": 52,
+    "merged": 513
   },
   "featured": [
     {
@@ -400,7 +400,7 @@
       {
         "date": "2025-12-21",
         "count": 76,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2025-12-22",
@@ -465,7 +465,7 @@
       {
         "date": "2026-01-03",
         "count": 55,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-01-04",
@@ -515,12 +515,12 @@
       {
         "date": "2026-01-13",
         "count": 57,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-01-14",
         "count": 187,
-        "level": 4
+        "level": 3
       },
       {
         "date": "2026-01-15",
@@ -575,12 +575,12 @@
       {
         "date": "2026-01-25",
         "count": 144,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-01-26",
         "count": 108,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-01-27",
@@ -635,12 +635,12 @@
       {
         "date": "2026-02-06",
         "count": 172,
-        "level": 4
+        "level": 3
       },
       {
         "date": "2026-02-07",
         "count": 77,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-08",
@@ -655,7 +655,7 @@
       {
         "date": "2026-02-10",
         "count": 144,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-02-11",
@@ -665,7 +665,7 @@
       {
         "date": "2026-02-12",
         "count": 70,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-13",
@@ -675,7 +675,7 @@
       {
         "date": "2026-02-14",
         "count": 140,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-02-15",
@@ -1185,7 +1185,7 @@
       {
         "date": "2026-05-27",
         "count": 62,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-05-28",
@@ -1330,7 +1330,7 @@
       {
         "date": "2026-06-25",
         "count": 207,
-        "level": 4
+        "level": 3
       },
       {
         "date": "2026-06-26",
@@ -1345,7 +1345,7 @@
       {
         "date": "2026-06-28",
         "count": 63,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-06-29",
@@ -1390,7 +1390,7 @@
       {
         "date": "2026-07-07",
         "count": 53,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-07-08",
@@ -1455,7 +1455,7 @@
       {
         "date": "2026-07-20",
         "count": 64,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-07-21",
@@ -1490,7 +1490,7 @@
       {
         "date": "2026-07-27",
         "count": 131,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-07-28",
@@ -1880,7 +1880,7 @@
       {
         "date": "2026-10-13",
         "count": 126,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-10-14",
@@ -1910,7 +1910,7 @@
       {
         "date": "2026-10-19",
         "count": 116,
-        "level": 3
+        "level": 2
       },
       {
         "date": "2026-10-20",
@@ -2000,11 +2000,11 @@
       {
         "date": "2026-11-06",
         "count": 157,
-        "level": 4
+        "level": 2
       },
       {
         "date": "2026-11-07",
-        "count": 173,
+        "count": 318,
         "level": 4
       }
     ]
