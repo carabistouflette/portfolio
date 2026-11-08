@@ -1,40 +1,40 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-08T15:14:49.231Z",
+  "updatedAt": "2026-11-08T19:44:14.766Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/goose-regex",
+        "repository": "carabistouflette/goose-config",
         "number": 2,
-        "title": "test: strengthen regex fuzz harness invariants",
-        "url": "https://github.com/carabistouflette/goose-regex/pull/2",
-        "createdAt": "2026-11-08T05:22:01Z",
-        "updatedAt": "2026-11-08T05:22:01Z",
+        "title": "chore: isolate test binary outputs",
+        "url": "https://github.com/carabistouflette/goose-config/pull/2",
+        "createdAt": "2026-11-08T16:48:26Z",
+        "updatedAt": "2026-11-08T16:48:26Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "draft",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-compress",
+        "repository": "carabistouflette/goose-terminal",
         "number": 1,
-        "title": "fix: report decoder registry exhaustion as SystemError",
-        "url": "https://github.com/carabistouflette/goose-compress/pull/1",
-        "createdAt": "2026-11-07T23:26:46Z",
-        "updatedAt": "2026-11-07T23:30:30Z",
-        "mergedAt": "2026-11-07T23:30:30Z",
-        "state": "merged",
+        "title": "test: synchronize timeout cleanup observation and retain pending qualification",
+        "url": "https://github.com/carabistouflette/goose-terminal/pull/1",
+        "createdAt": "2026-11-08T16:42:19Z",
+        "updatedAt": "2026-11-08T18:45:37Z",
+        "mergedAt": null,
+        "state": "draft",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-task",
-        "number": 3,
-        "title": "docs: keep consumer references publicly accessible",
-        "url": "https://github.com/carabistouflette/goose-task/pull/3",
-        "createdAt": "2026-11-07T22:38:39Z",
-        "updatedAt": "2026-11-07T22:40:04Z",
-        "mergedAt": "2026-11-07T22:40:03Z",
-        "state": "merged",
+        "repository": "carabistouflette/goose-msgpack",
+        "number": 2,
+        "title": "perf: harden MessagePack validation and comparison tooling",
+        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
+        "createdAt": "2026-11-08T16:42:17Z",
+        "updatedAt": "2026-11-08T18:47:45Z",
+        "mergedAt": null,
+        "state": "draft",
         "relationship": "personal"
       }
     ],
@@ -75,34 +75,34 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-regex",
+        "repository": "carabistouflette/goose-msgpack",
         "number": 2,
-        "title": "test: strengthen regex fuzz harness invariants",
-        "url": "https://github.com/carabistouflette/goose-regex/pull/2",
-        "createdAt": "2026-11-08T05:22:01Z",
-        "updatedAt": "2026-11-08T05:22:01Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-diff",
-        "number": 2,
-        "title": "experiment: evaluate bounded Myers for sparse edits",
-        "url": "https://github.com/carabistouflette/goose-diff/pull/2",
-        "createdAt": "2026-11-07T14:06:09Z",
-        "updatedAt": "2026-11-07T14:11:12Z",
+        "title": "perf: harden MessagePack validation and comparison tooling",
+        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
+        "createdAt": "2026-11-08T16:42:17Z",
+        "updatedAt": "2026-11-08T18:47:45Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-crypto",
-        "number": 5,
-        "title": "refactor: reuse goose-artifact in download example",
-        "url": "https://github.com/carabistouflette/goose-crypto/pull/5",
-        "createdAt": "2026-11-07T00:44:56Z",
-        "updatedAt": "2026-11-07T00:44:56Z",
+        "repository": "carabistouflette/goose-terminal",
+        "number": 1,
+        "title": "test: synchronize timeout cleanup observation and retain pending qualification",
+        "url": "https://github.com/carabistouflette/goose-terminal/pull/1",
+        "createdAt": "2026-11-08T16:42:19Z",
+        "updatedAt": "2026-11-08T18:45:37Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-compress",
+        "number": 2,
+        "title": "perf: improve bounded decoder buffers and concurrency",
+        "url": "https://github.com/carabistouflette/goose-compress/pull/2",
+        "createdAt": "2026-11-08T16:42:15Z",
+        "updatedAt": "2026-11-08T18:29:34Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -110,7 +110,7 @@
     ]
   },
   "counts": {
-    "open": 46,
+    "open": 55,
     "merged": 533
   },
   "featured": [
@@ -1974,7 +1974,7 @@
       },
       {
         "date": "2026-11-08",
-        "count": 45,
+        "count": 78,
         "level": 1
       }
     ]
