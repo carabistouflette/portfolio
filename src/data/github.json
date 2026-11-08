@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-08T00:38:52.655Z",
+  "updatedAt": "2026-11-08T07:23:37.127Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/goose-regex",
+        "number": 2,
+        "title": "test: strengthen regex fuzz harness invariants",
+        "url": "https://github.com/carabistouflette/goose-regex/pull/2",
+        "createdAt": "2026-11-08T05:22:01Z",
+        "updatedAt": "2026-11-08T05:22:01Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-compress",
         "number": 1,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-07T22:38:39Z",
         "updatedAt": "2026-11-07T22:40:04Z",
         "mergedAt": "2026-11-07T22:40:03Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-task",
-        "number": 2,
-        "title": "docs: record qualified task consumers",
-        "url": "https://github.com/carabistouflette/goose-task/pull/2",
-        "createdAt": "2026-11-07T22:36:17Z",
-        "updatedAt": "2026-11-07T22:38:03Z",
-        "mergedAt": "2026-11-07T22:38:02Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/goose-regex",
+        "number": 2,
+        "title": "test: strengthen regex fuzz harness invariants",
+        "url": "https://github.com/carabistouflette/goose-regex/pull/2",
+        "createdAt": "2026-11-08T05:22:01Z",
+        "updatedAt": "2026-11-08T05:22:01Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
         "repository": "carabistouflette/goose-diff",
         "number": 2,
         "title": "experiment: evaluate bounded Myers for sparse edits",
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-check",
-        "number": 4,
-        "title": "refactor: use goose-argparse for checker options",
-        "url": "https://github.com/carabistouflette/goose-check/pull/4",
-        "createdAt": "2026-11-07T00:44:34Z",
-        "updatedAt": "2026-11-07T00:44:34Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 45,
+    "open": 46,
     "merged": 533
   },
   "featured": [
@@ -1969,12 +1969,12 @@
       },
       {
         "date": "2026-11-07",
-        "count": 561,
+        "count": 568,
         "level": 4
       },
       {
         "date": "2026-11-08",
-        "count": 5,
+        "count": 40,
         "level": 1
       }
     ]
