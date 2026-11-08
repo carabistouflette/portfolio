@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-07T20:54:15.800Z",
+  "updatedAt": "2026-11-08T00:38:52.655Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/honk",
-        "number": 31,
-        "title": "chore: prepare Honk 0.5.0-rc.1",
-        "url": "https://github.com/carabistouflette/honk/pull/31",
-        "createdAt": "2026-11-07T20:53:17Z",
-        "updatedAt": "2026-11-07T20:53:17Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 30,
-        "title": "bench: qualify recursive watch against real project suites",
-        "url": "https://github.com/carabistouflette/honk/pull/30",
-        "createdAt": "2026-11-07T20:30:38Z",
-        "updatedAt": "2026-11-07T20:43:33Z",
-        "mergedAt": "2026-11-07T20:43:32Z",
+        "repository": "carabistouflette/goose-compress",
+        "number": 1,
+        "title": "fix: report decoder registry exhaustion as SystemError",
+        "url": "https://github.com/carabistouflette/goose-compress/pull/1",
+        "createdAt": "2026-11-07T23:26:46Z",
+        "updatedAt": "2026-11-07T23:30:30Z",
+        "mergedAt": "2026-11-07T23:30:30Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-search",
-        "number": 1,
-        "title": "feat: add bounded regex file search consumer",
-        "url": "https://github.com/carabistouflette/goose-search/pull/1",
-        "createdAt": "2026-11-07T20:04:44Z",
-        "updatedAt": "2026-11-07T20:09:36Z",
-        "mergedAt": "2026-11-07T20:09:35Z",
+        "repository": "carabistouflette/goose-task",
+        "number": 3,
+        "title": "docs: keep consumer references publicly accessible",
+        "url": "https://github.com/carabistouflette/goose-task/pull/3",
+        "createdAt": "2026-11-07T22:38:39Z",
+        "updatedAt": "2026-11-07T22:40:04Z",
+        "mergedAt": "2026-11-07T22:40:03Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-task",
+        "number": 2,
+        "title": "docs: record qualified task consumers",
+        "url": "https://github.com/carabistouflette/goose-task/pull/2",
+        "createdAt": "2026-11-07T22:36:17Z",
+        "updatedAt": "2026-11-07T22:38:03Z",
+        "mergedAt": "2026-11-07T22:38:02Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,17 +75,6 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/honk",
-        "number": 31,
-        "title": "chore: prepare Honk 0.5.0-rc.1",
-        "url": "https://github.com/carabistouflette/honk/pull/31",
-        "createdAt": "2026-11-07T20:53:17Z",
-        "updatedAt": "2026-11-07T20:53:17Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
         "repository": "carabistouflette/goose-diff",
         "number": 2,
         "title": "experiment: evaluate bounded Myers for sparse edits",
@@ -106,12 +95,23 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-check",
+        "number": 4,
+        "title": "refactor: use goose-argparse for checker options",
+        "url": "https://github.com/carabistouflette/goose-check/pull/4",
+        "createdAt": "2026-11-07T00:44:34Z",
+        "updatedAt": "2026-11-07T00:44:34Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 46,
-    "merged": 525
+    "open": 45,
+    "merged": 533
   },
   "featured": [
     {
@@ -149,44 +149,9 @@
     }
   ],
   "calendar": {
-    "from": "2025-11-02",
-    "to": "2026-11-07",
+    "from": "2025-11-09",
+    "to": "2026-11-08",
     "days": [
-      {
-        "date": "2025-11-02",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-03",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-04",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-05",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-06",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-07",
-        "count": 0,
-        "level": 0
-      },
-      {
-        "date": "2025-11-08",
-        "count": 0,
-        "level": 0
-      },
       {
         "date": "2025-11-09",
         "count": 0,
@@ -675,7 +640,7 @@
       {
         "date": "2026-02-14",
         "count": 140,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-02-15",
@@ -1490,7 +1455,7 @@
       {
         "date": "2026-07-27",
         "count": 131,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-07-28",
@@ -1880,7 +1845,7 @@
       {
         "date": "2026-10-13",
         "count": 126,
-        "level": 2
+        "level": 1
       },
       {
         "date": "2026-10-14",
@@ -2004,8 +1969,13 @@
       },
       {
         "date": "2026-11-07",
-        "count": 484,
+        "count": 561,
         "level": 4
+      },
+      {
+        "date": "2026-11-08",
+        "count": 5,
+        "level": 1
       }
     ]
   }
