@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-09T17:31:18.554Z",
+  "updatedAt": "2026-11-10T01:33:57.282Z",
   "pullRequests": {
     "recent": [
       {
@@ -110,7 +110,7 @@
     ]
   },
   "counts": {
-    "open": 58,
+    "open": 57,
     "merged": 533
   },
   "featured": [
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-09",
-    "to": "2026-11-09",
+    "to": "2026-11-10",
     "days": [
       {
         "date": "2025-11-09",
@@ -1980,6 +1980,11 @@
       {
         "date": "2026-11-09",
         "count": 11,
+        "level": 1
+      },
+      {
+        "date": "2026-11-10",
+        "count": 1,
         "level": 1
       }
     ]
