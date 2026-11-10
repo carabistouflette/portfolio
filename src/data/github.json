@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-10T01:33:57.282Z",
+  "updatedAt": "2026-11-10T09:53:16.114Z",
   "pullRequests": {
     "recent": [
       {
@@ -10,9 +10,9 @@
         "title": "docs: identify historical benchmark source checkpoints",
         "url": "https://github.com/carabistouflette/goose-search/pull/3",
         "createdAt": "2026-11-09T02:59:23Z",
-        "updatedAt": "2026-11-09T02:59:23Z",
-        "mergedAt": null,
-        "state": "open",
+        "updatedAt": "2026-11-10T09:44:30Z",
+        "mergedAt": "2026-11-10T09:44:28Z",
+        "state": "merged",
         "relationship": "personal"
       },
       {
@@ -21,9 +21,9 @@
         "title": "docs: bound performance audit to its v0.4.0 baseline",
         "url": "https://github.com/carabistouflette/honk/pull/34",
         "createdAt": "2026-11-09T02:59:02Z",
-        "updatedAt": "2026-11-09T02:59:02Z",
-        "mergedAt": null,
-        "state": "open",
+        "updatedAt": "2026-11-10T09:44:16Z",
+        "mergedAt": "2026-11-10T09:44:13Z",
+        "state": "merged",
         "relationship": "personal"
       },
       {
@@ -32,9 +32,9 @@
         "title": "docs: identify fixed benchmark source checkpoint",
         "url": "https://github.com/carabistouflette/goose-url/pull/3",
         "createdAt": "2026-11-09T02:54:58Z",
-        "updatedAt": "2026-11-09T02:54:58Z",
-        "mergedAt": null,
-        "state": "open",
+        "updatedAt": "2026-11-10T09:44:20Z",
+        "mergedAt": "2026-11-10T09:44:18Z",
+        "state": "merged",
         "relationship": "personal"
       }
     ],
@@ -97,21 +97,21 @@
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose-search",
-        "number": 3,
-        "title": "docs: identify historical benchmark source checkpoints",
-        "url": "https://github.com/carabistouflette/goose-search/pull/3",
-        "createdAt": "2026-11-09T02:59:23Z",
-        "updatedAt": "2026-11-09T02:59:23Z",
+        "repository": "carabistouflette/goose-msgpack",
+        "number": 2,
+        "title": "perf: harden MessagePack validation and comparison tooling",
+        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
+        "createdAt": "2026-11-08T16:42:17Z",
+        "updatedAt": "2026-11-08T18:47:45Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "draft",
         "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 57,
-    "merged": 533
+    "open": 51,
+    "merged": 539
   },
   "featured": [
     {
@@ -1969,22 +1969,22 @@
       },
       {
         "date": "2026-11-07",
-        "count": 568,
+        "count": 569,
         "level": 4
       },
       {
         "date": "2026-11-08",
-        "count": 78,
+        "count": 83,
         "level": 1
       },
       {
         "date": "2026-11-09",
-        "count": 11,
+        "count": 15,
         "level": 1
       },
       {
         "date": "2026-11-10",
-        "count": 1,
+        "count": 9,
         "level": 1
       }
     ]
