@@ -12,6 +12,8 @@ function createField({ reducedMotion = false } = {}) {
   const frames = new Map();
   let nextFrame = 0;
   let timestamp = 1000;
+  let draws = 0;
+  const host = { dataset: {} };
   // Keep the real scheduler and butterfly physics; replace only browser I/O.
   const context = {
     URLSearchParams,
@@ -31,12 +33,14 @@ function createField({ reducedMotion = false } = {}) {
       readyState: "loading",
       hidden: false,
       getElementById: () => ({}),
-      querySelector: (selector) =>
-        selector === ".hero"
-          ? {
-              getBoundingClientRect: () => ({ bottom: 1000 - context.scrollY }),
-            }
-          : null,
+      querySelector: (selector) => {
+        if (selector === ".hero")
+          return {
+            getBoundingClientRect: () => ({ bottom: 1000 - context.scrollY }),
+          };
+        if (selector === ".butterfly-background") return host;
+        return null;
+      },
     },
   };
   context.window = context;
@@ -51,7 +55,7 @@ function createField({ reducedMotion = false } = {}) {
         width = 1280;
         height = 800;
         cfg.count = 1;
-        renderer = { draw() {} };
+        renderer = { draw() { window.countDraw(); } };
         ready = true;
         reset();
         measureHero();
@@ -61,10 +65,13 @@ function createField({ reducedMotion = false } = {}) {
     ),
     context,
   );
+  context.countDraw = () => draws++;
   context.setupField();
   return {
     state: () => context.butterflyField.getState(),
     pending: () => frames.size,
+    draws: () => draws,
+    veiled: () => host.dataset.veiled,
     scroll: (y) => {
       context.scrollY = y;
       context.scrollField();
@@ -123,4 +130,20 @@ test("scrolling does not animate when reduced motion is requested", () => {
   field.advance(60, (i) => field.scroll(i));
   assert.equal(field.state().time, 0);
   assert.equal(field.pending(), 0);
+});
+
+test("the veiled field stops redrawing so its blur stays cached", () => {
+  const field = createField();
+  field.advance(10);
+  assert.equal(field.veiled(), undefined, "sharp over the hero");
+  field.scroll(1000);
+  assert.equal(field.veiled(), "true");
+  const drawn = field.draws();
+  field.scroll(1200);
+  field.scroll(1400);
+  assert.equal(field.draws(), drawn, "no redraw while the field is veiled");
+  field.scroll(250);
+  assert.equal(field.veiled(), "false");
+  field.advance(5);
+  assert.ok(field.draws() > drawn, "redraws again once the hero returns");
 });

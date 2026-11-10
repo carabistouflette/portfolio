@@ -214,6 +214,8 @@
   // scrollY at which the hero fully exits the viewport; 0 = page without a hero.
   let heroStopY = 0;
   let motionScale = 1;
+  // Past the hero the field becomes a static blurred backdrop (see global.css).
+  let veiled = false;
   const VARIANT_COUNT = ASSET_SETS ? ASSET_SETS.length : 0;
   const params = new URLSearchParams(location.search);
   const solo = params.get("solo") === "1"; // Inspection mode, no added interface.
@@ -1721,6 +1723,15 @@
     if (heroStopY <= 0) return 0;
     return 1 - smoother(clamp(window.scrollY / heroStopY, 0, 1));
   }
+  // The veil flips exactly where the flight loop stops, so the blurred frame
+  // the compositor caches is the same frame the loop would have drawn.
+  function updateVeil() {
+    const next = !solo && heroStopY > 0 && window.scrollY >= heroStopY;
+    if (next === veiled) return;
+    veiled = next;
+    const host = document.querySelector(".butterfly-background");
+    if (host) host.dataset.veiled = next ? "true" : "false";
+  }
   function updateOverlaySuspension() {
     const suspended = !!document.querySelector(
       ".site-header[data-menu-open], [data-evidence-dialog][open]",
@@ -1752,6 +1763,7 @@
   }
   function updateMotion(redraw = true) {
     motionScale = targetMotionScale();
+    updateVeil();
     if (
       destroyed ||
       lost ||
@@ -2100,8 +2112,11 @@
     updateMotion(false);
     // The running loop draws the new camera position. Redraw here only when
     // motion is stopped, so scrolling never submits a second, un-interpolated pose.
+    // A veiled field is skipped entirely: its parallax is invisible under the
+    // blur, and redrawing would invalidate the cached blur on every scroll frame.
     if (
       !raf &&
+      !veiled &&
       ready &&
       renderer &&
       !destroyed &&

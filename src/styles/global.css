@@ -1034,6 +1034,31 @@ html[data-page-navigation] :is(.hero-copy > *, .hero-actions) {
   opacity: 1;
 }
 
+/* Past the hero the field keeps running behind the page as a soft backdrop.
+   The blur is a single compositor pass over a frozen field (the flight loop
+   already stops there), never a per-frame backdrop-filter over scrolling
+   content. The overscan hides the transparent fringe a blur leaves at the
+   viewport edges. */
+.butterfly-background[data-veiled="true"] .butterfly-field-layer {
+  filter: blur(18px) saturate(1.08);
+  transform: scale(1.06);
+}
+
+.butterfly-background[data-veiled="true"] .butterfly-scrim {
+  opacity: 0.14;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .butterfly-field-layer {
+    transition:
+      filter 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .butterfly-scrim {
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   #butterfly-field {
     transition: none;
@@ -1288,12 +1313,23 @@ details[data-disclosure-animating] .skill-preview {
   position: relative;
   isolation: isolate;
 }
+/* A translucent veil, not an opaque slab: the butterfly field stays visible
+   behind the whole page and only has to carry text contrast, not hide it. */
 .portfolio-page main > .section-shell::before,
 .portfolio-page .contact-section::before {
   content: "";
   position: absolute;
   inset: 0 calc(50% - 50vw);
   z-index: -1;
-  background: #050b10;
+  background: rgb(5 11 16 / 0.4);
   pointer-events: none;
+}
+/* The first section fades the veil in, so the field hands over from the hero
+   without a seam. */
+.portfolio-page main > .projects-section::before {
+  background: linear-gradient(
+    180deg,
+    rgb(5 11 16 / 0) 0,
+    rgb(5 11 16 / 0.4) 6rem
+  );
 }
