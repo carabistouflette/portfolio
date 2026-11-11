@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-11T15:15:33.941Z",
+  "updatedAt": "2026-11-11T22:01:21.643Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/awesome-goose",
+        "number": 8,
+        "title": "feat: publish the directory for search engines",
+        "url": "https://github.com/carabistouflette/awesome-goose/pull/8",
+        "createdAt": "2026-11-11T18:42:05Z",
+        "updatedAt": "2026-11-11T18:50:09Z",
+        "mergedAt": "2026-11-11T18:50:01Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-search",
         "number": 3,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-09T02:59:02Z",
         "updatedAt": "2026-11-10T09:44:16Z",
         "mergedAt": "2026-11-10T09:44:13Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-url",
-        "number": 3,
-        "title": "docs: identify fixed benchmark source checkpoint",
-        "url": "https://github.com/carabistouflette/goose-url/pull/3",
-        "createdAt": "2026-11-09T02:54:58Z",
-        "updatedAt": "2026-11-10T09:44:20Z",
-        "mergedAt": "2026-11-10T09:44:18Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 51,
-    "merged": 539
+    "merged": 540
   },
   "featured": [
     {
@@ -1989,8 +1989,8 @@
       },
       {
         "date": "2026-11-11",
-        "count": 0,
-        "level": 0
+        "count": 3,
+        "level": 1
       }
     ]
   }
