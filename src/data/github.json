@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-16T11:23:31.757Z",
+  "updatedAt": "2026-11-16T22:05:45.658Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 35,
+        "title": "feat: add Goose Nest packages with mixed-source resolution and offline caching",
+        "url": "https://github.com/carabistouflette/honk/pull/35",
+        "createdAt": "2026-11-16T21:23:57Z",
+        "updatedAt": "2026-11-16T22:01:24Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/awesome-goose",
         "number": 8,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-09T02:59:23Z",
         "updatedAt": "2026-11-10T09:44:30Z",
         "mergedAt": "2026-11-10T09:44:28Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 34,
-        "title": "docs: bound performance audit to its v0.4.0 baseline",
-        "url": "https://github.com/carabistouflette/honk/pull/34",
-        "createdAt": "2026-11-09T02:59:02Z",
-        "updatedAt": "2026-11-10T09:44:16Z",
-        "mergedAt": "2026-11-10T09:44:13Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/honk",
+        "number": 35,
+        "title": "feat: add Goose Nest packages with mixed-source resolution and offline caching",
+        "url": "https://github.com/carabistouflette/honk/pull/35",
+        "createdAt": "2026-11-16T21:23:57Z",
+        "updatedAt": "2026-11-16T22:01:24Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "personal"
+      },
+      {
         "repository": "carabistouflette/goose-task",
         "number": 4,
         "title": "perf: initialize CSR arrays with sized zero fills",
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-msgpack",
-        "number": 2,
-        "title": "perf: harden MessagePack validation and comparison tooling",
-        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
-        "createdAt": "2026-11-08T16:42:17Z",
-        "updatedAt": "2026-11-08T18:47:45Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 51,
+    "open": 52,
     "merged": 540
   },
   "featured": [
@@ -1979,8 +1979,8 @@
       },
       {
         "date": "2026-11-16",
-        "count": 0,
-        "level": 0
+        "count": 15,
+        "level": 1
       }
     ]
   }
