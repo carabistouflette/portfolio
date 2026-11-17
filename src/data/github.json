@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-17T04:30:08.860Z",
+  "updatedAt": "2026-11-17T14:27:29.302Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 37,
+        "title": "feat: persist isolated package graphs with reproducible locks",
+        "url": "https://github.com/carabistouflette/honk/pull/37",
+        "createdAt": "2026-11-17T09:40:55Z",
+        "updatedAt": "2026-11-17T09:59:40Z",
+        "mergedAt": "2026-11-17T09:59:40Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/honk",
+        "number": 36,
+        "title": "feat: connect Honk to isolated local package graphs",
+        "url": "https://github.com/carabistouflette/honk/pull/36",
+        "createdAt": "2026-11-17T09:25:55Z",
+        "updatedAt": "2026-11-17T09:59:20Z",
+        "mergedAt": "2026-11-17T09:59:19Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose",
         "number": 1,
         "title": "Add isolated pure-Goose package instances behind a resolved graph interface",
         "url": "https://github.com/carabistouflette/goose/pull/1",
         "createdAt": "2026-11-16T22:47:04Z",
-        "updatedAt": "2026-11-16T22:47:04Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 35,
-        "title": "feat: add Goose Nest packages with mixed-source resolution and offline caching",
-        "url": "https://github.com/carabistouflette/honk/pull/35",
-        "createdAt": "2026-11-16T21:23:57Z",
-        "updatedAt": "2026-11-16T22:01:24Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/awesome-goose",
-        "number": 8,
-        "title": "feat: publish the directory for search engines",
-        "url": "https://github.com/carabistouflette/awesome-goose/pull/8",
-        "createdAt": "2026-11-11T18:42:05Z",
-        "updatedAt": "2026-11-11T18:50:09Z",
-        "mergedAt": "2026-11-11T18:50:01Z",
+        "updatedAt": "2026-11-17T08:24:57Z",
+        "mergedAt": "2026-11-17T08:24:57Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,28 +75,6 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose",
-        "number": 1,
-        "title": "Add isolated pure-Goose package instances behind a resolved graph interface",
-        "url": "https://github.com/carabistouflette/goose/pull/1",
-        "createdAt": "2026-11-16T22:47:04Z",
-        "updatedAt": "2026-11-16T22:47:04Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 35,
-        "title": "feat: add Goose Nest packages with mixed-source resolution and offline caching",
-        "url": "https://github.com/carabistouflette/honk/pull/35",
-        "createdAt": "2026-11-16T21:23:57Z",
-        "updatedAt": "2026-11-16T22:01:24Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "personal"
-      },
-      {
         "repository": "carabistouflette/goose-task",
         "number": 4,
         "title": "perf: initialize CSR arrays with sized zero fills",
@@ -106,12 +84,34 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-base64",
+        "number": 1,
+        "title": "feat: add optional native Base64 acceleration and cache guards",
+        "url": "https://github.com/carabistouflette/goose-base64/pull/1",
+        "createdAt": "2026-11-08T16:42:13Z",
+        "updatedAt": "2026-11-09T03:11:07Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-msgpack",
+        "number": 2,
+        "title": "perf: harden MessagePack validation and comparison tooling",
+        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
+        "createdAt": "2026-11-08T16:42:17Z",
+        "updatedAt": "2026-11-08T18:47:45Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 53,
-    "merged": 540
+    "open": 51,
+    "merged": 544
   },
   "featured": [
     {
@@ -1979,12 +1979,12 @@
       },
       {
         "date": "2026-11-16",
-        "count": 17,
+        "count": 20,
         "level": 1
       },
       {
         "date": "2026-11-17",
-        "count": 1,
+        "count": 8,
         "level": 1
       }
     ]
