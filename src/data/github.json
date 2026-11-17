@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-16T22:05:45.658Z",
+  "updatedAt": "2026-11-17T04:30:08.860Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/goose",
+        "number": 1,
+        "title": "Add isolated pure-Goose package instances behind a resolved graph interface",
+        "url": "https://github.com/carabistouflette/goose/pull/1",
+        "createdAt": "2026-11-16T22:47:04Z",
+        "updatedAt": "2026-11-16T22:47:04Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/honk",
         "number": 35,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-11T18:42:05Z",
         "updatedAt": "2026-11-11T18:50:09Z",
         "mergedAt": "2026-11-11T18:50:01Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-search",
-        "number": 3,
-        "title": "docs: identify historical benchmark source checkpoints",
-        "url": "https://github.com/carabistouflette/goose-search/pull/3",
-        "createdAt": "2026-11-09T02:59:23Z",
-        "updatedAt": "2026-11-10T09:44:30Z",
-        "mergedAt": "2026-11-10T09:44:28Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -75,6 +75,17 @@
     ],
     "open": [
       {
+        "repository": "carabistouflette/goose",
+        "number": 1,
+        "title": "Add isolated pure-Goose package instances behind a resolved graph interface",
+        "url": "https://github.com/carabistouflette/goose/pull/1",
+        "createdAt": "2026-11-16T22:47:04Z",
+        "updatedAt": "2026-11-16T22:47:04Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
         "repository": "carabistouflette/honk",
         "number": 35,
         "title": "feat: add Goose Nest packages with mixed-source resolution and offline caching",
@@ -95,22 +106,11 @@
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-base64",
-        "number": 1,
-        "title": "feat: add optional native Base64 acceleration and cache guards",
-        "url": "https://github.com/carabistouflette/goose-base64/pull/1",
-        "createdAt": "2026-11-08T16:42:13Z",
-        "updatedAt": "2026-11-09T03:11:07Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 52,
+    "open": 53,
     "merged": 540
   },
   "featured": [
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-16",
-    "to": "2026-11-16",
+    "to": "2026-11-17",
     "days": [
       {
         "date": "2025-11-16",
@@ -1979,7 +1979,12 @@
       },
       {
         "date": "2026-11-16",
-        "count": 15,
+        "count": 17,
+        "level": 1
+      },
+      {
+        "date": "2026-11-17",
+        "count": 1,
         "level": 1
       }
     ]
