@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-17T14:27:29.302Z",
+  "updatedAt": "2026-11-17T22:53:50.708Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 37,
-        "title": "feat: persist isolated package graphs with reproducible locks",
-        "url": "https://github.com/carabistouflette/honk/pull/37",
-        "createdAt": "2026-11-17T09:40:55Z",
-        "updatedAt": "2026-11-17T09:59:40Z",
-        "mergedAt": "2026-11-17T09:59:40Z",
+        "number": 40,
+        "title": "feat: share isolated workspace resolution and lockfiles",
+        "url": "https://github.com/carabistouflette/honk/pull/40",
+        "createdAt": "2026-11-17T20:27:24Z",
+        "updatedAt": "2026-11-17T20:46:06Z",
+        "mergedAt": "2026-11-17T20:46:06Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/honk",
-        "number": 36,
-        "title": "feat: connect Honk to isolated local package graphs",
-        "url": "https://github.com/carabistouflette/honk/pull/36",
-        "createdAt": "2026-11-17T09:25:55Z",
-        "updatedAt": "2026-11-17T09:59:20Z",
-        "mergedAt": "2026-11-17T09:59:19Z",
+        "number": 39,
+        "title": "feat: resolve isolated registry versions with compatible-version unification",
+        "url": "https://github.com/carabistouflette/honk/pull/39",
+        "createdAt": "2026-11-17T19:32:25Z",
+        "updatedAt": "2026-11-17T20:21:43Z",
+        "mergedAt": "2026-11-17T20:21:43Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose",
-        "number": 1,
-        "title": "Add isolated pure-Goose package instances behind a resolved graph interface",
-        "url": "https://github.com/carabistouflette/goose/pull/1",
-        "createdAt": "2026-11-16T22:47:04Z",
-        "updatedAt": "2026-11-17T08:24:57Z",
-        "mergedAt": "2026-11-17T08:24:57Z",
+        "repository": "carabistouflette/honk",
+        "number": 38,
+        "title": "feat: support scoped Git versions with locked and offline replay",
+        "url": "https://github.com/carabistouflette/honk/pull/38",
+        "createdAt": "2026-11-17T18:43:49Z",
+        "updatedAt": "2026-11-17T18:59:24Z",
+        "mergedAt": "2026-11-17T18:59:24Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 51,
-    "merged": 544
+    "merged": 547
   },
   "featured": [
     {
@@ -1984,7 +1984,7 @@
       },
       {
         "date": "2026-11-17",
-        "count": 8,
+        "count": 28,
         "level": 1
       }
     ]
