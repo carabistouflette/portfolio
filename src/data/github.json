@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-18T04:23:49.571Z",
+  "updatedAt": "2026-11-18T14:01:49.348Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 43,
+        "title": "feat: pass isolated package features to the Goose compiler",
+        "url": "https://github.com/carabistouflette/honk/pull/43",
+        "createdAt": "2026-11-18T11:14:46Z",
+        "updatedAt": "2026-11-18T12:22:59Z",
+        "mergedAt": "2026-11-18T12:22:59Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose",
+        "number": 2,
+        "title": "Add package graph feature conditions for declarations",
+        "url": "https://github.com/carabistouflette/goose/pull/2",
+        "createdAt": "2026-11-18T11:13:43Z",
+        "updatedAt": "2026-11-18T12:22:55Z",
+        "mergedAt": "2026-11-18T12:22:55Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/honk",
         "number": 42,
@@ -14,28 +36,6 @@
         "mergedAt": "2026-11-18T02:51:53Z",
         "state": "merged",
         "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 41,
-        "title": "feat: activate optional dependencies through isolated feature groups",
-        "url": "https://github.com/carabistouflette/honk/pull/41",
-        "createdAt": "2026-11-18T02:06:37Z",
-        "updatedAt": "2026-11-18T02:25:17Z",
-        "mergedAt": "2026-11-18T02:25:17Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "kleiwright/matcha-flavoured",
-        "number": 640,
-        "title": "Store one copy of the Abbey recording",
-        "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
-        "createdAt": "2026-11-18T01:31:43Z",
-        "updatedAt": "2026-11-18T01:52:19Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
       }
     ],
     "external": [
@@ -76,6 +76,17 @@
     "open": [
       {
         "repository": "kleiwright/matcha-flavoured",
+        "number": 633,
+        "title": "Calculate warding once per player",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/633",
+        "createdAt": "2026-11-18T01:31:25Z",
+        "updatedAt": "2026-11-18T13:10:46Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
+        "repository": "kleiwright/matcha-flavoured",
         "number": 640,
         "title": "Store one copy of the Abbey recording",
         "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
@@ -95,23 +106,12 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
-      },
-      {
-        "repository": "kleiwright/matcha-flavoured",
-        "number": 638,
-        "title": "Skip position changes when checking dropped items",
-        "url": "https://github.com/kleiwright/matcha-flavoured/pull/638",
-        "createdAt": "2026-11-18T01:31:39Z",
-        "updatedAt": "2026-11-18T01:52:15Z",
-        "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
       }
     ]
   },
   "counts": {
     "open": 59,
-    "merged": 549
+    "merged": 551
   },
   "featured": [
     {
@@ -1989,7 +1989,7 @@
       },
       {
         "date": "2026-11-18",
-        "count": 23,
+        "count": 28,
         "level": 1
       }
     ]
