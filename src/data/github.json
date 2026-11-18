@@ -1,117 +1,117 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-17T22:53:50.708Z",
+  "updatedAt": "2026-11-18T04:23:49.571Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 40,
-        "title": "feat: share isolated workspace resolution and lockfiles",
-        "url": "https://github.com/carabistouflette/honk/pull/40",
-        "createdAt": "2026-11-17T20:27:24Z",
-        "updatedAt": "2026-11-17T20:46:06Z",
-        "mergedAt": "2026-11-17T20:46:06Z",
+        "number": 42,
+        "title": "feat: unify feature requests from isolated dependencies",
+        "url": "https://github.com/carabistouflette/honk/pull/42",
+        "createdAt": "2026-11-18T02:28:43Z",
+        "updatedAt": "2026-11-18T02:51:54Z",
+        "mergedAt": "2026-11-18T02:51:53Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/honk",
-        "number": 39,
-        "title": "feat: resolve isolated registry versions with compatible-version unification",
-        "url": "https://github.com/carabistouflette/honk/pull/39",
-        "createdAt": "2026-11-17T19:32:25Z",
-        "updatedAt": "2026-11-17T20:21:43Z",
-        "mergedAt": "2026-11-17T20:21:43Z",
+        "number": 41,
+        "title": "feat: activate optional dependencies through isolated feature groups",
+        "url": "https://github.com/carabistouflette/honk/pull/41",
+        "createdAt": "2026-11-18T02:06:37Z",
+        "updatedAt": "2026-11-18T02:25:17Z",
+        "mergedAt": "2026-11-18T02:25:17Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/honk",
-        "number": 38,
-        "title": "feat: support scoped Git versions with locked and offline replay",
-        "url": "https://github.com/carabistouflette/honk/pull/38",
-        "createdAt": "2026-11-17T18:43:49Z",
-        "updatedAt": "2026-11-17T18:59:24Z",
-        "mergedAt": "2026-11-17T18:59:24Z",
-        "state": "merged",
-        "relationship": "personal"
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 640,
+        "title": "Store one copy of the Abbey recording",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
+        "createdAt": "2026-11-18T01:31:43Z",
+        "updatedAt": "2026-11-18T01:52:19Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
       }
     ],
     "external": [
       {
-        "repository": "voidssx1/gosh",
-        "number": 15,
-        "title": "fix: expand pathname globs in their target directories",
-        "url": "https://github.com/voidssx1/gosh/pull/15",
-        "createdAt": "2026-11-06T19:17:55Z",
-        "updatedAt": "2026-11-07T18:08:31Z",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 640,
+        "title": "Store one copy of the Abbey recording",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
+        "createdAt": "2026-11-18T01:31:43Z",
+        "updatedAt": "2026-11-18T01:52:19Z",
         "mergedAt": null,
-        "state": "closed",
+        "state": "open",
         "relationship": "external"
       },
       {
-        "repository": "voidssx1/gosh",
-        "number": 14,
-        "title": "fix: complete executable commands after shell separators",
-        "url": "https://github.com/voidssx1/gosh/pull/14",
-        "createdAt": "2026-11-06T19:17:24Z",
-        "updatedAt": "2026-11-07T18:08:39Z",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 639,
+        "title": "Check village ground near sound playback times",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/639",
+        "createdAt": "2026-11-18T01:31:41Z",
+        "updatedAt": "2026-11-18T01:52:17Z",
         "mergedAt": null,
-        "state": "closed",
+        "state": "open",
         "relationship": "external"
       },
       {
-        "repository": "voidssx1/gosh",
-        "number": 13,
-        "title": "fix: reuse printf format for remaining arguments",
-        "url": "https://github.com/voidssx1/gosh/pull/13",
-        "createdAt": "2026-11-06T19:16:26Z",
-        "updatedAt": "2026-11-06T19:44:29Z",
-        "mergedAt": "2026-11-06T19:44:29Z",
-        "state": "merged",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 638,
+        "title": "Skip position changes when checking dropped items",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/638",
+        "createdAt": "2026-11-18T01:31:39Z",
+        "updatedAt": "2026-11-18T01:52:15Z",
+        "mergedAt": null,
+        "state": "open",
         "relationship": "external"
       }
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-task",
-        "number": 4,
-        "title": "perf: initialize CSR arrays with sized zero fills",
-        "url": "https://github.com/carabistouflette/goose-task/pull/4",
-        "createdAt": "2026-11-08T16:42:09Z",
-        "updatedAt": "2026-11-09T03:22:35Z",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 640,
+        "title": "Store one copy of the Abbey recording",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
+        "createdAt": "2026-11-18T01:31:43Z",
+        "updatedAt": "2026-11-18T01:52:19Z",
         "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
+        "state": "open",
+        "relationship": "external"
       },
       {
-        "repository": "carabistouflette/goose-base64",
-        "number": 1,
-        "title": "feat: add optional native Base64 acceleration and cache guards",
-        "url": "https://github.com/carabistouflette/goose-base64/pull/1",
-        "createdAt": "2026-11-08T16:42:13Z",
-        "updatedAt": "2026-11-09T03:11:07Z",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 639,
+        "title": "Check village ground near sound playback times",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/639",
+        "createdAt": "2026-11-18T01:31:41Z",
+        "updatedAt": "2026-11-18T01:52:17Z",
         "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
+        "state": "open",
+        "relationship": "external"
       },
       {
-        "repository": "carabistouflette/goose-msgpack",
-        "number": 2,
-        "title": "perf: harden MessagePack validation and comparison tooling",
-        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
-        "createdAt": "2026-11-08T16:42:17Z",
-        "updatedAt": "2026-11-08T18:47:45Z",
+        "repository": "kleiwright/matcha-flavoured",
+        "number": 638,
+        "title": "Skip position changes when checking dropped items",
+        "url": "https://github.com/kleiwright/matcha-flavoured/pull/638",
+        "createdAt": "2026-11-18T01:31:39Z",
+        "updatedAt": "2026-11-18T01:52:15Z",
         "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
+        "state": "open",
+        "relationship": "external"
       }
     ]
   },
   "counts": {
-    "open": 51,
-    "merged": 547
+    "open": 59,
+    "merged": 549
   },
   "featured": [
     {
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-16",
-    "to": "2026-11-17",
+    "to": "2026-11-18",
     "days": [
       {
         "date": "2025-11-16",
@@ -1959,7 +1959,7 @@
       },
       {
         "date": "2026-11-12",
-        "count": 11,
+        "count": 10,
         "level": 1
       },
       {
@@ -1985,6 +1985,11 @@
       {
         "date": "2026-11-17",
         "count": 28,
+        "level": 1
+      },
+      {
+        "date": "2026-11-18",
+        "count": 23,
         "level": 1
       }
     ]
