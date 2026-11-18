@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-18T14:01:49.348Z",
+  "updatedAt": "2026-11-18T21:58:42.085Z",
   "pullRequests": {
     "recent": [
       {
@@ -45,9 +45,9 @@
         "title": "Store one copy of the Abbey recording",
         "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
         "createdAt": "2026-11-18T01:31:43Z",
-        "updatedAt": "2026-11-18T01:52:19Z",
+        "updatedAt": "2026-11-18T20:50:14Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "closed",
         "relationship": "external"
       },
       {
@@ -56,9 +56,9 @@
         "title": "Check village ground near sound playback times",
         "url": "https://github.com/kleiwright/matcha-flavoured/pull/639",
         "createdAt": "2026-11-18T01:31:41Z",
-        "updatedAt": "2026-11-18T01:52:17Z",
+        "updatedAt": "2026-11-18T20:50:11Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "closed",
         "relationship": "external"
       },
       {
@@ -67,50 +67,50 @@
         "title": "Skip position changes when checking dropped items",
         "url": "https://github.com/kleiwright/matcha-flavoured/pull/638",
         "createdAt": "2026-11-18T01:31:39Z",
-        "updatedAt": "2026-11-18T01:52:15Z",
+        "updatedAt": "2026-11-18T20:50:09Z",
         "mergedAt": null,
-        "state": "open",
+        "state": "closed",
         "relationship": "external"
       }
     ],
     "open": [
       {
-        "repository": "kleiwright/matcha-flavoured",
-        "number": 633,
-        "title": "Calculate warding once per player",
-        "url": "https://github.com/kleiwright/matcha-flavoured/pull/633",
-        "createdAt": "2026-11-18T01:31:25Z",
-        "updatedAt": "2026-11-18T13:10:46Z",
+        "repository": "carabistouflette/goose-task",
+        "number": 4,
+        "title": "perf: initialize CSR arrays with sized zero fills",
+        "url": "https://github.com/carabistouflette/goose-task/pull/4",
+        "createdAt": "2026-11-08T16:42:09Z",
+        "updatedAt": "2026-11-09T03:22:35Z",
         "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
+        "state": "draft",
+        "relationship": "personal"
       },
       {
-        "repository": "kleiwright/matcha-flavoured",
-        "number": 640,
-        "title": "Store one copy of the Abbey recording",
-        "url": "https://github.com/kleiwright/matcha-flavoured/pull/640",
-        "createdAt": "2026-11-18T01:31:43Z",
-        "updatedAt": "2026-11-18T01:52:19Z",
+        "repository": "carabistouflette/goose-base64",
+        "number": 1,
+        "title": "feat: add optional native Base64 acceleration and cache guards",
+        "url": "https://github.com/carabistouflette/goose-base64/pull/1",
+        "createdAt": "2026-11-08T16:42:13Z",
+        "updatedAt": "2026-11-09T03:11:07Z",
         "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
+        "state": "draft",
+        "relationship": "personal"
       },
       {
-        "repository": "kleiwright/matcha-flavoured",
-        "number": 639,
-        "title": "Check village ground near sound playback times",
-        "url": "https://github.com/kleiwright/matcha-flavoured/pull/639",
-        "createdAt": "2026-11-18T01:31:41Z",
-        "updatedAt": "2026-11-18T01:52:17Z",
+        "repository": "carabistouflette/goose-msgpack",
+        "number": 2,
+        "title": "perf: harden MessagePack validation and comparison tooling",
+        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
+        "createdAt": "2026-11-08T16:42:17Z",
+        "updatedAt": "2026-11-08T18:47:45Z",
         "mergedAt": null,
-        "state": "open",
-        "relationship": "external"
+        "state": "draft",
+        "relationship": "personal"
       }
     ]
   },
   "counts": {
-    "open": 59,
+    "open": 51,
     "merged": 551
   },
   "featured": [
@@ -1989,7 +1989,7 @@
       },
       {
         "date": "2026-11-18",
-        "count": 28,
+        "count": 52,
         "level": 1
       }
     ]
