@@ -1,40 +1,40 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-19T03:31:11.432Z",
+  "updatedAt": "2026-11-19T13:12:38.594Z",
   "pullRequests": {
     "recent": [
       {
-        "repository": "carabistouflette/honk",
-        "number": 43,
-        "title": "feat: pass isolated package features to the Goose compiler",
-        "url": "https://github.com/carabistouflette/honk/pull/43",
-        "createdAt": "2026-11-18T11:14:46Z",
-        "updatedAt": "2026-11-18T12:22:59Z",
-        "mergedAt": "2026-11-18T12:22:59Z",
+        "repository": "carabistouflette/goose-nest",
+        "number": 1,
+        "title": "Define experimental registry feature metadata",
+        "url": "https://github.com/carabistouflette/goose-nest/pull/1",
+        "createdAt": "2026-11-19T10:45:58Z",
+        "updatedAt": "2026-11-19T10:50:15Z",
+        "mergedAt": "2026-11-19T10:50:15Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/goose",
+        "repository": "carabistouflette/goose-sqlite",
         "number": 2,
-        "title": "Add package graph feature conditions for declarations",
-        "url": "https://github.com/carabistouflette/goose/pull/2",
-        "createdAt": "2026-11-18T11:13:43Z",
-        "updatedAt": "2026-11-18T12:22:55Z",
-        "mergedAt": "2026-11-18T12:22:55Z",
-        "state": "merged",
+        "title": "test: instrument the generated Goose path with ASan and UBSan",
+        "url": "https://github.com/carabistouflette/goose-sqlite/pull/2",
+        "createdAt": "2026-11-19T08:13:38Z",
+        "updatedAt": "2026-11-19T08:59:24Z",
+        "mergedAt": null,
+        "state": "draft",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/honk",
-        "number": 42,
-        "title": "feat: unify feature requests from isolated dependencies",
-        "url": "https://github.com/carabistouflette/honk/pull/42",
-        "createdAt": "2026-11-18T02:28:43Z",
-        "updatedAt": "2026-11-18T02:51:54Z",
-        "mergedAt": "2026-11-18T02:51:53Z",
-        "state": "merged",
+        "repository": "carabistouflette/goose-fs",
+        "number": 1,
+        "title": "test: add bounded path-grammar fuzz campaign with independent oracle",
+        "url": "https://github.com/carabistouflette/goose-fs/pull/1",
+        "createdAt": "2026-11-19T08:00:47Z",
+        "updatedAt": "2026-11-19T08:52:06Z",
+        "mergedAt": null,
+        "state": "draft",
         "relationship": "personal"
       }
     ],
@@ -75,34 +75,34 @@
     ],
     "open": [
       {
-        "repository": "carabistouflette/goose-task",
-        "number": 4,
-        "title": "perf: initialize CSR arrays with sized zero fills",
-        "url": "https://github.com/carabistouflette/goose-task/pull/4",
-        "createdAt": "2026-11-08T16:42:09Z",
-        "updatedAt": "2026-11-09T03:22:35Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-base64",
-        "number": 1,
-        "title": "feat: add optional native Base64 acceleration and cache guards",
-        "url": "https://github.com/carabistouflette/goose-base64/pull/1",
-        "createdAt": "2026-11-08T16:42:13Z",
-        "updatedAt": "2026-11-09T03:11:07Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-msgpack",
+        "repository": "carabistouflette/goose-sqlite",
         "number": 2,
-        "title": "perf: harden MessagePack validation and comparison tooling",
-        "url": "https://github.com/carabistouflette/goose-msgpack/pull/2",
-        "createdAt": "2026-11-08T16:42:17Z",
-        "updatedAt": "2026-11-08T18:47:45Z",
+        "title": "test: instrument the generated Goose path with ASan and UBSan",
+        "url": "https://github.com/carabistouflette/goose-sqlite/pull/2",
+        "createdAt": "2026-11-19T08:13:38Z",
+        "updatedAt": "2026-11-19T08:59:24Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-artifact",
+        "number": 3,
+        "title": "feat: add bounded download workflow benchmark",
+        "url": "https://github.com/carabistouflette/goose-artifact/pull/3",
+        "createdAt": "2026-11-19T07:49:00Z",
+        "updatedAt": "2026-11-19T08:56:34Z",
+        "mergedAt": null,
+        "state": "draft",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-fs",
+        "number": 1,
+        "title": "test: add bounded path-grammar fuzz campaign with independent oracle",
+        "url": "https://github.com/carabistouflette/goose-fs/pull/1",
+        "createdAt": "2026-11-19T08:00:47Z",
+        "updatedAt": "2026-11-19T08:52:06Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -110,8 +110,8 @@
     ]
   },
   "counts": {
-    "open": 51,
-    "merged": 551
+    "open": 54,
+    "merged": 552
   },
   "featured": [
     {
@@ -1994,7 +1994,7 @@
       },
       {
         "date": "2026-11-19",
-        "count": 30,
+        "count": 66,
         "level": 1
       }
     ]
