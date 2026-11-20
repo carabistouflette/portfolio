@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-20T03:19:10.936Z",
+  "updatedAt": "2026-11-20T12:56:28.518Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 44,
+        "title": "Resolve registry features in isolated mode",
+        "url": "https://github.com/carabistouflette/honk/pull/44",
+        "createdAt": "2026-11-20T10:29:03Z",
+        "updatedAt": "2026-11-20T10:50:01Z",
+        "mergedAt": "2026-11-20T10:50:00Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/goose-nest",
+        "number": 2,
+        "title": "Read and preserve schema-2 registry feature metadata",
+        "url": "https://github.com/carabistouflette/goose-nest/pull/2",
+        "createdAt": "2026-11-20T09:53:37Z",
+        "updatedAt": "2026-11-20T09:55:59Z",
+        "mergedAt": "2026-11-20T09:55:58Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/goose-nest",
         "number": 1,
@@ -13,28 +35,6 @@
         "updatedAt": "2026-11-19T10:50:15Z",
         "mergedAt": "2026-11-19T10:50:15Z",
         "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-sqlite",
-        "number": 2,
-        "title": "test: instrument the generated Goose path with ASan and UBSan",
-        "url": "https://github.com/carabistouflette/goose-sqlite/pull/2",
-        "createdAt": "2026-11-19T08:13:38Z",
-        "updatedAt": "2026-11-19T08:59:24Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-fs",
-        "number": 1,
-        "title": "test: add bounded path-grammar fuzz campaign with independent oracle",
-        "url": "https://github.com/carabistouflette/goose-fs/pull/1",
-        "createdAt": "2026-11-19T08:00:47Z",
-        "updatedAt": "2026-11-19T08:52:06Z",
-        "mergedAt": null,
-        "state": "draft",
         "relationship": "personal"
       }
     ],
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 54,
-    "merged": 552
+    "merged": 554
   },
   "featured": [
     {
@@ -1994,13 +1994,13 @@
       },
       {
         "date": "2026-11-19",
-        "count": 85,
+        "count": 86,
         "level": 1
       },
       {
         "date": "2026-11-20",
-        "count": 0,
-        "level": 0
+        "count": 9,
+        "level": 1
       }
     ]
   }
