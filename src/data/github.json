@@ -1,9 +1,31 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-21T02:18:24.644Z",
+  "updatedAt": "2026-11-21T11:06:30.650Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 49,
+        "title": "Resolve isolated dependencies by target operating system",
+        "url": "https://github.com/carabistouflette/honk/pull/49",
+        "createdAt": "2026-11-21T05:03:23Z",
+        "updatedAt": "2026-11-21T05:25:21Z",
+        "mergedAt": "2026-11-21T05:25:21Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
+      {
+        "repository": "carabistouflette/honk",
+        "number": 48,
+        "title": "Prefetch isolated test dependencies",
+        "url": "https://github.com/carabistouflette/honk/pull/48",
+        "createdAt": "2026-11-21T04:17:18Z",
+        "updatedAt": "2026-11-21T04:40:53Z",
+        "mergedAt": "2026-11-21T04:40:52Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/honk",
         "number": 47,
@@ -12,28 +34,6 @@
         "createdAt": "2026-11-20T15:14:15Z",
         "updatedAt": "2026-11-20T15:58:27Z",
         "mergedAt": "2026-11-20T15:58:27Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 46,
-        "title": "Forward features to isolated package dependencies",
-        "url": "https://github.com/carabistouflette/honk/pull/46",
-        "createdAt": "2026-11-20T14:09:06Z",
-        "updatedAt": "2026-11-20T14:35:48Z",
-        "mergedAt": "2026-11-20T14:35:47Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-nest",
-        "number": 4,
-        "title": "Accept dependency feature forwarding in schema-2 metadata",
-        "url": "https://github.com/carabistouflette/goose-nest/pull/4",
-        "createdAt": "2026-11-20T14:07:55Z",
-        "updatedAt": "2026-11-20T14:11:18Z",
-        "mergedAt": "2026-11-20T14:11:17Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 54,
-    "merged": 559
+    "merged": 561
   },
   "featured": [
     {
@@ -1989,7 +1989,7 @@
       },
       {
         "date": "2026-11-18",
-        "count": 52,
+        "count": 53,
         "level": 1
       },
       {
@@ -2004,8 +2004,8 @@
       },
       {
         "date": "2026-11-21",
-        "count": 0,
-        "level": 0
+        "count": 8,
+        "level": 1
       }
     ]
   }
