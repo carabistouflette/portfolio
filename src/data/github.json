@@ -1,9 +1,20 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-22T06:52:12.339Z",
+  "updatedAt": "2026-11-22T15:20:15.121Z",
   "pullRequests": {
     "recent": [
+      {
+        "repository": "carabistouflette/honk",
+        "number": 69,
+        "title": "Publish verified Nest releases through GitHub",
+        "url": "https://github.com/carabistouflette/honk/pull/69",
+        "createdAt": "2026-11-22T14:48:11Z",
+        "updatedAt": "2026-11-22T15:15:56Z",
+        "mergedAt": "2026-11-22T15:15:56Z",
+        "state": "merged",
+        "relationship": "personal"
+      },
       {
         "repository": "carabistouflette/honk",
         "number": 68,
@@ -23,17 +34,6 @@
         "createdAt": "2026-11-22T04:32:58Z",
         "updatedAt": "2026-11-22T04:56:49Z",
         "mergedAt": "2026-11-22T04:56:48Z",
-        "state": "merged",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/honk",
-        "number": 66,
-        "title": "Rank isolated registry candidates with parsed SemVer",
-        "url": "https://github.com/carabistouflette/honk/pull/66",
-        "createdAt": "2026-11-22T04:02:06Z",
-        "updatedAt": "2026-11-22T04:26:25Z",
-        "mergedAt": "2026-11-22T04:26:24Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 54,
-    "merged": 584
+    "merged": 585
   },
   "featured": [
     {
@@ -1974,7 +1974,7 @@
       },
       {
         "date": "2026-11-22",
-        "count": 36,
+        "count": 39,
         "level": 1
       }
     ]
