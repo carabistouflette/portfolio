@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-22T15:20:15.121Z",
+  "updatedAt": "2026-11-22T21:47:24.056Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 69,
-        "title": "Publish verified Nest releases through GitHub",
-        "url": "https://github.com/carabistouflette/honk/pull/69",
-        "createdAt": "2026-11-22T14:48:11Z",
-        "updatedAt": "2026-11-22T15:15:56Z",
-        "mergedAt": "2026-11-22T15:15:56Z",
+        "number": 73,
+        "title": "Prepare Honk 0.5.0-rc.2",
+        "url": "https://github.com/carabistouflette/honk/pull/73",
+        "createdAt": "2026-11-22T18:53:50Z",
+        "updatedAt": "2026-11-22T19:19:38Z",
+        "mergedAt": "2026-11-22T19:19:38Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/honk",
-        "number": 68,
-        "title": "Prepare Nest releases with honk publish dry-run",
-        "url": "https://github.com/carabistouflette/honk/pull/68",
-        "createdAt": "2026-11-22T04:49:57Z",
-        "updatedAt": "2026-11-22T05:13:03Z",
-        "mergedAt": "2026-11-22T05:13:03Z",
+        "number": 72,
+        "title": "Yank and restore Nest releases through index PRs",
+        "url": "https://github.com/carabistouflette/honk/pull/72",
+        "createdAt": "2026-11-22T17:28:40Z",
+        "updatedAt": "2026-11-22T17:59:13Z",
+        "mergedAt": "2026-11-22T17:59:13Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
-        "repository": "carabistouflette/honk",
-        "number": 67,
-        "title": "Index scoped registry releases by package and ID",
-        "url": "https://github.com/carabistouflette/honk/pull/67",
-        "createdAt": "2026-11-22T04:32:58Z",
-        "updatedAt": "2026-11-22T04:56:49Z",
-        "mergedAt": "2026-11-22T04:56:48Z",
+        "repository": "carabistouflette/honk-schema2-staging",
+        "number": 4,
+        "title": "Restore qual-feature 1.1.0",
+        "url": "https://github.com/carabistouflette/honk-schema2-staging/pull/4",
+        "createdAt": "2026-11-22T17:27:00Z",
+        "updatedAt": "2026-11-22T17:27:25Z",
+        "mergedAt": "2026-11-22T17:27:25Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 54,
-    "merged": 585
+    "merged": 593
   },
   "featured": [
     {
@@ -1974,7 +1974,7 @@
       },
       {
         "date": "2026-11-22",
-        "count": 39,
+        "count": 70,
         "level": 1
       }
     ]
