@@ -1,39 +1,39 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-21T23:19:30.031Z",
+  "updatedAt": "2026-11-22T06:52:12.339Z",
   "pullRequests": {
     "recent": [
       {
         "repository": "carabistouflette/honk",
-        "number": 61,
-        "title": "Benchmark isolated registry workflows against Cargo",
-        "url": "https://github.com/carabistouflette/honk/pull/61",
-        "createdAt": "2026-11-21T22:05:58Z",
-        "updatedAt": "2026-11-21T22:30:30Z",
-        "mergedAt": "2026-11-21T22:30:30Z",
+        "number": 68,
+        "title": "Prepare Nest releases with honk publish dry-run",
+        "url": "https://github.com/carabistouflette/honk/pull/68",
+        "createdAt": "2026-11-22T04:49:57Z",
+        "updatedAt": "2026-11-22T05:13:03Z",
+        "mergedAt": "2026-11-22T05:13:03Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/honk",
-        "number": 60,
-        "title": "Preview isolated dependency updates without fetching archives",
-        "url": "https://github.com/carabistouflette/honk/pull/60",
-        "createdAt": "2026-11-21T21:56:08Z",
-        "updatedAt": "2026-11-21T22:24:25Z",
-        "mergedAt": "2026-11-21T22:24:25Z",
+        "number": 67,
+        "title": "Index scoped registry releases by package and ID",
+        "url": "https://github.com/carabistouflette/honk/pull/67",
+        "createdAt": "2026-11-22T04:32:58Z",
+        "updatedAt": "2026-11-22T04:56:49Z",
+        "mergedAt": "2026-11-22T04:56:48Z",
         "state": "merged",
         "relationship": "personal"
       },
       {
         "repository": "carabistouflette/honk",
-        "number": 59,
-        "title": "Select exact versions for isolated registry updates",
-        "url": "https://github.com/carabistouflette/honk/pull/59",
-        "createdAt": "2026-11-21T21:52:03Z",
-        "updatedAt": "2026-11-21T22:18:17Z",
-        "mergedAt": "2026-11-21T22:18:17Z",
+        "number": 66,
+        "title": "Rank isolated registry candidates with parsed SemVer",
+        "url": "https://github.com/carabistouflette/honk/pull/66",
+        "createdAt": "2026-11-22T04:02:06Z",
+        "updatedAt": "2026-11-22T04:26:25Z",
+        "mergedAt": "2026-11-22T04:26:24Z",
         "state": "merged",
         "relationship": "personal"
       }
@@ -111,7 +111,7 @@
   },
   "counts": {
     "open": 54,
-    "merged": 575
+    "merged": 584
   },
   "featured": [
     {
@@ -149,44 +149,9 @@
     }
   ],
   "calendar": {
-    "from": "2025-11-16",
-    "to": "2026-11-21",
+    "from": "2025-11-23",
+    "to": "2026-11-22",
     "days": [
-      {
-        "date": "2025-11-16",
-        "count": 5,
-        "level": 1
-      },
-      {
-        "date": "2025-11-17",
-        "count": 30,
-        "level": 1
-      },
-      {
-        "date": "2025-11-18",
-        "count": 7,
-        "level": 1
-      },
-      {
-        "date": "2025-11-19",
-        "count": 32,
-        "level": 1
-      },
-      {
-        "date": "2025-11-20",
-        "count": 13,
-        "level": 1
-      },
-      {
-        "date": "2025-11-21",
-        "count": 38,
-        "level": 1
-      },
-      {
-        "date": "2025-11-22",
-        "count": 0,
-        "level": 0
-      },
       {
         "date": "2025-11-23",
         "count": 0,
@@ -2004,7 +1969,12 @@
       },
       {
         "date": "2026-11-21",
-        "count": 53,
+        "count": 67,
+        "level": 1
+      },
+      {
+        "date": "2026-11-22",
+        "count": 36,
         "level": 1
       }
     ]
