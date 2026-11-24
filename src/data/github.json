@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-23T12:48:46.763Z",
+  "updatedAt": "2026-11-24T00:53:45.882Z",
   "pullRequests": {
     "recent": [
       {
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-23",
-    "to": "2026-11-23",
+    "to": "2026-11-24",
     "days": [
       {
         "date": "2025-11-23",
@@ -1979,6 +1979,11 @@
       },
       {
         "date": "2026-11-23",
+        "count": 0,
+        "level": 0
+      },
+      {
+        "date": "2026-11-24",
         "count": 0,
         "level": 0
       }
