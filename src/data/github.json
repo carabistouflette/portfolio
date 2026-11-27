@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-27T10:54:21.168Z",
+  "updatedAt": "2026-11-27T19:58:46.456Z",
   "pullRequests": {
     "recent": [
       {
@@ -80,7 +80,18 @@
         "title": "perf: batch outbound writes with whole-buffer encryption and atomic bundles",
         "url": "https://github.com/Steel-Foundation/SteelMC/pull/545",
         "createdAt": "2026-08-28T23:24:41Z",
-        "updatedAt": "2026-11-26T08:30:30Z",
+        "updatedAt": "2026-11-27T13:22:35Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
+        "repository": "Steel-Foundation/SteelMC",
+        "number": 547,
+        "title": "feat: vanilla framing parity, read-path hardening, and malformed packet kicks",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/547",
+        "createdAt": "2026-08-28T23:26:40Z",
+        "updatedAt": "2026-11-27T13:15:01Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
@@ -92,17 +103,6 @@
         "url": "https://github.com/carabistouflette/goose-sqlite/pull/2",
         "createdAt": "2026-11-19T08:13:38Z",
         "updatedAt": "2026-11-19T08:59:24Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
-      },
-      {
-        "repository": "carabistouflette/goose-artifact",
-        "number": 3,
-        "title": "feat: add bounded download workflow benchmark",
-        "url": "https://github.com/carabistouflette/goose-artifact/pull/3",
-        "createdAt": "2026-11-19T07:49:00Z",
-        "updatedAt": "2026-11-19T08:56:34Z",
         "mergedAt": null,
         "state": "draft",
         "relationship": "personal"
@@ -1924,7 +1924,7 @@
       },
       {
         "date": "2026-11-12",
-        "count": 10,
+        "count": 11,
         "level": 1
       },
       {
