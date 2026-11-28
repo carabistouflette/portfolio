@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-28T02:43:06.201Z",
+  "updatedAt": "2026-11-28T11:50:01.496Z",
   "pullRequests": {
     "recent": [
       {
@@ -76,22 +76,22 @@
     "open": [
       {
         "repository": "Steel-Foundation/SteelMC",
-        "number": 546,
-        "title": "feat: kick clients exceeding the outbound byte budget",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/546",
-        "createdAt": "2026-08-28T23:26:37Z",
-        "updatedAt": "2026-11-27T23:07:46Z",
+        "number": 545,
+        "title": "perf: batch outbound writes with whole-buffer encryption and atomic bundles",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/545",
+        "createdAt": "2026-08-28T23:24:41Z",
+        "updatedAt": "2026-11-28T03:36:24Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
       },
       {
         "repository": "Steel-Foundation/SteelMC",
-        "number": 545,
-        "title": "perf: batch outbound writes with whole-buffer encryption and atomic bundles",
-        "url": "https://github.com/Steel-Foundation/SteelMC/pull/545",
-        "createdAt": "2026-08-28T23:24:41Z",
-        "updatedAt": "2026-11-27T13:22:35Z",
+        "number": 546,
+        "title": "feat: kick clients exceeding the outbound byte budget",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/546",
+        "createdAt": "2026-08-28T23:26:37Z",
+        "updatedAt": "2026-11-27T23:07:46Z",
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
