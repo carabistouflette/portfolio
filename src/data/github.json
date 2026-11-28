@@ -1,7 +1,7 @@
 {
   "version": 1,
   "login": "carabistouflette",
-  "updatedAt": "2026-11-27T19:58:46.456Z",
+  "updatedAt": "2026-11-28T02:43:06.201Z",
   "pullRequests": {
     "recent": [
       {
@@ -76,6 +76,17 @@
     "open": [
       {
         "repository": "Steel-Foundation/SteelMC",
+        "number": 546,
+        "title": "feat: kick clients exceeding the outbound byte budget",
+        "url": "https://github.com/Steel-Foundation/SteelMC/pull/546",
+        "createdAt": "2026-08-28T23:26:37Z",
+        "updatedAt": "2026-11-27T23:07:46Z",
+        "mergedAt": null,
+        "state": "open",
+        "relationship": "external"
+      },
+      {
+        "repository": "Steel-Foundation/SteelMC",
         "number": 545,
         "title": "perf: batch outbound writes with whole-buffer encryption and atomic bundles",
         "url": "https://github.com/Steel-Foundation/SteelMC/pull/545",
@@ -95,17 +106,6 @@
         "mergedAt": null,
         "state": "open",
         "relationship": "external"
-      },
-      {
-        "repository": "carabistouflette/goose-sqlite",
-        "number": 2,
-        "title": "test: instrument the generated Goose path with ASan and UBSan",
-        "url": "https://github.com/carabistouflette/goose-sqlite/pull/2",
-        "createdAt": "2026-11-19T08:13:38Z",
-        "updatedAt": "2026-11-19T08:59:24Z",
-        "mergedAt": null,
-        "state": "draft",
-        "relationship": "personal"
       }
     ]
   },
@@ -150,7 +150,7 @@
   ],
   "calendar": {
     "from": "2025-11-23",
-    "to": "2026-11-27",
+    "to": "2026-11-28",
     "days": [
       {
         "date": "2025-11-23",
@@ -1999,6 +1999,11 @@
       },
       {
         "date": "2026-11-27",
+        "count": 0,
+        "level": 0
+      },
+      {
+        "date": "2026-11-28",
         "count": 0,
         "level": 0
       }
